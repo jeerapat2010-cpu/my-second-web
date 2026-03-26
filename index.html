@@ -57,6 +57,38 @@
             z-index: 1;
         }
 
+        /* 🌟 เอฟเฟกต์ตัวอักษรสีดำวิบวับ 🌟 */
+        .text-sparkle {
+            color: #000 !important; /* Font สีดำตามคำสั่ง */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: text-glow 1.5s ease-in-out infinite alternate;
+            display: inline-block;
+        }
+
+        @keyframes text-glow {
+            0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ffd700; transform: scale(1); }
+            100% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ffea00, 0 0 40px #ffea00; transform: scale(1.02); }
+        }
+
+        /* 🐕 สัตว์เลี้ยงน่ารักวิ่งไปมา 🐕 */
+        .running-pet {
+            position: absolute;
+            bottom: -5px; /* วิ่งอยู่บนเส้นขอบล่าง */
+            font-size: 3rem;
+            animation: run-back-and-forth 12s linear infinite;
+            z-index: 10;
+            filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.3));
+            white-space: nowrap;
+        }
+
+        @keyframes run-back-and-forth {
+            0% { left: -100px; transform: scaleX(1); }
+            49.9% { left: calc(100% + 50px); transform: scaleX(1); }
+            50% { left: calc(100% + 50px); transform: scaleX(-1); }
+            99.9% { left: -100px; transform: scaleX(-1); }
+            100% { left: -100px; transform: scaleX(1); }
+        }
+
         /* Category Grid System */
         .category-grid {
             display: grid;
@@ -155,6 +187,27 @@
             100% { left: 200%; }
         }
 
+        /* 🌟 ปุ่มย่อยสีเขียวสำหรับ Modal 🌟 */
+        .btn-sub-green {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-family: 'Prompt', sans-serif;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-sub-green:hover {
+            background: linear-gradient(45deg, #059669, #047857);
+            transform: translateY(-2px);
+            color: white;
+            box-shadow: 0 6px 12px rgba(16, 185, 129, 0.4);
+        }
+
         /* Footer & Digital Counter */
         .footer {
             background: white;
@@ -198,12 +251,15 @@
 
 <!-- Header Section -->
 <header class="header-section text-center">
+    <!-- น้องหมาวิ่งไปมา -->
+    <div class="running-pet">🐕💨</div>
+    
     <div class="container header-content">
         <div class="mb-3">
-            <i class="fa-solid fa-globe fa-4x text-white" style="filter: drop-shadow(0px 0px 15px rgba(255, 255, 255, 0.6));"></i>
+            <i class="fa-solid fa-globe fa-4x" style="color: #000; filter: drop-shadow(0px 0px 15px rgba(255, 255, 255, 0.8));"></i>
         </div>
-        <h1 class="display-4 fw-bold mb-2 text-white" style="text-shadow: 0 2px 4px rgba(0,0,0,0.3);">Digital Portal Varity</h1>
-        <p class="lead fw-light mb-4 fs-4 text-white">โดย ภก.จีรภัทร พลายงาม</p>
+        <h1 class="display-4 fw-bold mb-2 text-sparkle">✨ Digital Portal Varity ✨</h1>
+        <p class="lead fw-light mb-4 fs-4 text-sparkle">โดย ภก.จีรภัทร พลายงาม</p>
         <div>
             <span class="badge bg-white text-warning rounded-pill px-3 py-2 m-1 shadow-sm"><i class="fa-solid fa-code"></i> Developer</span>
             <span class="badge bg-white text-warning rounded-pill px-3 py-2 m-1 shadow-sm"><i class="fa-solid fa-heart-pulse"></i> Smart Health</span>
@@ -239,7 +295,10 @@
                 <h4 class="card-title">2. เรียนภาษา</h4>
                 <p class="text-muted small mt-2">เครื่องมือฝึกภาษา คลังคำศัพท์ และบทเรียนพัฒนาตนเอง</p>
             </div>
-            <a href="#" class="btn-sparkle">เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></a>
+            <!-- เปลี่ยนให้เปิด Modal แทนการใช้ลิงก์ปกติ -->
+            <button type="button" class="btn-sparkle w-100" data-bs-toggle="modal" data-bs-target="#langModal">
+                เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i>
+            </button>
         </div>
 
         <!-- 3. ยานยนต์ (Red) -->
@@ -322,6 +381,41 @@
             <a href="#" class="btn-sparkle">เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></a>
         </div>
 
+    </div>
+</div>
+
+<!-- Modal สำหรับหมวดเรียนภาษา (Language Learning Modal) -->
+<div class="modal fade" id="langModal" tabindex="-1" aria-labelledby="langModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px; border: 2px solid #10b981; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <div class="modal-header" style="background: linear-gradient(45deg, #10b981, #059669); color: white; border-bottom: none;">
+                <h5 class="modal-title fw-bold" id="langModalLabel" style="font-family: 'Prompt', sans-serif;">
+                    <i class="fa-solid fa-language me-2"></i> บทเรียนภาษาญี่ปุ่น (Japanese Lessons)
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4" style="background-color: #f8fafc;">
+                <div class="row g-3">
+                    <!-- ปุ่มที่ 1: LearnJP (หน้าหลัก) -->
+                    <div class="col-12">
+                        <a href="LearnJP.html" class="btn-sub-green w-100 text-center fs-5 py-2 fw-bold" style="background: linear-gradient(45deg, #059669, #047857);">
+                            <i class="fa-solid fa-book-open me-2"></i> LearnJP (หน้าหลัก)
+                        </a>
+                    </div>
+                    <!-- ปุ่มที่ 2-11: Lesson 101 ถึง 110 -->
+                    <div class="col-6"><a href="lesson_101.html" class="btn-sub-green w-100 text-center"><i class="fa-solid fa-play me-1"></i> Lesson 101</a></div>
+                    <div class="col-6"><a href="lesson_102.html" class="btn-sub-green w-100 text-center"><i class="fa-solid fa-play me-1"></i> Lesson 102</a></div>
+                    <div class="col-6"><a href="lesson_103.html" class="btn-sub-green w-100 text-center"><i class="fa-solid fa-play me-1"></i> Lesson 103</a></div>
+                    <div class="col-6"><a href="lesson_104.html" class="btn-sub-green w-100 text-center"><i class="fa-solid fa-play me-1"></i> Lesson 104</a></div>
+                    <div class="col-6"><a href="lesson_105.html" class="btn-sub-green w-100 text-center"><i class="fa-solid fa-play me-1"></i> Lesson 105</a></div>
+                    <div class="col-6"><a href="lesson_106.html" class="btn-sub-green w-100 text-center"><i class="fa-solid fa-play me-1"></i> Lesson 106</a></div>
+                    <div class="col-6"><a href="lesson_107.html" class="btn-sub-green w-100 text-center"><i class="fa-solid fa-play me-1"></i> Lesson 107</a></div>
+                    <div class="col-6"><a href="lesson_108.html" class="btn-sub-green w-100 text-center"><i class="fa-solid fa-play me-1"></i> Lesson 108</a></div>
+                    <div class="col-6"><a href="lesson_109.html" class="btn-sub-green w-100 text-center"><i class="fa-solid fa-play me-1"></i> Lesson 109</a></div>
+                    <div class="col-6"><a href="lesson_110.html" class="btn-sub-green w-100 text-center"><i class="fa-solid fa-play me-1"></i> Lesson 110</a></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
