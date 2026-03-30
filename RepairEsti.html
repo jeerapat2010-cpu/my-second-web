@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Garage Pro</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts: Kanit -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            /* เพิ่มพื้นหลังลายน่ารักๆ แบบจางๆ */
+            background-image: radial-gradient(#e0e7ff 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* 🚗 อนิเมชันรถดุ๊กดิ๊ก */
+        @keyframes wiggle {
+            0% { transform: rotate(-5deg) translateY(0); }
+            25% { transform: rotate(5deg) translateY(-4px); }
+            50% { transform: rotate(-5deg) translateY(0); }
+            75% { transform: rotate(5deg) translateY(-2px); }
+            100% { transform: rotate(-5deg) translateY(0); }
+        }
+        .animate-car-wiggle {
+            animation: wiggle 1.2s infinite ease-in-out;
+            display: inline-block;
+        }
+        
+        /* อนิเมชันลอยเบาๆ สำหรับการ์ด */
+        .hover-float:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-indigo-50/50 text-slate-800 pb-10 min-h-screen">
+
+    <!-- Navbar: เปลี่ยนเป็นสีสันสดใส -->
+    <nav class="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 text-white p-4 shadow-xl sticky top-0 z-40 border-b-4 border-yellow-400">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <!-- ไอคอนรถดุ๊กดิ๊ก -->
+                <div class="animate-car-wiggle bg-white/20 p-2.5 rounded-full shadow-inner border border-white/30 backdrop-blur-sm">
+                    <i data-lucide="car-front" class="text-yellow-300 w-8 h-8 drop-shadow-md"></i>
+                </div>
+                <h1 class="text-2xl font-extrabold tracking-wide drop-shadow-sm">Garage Pro <span class="text-yellow-300">✨</span></h1>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Application -->
+    <main class="max-w-5xl mx-auto p-4 md:p-6" id="app-root">
+        <!-- Injected via JavaScript -->
+    </main>
+
+    <!-- Modals Container -->
+    <div id="modals-container"></div>
+
+    <script>
+        // --- DATA & CONFIGURATION ---
+        const CATEGORIES = [
+            { key: 'fluid', label: '💧 ของเหลว & ไส้กรอง' },
+            { key: 'engine', label: '⚙️ เครื่องยนต์ & เกียร์' },
+            { key: 'suspension', label: '🛡️ ช่วงล่าง เบรก ยาง' },
+            { key: 'electrical', label: '⚡ ระบบไฟฟ้า & แอร์' }
+        ];
+
+        const CAR_MODELS = {
+            ford: {
+                id: 'ford', name: 'Ford EcoSport (1.5L)', plate: 'กท 1234', ageYears: 11, 
+                color: 'bg-gradient-to-br from-blue-500 to-blue-700', // ปรับเป็น Gradient
+                driveLink: 'https://drive.google.com/drive/folders/18kvuElOswUZf1cpAG0IcOmvbpKMhYde8?usp=sharing',
+                intervals: [
+                    { id: 'engine_oil', name: 'น้ำมันเครื่อง + กรอง', interval: 10000, type: 'fluid', estCost: 1500, category: 'fluid' },
+                    { id: 'trans_fluid', name: 'น้ำมันเกียร์ Powershift', interval: 40000, type: 'critical', estCost: 2500, category: 'fluid' },
+                    { id: 'brake_fluid', name: 'น้ำมันเบรก', interval: 40000, type: 'fluid', estCost: 800, category: 'fluid' },
+                    { id: 'coolant', name: 'น้ำยาหล่อเย็น', interval: 100000, type: 'fluid', estCost: 1200, category: 'fluid' },
+                    { id: 'air_filter', name: 'กรองอากาศเครื่องยนต์', interval: 30000, type: 'part', estCost: 600, category: 'fluid' },
+                    { id: 'cabin_filter', name: 'กรองแอร์ (Cabin)', interval: 20000, type: 'part', estCost: 500, category: 'fluid' },
+                    { id: 'spark_plugs', name: 'หัวเทียน', interval: 100000, type: 'part', estCost: 1000, category: 'engine' },
+                    { id: 'drive_belt', name: 'สายพานหน้าเครื่อง', interval: 100000, type: 'part', estCost: 1500, category: 'engine' },
+                    { id: 'timing_belt', name: 'ชุดสายพานไทม์มิ่ง', interval: 100000, type: 'critical', estCost: 6500, category: 'engine' },
+                    { id: 'water_pump', name: 'ปั๊มน้ำ & วาล์วน้ำ', interval: 100000, type: 'part', estCost: 3500, category: 'engine' },
+                    { id: 'engine_mount', name: 'ยางแท่นเครื่อง/เกียร์', interval: 80000, type: 'part', estCost: 5500, category: 'engine' },
+                    { id: 'tcm_check', name: 'เช็คระยะชุดคลัตช์/TCM', interval: 20000, type: 'critical', estCost: 800, category: 'engine' },
+                    { id: 'brake_pads_f', name: 'เปลี่ยนผ้าเบรกหน้า', interval: 50000, type: 'part', estCost: 1800, category: 'suspension' },
+                    { id: 'brake_pads_r', name: 'เปลี่ยนผ้าเบรกหลัง', interval: 50000, type: 'part', estCost: 1500, category: 'suspension' },
+                    { id: 'brake_rotors', name: 'เจียร/เปลี่ยน จานเบรก', interval: 100000, type: 'part', estCost: 2500, category: 'suspension' },
+                    { id: 'tires', name: 'เปลี่ยนยางรถยนต์ 4 เส้น', interval: 50000, type: 'part', estCost: 10000, category: 'suspension' },
+                    { id: 'suspension', name: 'ชุดโช้คอัพ & ลูกหมาก', interval: 80000, type: 'part', estCost: 12000, category: 'suspension' },
+                    { id: 'wheel_bearing', name: 'ลูกปืนล้อ หน้า/หลัง', interval: 100000, type: 'part', estCost: 3000, category: 'suspension' },
+                    { id: 'battery', name: 'แบตเตอรี่รถยนต์', interval: 40000, type: 'electric', estCost: 2500, category: 'electrical' },
+                    { id: 'fan_motor', name: 'พัดลมไฟฟ้าหม้อน้ำ', interval: 80000, type: 'critical', estCost: 3500, category: 'electrical' },
+                    { id: 'ac_compressor', name: 'คอมแอร์/ล้างตู้แอร์', interval: 150000, type: 'electric', estCost: 8000, category: 'electrical' },
+                    { id: 'alternator', name: 'ไดชาร์จ / ไดสตาร์ท', interval: 150000, type: 'electric', estCost: 6500, category: 'electrical' },
+                    { id: 'wiper_blades', name: 'ใบปัดน้ำฝน', interval: 20000, type: 'part', estCost: 500, category: 'electrical' },
+                    { id: 'light_bulbs', name: 'ระบบไฟส่องสว่าง/หลอดไฟ', interval: 50000, type: 'electric', estCost: 600, category: 'electrical' }
+                ],
+                ageWarnings: [
+                    "ท่อน้ำและพลาสติกในระบบหล่อเย็นเสื่อมสภาพ (เสี่ยงหม้อน้ำแตก/วาล์วน้ำตาย)",
+                    "ซีลยางต่างๆ, ยางแท่นเครื่อง, ยางแท่นเกียร์ เริ่มทรุดตัว (รถมีอาการสั่น)",
+                    "สายพานหน้าเครื่องและลูกรอก (ควรตรวจสอบรอยแตกลายงา)"
+                ],
+                proChecks: { label: "พารามิเตอร์เฉพาะ Ford (TCM & Clutch)", placeholder: "เช่น Clutch A/B: 12mm, TCM Voltage: 14.1V" }
+            },
+            nissan: {
+                id: 'nissan', name: 'Nissan Sylphy (1.6/1.8)', plate: 'ขข 9876', ageYears: 7, 
+                color: 'bg-gradient-to-br from-red-500 to-rose-700', // ปรับเป็น Gradient
+                driveLink: 'https://drive.google.com/drive/folders/1PVluZuwpdu7dpapoEtJvYFugvea8HQTz?usp=sharing',
+                intervals: [
+                    { id: 'engine_oil', name: 'น้ำมันเครื่อง + กรอง', interval: 10000, type: 'fluid', estCost: 1200, category: 'fluid' },
+                    { id: 'trans_fluid', name: 'น้ำมันเกียร์ CVT (NS-3)', interval: 40000, type: 'critical', estCost: 2200, category: 'fluid' },
+                    { id: 'brake_fluid', name: 'น้ำมันเบรก', interval: 40000, type: 'fluid', estCost: 800, category: 'fluid' },
+                    { id: 'coolant', name: 'น้ำยาหล่อเย็น', interval: 100000, type: 'fluid', estCost: 1200, category: 'fluid' },
+                    { id: 'air_filter', name: 'กรองอากาศเครื่องยนต์', interval: 30000, type: 'part', estCost: 500, category: 'fluid' },
+                    { id: 'cabin_filter', name: 'กรองแอร์ (Cabin)', interval: 20000, type: 'part', estCost: 400, category: 'fluid' },
+                    { id: 'fuel_filter', name: 'กรองเบนซิน/ปั๊มติ๊ก', interval: 100000, type: 'part', estCost: 3500, category: 'fluid' },
+                    { id: 'spark_plugs', name: 'หัวเทียน (Iridium)', interval: 100000, type: 'part', estCost: 2000, category: 'engine' },
+                    { id: 'ignition_coil', name: 'คอยล์จุดระเบิด', interval: 150000, type: 'critical', estCost: 6000, category: 'engine' },
+                    { id: 'drive_belt', name: 'สายพานหน้าเครื่อง', interval: 100000, type: 'part', estCost: 1200, category: 'engine' },
+                    { id: 'engine_mount', name: 'ยางแท่นเครื่อง/เกียร์', interval: 80000, type: 'part', estCost: 5000, category: 'engine' },
+                    { id: 'throttle_body', name: 'ล้างลิ้นปีกผีเสื้อ/ตั้งรอบ', interval: 40000, type: 'part', estCost: 600, category: 'engine' },
+                    { id: 'brake_pads_f', name: 'เปลี่ยนผ้าเบรกหน้า', interval: 50000, type: 'part', estCost: 1600, category: 'suspension' },
+                    { id: 'brake_pads_r', name: 'เปลี่ยนผ้าเบรกหลัง', interval: 50000, type: 'part', estCost: 1400, category: 'suspension' },
+                    { id: 'tires', name: 'เปลี่ยนยางรถยนต์ 4 เส้น', interval: 50000, type: 'part', estCost: 10000, category: 'suspension' },
+                    { id: 'suspension', name: 'ชุดโช้คอัพ & ลูกหมาก', interval: 80000, type: 'part', estCost: 10000, category: 'suspension' },
+                    { id: 'steering_rack', name: 'แร็คพวงมาลัย/ยอย', interval: 120000, type: 'part', estCost: 8500, category: 'suspension' },
+                    { id: 'battery', name: 'แบตเตอรี่รถยนต์', interval: 40000, type: 'electric', estCost: 2200, category: 'electrical' },
+                    { id: 'fan_motor', name: 'พัดลมไฟฟ้าหม้อน้ำ', interval: 80000, type: 'critical', estCost: 3500, category: 'electrical' },
+                    { id: 'ac_compressor', name: 'คอมแอร์/ล้างตู้แอร์', interval: 150000, type: 'electric', estCost: 7500, category: 'electrical' },
+                    { id: 'wiper_blades', name: 'ใบปัดน้ำฝน', interval: 20000, type: 'part', estCost: 500, category: 'electrical' }
+                ],
+                ageWarnings: [
+                    "คอยล์จุดระเบิด (Ignition Coil) เริ่มเสื่อมสภาพ (เสี่ยงเครื่องเดินสะดุด)",
+                    "พัดลมไฟฟ้าหม้อน้ำ (จุดอ่อนเฉพาะรุ่น) แปรงถ่านอาจใกล้หมด",
+                    "ลูกยางช่วงล่าง, ลูกหมากกันโคลง เริ่มมีเสียงดังเวลาตกหลุม"
+                ],
+                proChecks: { label: "พารามิเตอร์เฉพาะ Nissan (CVT & Sensors)", placeholder: "เช่น CVT Deterioration Count: 4500" }
+            }
+        };
+
+        // Data
+        let data = {
+            ford: {
+                mileage: 145000,
+                profile: {
+                    plate: 'กท 1234 กรุงเทพมหานคร', purchaseDate: '2015-05-10', purchaseLocation: 'ศูนย์ Ford พระราม 2',
+                    price: '759000', currentValue: '160000', 
+                    insuranceYearly: '12000', taxYearly: '1800',
+                    fuelMonthly: '3500', tollsMonthly: '500', parkingMonthly: '0', washMonthly: '400',
+                    accessoriesTotal: '15000', finesTotal: '1000',
+                    vin: 'MNBXX1234567890FD', color: 'สีแดง (Mars Red)', taxDate: '2026-05-10',
+                },
+                history: [
+                    { 
+                        id: 1, date: '2023-11-10', mileage: 140000, garage: 'ศูนย์ Ford', items: ['engine_oil', 'battery', 'tcm_check'], 
+                        notes: 'เปลี่ยนแบตใหม่ลูกที่ 4, เช็คคลัตช์ยังปกติ', receiptLink: '', cost: 4800,
+                        inspection: { obd: 'No DTCs', batteryV: '12.6', batteryCCA: '550', brakeF: '8', brakeR: '6', treadF: '5.5', treadR: '6.0', brandSpecific: 'TCM Learn: Completed' }
+                    },
+                    { 
+                        id: 2, date: '2022-05-15', mileage: 120000, garage: 'อู่นอก', items: ['trans_fluid', 'suspension', 'tires'], 
+                        notes: 'เปลี่ยนโช้คอัพ 4 ต้น, ยางชุดใหม่', receiptLink: '', cost: 24500, inspection: null
+                    }
+                ]
+            },
+            nissan: {
+                mileage: 92000,
+                profile: {
+                    plate: 'ขข 9876 เชียงใหม่', purchaseDate: '2018-08-20', purchaseLocation: 'Nissan กรุงไทย',
+                    price: '850000', currentValue: '250000', 
+                    insuranceYearly: '15000', taxYearly: '1600',
+                    fuelMonthly: '4000', tollsMonthly: '1200', parkingMonthly: '1500', washMonthly: '500',
+                    accessoriesTotal: '8000', finesTotal: '0',
+                    vin: 'MNTNS1234567890SY', color: 'สีขาวมุก (White Pearl)', taxDate: '2026-08-20',
+                },
+                history: [
+                    { 
+                        id: 1, date: '2023-10-20', mileage: 90000, garage: 'อู่นิสสันเฉพาะทาง', items: ['engine_oil', 'tires'], 
+                        notes: 'เปลี่ยนยางชุดที่ 2', receiptLink: '', cost: 11200,
+                        inspection: { obd: 'P0000', batteryV: '12.2', batteryCCA: '320', brakeF: '4', brakeR: '5', treadF: '7.0', treadR: '7.0', brandSpecific: 'CVT Count: 12000' }
+                    },
+                    { id: 2, date: '2022-12-05', mileage: 80000, garage: 'อู่นอก', items: ['trans_fluid', 'fan_motor', 'battery'], notes: 'เปลี่ยนมอเตอร์พัดลมหม้อน้ำ (ของแท้)', receiptLink: '', cost: 7900, inspection: null }
+                ]
+            }
+        };
+
+        // --- STATE ---
+        let activeCar = 'ford';
+        let activeTab = 'summary';
+        
+        let editingRecordId = null;
+        let recordToDelete = null;
+        let showProMode = false;
+        let selectedItems = [];
+
+        // --- UTILS & LOGIC ---
+        function formatNumber(num) {
+            return Number(num || 0).toLocaleString('en-US');
+        }
+
+        function getIconHTML(type, classes = "") {
+            switch(type) {
+                case 'critical': return `<i data-lucide="alert-triangle" class="text-orange-500 shrink-0 ${classes}"></i>`;
+                case 'electric': return `<i data-lucide="zap" class="text-purple-500 shrink-0 ${classes}"></i>`;
+                case 'part': return `<i data-lucide="settings" class="text-slate-500 shrink-0 ${classes}"></i>`;
+                default: return `<i data-lucide="droplet" class="text-blue-400 shrink-0 ${classes}"></i>`; 
+            }
+        }
+
+        function calculateServiceStatus() {
+            const currentCarData = data[activeCar];
+            const currentModel = CAR_MODELS[activeCar];
+            
+            return currentModel.intervals.map(item => {
+                const historyItems = currentCarData.history.filter(h => h.items.includes(item.id));
+                const latestRecord = historyItems.sort((a, b) => b.mileage - a.mileage)[0];
+                const lastMileage = latestRecord ? latestRecord.mileage : 0;
+                const nextDue = lastMileage === 0 ? item.interval : lastMileage + item.interval;
+                const remaining = nextDue - currentCarData.mileage;
+                
+                let status = 'good';
+                if (remaining <= 0) status = 'overdue';
+                else if (remaining <= 3000) status = 'warning';
+
+                return { ...item, lastMileage, nextDue, remaining, status, lastDate: latestRecord ? latestRecord.date : 'ไม่เคยบันทึก' };
+            }).sort((a, b) => a.remaining - b.remaining); 
+        }
+
+        function calculateLatestHealth() {
+            const recordsWithInspection = data[activeCar].history.filter(h => h.inspection).sort((a, b) => b.mileage - a.mileage);
+            if (recordsWithInspection.length === 0) return null;
+            return recordsWithInspection[0].inspection;
+        }
+
+        function calculateFinanceData() {
+            const p = data[activeCar].profile || {};
+            const parseNum = (val) => parseInt(val?.toString().replace(/,/g, '') || 0);
+            
+            const purchasePrice = parseNum(p.price);
+            const currentValue = parseNum(p.currentValue);
+            const depreciation = purchasePrice - currentValue;
+            
+            const purchaseDate = p.purchaseDate ? new Date(p.purchaseDate) : new Date();
+            let yearsOwned = (new Date() - purchaseDate) / (1000 * 60 * 60 * 24 * 365.25);
+            if (yearsOwned <= 0 || isNaN(yearsOwned)) yearsOwned = CAR_MODELS[activeCar].ageYears; 
+
+            // Repairs
+            const totalRepairs = data[activeCar].history.reduce((sum, record) => sum + (record.cost || 0), 0);
+            
+            // Yearly
+            const insuranceYearly = parseNum(p.insuranceYearly);
+            const taxYearly = parseNum(p.taxYearly);
+            const totalInsurance = insuranceYearly * yearsOwned;
+            const totalTax = taxYearly * yearsOwned;
+            
+            // Monthly
+            const fuelMonthly = parseNum(p.fuelMonthly);
+            const tollsMonthly = parseNum(p.tollsMonthly);
+            const parkingMonthly = parseNum(p.parkingMonthly);
+            const washMonthly = parseNum(p.washMonthly);
+            const totalFuel = fuelMonthly * 12 * yearsOwned;
+            const totalTolls = tollsMonthly * 12 * yearsOwned;
+            const totalParking = parkingMonthly * 12 * yearsOwned;
+            const totalWash = washMonthly * 12 * yearsOwned;
+            
+            // Fixed Totals
+            const accessoriesTotal = parseNum(p.accessoriesTotal);
+            const finesTotal = parseNum(p.finesTotal);
+
+            // Groupings for Chart
+            const groupRepairs = totalRepairs;
+            const groupTravel = totalFuel + totalTolls + totalParking;
+            const groupFixed = totalInsurance + totalTax;
+            const groupMisc = totalWash + accessoriesTotal + finesTotal;
+
+            const totalOperatingCost = groupRepairs + groupTravel + groupFixed + groupMisc;
+            const avgCostPerYear = totalOperatingCost / yearsOwned;
+            const avgCostPerMonth = avgCostPerYear / 12;
+
+            return { 
+                purchasePrice, currentValue, depreciation, yearsOwned,
+                totalRepairs, totalInsurance, totalTax,
+                totalFuel, totalTolls, totalParking, totalWash,
+                accessoriesTotal, finesTotal,
+                groupRepairs, groupTravel, groupFixed, groupMisc,
+                totalOperatingCost, avgCostPerYear, avgCostPerMonth
+            };
+        }
+
+        // --- ACTIONS ---
+        function setActiveCarState(carId) {
+            activeCar = carId;
+            renderApp();
+        }
+
+        function setActiveTabState(tabId) {
+            activeTab = tabId;
+            renderApp();
+        }
+
+        function handleUpdateMileage(event) {
+            event.preventDefault();
+            const inputVal = document.getElementById('mileageInput').value;
+            if (!inputVal || isNaN(inputVal)) return;
+            data[activeCar].mileage = parseInt(inputVal);
+            document.getElementById('mileageInput').value = '';
+            renderApp();
+        }
+
+        // --- MODAL RENDERING & LOGIC ---
+        function openRecordModal(recordId = null) {
+            editingRecordId = recordId;
+            let rec = { date: '', mileage: '', garage: '', items: [], notes: '', receiptLink: '', cost: '', inspection: { obd: '', batteryV: '', batteryCCA: '', brakeF: '', brakeR: '', treadF: '', treadR: '', brandSpecific: '' } };
+            
+            if (recordId) {
+                const existing = data[activeCar].history.find(r => r.id === recordId);
+                if (existing) {
+                    rec = JSON.parse(JSON.stringify(existing));
+                    if (!rec.inspection) rec.inspection = { obd: '', batteryV: '', batteryCCA: '', brakeF: '', brakeR: '', treadF: '', treadR: '', brandSpecific: '' };
+                }
+            }
+            
+            selectedItems = [...rec.items];
+            showProMode = !!(recordId && data[activeCar].history.find(r => r.id === recordId).inspection);
+            
+            const currentModel = CAR_MODELS[activeCar];
+            
+            let itemsHTML = CATEGORIES.map(category => {
+                const itemsInCategory = currentModel.intervals.filter(item => item.category === category.key);
+                if (itemsInCategory.length === 0) return '';
+                return `
+                    <div>
+                        <h5 class="text-sm font-bold text-indigo-700 mb-2 bg-indigo-50 px-3 py-1.5 rounded-md">${category.label}</h5>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            ${itemsInCategory.map(item => `
+                                <label class="flex items-start gap-2 p-3 rounded-xl border-2 cursor-pointer transition-all duration-200 hover-float ${selectedItems.includes(item.id) ? 'bg-indigo-50 border-indigo-500 text-indigo-900 shadow-md' : 'bg-white border-slate-100 hover:border-indigo-200 hover:bg-indigo-50/30'}" onclick="toggleItem('${item.id}', this)">
+                                    <input type="checkbox" class="mt-0.5 accent-indigo-600 shrink-0 w-4 h-4" value="${item.id}" ${selectedItems.includes(item.id) ? 'checked' : ''} onclick="event.stopPropagation(); toggleItem('${item.id}', this.parentElement)">
+                                    <span class="text-sm leading-tight font-medium">${item.name}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const modalHTML = `
+                <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+                    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border-4 border-indigo-100">
+                        <div class="p-6 border-b border-indigo-50 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
+                            <h2 class="text-xl font-extrabold text-indigo-900 flex items-center gap-2">
+                                <i data-lucide="${editingRecordId ? 'edit-3' : 'plus-circle'}" class="text-indigo-500"></i>
+                                ${editingRecordId ? 'แก้ไขประวัติการซ่อม' : '✨ บันทึกประวัติการซ่อมใหม่'}
+                            </h2>
+                            <button onclick="closeModal()" class="text-slate-400 hover:bg-red-50 hover:text-red-500 rounded-full p-2 transition"><i data-lucide="x"></i></button>
+                        </div>
+                        <form onsubmit="handleSaveRecord(event)" class="p-6 space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div><label class="block text-sm font-semibold text-slate-700 mb-1">วันที่เข้ารับบริการ *</label><input type="date" id="r_date" required value="${rec.date}" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-0 transition" /></div>
+                                <div><label class="block text-sm font-semibold text-slate-700 mb-1">เลขไมล์ตอนซ่อม (กม.) *</label><input type="number" id="r_mileage" required value="${rec.mileage}" placeholder="เช่น 140000" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-0 transition" /></div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div><label class="block text-sm font-semibold text-slate-700 mb-1">ชื่ออู่/ศูนย์บริการ</label><input type="text" id="r_garage" value="${rec.garage}" placeholder="เช่น อู่ช่างเอก, ศูนย์..." class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-500 focus:ring-0 transition" /></div>
+                                <div><label class="block text-sm font-semibold text-slate-700 mb-1 text-green-700">ค่าใช้จ่ายรวม (บาท)</label><input type="number" id="r_cost" value="${rec.cost}" placeholder="เช่น 3500" class="w-full border-2 border-green-200 bg-green-50 rounded-xl px-4 py-3 text-sm focus:border-green-500 focus:ring-0 transition font-bold text-green-800" /></div>
+                            </div>
+
+                            <div class="bg-indigo-50/50 p-5 rounded-2xl border-2 border-indigo-100">
+                                <label class="block text-lg font-extrabold text-indigo-900 mb-4 pb-2 border-b border-indigo-200">เลือกรายการซ่อม/เช็คระยะ (เลือกได้มากกว่า 1)</label>
+                                <div class="space-y-6" id="items-grid-container">${itemsHTML}</div>
+                            </div>
+
+                            <div class="border-2 border-slate-200 rounded-2xl overflow-hidden shadow-sm transition-all hover:border-indigo-300">
+                                <button type="button" onclick="toggleProMode()" class="w-full p-4 flex justify-between items-center font-bold text-sm transition-colors ${showProMode ? 'bg-gradient-to-r from-slate-800 to-slate-700 text-white' : 'bg-white text-slate-700 hover:bg-slate-50'}">
+                                    <span class="flex items-center gap-2"><i data-lucide="settings-2" class="${showProMode ? 'text-yellow-400' : 'text-slate-400'} w-5 h-5"></i> บันทึกข้อมูลวิเคราะห์เชิงลึก (Pro Mode) 🚀</span>
+                                    <i data-lucide="${showProMode ? 'chevron-up' : 'chevron-down'}"></i>
+                                </button>
+                                <div id="proModeContainer" class="p-6 bg-slate-50 space-y-5 ${showProMode ? '' : 'hidden'}">
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                                        <div class="md:col-span-1"><label class="block text-xs font-bold text-red-600 mb-1">รหัสปัญหา (OBD-II DTCs)</label><input type="text" id="r_obd" value="${rec.inspection.obd}" placeholder="เช่น P0700..." class="w-full border-2 border-red-200 rounded-xl px-3 py-2.5 text-sm focus:border-red-500" /></div>
+                                        <div><label class="block text-xs font-bold text-purple-600 mb-1">แรงดันแบตเตอรี่ (Volt)</label><input type="number" step="0.1" id="r_batV" value="${rec.inspection.batteryV}" placeholder="เช่น 12.6" class="w-full border-2 border-purple-200 rounded-xl px-3 py-2.5 text-sm focus:border-purple-500" /></div>
+                                        <div><label class="block text-xs font-bold text-purple-600 mb-1">ค่ากำลังสตาร์ท (CCA)</label><input type="number" id="r_batCCA" value="${rec.inspection.batteryCCA}" placeholder="เช่น 450" class="w-full border-2 border-purple-200 rounded-xl px-3 py-2.5 text-sm focus:border-purple-500" /></div>
+                                    </div>
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white p-4 rounded-xl border-2 border-slate-200">
+                                        <div><label class="block text-xs font-semibold text-slate-500 mb-1">ผ้าเบรกหน้า (มม.)</label><input type="number" step="0.5" id="r_brakeF" value="${rec.inspection.brakeF}" class="w-full border-2 border-slate-200 rounded-lg px-3 py-2 text-sm" /></div>
+                                        <div><label class="block text-xs font-semibold text-slate-500 mb-1">ผ้าเบรกหลัง (มม.)</label><input type="number" step="0.5" id="r_brakeR" value="${rec.inspection.brakeR}" class="w-full border-2 border-slate-200 rounded-lg px-3 py-2 text-sm" /></div>
+                                        <div><label class="block text-xs font-semibold text-slate-500 mb-1">ดอกยางหน้า (มม.)</label><input type="number" step="0.1" id="r_treadF" value="${rec.inspection.treadF}" class="w-full border-2 border-slate-200 rounded-lg px-3 py-2 text-sm" /></div>
+                                        <div><label class="block text-xs font-semibold text-slate-500 mb-1">ดอกยางหลัง (มม.)</label><input type="number" step="0.1" id="r_treadR" value="${rec.inspection.treadR}" class="w-full border-2 border-slate-200 rounded-lg px-3 py-2 text-sm" /></div>
+                                    </div>
+                                    <div><label class="block text-xs font-bold text-blue-700 mb-1">${currentModel.proChecks.label}</label><input type="text" id="r_brandSpec" value="${rec.inspection.brandSpecific}" placeholder="${currentModel.proChecks.placeholder}" class="w-full border-2 border-blue-300 bg-blue-50/50 rounded-xl px-4 py-3 text-sm focus:border-blue-600" /></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1 flex items-center justify-between"><span>แนบไฟล์ใบเสร็จ (Drive Link)</span><a href="${currentModel.driveLink}" target="_blank" class="text-xs text-indigo-600 hover:text-indigo-800 font-bold bg-indigo-100 px-2 py-1 rounded"><i data-lucide="folder-open" class="inline w-3 h-3"></i> เปิด Drive</a></label>
+                                <input type="url" id="r_receipt" value="${rec.receiptLink}" placeholder="วางลิงก์ไฟล์..." class="w-full border-2 border-indigo-100 rounded-xl px-4 py-3 text-sm bg-indigo-50/30 focus:border-indigo-400" />
+                            </div>
+                            <div><label class="block text-sm font-semibold text-slate-700 mb-1">บันทึกเพิ่มเติม (Notes)</label><textarea id="r_notes" rows="2" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-500">${rec.notes}</textarea></div>
+
+                            <div class="pt-6 flex gap-4">
+                                <button type="button" onclick="closeModal()" class="flex-1 py-3.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-2xl font-bold transition text-lg">ยกเลิก</button>
+                                <button type="submit" class="flex-[2] py-3.5 text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-2xl font-bold transition shadow-lg shadow-indigo-500/30 flex justify-center items-center gap-2 text-lg hover-float"><i data-lucide="check-circle-2"></i> ${editingRecordId ? 'บันทึกการแก้ไข' : 'บันทึกประวัติ'}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            document.getElementById('modals-container').innerHTML = modalHTML;
+            lucide.createIcons();
+        }
+
+        function toggleItem(id, labelEl) {
+            const checkbox = labelEl.querySelector('input');
+            if (labelEl.tagName.toLowerCase() === 'label' && event.target !== checkbox) {
+                 checkbox.checked = !checkbox.checked;
+            }
+            if(checkbox.checked && !selectedItems.includes(id)) {
+                selectedItems.push(id);
+                labelEl.classList.add('bg-indigo-50', 'border-indigo-500', 'text-indigo-900', 'shadow-md');
+                labelEl.classList.remove('bg-white', 'border-slate-100', 'hover:border-indigo-200', 'hover:bg-indigo-50/30');
+            } else if (!checkbox.checked) {
+                selectedItems = selectedItems.filter(i => i !== id);
+                labelEl.classList.remove('bg-indigo-50', 'border-indigo-500', 'text-indigo-900', 'shadow-md');
+                labelEl.classList.add('bg-white', 'border-slate-100', 'hover:border-indigo-200', 'hover:bg-indigo-50/30');
+            }
+        }
+
+        function toggleProMode() {
+            showProMode = !showProMode;
+            const container = document.getElementById('proModeContainer');
+            const btn = container.previousElementSibling;
+            
+            if (showProMode) {
+                container.classList.remove('hidden');
+                btn.className = "w-full p-4 flex justify-between items-center font-bold text-sm transition-colors bg-gradient-to-r from-slate-800 to-slate-700 text-white";
+                btn.querySelector('span i').className = "lucide lucide-settings-2 text-yellow-400 w-5 h-5";
+                btn.querySelector('svg:last-child').setAttribute('data-lucide', 'chevron-up');
+            } else {
+                container.classList.add('hidden');
+                btn.className = "w-full p-4 flex justify-between items-center font-bold text-sm transition-colors bg-white text-slate-700 hover:bg-slate-50";
+                btn.querySelector('span i').className = "lucide lucide-settings-2 text-slate-400 w-5 h-5";
+                btn.querySelector('svg:last-child').setAttribute('data-lucide', 'chevron-down');
+            }
+            lucide.createIcons();
+        }
+
+        function handleSaveRecord(e) {
+            e.preventDefault();
+            const date = document.getElementById('r_date').value;
+            const mileage = document.getElementById('r_mileage').value;
+            if (!date || !mileage) return;
+
+            const inspection = {
+                obd: document.getElementById('r_obd').value,
+                batteryV: document.getElementById('r_batV').value,
+                batteryCCA: document.getElementById('r_batCCA').value,
+                brakeF: document.getElementById('r_brakeF').value,
+                brakeR: document.getElementById('r_brakeR').value,
+                treadF: document.getElementById('r_treadF').value,
+                treadR: document.getElementById('r_treadR').value,
+                brandSpecific: document.getElementById('r_brandSpec').value,
+            };
+            const isInspectionEmpty = Object.values(inspection).every(val => val === '');
+
+            const costVal = document.getElementById('r_cost').value;
+
+            const recordToSave = {
+                id: editingRecordId || Date.now(),
+                date: date,
+                mileage: parseInt(mileage),
+                garage: document.getElementById('r_garage').value || 'ไม่ระบุ',
+                items: [...selectedItems],
+                notes: document.getElementById('r_notes').value,
+                receiptLink: document.getElementById('r_receipt').value,
+                cost: costVal ? parseInt(costVal) : 0,
+                inspection: showProMode && !isInspectionEmpty ? inspection : null
+            };
+
+            const currentHistory = data[activeCar].history;
+            if (editingRecordId) {
+                data[activeCar].history = currentHistory.map(r => r.id === editingRecordId ? recordToSave : r);
+            } else {
+                data[activeCar].history.push(recordToSave);
+            }
+            
+            data[activeCar].mileage = Math.max(data[activeCar].mileage, parseInt(mileage));
+            data[activeCar].history.sort((a, b) => b.mileage - a.mileage);
+
+            closeModal();
+            renderApp();
+        }
+
+        function confirmDelete(id) {
+            recordToDelete = id;
+            const modalHTML = `
+                <div class="fixed inset-0 bg-slate-900/70 backdrop-blur-md flex items-center justify-center p-4 z-[60]">
+                    <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full text-center border-4 border-red-100">
+                        <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-5"><i data-lucide="alert-triangle" class="text-red-500 w-10 h-10"></i></div>
+                        <h3 class="text-2xl font-extrabold text-slate-800 mb-2">ลบข้อมูลนี้ทิ้ง?</h3>
+                        <p class="text-slate-500 mb-8 font-medium">ประวัติการซ่อมนี้จะหายไปตลอดกาล คุณแน่ใจนะ?</p>
+                        <div class="flex gap-4">
+                            <button onclick="closeModal()" class="flex-1 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition text-lg">ยกเลิก</button>
+                            <button onclick="executeDelete()" class="flex-1 py-3.5 bg-red-500 hover:bg-red-600 text-white font-bold rounded-2xl shadow-lg shadow-red-500/30 transition hover-float text-lg">ลบเลย!</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('modals-container').innerHTML = modalHTML;
+            lucide.createIcons();
+        }
+
+        function executeDelete() {
+            if (recordToDelete) {
+                data[activeCar].history = data[activeCar].history.filter(r => r.id !== recordToDelete);
+            }
+            closeModal();
+            renderApp();
+        }
+
+        function openProfileModal() {
+            const p = data[activeCar].profile || {};
+            const modalHTML = `
+                <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+                    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border-4 border-blue-100">
+                        <div class="p-6 border-b border-blue-50 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
+                            <h2 class="text-xl font-extrabold text-blue-900 flex items-center gap-2"><i data-lucide="edit-3" class="text-blue-500"></i> แก้ไขข้อมูลและตั้งค่าใช้จ่ายรถยนต์</h2>
+                            <button onclick="closeModal()" class="text-slate-400 hover:bg-red-50 hover:text-red-500 rounded-full p-2 transition"><i data-lucide="x"></i></button>
+                        </div>
+                        <form onsubmit="handleSaveProfile(event)" class="p-6 space-y-6">
+                            
+                            <!-- Financial Settings (Expanded) -->
+                            <div class="bg-blue-50/50 p-6 rounded-2xl border-2 border-blue-100">
+                                <h4 class="font-extrabold text-blue-900 mb-5 pb-3 border-b border-blue-200 flex items-center gap-2"><i data-lucide="wallet" class="w-6 h-6 text-green-500"></i> ตั้งค่าการประเมินค่าใช้จ่ายประจำ</h4>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                                    <!-- มูลค่ารถ -->
+                                    <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 bg-white p-5 rounded-xl border border-slate-100 shadow-sm">
+                                        <div><label class="block text-sm font-bold text-slate-700 mb-1">ราคาตอนซื้อ / ออกรถ (บาท)</label><input type="text" id="p_price" value="${p.price || ''}" placeholder="เช่น 759000" class="w-full border-2 border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:border-blue-500" /></div>
+                                        <div><label class="block text-sm font-bold text-blue-700 mb-1">ราคาประเมินรถตลาดปัจจุบัน (บาท)</label><input type="text" id="p_current" value="${p.currentValue || ''}" placeholder="เช่น 180000" class="w-full border-2 border-blue-200 bg-blue-50/30 rounded-lg px-4 py-2.5 text-sm focus:border-blue-500" /></div>
+                                    </div>
+
+                                    <!-- รายปี -->
+                                    <div class="space-y-4 bg-purple-50 p-4 rounded-xl border border-purple-100">
+                                        <h5 class="text-sm font-extrabold text-purple-800 uppercase flex items-center gap-1"><i data-lucide="calendar-check" class="w-4 h-4"></i> ค่าใช้จ่ายรายปี (คงที่)</h5>
+                                        <div><label class="block text-xs font-semibold text-slate-700 mb-1">ค่าประกันภัย (ต่อปี)</label><input type="text" id="p_ins" value="${p.insuranceYearly || ''}" placeholder="เช่น 12000" class="w-full border-2 border-purple-200 rounded-lg px-4 py-2 text-sm focus:border-purple-500" /></div>
+                                        <div><label class="block text-xs font-semibold text-slate-700 mb-1">ค่าต่อภาษี / พ.ร.บ. (ต่อปี)</label><input type="text" id="p_taxY" value="${p.taxYearly || ''}" placeholder="เช่น 1800" class="w-full border-2 border-purple-200 rounded-lg px-4 py-2 text-sm focus:border-purple-500" /></div>
+                                    </div>
+
+                                    <!-- รายเดือน -->
+                                    <div class="space-y-4 bg-sky-50 p-4 rounded-xl border border-sky-100">
+                                        <h5 class="text-sm font-extrabold text-sky-800 uppercase flex items-center gap-1"><i data-lucide="map" class="w-4 h-4"></i> ค่าใช้จ่ายรายเดือน (เดินทาง)</h5>
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <div><label class="block text-xs font-semibold text-slate-700 mb-1">ค่าน้ำมัน (ต่อเดือน)</label><input type="text" id="p_fuel" value="${p.fuelMonthly || ''}" placeholder="เช่น 3500" class="w-full border-2 border-sky-200 rounded-lg px-3 py-2 text-sm focus:border-sky-500" /></div>
+                                            <div><label class="block text-xs font-semibold text-slate-700 mb-1">ทางด่วน (ต่อเดือน)</label><input type="text" id="p_tolls" value="${p.tollsMonthly || ''}" placeholder="เช่น 500" class="w-full border-2 border-sky-200 rounded-lg px-3 py-2 text-sm focus:border-sky-500" /></div>
+                                            <div><label class="block text-xs font-semibold text-slate-700 mb-1">ที่จอดรถ (ต่อเดือน)</label><input type="text" id="p_park" value="${p.parkingMonthly || ''}" placeholder="เช่น 1000" class="w-full border-2 border-sky-200 rounded-lg px-3 py-2 text-sm focus:border-sky-500" /></div>
+                                            <div><label class="block text-xs font-semibold text-slate-700 mb-1">ล้างรถ (ต่อเดือน)</label><input type="text" id="p_wash" value="${p.washMonthly || ''}" placeholder="เช่น 400" class="w-full border-2 border-sky-200 rounded-lg px-3 py-2 text-sm focus:border-sky-500" /></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- อื่นๆ -->
+                                    <div class="md:col-span-2 space-y-4 mt-2 bg-orange-50 p-4 rounded-xl border border-orange-100">
+                                        <h5 class="text-sm font-extrabold text-orange-800 uppercase flex items-center gap-1"><i data-lucide="shopping-bag" class="w-4 h-4"></i> ค่าใช้จ่ายอื่นๆ (ยอดรวมทั้งหมด)</h5>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                            <div><label class="block text-xs font-semibold text-slate-700 mb-1">ของตกแต่ง / ประดับยนต์</label><input type="text" id="p_acc" value="${p.accessoriesTotal || ''}" placeholder="เช่น 15000" class="w-full border-2 border-orange-200 rounded-lg px-4 py-2.5 text-sm focus:border-orange-500" /></div>
+                                            <div><label class="block text-xs font-semibold text-slate-700 mb-1">ค่าปรับจราจร</label><input type="text" id="p_fines" value="${p.finesTotal || ''}" placeholder="เช่น 1000" class="w-full border-2 border-orange-200 rounded-lg px-4 py-2.5 text-sm focus:border-orange-500" /></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Basic Info -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4">
+                                <div><label class="block text-sm font-semibold text-slate-700 mb-1">เลขทะเบียนรถ</label><input type="text" id="p_plate" value="${p.plate || ''}" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-blue-500" /></div>
+                                <div><label class="block text-sm font-semibold text-slate-700 mb-1">เลขตัวถัง (VIN)</label><input type="text" id="p_vin" value="${p.vin || ''}" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm uppercase font-mono focus:border-blue-500" /></div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div><label class="block text-sm font-semibold text-slate-700 mb-1">วันที่ซื้อ / ออกรถ</label><input type="date" id="p_date" value="${p.purchaseDate || ''}" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-blue-500" /></div>
+                                <div><label class="block text-sm font-semibold text-slate-700 mb-1">ซื้อที่ไหน / ศูนย์บริการ</label><input type="text" id="p_loc" value="${p.purchaseLocation || ''}" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-blue-500" /></div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div><label class="block text-sm font-semibold text-slate-700 mb-1">สีรถ</label><input type="text" id="p_color" value="${p.color || ''}" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-blue-500" /></div>
+                                <div><label class="block text-sm font-semibold text-slate-700 mb-1">วันครบกำหนด ภาษี/พ.ร.บ.</label><input type="date" id="p_tax" value="${p.taxDate || ''}" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-blue-500" /></div>
+                            </div>
+                            
+                            <div class="pt-6 flex gap-4">
+                                <button type="button" onclick="closeModal()" class="flex-1 py-3.5 text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-2xl font-bold transition text-lg">ยกเลิก</button>
+                                <button type="submit" class="flex-[2] py-3.5 text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 rounded-2xl font-bold transition shadow-lg shadow-blue-500/30 hover-float flex justify-center items-center gap-2 text-lg"><i data-lucide="check-circle-2"></i> บันทึกข้อมูล</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            document.getElementById('modals-container').innerHTML = modalHTML;
+            lucide.createIcons();
+        }
+
+        function handleSaveProfile(e) {
+            e.preventDefault();
+            data[activeCar].profile = {
+                price: document.getElementById('p_price').value,
+                currentValue: document.getElementById('p_current').value,
+                insuranceYearly: document.getElementById('p_ins').value,
+                taxYearly: document.getElementById('p_taxY').value,
+                fuelMonthly: document.getElementById('p_fuel').value,
+                tollsMonthly: document.getElementById('p_tolls').value,
+                parkingMonthly: document.getElementById('p_park').value,
+                washMonthly: document.getElementById('p_wash').value,
+                accessoriesTotal: document.getElementById('p_acc').value,
+                finesTotal: document.getElementById('p_fines').value,
+                plate: document.getElementById('p_plate').value,
+                vin: document.getElementById('p_vin').value,
+                purchaseDate: document.getElementById('p_date').value,
+                purchaseLocation: document.getElementById('p_loc').value,
+                color: document.getElementById('p_color').value,
+                taxDate: document.getElementById('p_tax').value,
+            };
+            closeModal();
+            renderApp();
+        }
+
+        function closeModal() {
+            document.getElementById('modals-container').innerHTML = '';
+        }
+
+        // --- RENDER MAIN ---
+        function renderApp() {
+            const root = document.getElementById('app-root');
+            const currentCarData = data[activeCar];
+            const currentModel = CAR_MODELS[activeCar];
+            
+            let html = `
+                <!-- Car Selector: ใช้ Gradient และ Hover -->
+                <div class="grid grid-cols-2 gap-4 mb-8 mt-2">
+                    ${Object.values(CAR_MODELS).map(car => `
+                        <button onclick="setActiveCarState('${car.id}')" class="p-5 rounded-2xl flex flex-col items-center justify-center gap-3 transition-all duration-300 border-2 relative overflow-hidden ${activeCar === car.id ? `${car.color} text-white border-transparent shadow-xl shadow-${car.id === 'ford' ? 'blue' : 'red'}-500/40 scale-[1.03]` : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:bg-slate-50 hover-float'}">
+                            ${activeCar === car.id ? `<div class="absolute top-0 right-0 bg-white/25 backdrop-blur-sm px-3 py-1 rounded-bl-xl text-xs font-bold shadow-sm">อายุ ${car.ageYears} ปี</div>` : ''}
+                            <i data-lucide="car" class="${activeCar === car.id ? 'text-white' : 'text-slate-400'} w-10 h-10 drop-shadow-sm"></i>
+                            <div class="text-center">
+                                <div class="font-extrabold text-sm md:text-lg">${car.name}</div>
+                                <div class="text-xs md:text-sm mt-1 font-medium ${activeCar === car.id ? 'text-white/90' : 'text-slate-400'} bg-black/10 px-2 py-0.5 rounded-full inline-block backdrop-blur-sm">${data[car.id].profile?.plate || car.plate}</div>
+                            </div>
+                        </button>
+                    `).join('')}
+                </div>
+
+                <!-- Top Info Bar -->
+                <div class="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 p-6 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-5 relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-50 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+                    <div class="flex flex-col gap-2 relative z-10">
+                        <h2 class="text-sm font-bold text-blue-600 uppercase tracking-widest flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4"></i> เลขไมล์ปัจจุบัน</h2>
+                        <div class="flex items-end gap-2">
+                            <span class="text-4xl md:text-5xl font-black text-slate-800 tracking-tight leading-none">${formatNumber(currentCarData.mileage)}</span>
+                            <span class="text-slate-400 font-bold mb-1.5">กม.</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto relative z-10">
+                        <form onsubmit="handleUpdateMileage(event)" class="flex gap-2 w-full md:w-auto">
+                            <input type="number" id="mileageInput" placeholder="กรอกเลขไมล์ใหม่..." class="border-2 border-slate-200 rounded-xl px-4 py-3 flex-1 md:w-48 focus:outline-none focus:border-blue-500 focus:ring-0 text-sm font-medium transition bg-slate-50 focus:bg-white" />
+                            <button type="submit" class="bg-slate-800 text-white px-5 py-3 rounded-xl hover:bg-slate-900 transition whitespace-nowrap font-bold shadow-md hover-float">อัปเดต</button>
+                        </form>
+                        <a href="${currentModel.driveLink}" target="_blank" class="flex items-center justify-center gap-2 bg-blue-50 text-blue-700 border-2 border-blue-200 px-5 py-3 rounded-xl hover:bg-blue-100 transition whitespace-nowrap font-bold hover-float">
+                            <i data-lucide="folder-open" class="w-4 h-4"></i> แฟ้มใบเสร็จ
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tabs: เปลี่ยนเป็นแบบ Pill สวยงาม -->
+                <div class="flex bg-slate-200/50 p-1.5 rounded-2xl mb-8 overflow-x-auto hide-scrollbar gap-1">
+                    <button onclick="setActiveTabState('summary')" class="flex-1 py-3 px-4 text-sm font-bold transition-all rounded-xl whitespace-nowrap ${activeTab === 'summary' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'}">✨ วิเคราะห์ & แจ้งเตือน</button>
+                    <button onclick="setActiveTabState('history')" class="flex-1 py-3 px-4 text-sm font-bold transition-all rounded-xl whitespace-nowrap ${activeTab === 'history' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'}">📓 สมุดประวัติ</button>
+                    <button onclick="setActiveTabState('finance')" class="flex-1 py-3 px-4 text-sm font-bold transition-all rounded-xl whitespace-nowrap ${activeTab === 'finance' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'}">💰 สรุปการเงิน</button>
+                    <button onclick="setActiveTabState('profile')" class="flex-1 py-3 px-4 text-sm font-bold transition-all rounded-xl whitespace-nowrap ${activeTab === 'profile' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50'}">🚗 ข้อมูลรถ</button>
+                </div>
+            `;
+
+            if (activeTab === 'summary') html += renderSummary();
+            else if (activeTab === 'history') html += renderHistory();
+            else if (activeTab === 'finance') html += renderFinance();
+            else if (activeTab === 'profile') html += renderProfile();
+
+            root.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        // --- TAB RENDERS ---
+        function renderSummary() {
+            const currentModel = CAR_MODELS[activeCar];
+            const currentCarData = data[activeCar];
+            const serviceStatus = calculateServiceStatus();
+            const latestHealth = calculateLatestHealth();
+            const overdueItems = serviceStatus.filter(s => s.status !== 'good');
+
+            let html = `<div class="space-y-8">`;
+            
+            html += `
+                <div class="bg-gradient-to-br from-amber-100 to-orange-100 border border-orange-200 rounded-3xl p-6 shadow-sm relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 opacity-10"><i data-lucide="shield-alert" class="w-32 h-32"></i></div>
+                    <h4 class="text-amber-900 font-black flex items-center gap-2 mb-3 text-lg relative z-10"><i data-lucide="alert-triangle" class="text-amber-600 w-6 h-6"></i> เฝ้าระวังพิเศษ! รถอายุ ${currentModel.ageYears} ปี</h4>
+                    <ul class="space-y-2 relative z-10">
+                        ${currentModel.ageWarnings.map(w => `<li class="flex items-start gap-2 text-sm font-medium text-amber-900 bg-white/50 backdrop-blur-sm p-3 rounded-xl border border-white"><i data-lucide="info" class="text-amber-600 shrink-0 mt-0.5 w-4 h-4"></i><span>${w}</span></li>`).join('')}
+                    </ul>
+                </div>
+            `;
+
+            if (latestHealth) {
+                html += `
+                    <div class="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm">
+                        <h4 class="text-slate-800 font-extrabold flex items-center gap-2 mb-5 text-lg border-b border-slate-100 pb-3"><i data-lucide="activity" class="text-indigo-500 w-6 h-6"></i> สุขภาพรถเชิงลึกล่าสุด (Health Check)</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="p-4 rounded-2xl border-2 ${parseFloat(latestHealth.batteryV) < 12.0 || parseInt(latestHealth.batteryCCA) < 350 ? 'bg-red-50 border-red-200' : 'bg-slate-50 border-slate-100'}">
+                                <div class="flex items-center gap-1.5 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2"><i data-lucide="zap" class="w-4 h-4"></i> แบตเตอรี่</div>
+                                <div class="text-lg font-black text-slate-800">${latestHealth.batteryV || '-'} V</div>
+                                <div class="text-xs font-medium text-slate-500 mt-1">CCA: ${latestHealth.batteryCCA || '-'}</div>
+                            </div>
+                            <div class="p-4 rounded-2xl border-2 ${(parseFloat(latestHealth.brakeF) < 4 || parseFloat(latestHealth.brakeR) < 4) ? 'bg-orange-50 border-orange-200' : 'bg-slate-50 border-slate-100'}">
+                                <div class="flex items-center gap-1.5 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2"><i data-lucide="shield-check" class="w-4 h-4"></i> ผ้าเบรก</div>
+                                <div class="text-sm font-black text-slate-800">หน้า: <span class="text-lg">${latestHealth.brakeF || '-'}</span> <span class="text-xs font-normal">มม.</span></div>
+                                <div class="text-xs font-medium text-slate-500 mt-1">หลัง: ${latestHealth.brakeR || '-'} มม.</div>
+                            </div>
+                            <div class="p-4 rounded-2xl border-2 ${(parseFloat(latestHealth.treadF) < 3 || parseFloat(latestHealth.treadR) < 3) ? 'bg-orange-50 border-orange-200' : 'bg-slate-50 border-slate-100'}">
+                                <div class="flex items-center gap-1.5 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2"><i data-lucide="gauge" class="w-4 h-4"></i> ดอกยาง</div>
+                                <div class="text-sm font-black text-slate-800">หน้า: <span class="text-lg">${latestHealth.treadF || '-'}</span> <span class="text-xs font-normal">มม.</span></div>
+                                <div class="text-xs font-medium text-slate-500 mt-1">หลัง: ${latestHealth.treadR || '-'} มม.</div>
+                            </div>
+                            <div class="p-4 rounded-2xl border-2 ${latestHealth.obd && latestHealth.obd !== 'No DTCs' && latestHealth.obd !== 'P0000' && latestHealth.obd.length > 2 ? 'bg-red-50 border-red-200' : 'bg-slate-50 border-slate-100'}">
+                                <div class="flex items-center gap-1.5 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2"><i data-lucide="settings" class="w-4 h-4"></i> OBD-II</div>
+                                <div class="text-sm font-black text-slate-800 truncate" title="${latestHealth.obd}">${latestHealth.obd || 'ปกติ'}</div>
+                            </div>
+                        </div>
+                        ${latestHealth.brandSpecific ? `<div class="mt-4 bg-indigo-50/50 p-4 rounded-xl border border-indigo-100 text-sm flex gap-3 items-start"><i data-lucide="info" class="text-indigo-500 shrink-0"></i><div><strong class="text-indigo-900 block mb-0.5">ผลเฉพาะรุ่น (${currentModel.name}):</strong><span class="text-indigo-800/80 font-medium">${latestHealth.brandSpecific}</span></div></div>` : ''}
+                    </div>
+                `;
+            }
+
+            html += `
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-extrabold text-slate-800">รายการดูแลตามระยะไมล์</h3>
+                    <button onclick="openRecordModal()" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 shadow-lg shadow-blue-500/30 hover-float">
+                        <i data-lucide="plus" class="w-4 h-4"></i> บันทึกเลย
+                    </button>
+                </div>
+            `;
+
+            if (overdueItems.length > 0) {
+                html += `
+                    <div class="bg-red-50 border border-red-200 rounded-3xl p-5 mb-6">
+                        <h4 class="text-red-700 font-extrabold flex items-center gap-2 mb-4"><i data-lucide="alert-circle" class="w-6 h-6"></i> ถึงเวลาเปลี่ยนด่วน!</h4>
+                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            ${overdueItems.map(item => `
+                                <li class="flex justify-between items-center text-sm bg-white p-3 rounded-xl border border-red-100 shadow-sm">
+                                    <span class="font-bold text-slate-700 flex items-center gap-2">${getIconHTML(item.type, "w-4 h-4")} ${item.name}</span>
+                                    <span class="text-red-600 font-black bg-red-100 px-2 py-1 rounded-lg">เลยมา ${formatNumber(Math.abs(item.remaining))} กม.</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            html += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">`;
+            serviceStatus.forEach(item => {
+                const progress = Math.min(100, Math.max(0, ((currentCarData.mileage - item.lastMileage) / item.interval) * 100));
+                let statusBadge = '';
+                let progressColor = '';
+                if(item.status === 'good') { statusBadge = `<span class="bg-emerald-100 text-emerald-700 text-xs px-2.5 py-1 rounded-full font-bold flex items-center gap-1 shrink-0"><i data-lucide="check" class="w-3 h-3"></i> ปกติ</span>`; progressColor = 'bg-gradient-to-r from-emerald-400 to-emerald-500'; }
+                else if(item.status === 'warning') { statusBadge = `<span class="bg-amber-100 text-amber-700 text-xs px-2.5 py-1 rounded-full font-bold shrink-0">เตรียมตัว</span>`; progressColor = 'bg-gradient-to-r from-amber-400 to-orange-500'; }
+                else { statusBadge = `<span class="bg-red-100 text-red-700 text-xs px-2.5 py-1 rounded-full font-bold shrink-0 animate-pulse">เกินระยะ</span>`; progressColor = 'bg-gradient-to-r from-red-500 to-rose-600'; }
+
+                html += `
+                    <div class="bg-white p-5 rounded-3xl border-2 border-slate-100 shadow-sm hover:border-blue-200 transition-colors flex flex-col h-full relative overflow-hidden group">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="font-bold text-slate-800 flex items-start gap-2 text-sm leading-tight pr-2 z-10">${getIconHTML(item.type, "w-5 h-5")}${item.name}</h4>
+                            ${statusBadge}
+                        </div>
+                        <div class="text-sm text-slate-500 mt-auto bg-slate-50 p-3 rounded-2xl flex flex-col gap-2 z-10 border border-slate-100/50">
+                            <div class="flex justify-between items-center"><span class="text-xs font-semibold text-slate-400">เปลี่ยนล่าสุด</span><strong class="text-slate-700">${item.lastMileage === 0 ? '-' : formatNumber(item.lastMileage)}</strong></div>
+                            <div class="flex justify-between items-center"><span class="text-xs font-semibold text-slate-400">รอบถัดไป</span><strong class="text-blue-600 text-base">${formatNumber(item.nextDue)}</strong></div>
+                            <div class="flex justify-between border-t border-slate-200 pt-2 mt-1"><span class="text-xs font-medium">ประเมินราคา:</span><span class="font-black text-slate-800">฿${formatNumber(item.estCost)}</span></div>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-2.5 mt-4 overflow-hidden z-10"><div class="h-2.5 rounded-full transition-all duration-1000 ${progressColor}" style="width: ${progress}%"></div></div>
+                        <div class="text-[10px] font-bold uppercase tracking-wider text-right mt-2 text-slate-400 z-10">ทุกๆ ${formatNumber(item.interval)} กม.</div>
+                        <div class="absolute -right-8 -bottom-8 opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500 scale-150">${getIconHTML(item.type, "w-32 h-32 text-black")}</div>
+                    </div>
+                `;
+            });
+            html += `</div></div>`;
+            return html;
+        }
+
+        function renderFinance() {
+            const f = calculateFinanceData();
+            return `
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-extrabold text-slate-800 flex items-center gap-2"><i data-lucide="pie-chart" class="text-indigo-500 w-6 h-6"></i> ภาพรวมการเงิน & ค่าใช้จ่ายรถ</h3>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        
+                        <!-- CARD 1: Depreciation -->
+                        <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl shadow-xl p-6 flex flex-col text-white relative overflow-hidden">
+                            <div class="absolute -right-10 -bottom-10 opacity-10"><i data-lucide="trending-down" class="w-48 h-48"></i></div>
+                            <div class="flex items-center gap-2 mb-6 border-b border-slate-700 pb-3 relative z-10">
+                                <h4 class="font-bold text-lg flex items-center gap-2"><i data-lucide="trending-down" class="text-red-400"></i> วิเคราะห์มูลค่ารถ (Depreciation)</h4>
+                            </div>
+                            <div class="flex-1 space-y-6 relative z-10">
+                                <div class="flex justify-between items-end">
+                                    <div><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">ราคาตอนออกรถ</p><p class="text-2xl font-black">฿${formatNumber(f.purchasePrice)}</p></div>
+                                    <div class="text-right"><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">ครอบครองมา</p><p class="text-lg font-bold text-blue-300">${f.yearsOwned.toFixed(1)} ปี</p></div>
+                                </div>
+                                <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/20">
+                                    <p class="text-xs font-bold text-blue-200 uppercase tracking-wider mb-1">ประเมินราคากลางปัจจุบัน</p>
+                                    <p class="text-4xl font-black text-white">฿${formatNumber(f.currentValue)}</p>
+                                </div>
+                                <div class="bg-red-500/20 p-4 rounded-2xl border border-red-500/30 flex justify-between items-center">
+                                    <div><p class="text-sm font-bold text-red-200 mb-0.5">มูลค่าที่ลดลง (ค่าเสื่อม)</p><p class="text-xs font-medium text-red-300">หายไป ${((f.depreciation / f.purchasePrice) * 100).toFixed(1)}%</p></div>
+                                    <p class="text-xl font-black text-red-400">- ฿${formatNumber(f.depreciation)}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- CARD 2: Expenses Breakdown -->
+                        <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 flex flex-col">
+                            <div class="flex items-center gap-2 mb-6 border-b border-slate-100 pb-3">
+                                <h4 class="font-bold text-slate-800 text-lg flex items-center gap-2"><i data-lucide="wallet" class="text-emerald-500"></i> สรุปค่าใช้จ่ายทั้งหมด (Operating)</h4>
+                            </div>
+                            <div class="flex-1">
+                                <div class="mb-5 text-center bg-slate-50 p-4 rounded-2xl">
+                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">จ่ายไปแล้วทั้งหมด (ไม่รวมตัวรถ)</p>
+                                    <p class="text-4xl font-black text-slate-900">฿${formatNumber(f.totalOperatingCost)}</p>
+                                </div>
+                                
+                                <!-- Progress Bar -->
+                                <div class="w-full h-4 rounded-full flex overflow-hidden mb-6 shadow-inner">
+                                    <div style="width: ${(f.groupRepairs/f.totalOperatingCost)*100}%" class="bg-gradient-to-r from-orange-400 to-orange-500" title="ซ่อม"></div>
+                                    <div style="width: ${(f.groupTravel/f.totalOperatingCost)*100}%" class="bg-gradient-to-r from-blue-400 to-blue-500" title="เดินทาง"></div>
+                                    <div style="width: ${(f.groupFixed/f.totalOperatingCost)*100}%" class="bg-gradient-to-r from-purple-400 to-purple-500" title="คงที่"></div>
+                                    <div style="width: ${(f.groupMisc/f.totalOperatingCost)*100}%" class="bg-gradient-to-r from-slate-400 to-slate-500" title="อื่นๆ"></div>
+                                </div>
+                                
+                                <div class="h-[220px] overflow-y-auto pr-2 space-y-2 text-sm hide-scrollbar">
+                                    <!-- ซ่อม -->
+                                    <div class="flex justify-between items-center p-3 bg-orange-50 rounded-xl border border-orange-100"><div class="flex items-center gap-2 font-bold text-slate-700"><div class="w-3 h-3 rounded-full bg-orange-500"></div> ซ่อมบำรุง/อะไหล่</div><span class="font-black text-orange-700">฿${formatNumber(f.totalRepairs)}</span></div>
+                                    <!-- เดินทาง -->
+                                    <div class="flex justify-between items-center p-2 hover:bg-slate-50 rounded-lg transition"><div class="font-medium text-slate-600 pl-5">ค่าน้ำมันรถ (ประเมิน)</div><span class="font-bold text-slate-800">฿${formatNumber(f.totalFuel)}</span></div>
+                                    <div class="flex justify-between items-center p-2 hover:bg-slate-50 rounded-lg transition"><div class="font-medium text-slate-600 pl-5">ค่าทางด่วน</div><span class="font-bold text-slate-800">฿${formatNumber(f.totalTolls)}</span></div>
+                                    <div class="flex justify-between items-center p-2 hover:bg-slate-50 rounded-lg transition"><div class="font-medium text-slate-600 pl-5">ค่าที่จอดรถ</div><span class="font-bold text-slate-800">฿${formatNumber(f.totalParking)}</span></div>
+                                    <!-- คงที่ -->
+                                    <div class="flex justify-between items-center p-3 bg-purple-50 rounded-xl border border-purple-100 mt-2"><div class="flex items-center gap-2 font-bold text-slate-700"><div class="w-3 h-3 rounded-full bg-purple-500"></div> ประกัน & พ.ร.บ. (รวม ${f.yearsOwned.toFixed(1)} ปี)</div><span class="font-black text-purple-700">฿${formatNumber(f.groupFixed)}</span></div>
+                                    <!-- เบ็ดเตล็ด -->
+                                    <div class="flex justify-between items-center p-2 hover:bg-slate-50 rounded-lg transition mt-2"><div class="font-medium text-slate-600 pl-5">ล้างรถ / คาร์แคร์</div><span class="font-bold text-slate-800">฿${formatNumber(f.totalWash)}</span></div>
+                                    <div class="flex justify-between items-center p-2 hover:bg-slate-50 rounded-lg transition"><div class="font-medium text-slate-600 pl-5">ของแต่งรถ / ประดับยนต์</div><span class="font-bold text-slate-800">฿${formatNumber(f.accessoriesTotal)}</span></div>
+                                    <div class="flex justify-between items-center p-2 hover:bg-slate-50 rounded-lg transition"><div class="font-medium text-slate-600 pl-5">ค่าปรับจราจร</div><span class="font-bold text-slate-800">฿${formatNumber(f.finesTotal)}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl shadow-lg p-6 text-white grid grid-cols-1 md:grid-cols-2 gap-6 divide-y md:divide-y-0 md:divide-x divide-white/20">
+                        <div class="flex flex-col items-center justify-center pt-2 md:pt-0"><p class="text-blue-200 font-bold mb-2 text-sm uppercase tracking-widest">จ่ายเฉลี่ย <strong class="text-white text-base">ต่อปี</strong></p><div class="text-4xl font-black text-white flex items-end gap-2 drop-shadow-md">฿${formatNumber(Math.round(f.avgCostPerYear))}</div></div>
+                        <div class="flex flex-col items-center justify-center pt-6 md:pt-0"><p class="text-blue-200 font-bold mb-2 text-sm uppercase tracking-widest">จ่ายเฉลี่ย <strong class="text-yellow-300 text-base">ต่อเดือน</strong></p><div class="text-4xl font-black text-yellow-300 flex items-end gap-2 drop-shadow-md">฿${formatNumber(Math.round(f.avgCostPerMonth))}</div></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderHistory() {
+            const history = data[activeCar].history;
+            const currentModel = CAR_MODELS[activeCar];
+            
+            let html = `
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6">
+                    <div class="flex justify-between items-center mb-8 border-b border-slate-100 pb-4">
+                        <h3 class="text-xl font-extrabold text-slate-800 flex items-center gap-2"><i data-lucide="book-open" class="text-indigo-500"></i> สมุดบันทึกประวัติ</h3>
+                        <button onclick="openRecordModal()" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 hover-float shadow-md shadow-indigo-500/20"><i data-lucide="plus-circle" class="w-4 h-4"></i> เพิ่มข้อมูล</button>
+                    </div>
+            `;
+
+            if (history.length === 0) {
+                html += `<div class="text-center py-16 text-slate-400"><i data-lucide="inbox" class="w-16 h-16 mx-auto mb-4 opacity-20"></i><p class="font-bold">ยังว่างเปล่า เริ่มบันทึกประวัติซ่อมเลย!</p></div>`;
+            } else {
+                html += `<div class="space-y-8 relative before:absolute before:inset-0 before:ml-[1.3rem] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-1 before:bg-gradient-to-b before:from-indigo-100 before:via-indigo-200 before:to-transparent">`;
+                history.forEach(record => {
+                    html += `
+                        <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                            <div class="flex items-center justify-center w-12 h-12 rounded-full border-4 border-white bg-indigo-500 text-white shadow-md shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 hover:scale-110 transition-transform"><i data-lucide="wrench" class="w-5 h-5"></i></div>
+                            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] bg-white hover:bg-indigo-50/30 transition-colors p-6 rounded-3xl border-2 border-slate-100 shadow-sm relative">
+                                <div class="absolute top-5 right-5 flex gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button onclick="openRecordModal(${record.id})" class="p-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition" title="แก้ไข"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                                    <button onclick="confirmDelete(${record.id})" class="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition" title="ลบ"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                                </div>
+                                <div class="flex flex-col mb-4"><span class="font-black text-slate-800 text-2xl text-indigo-900">${formatNumber(record.mileage)} <span class="text-sm text-slate-500">กม.</span></span><span class="text-xs font-bold text-white bg-indigo-400 px-3 py-1 rounded-full w-fit mt-2 shadow-sm">${record.date}</span></div>
+                                <div class="flex flex-col gap-3 mb-5">
+                                    <div class="text-sm text-slate-700 flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-100">
+                                        <div class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i> <span class="font-bold">${record.garage}</span></div>
+                                        ${record.cost > 0 ? `<div class="font-black text-green-700 bg-green-100 px-3 py-1 rounded-lg text-sm">฿${formatNumber(record.cost)}</div>` : ''}
+                                    </div>
+                                    ${record.receiptLink ? `<a href="${record.receiptLink}" target="_blank" class="text-sm font-bold text-indigo-600 flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 px-3 py-2 rounded-xl transition w-fit"><i data-lucide="file-check-2" class="w-4 h-4"></i> ดูบิล/ใบเสร็จ</a>` : ''}
+                                </div>
+                    `;
+
+                    if (record.inspection) {
+                        html += `
+                            <div class="mb-5 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-4 shadow-md text-white">
+                                <h5 class="text-xs font-bold text-blue-300 uppercase tracking-wider mb-3 flex items-center gap-2 border-b border-slate-700 pb-2"><i data-lucide="activity" class="w-4 h-4"></i> ข้อมูลตรวจเช็คเชิงลึก</h5>
+                                <div class="grid grid-cols-2 gap-4 text-sm">
+                                    <div><span class="text-slate-400 text-xs block mb-0.5">OBD-II</span><span class="font-bold ${record.inspection.obd && record.inspection.obd !== 'P0000' && !record.inspection.obd.includes('No') ? 'text-red-400' : 'text-white'}">${record.inspection.obd || '-'}</span></div>
+                                    <div><span class="text-slate-400 text-xs block mb-0.5">แบต (V/CCA)</span><span class="font-bold">${record.inspection.batteryV || '-'}V / ${record.inspection.batteryCCA || '-'}</span></div>
+                                    <div><span class="text-slate-400 text-xs block mb-0.5">เบรก (หน้า/หลัง)</span><span class="font-bold text-blue-200">${record.inspection.brakeF || '-'} / ${record.inspection.brakeR || '-'} มม.</span></div>
+                                    <div><span class="text-slate-400 text-xs block mb-0.5">ยาง (หน้า/หลัง)</span><span class="font-bold text-blue-200">${record.inspection.treadF || '-'} / ${record.inspection.treadR || '-'} มม.</span></div>
+                                </div>
+                                ${record.inspection.brandSpecific ? `<div class="mt-3 pt-3 border-t border-slate-700 text-xs text-slate-300"><span class="font-bold text-yellow-400">ผลเฉพาะรุ่น:</span> ${record.inspection.brandSpecific}</div>` : ''}
+                            </div>
+                        `;
+                    }
+
+                    html += `<div class="flex flex-wrap gap-2 mb-4">`;
+                    record.items.forEach(itemId => {
+                        const itemDef = currentModel.intervals.find(i => i.id === itemId);
+                        if(itemDef) html += `<div class="text-xs bg-blue-50 border border-blue-100 px-3 py-1.5 rounded-lg text-blue-800 flex items-center gap-1.5 font-bold"><i data-lucide="check" class="w-3.5 h-3.5 text-blue-500"></i>${itemDef.name}</div>`;
+                    });
+                    html += `</div>`;
+                    
+                    if(record.notes) html += `<div class="text-sm text-slate-600 bg-amber-50 border border-amber-100 p-4 rounded-2xl italic font-medium flex gap-2 items-start"><i data-lucide="message-square" class="w-4 h-4 text-amber-400 shrink-0 mt-0.5"></i>"${record.notes}"</div>`;
+                    
+                    html += `</div></div>`;
+                });
+                html += `</div>`;
+            }
+            html += `</div>`;
+            return html;
+        }
+
+        function renderProfile() {
+            const p = data[activeCar].profile || {};
+            const dateStr = p.purchaseDate ? new Date(p.purchaseDate).toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }) : '-';
+            const taxStr = p.taxDate ? new Date(p.taxDate).toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }) : '-';
+
+            return `
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6">
+                    <div class="flex justify-between items-center mb-8 border-b border-slate-100 pb-4">
+                        <h3 class="text-xl font-extrabold text-slate-800 flex items-center gap-2"><i data-lucide="car" class="text-indigo-500"></i> ข้อมูลพื้นฐานรถยนต์</h3>
+                        <button onclick="openProfileModal()" class="bg-indigo-50 text-indigo-700 px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-indigo-100 transition hover-float"><i data-lucide="edit-3" class="w-4 h-4"></i> แก้ไขข้อมูลรถ</button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4"><div class="bg-indigo-50 p-3 rounded-2xl text-indigo-500"><i data-lucide="hash" class="w-6 h-6"></i></div><div><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">ทะเบียนรถ</p><p class="text-xl font-black text-slate-800">${p.plate || '-'}</p></div></div>
+                            <div class="flex items-start gap-4"><div class="bg-indigo-50 p-3 rounded-2xl text-indigo-500"><i data-lucide="calendar" class="w-6 h-6"></i></div><div><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">วันที่ซื้อ / ออกรถ</p><p class="text-lg font-bold text-slate-800">${dateStr}</p></div></div>
+                            <div class="flex items-start gap-4"><div class="bg-indigo-50 p-3 rounded-2xl text-indigo-500"><i data-lucide="map-pin" class="w-6 h-6"></i></div><div><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">ศูนย์บริการ / ที่ซื้อ</p><p class="text-lg font-bold text-slate-800">${p.purchaseLocation || '-'}</p></div></div>
+                            <div class="flex items-start gap-4"><div class="bg-indigo-50 p-3 rounded-2xl text-indigo-500"><i data-lucide="dollar-sign" class="w-6 h-6"></i></div><div><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">ราคาป้ายแดง</p><p class="text-lg font-black text-slate-800">${p.price ? `฿${formatNumber(p.price)}` : '-'}</p></div></div>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4"><div class="bg-indigo-50 p-3 rounded-2xl text-indigo-500"><i data-lucide="fingerprint" class="w-6 h-6"></i></div><div><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">เลขตัวถัง (VIN)</p><p class="text-sm font-mono font-black text-slate-700 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 inline-block">${p.vin || '-'}</p></div></div>
+                            <div class="flex items-start gap-4"><div class="bg-indigo-50 p-3 rounded-2xl text-indigo-500"><i data-lucide="palette" class="w-6 h-6"></i></div><div><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">สีรถ</p><p class="text-lg font-bold text-slate-800">${p.color || '-'}</p></div></div>
+                            <div class="flex items-start gap-4"><div class="bg-red-50 p-3 rounded-2xl text-red-500"><i data-lucide="calendar-clock" class="w-6 h-6"></i></div><div><p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">วันครบต่อ ภาษี/พ.ร.บ.</p><p class="text-lg font-black text-red-600">${taxStr}</p></div></div>
+                            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-5 rounded-2xl border border-indigo-100 flex items-start gap-4">
+                                <div class="bg-white p-2 rounded-xl text-blue-500 shadow-sm"><i data-lucide="settings" class="w-5 h-5 animate-spin" style="animation-duration: 3s;"></i></div>
+                                <div><p class="text-sm font-extrabold text-blue-900 mb-1">จัดการค่าใช้จ่ายรถ</p><p class="text-xs font-medium text-blue-700/80">คุณสามารถปรับแต่งค่าประกัน, ค่าน้ำมัน, และอื่นๆ ได้ในปุ่มแก้ไขข้อมูลรถด้านบน</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderApp();
+        });
+
+    </script>
+</body>
+</html>
