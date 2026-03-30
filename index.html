@@ -246,6 +246,88 @@
         }
 
         /* ============================================
+           🔴 LIVE APP BUTTON — ปุ่มไฟวิบวับสดใส
+        ============================================ */
+        .btn-live-app {
+            position: relative;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 22px;
+            font-family: 'Prompt', sans-serif;
+            font-weight: 600;
+            font-size: 0.88rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            overflow: hidden;
+            z-index: 1;
+            color: white;
+            /* rainbow gradient สดใส */
+            background: linear-gradient(90deg, #ff416c, #ff4b2b, #f7971e, #ffd200, #21d4fd, #b721ff);
+            background-size: 300% 100%;
+            animation: rainbow-shift 3s linear infinite, glow-pulse 1.5s ease-in-out infinite alternate;
+            box-shadow: 0 0 12px #ff416c, 0 0 24px #ff4b2b, 0 0 6px #ffd200;
+            transition: transform 0.2s ease;
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        @keyframes rainbow-shift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes glow-pulse {
+            0%   { box-shadow: 0 0 8px #ff416c, 0 0 16px #ff4b2b, 0 0 4px #ffd200; }
+            100% { box-shadow: 0 0 18px #b721ff, 0 0 35px #21d4fd, 0 0 12px #ffd200; }
+        }
+
+        .btn-live-app:hover {
+            transform: scale(1.04);
+            color: white;
+            filter: brightness(1.15);
+        }
+
+        /* แสงวิ่งพาดผ่าน */
+        .btn-live-app::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 55%; height: 100%;
+            background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%);
+            transform: skewX(-20deg);
+            animation: live-shine 2s ease-in-out infinite;
+            z-index: 2;
+        }
+
+        @keyframes live-shine {
+            0%   { left: -100%; }
+            40%  { left: 200%; }
+            100% { left: 200%; }
+        }
+
+        /* จุดสีเขียว LIVE indicator */
+        .live-dot {
+            width: 9px;
+            height: 9px;
+            background: #00ff88;
+            border-radius: 50%;
+            display: inline-block;
+            animation: live-blink 1s ease-in-out infinite alternate;
+            box-shadow: 0 0 6px #00ff88;
+            flex-shrink: 0;
+        }
+
+        @keyframes live-blink {
+            0%   { opacity: 1; transform: scale(1); }
+            100% { opacity: 0.3; transform: scale(0.7); }
+        }
+
+        /* ============================================
            🚧 DEMO MODAL STYLES 🚧
         ============================================ */
         .demo-modal-header {
@@ -482,6 +564,15 @@
             </div>
             <div class="card-btn-group">
                 <a href="#" class="btn-sparkle">เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></a>
+
+                <!-- 🔴 ปุ่ม LIVE — เปิด RepairEsti.html โดยตรง -->
+                <a href="RepairEsti.html" class="btn-live-app">
+                    <span class="live-dot"></span>
+                    <i class="fa-solid fa-car-burst"></i>
+                    App ดูแลรถยนต์
+                    <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.75rem;opacity:0.85;"></i>
+                </a>
+
                 <button class="btn-demo" onclick='openDemoModal({
                     title: "3. ยานยนต์",
                     icon: "fa-car-side",
@@ -490,7 +581,7 @@
                     apps: [
                         { icon: "fa-gas-pump", emoji: "⛽", name: "Fuel Tracker Pro", desc: "บันทึกการเติมน้ำมัน คำนวณอัตราสิ้นเปลือง", bg: "#ef4444" },
                         { icon: "fa-route", emoji: "🗺️", name: "Route Planner", desc: "วางแผนเส้นทาง คำนวณระยะทางและเวลา", bg: "#f87171" },
-                        { icon: "fa-screwdriver-wrench", emoji: "🔧", name: "Repair Estimator", desc: "ประเมินค่าซ่อม บันทึกประวัติการซ่อมบำรุง", bg: "#dc2626" }
+                        { icon: "fa-screwdriver-wrench", emoji: "🔧", name: "App ดูแลรถยนต์", desc: "ดูแลและซ่อมบำรุงรถยนต์ครบวงจร — เชื่อมแล้ว!", bg: "#dc2626" }
                     ]
                 })'>
                     <span class="demo-badge">DEMO</span>
