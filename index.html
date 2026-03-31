@@ -414,6 +414,37 @@
             50% { box-shadow: 0 0 0 5px rgba(245, 158, 11, 0); }
         }
 
+        /* ปุ่ม LIVE ใน Modal */
+        .live-open-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: linear-gradient(90deg, #ff416c, #ff4b2b, #ffd200, #21d4fd, #b721ff);
+            background-size: 300% 100%;
+            animation: rainbow-shift 3s linear infinite;
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 700;
+            font-family: 'Prompt', sans-serif;
+            padding: 5px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            box-shadow: 0 0 8px rgba(255,65,108,0.5);
+        }
+
+        @keyframes live-card-glow {
+            0%   { box-shadow: 0 0 0 0 rgba(255,65,108,0); }
+            50%  { box-shadow: 0 0 12px 2px rgba(33,212,253,0.3); }
+            100% { box-shadow: 0 0 0 0 rgba(183,33,255,0); }
+        }
+
+        .demo-app-live:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12) !important;
+        }
+
         .demo-modal-notice {
             background: #fef3c7;
             border: 1px dashed #f59e0b;
@@ -524,26 +555,20 @@
                 <h4 class="card-title">1. ความรู้ (Knowledge)</h4>
                 <p class="text-muted small mt-2">คลังความรู้ บทความ วิชาการ และเอกสารอ้างอิงที่เป็นประโยชน์</p>
             </div>
-            <div class="card-btn-group">
-                <a href="#" class="btn-sparkle">เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                <button class="btn-demo" onclick='openDemoModal({
-                    title: "1. ความรู้ (Knowledge)",
-                    icon: "fa-book-open-reader",
-                    gradient: "linear-gradient(45deg, #f97316, #fb923c)",
-                    color: "#f97316",
-                    apps: [
-                        { icon: "fa-notes-medical", emoji: "📝", name: "Smart Note Pro", desc: "จดโน้ตอัจฉริยะ จัดหมวดหมู่อัตโนมัติ", bg: "#f97316" },
-                        { icon: "fa-brain", emoji: "🧠", name: "Quiz Master", desc: "ทดสอบความรู้ ระบบ Spaced Repetition", bg: "#fb923c" },
-                        { icon: "fa-book-bookmark", emoji: "📚", name: "Reading Tracker", desc: "ติดตามการอ่าน วิเคราะห์ความก้าวหน้า", bg: "#ea580c" }
-                    ]
-                })'>
-                    <span class="demo-badge">DEMO</span>
-                    🚧 แอปที่กำลังเตรียม
-                </button>
-            </div>
+            <button class="btn-sparkle w-100" onclick='openDemoModal({
+                title: "1. ความรู้ (Knowledge)",
+                icon: "fa-book-open-reader",
+                gradient: "linear-gradient(45deg, #f97316, #fb923c)",
+                color: "#f97316",
+                apps: [
+                    { icon: "fa-notes-medical", emoji: "📝", name: "Smart Note Pro", desc: "จดโน้ตอัจฉริยะ จัดหมวดหมู่อัตโนมัติ", bg: "#f97316" },
+                    { icon: "fa-brain", emoji: "🧠", name: "Quiz Master", desc: "ทดสอบความรู้ ระบบ Spaced Repetition", bg: "#fb923c" },
+                    { icon: "fa-book-bookmark", emoji: "📚", name: "Reading Tracker", desc: "ติดตามการอ่าน วิเคราะห์ความก้าวหน้า", bg: "#ea580c" }
+                ]
+            })'>เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></button>
         </div>
 
-        <!-- 2. เรียนภาษา (Purple) — ไม่มีปุ่ม DEMO ตามคำสั่ง -->
+        <!-- 2. เรียนภาษา (Purple) — เปิด langModal -->
         <div class="category-card" style="--theme-color: #a855f7; --theme-gradient: linear-gradient(45deg, #a855f7, #c084fc);">
             <div>
                 <div class="icon-box"><i class="fa-solid fa-language"></i></div>
@@ -555,39 +580,24 @@
             </button>
         </div>
 
-        <!-- 3. ยานยนต์ (Red) -->
+        <!-- 3. ยานยนต์ (Red) — มี App ดูแลรถยนต์ LIVE -->
         <div class="category-card" style="--theme-color: #ef4444; --theme-gradient: linear-gradient(45deg, #ef4444, #f87171);">
             <div>
                 <div class="icon-box"><i class="fa-solid fa-car-side"></i></div>
                 <h4 class="card-title">3. ยานยนต์</h4>
                 <p class="text-muted small mt-2">ข้อมูลรถยนต์ การดูแลรักษา และเทคโนโลยียานยนต์</p>
             </div>
-            <div class="card-btn-group">
-                <a href="#" class="btn-sparkle">เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></a>
-
-                <!-- 🔴 ปุ่ม LIVE — เปิด RepairEsti.html โดยตรง -->
-                <a href="RepairEsti.html" class="btn-live-app">
-                    <span class="live-dot"></span>
-                    <i class="fa-solid fa-car-burst"></i>
-                    App ดูแลรถยนต์
-                    <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.75rem;opacity:0.85;"></i>
-                </a>
-
-                <button class="btn-demo" onclick='openDemoModal({
-                    title: "3. ยานยนต์",
-                    icon: "fa-car-side",
-                    gradient: "linear-gradient(45deg, #ef4444, #f87171)",
-                    color: "#ef4444",
-                    apps: [
-                        { icon: "fa-gas-pump", emoji: "⛽", name: "Fuel Tracker Pro", desc: "บันทึกการเติมน้ำมัน คำนวณอัตราสิ้นเปลือง", bg: "#ef4444" },
-                        { icon: "fa-route", emoji: "🗺️", name: "Route Planner", desc: "วางแผนเส้นทาง คำนวณระยะทางและเวลา", bg: "#f87171" },
-                        { icon: "fa-screwdriver-wrench", emoji: "🔧", name: "App ดูแลรถยนต์", desc: "ดูแลและซ่อมบำรุงรถยนต์ครบวงจร — เชื่อมแล้ว!", bg: "#dc2626" }
-                    ]
-                })'>
-                    <span class="demo-badge">DEMO</span>
-                    🚧 แอปที่กำลังเตรียม
-                </button>
-            </div>
+            <button class="btn-sparkle w-100" onclick='openDemoModal({
+                title: "3. ยานยนต์",
+                icon: "fa-car-side",
+                gradient: "linear-gradient(45deg, #ef4444, #f87171)",
+                color: "#ef4444",
+                apps: [
+                    { icon: "fa-car-burst", emoji: "🚗", name: "App ดูแลรถยนต์", desc: "ดูแลและซ่อมบำรุงรถยนต์ครบวงจร", bg: "#dc2626", live: true, link: "RepairEsti.html" },
+                    { icon: "fa-gas-pump", emoji: "⛽", name: "Fuel Tracker Pro", desc: "บันทึกการเติมน้ำมัน คำนวณอัตราสิ้นเปลือง", bg: "#ef4444" },
+                    { icon: "fa-route", emoji: "🗺️", name: "Route Planner", desc: "วางแผนเส้นทาง คำนวณระยะทางและเวลา", bg: "#f87171" }
+                ]
+            })'>เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></button>
         </div>
 
         <!-- 4. แต่งเพลง (Pink) -->
@@ -597,23 +607,17 @@
                 <h4 class="card-title">4. แต่งเพลง</h4>
                 <p class="text-muted small mt-2">โปรแกรมช่วยแต่งเพลง บันทึกคอร์ด และระบบจัดการไอเดียทางดนตรี</p>
             </div>
-            <div class="card-btn-group">
-                <a href="#" class="btn-sparkle">เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                <button class="btn-demo" onclick='openDemoModal({
-                    title: "4. แต่งเพลง",
-                    icon: "fa-music",
-                    gradient: "linear-gradient(45deg, #ec4899, #f472b6)",
-                    color: "#ec4899",
-                    apps: [
-                        { icon: "fa-guitar", emoji: "🎸", name: "Chord Finder", desc: "ค้นหาและบันทึกคอร์ดกีตาร์ทุกคีย์", bg: "#ec4899" },
-                        { icon: "fa-pen-nib", emoji: "✍️", name: "Lyrics Writer", desc: "ช่วยเขียนเนื้อเพลง จัดเก็บไอเดียดนตรี", bg: "#f472b6" },
-                        { icon: "fa-drum", emoji: "🥁", name: "Beat Maker", desc: "สร้างจังหวะ แต่งท่วงทำนองเบื้องต้น", bg: "#db2777" }
-                    ]
-                })'>
-                    <span class="demo-badge">DEMO</span>
-                    🚧 แอปที่กำลังเตรียม
-                </button>
-            </div>
+            <button class="btn-sparkle w-100" onclick='openDemoModal({
+                title: "4. แต่งเพลง",
+                icon: "fa-music",
+                gradient: "linear-gradient(45deg, #ec4899, #f472b6)",
+                color: "#ec4899",
+                apps: [
+                    { icon: "fa-guitar", emoji: "🎸", name: "Chord Finder", desc: "ค้นหาและบันทึกคอร์ดกีตาร์ทุกคีย์", bg: "#ec4899" },
+                    { icon: "fa-pen-nib", emoji: "✍️", name: "Lyrics Writer", desc: "ช่วยเขียนเนื้อเพลง จัดเก็บไอเดียดนตรี", bg: "#f472b6" },
+                    { icon: "fa-drum", emoji: "🥁", name: "Beat Maker", desc: "สร้างจังหวะ แต่งท่วงทำนองเบื้องต้น", bg: "#db2777" }
+                ]
+            })'>เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></button>
         </div>
 
         <!-- 5. ภาพยนตร์ (Cyan) -->
@@ -623,23 +627,17 @@
                 <h4 class="card-title">5. ภาพยนตร์</h4>
                 <p class="text-muted small mt-2">รีวิวภาพยนตร์ รายการโปรด และระบบจัดเก็บคลังหนังส่วนตัว</p>
             </div>
-            <div class="card-btn-group">
-                <a href="#" class="btn-sparkle">เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                <button class="btn-demo" onclick='openDemoModal({
-                    title: "5. ภาพยนตร์",
-                    icon: "fa-film",
-                    gradient: "linear-gradient(45deg, #06b6d4, #22d3ee)",
-                    color: "#06b6d4",
-                    apps: [
-                        { icon: "fa-star", emoji: "⭐", name: "Movie Diary", desc: "บันทึกหนังที่ดูพร้อมคะแนนและความรู้สึก", bg: "#06b6d4" },
-                        { icon: "fa-list-check", emoji: "📋", name: "Watch List", desc: "จัดการรายการหนังที่อยากดู แบ่งตามหมวด", bg: "#22d3ee" },
-                        { icon: "fa-wand-magic-sparkles", emoji: "🎬", name: "Movie Match AI", desc: "แนะนำหนังตามรสนิยมและอารมณ์วันนี้", bg: "#0891b2" }
-                    ]
-                })'>
-                    <span class="demo-badge">DEMO</span>
-                    🚧 แอปที่กำลังเตรียม
-                </button>
-            </div>
+            <button class="btn-sparkle w-100" onclick='openDemoModal({
+                title: "5. ภาพยนตร์",
+                icon: "fa-film",
+                gradient: "linear-gradient(45deg, #06b6d4, #22d3ee)",
+                color: "#06b6d4",
+                apps: [
+                    { icon: "fa-star", emoji: "⭐", name: "Movie Diary", desc: "บันทึกหนังที่ดูพร้อมคะแนนและความรู้สึก", bg: "#06b6d4" },
+                    { icon: "fa-list-check", emoji: "📋", name: "Watch List", desc: "จัดการรายการหนังที่อยากดู แบ่งตามหมวด", bg: "#22d3ee" },
+                    { icon: "fa-wand-magic-sparkles", emoji: "🎬", name: "Movie Match AI", desc: "แนะนำหนังตามรสนิยมและอารมณ์วันนี้", bg: "#0891b2" }
+                ]
+            })'>เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></button>
         </div>
 
         <!-- 6. เกมส์ (Green) -->
@@ -649,23 +647,17 @@
                 <h4 class="card-title">6. เกมส์</h4>
                 <p class="text-muted small mt-2">แหล่งรวมมินิเกมส์เพื่อความบันเทิง และบอร์ดเกมส์ประยุกต์</p>
             </div>
-            <div class="card-btn-group">
-                <a href="#" class="btn-sparkle">เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                <button class="btn-demo" onclick='openDemoModal({
-                    title: "6. เกมส์",
-                    icon: "fa-gamepad",
-                    gradient: "linear-gradient(45deg, #10b981, #34d399)",
-                    color: "#10b981",
-                    apps: [
-                        { icon: "fa-circle-question", emoji: "❓", name: "Quiz Game", desc: "เกมตอบคำถามความรู้ทั่วไป หลายระดับ", bg: "#10b981" },
-                        { icon: "fa-table-cells", emoji: "🃏", name: "Memory Card", desc: "เกมจับคู่ภาพ ฝึกความจำและสมาธิ", bg: "#34d399" },
-                        { icon: "fa-puzzle-piece", emoji: "🧩", name: "Word Puzzle", desc: "ปริศนาคำศัพท์ ทายคำ ฝึกภาษา", bg: "#059669" }
-                    ]
-                })'>
-                    <span class="demo-badge">DEMO</span>
-                    🚧 แอปที่กำลังเตรียม
-                </button>
-            </div>
+            <button class="btn-sparkle w-100" onclick='openDemoModal({
+                title: "6. เกมส์",
+                icon: "fa-gamepad",
+                gradient: "linear-gradient(45deg, #10b981, #34d399)",
+                color: "#10b981",
+                apps: [
+                    { icon: "fa-circle-question", emoji: "❓", name: "Quiz Game", desc: "เกมตอบคำถามความรู้ทั่วไป หลายระดับ", bg: "#10b981" },
+                    { icon: "fa-table-cells", emoji: "🃏", name: "Memory Card", desc: "เกมจับคู่ภาพ ฝึกความจำและสมาธิ", bg: "#34d399" },
+                    { icon: "fa-puzzle-piece", emoji: "🧩", name: "Word Puzzle", desc: "ปริศนาคำศัพท์ ทายคำ ฝึกภาษา", bg: "#059669" }
+                ]
+            })'>เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></button>
         </div>
 
         <!-- 7. Utility (Slate/Gray) -->
@@ -675,23 +667,17 @@
                 <h4 class="card-title">7. Utility</h4>
                 <p class="text-muted small mt-2">เครื่องมือจิปาถะ โปรแกรมคำนวณ และระบบช่วยเหลือการทำงาน</p>
             </div>
-            <div class="card-btn-group">
-                <a href="#" class="btn-sparkle">เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                <button class="btn-demo" onclick='openDemoModal({
-                    title: "7. Utility",
-                    icon: "fa-screwdriver-wrench",
-                    gradient: "linear-gradient(45deg, #64748b, #94a3b8)",
-                    color: "#64748b",
-                    apps: [
-                        { icon: "fa-ruler-combined", emoji: "📐", name: "Unit Converter", desc: "แปลงหน่วยครบวงจร น้ำหนัก ระยะทาง อุณหภูมิ", bg: "#64748b" },
-                        { icon: "fa-key", emoji: "🔑", name: "Password Generator", desc: "สร้างรหัสผ่านแข็งแกร่ง ปลอดภัยสูงสุด", bg: "#94a3b8" },
-                        { icon: "fa-qrcode", emoji: "📱", name: "QR Code Generator", desc: "สร้าง QR Code จาก URL ข้อความ หรือข้อมูลใดๆ", bg: "#475569" }
-                    ]
-                })'>
-                    <span class="demo-badge">DEMO</span>
-                    🚧 แอปที่กำลังเตรียม
-                </button>
-            </div>
+            <button class="btn-sparkle w-100" onclick='openDemoModal({
+                title: "7. Utility",
+                icon: "fa-screwdriver-wrench",
+                gradient: "linear-gradient(45deg, #64748b, #94a3b8)",
+                color: "#64748b",
+                apps: [
+                    { icon: "fa-ruler-combined", emoji: "📐", name: "Unit Converter", desc: "แปลงหน่วยครบวงจร น้ำหนัก ระยะทาง อุณหภูมิ", bg: "#64748b" },
+                    { icon: "fa-key", emoji: "🔑", name: "Password Generator", desc: "สร้างรหัสผ่านแข็งแกร่ง ปลอดภัยสูงสุด", bg: "#94a3b8" },
+                    { icon: "fa-qrcode", emoji: "📱", name: "QR Code Generator", desc: "สร้าง QR Code จาก URL ข้อความ หรือข้อมูลใดๆ", bg: "#475569" }
+                ]
+            })'>เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></button>
         </div>
 
         <!-- 8. Healthy (Lime/Mint) -->
@@ -701,23 +687,17 @@
                 <h4 class="card-title">8. Healthy</h4>
                 <p class="text-muted small mt-2">แอปพลิเคชันดูแลสุขภาพ บันทึกการออกกำลังกาย และโภชนาการ</p>
             </div>
-            <div class="card-btn-group">
-                <a href="#" class="btn-sparkle">เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                <button class="btn-demo" onclick='openDemoModal({
-                    title: "8. Healthy",
-                    icon: "fa-heart-circle-check",
-                    gradient: "linear-gradient(45deg, #84cc16, #a3e635)",
-                    color: "#84cc16",
-                    apps: [
-                        { icon: "fa-weight-scale", emoji: "⚖️", name: "BMI Tracker", desc: "ติดตามน้ำหนัก BMI และเป้าหมายสุขภาพ", bg: "#84cc16" },
-                        { icon: "fa-droplet", emoji: "💧", name: "Water Reminder", desc: "แจ้งเตือนดื่มน้ำ บันทึกปริมาณน้ำต่อวัน", bg: "#a3e635" },
-                        { icon: "fa-person-running", emoji: "🏃", name: "Exercise Log", desc: "บันทึกการออกกำลังกาย วิเคราะห์แคลอรี่", bg: "#65a30d" }
-                    ]
-                })'>
-                    <span class="demo-badge">DEMO</span>
-                    🚧 แอปที่กำลังเตรียม
-                </button>
-            </div>
+            <button class="btn-sparkle w-100" onclick='openDemoModal({
+                title: "8. Healthy",
+                icon: "fa-heart-circle-check",
+                gradient: "linear-gradient(45deg, #84cc16, #a3e635)",
+                color: "#84cc16",
+                apps: [
+                    { icon: "fa-weight-scale", emoji: "⚖️", name: "BMI Tracker", desc: "ติดตามน้ำหนัก BMI และเป้าหมายสุขภาพ", bg: "#84cc16" },
+                    { icon: "fa-droplet", emoji: "💧", name: "Water Reminder", desc: "แจ้งเตือนดื่มน้ำ บันทึกปริมาณน้ำต่อวัน", bg: "#a3e635" },
+                    { icon: "fa-person-running", emoji: "🏃", name: "Exercise Log", desc: "บันทึกการออกกำลังกาย วิเคราะห์แคลอรี่", bg: "#65a30d" }
+                ]
+            })'>เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></button>
         </div>
 
         <!-- 9. Beauty (Rose) -->
@@ -727,23 +707,17 @@
                 <h4 class="card-title">9. Beauty</h4>
                 <p class="text-muted small mt-2">เคล็ดลับความงาม การดูแลผิวพรรณ และผลิตภัณฑ์สุขภาพ</p>
             </div>
-            <div class="card-btn-group">
-                <a href="#" class="btn-sparkle">เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                <button class="btn-demo" onclick='openDemoModal({
-                    title: "9. Beauty",
-                    icon: "fa-spa",
-                    gradient: "linear-gradient(45deg, #f43f5e, #fb7185)",
-                    color: "#f43f5e",
-                    apps: [
-                        { icon: "fa-face-smile-beam", emoji: "🧴", name: "Skincare Planner", desc: "วางแผน Skincare Routine เช้า-เย็น", bg: "#f43f5e" },
-                        { icon: "fa-paintbrush", emoji: "💄", name: "Makeup Tracker", desc: "บันทึก Look ที่ใช้ จัดการคลังเครื่องสำอาง", bg: "#fb7185" },
-                        { icon: "fa-star-half-stroke", emoji: "⭐", name: "Product Review", desc: "รีวิวและให้คะแนนผลิตภัณฑ์ความงาม", bg: "#e11d48" }
-                    ]
-                })'>
-                    <span class="demo-badge">DEMO</span>
-                    🚧 แอปที่กำลังเตรียม
-                </button>
-            </div>
+            <button class="btn-sparkle w-100" onclick='openDemoModal({
+                title: "9. Beauty",
+                icon: "fa-spa",
+                gradient: "linear-gradient(45deg, #f43f5e, #fb7185)",
+                color: "#f43f5e",
+                apps: [
+                    { icon: "fa-face-smile-beam", emoji: "🧴", name: "Skincare Planner", desc: "วางแผน Skincare Routine เช้า-เย็น", bg: "#f43f5e" },
+                    { icon: "fa-paintbrush", emoji: "💄", name: "Makeup Tracker", desc: "บันทึก Look ที่ใช้ จัดการคลังเครื่องสำอาง", bg: "#fb7185" },
+                    { icon: "fa-star-half-stroke", emoji: "⭐", name: "Product Review", desc: "รีวิวและให้คะแนนผลิตภัณฑ์ความงาม", bg: "#e11d48" }
+                ]
+            })'>เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></button>
         </div>
 
         <!-- 10. ดวงและพยากรณ์ (Indigo) -->
@@ -753,23 +727,17 @@
                 <h4 class="card-title">10. ดวงและพยากรณ์</h4>
                 <p class="text-muted small mt-2">โปรแกรมคำนวณสถิติ เช็คดวงชะตา และศาสตร์พยากรณ์ต่างๆ</p>
             </div>
-            <div class="card-btn-group">
-                <a href="#" class="btn-sparkle">เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></a>
-                <button class="btn-demo" onclick='openDemoModal({
-                    title: "10. ดวงและพยากรณ์",
-                    icon: "fa-star-and-crescent",
-                    gradient: "linear-gradient(45deg, #4f46e5, #818cf8)",
-                    color: "#4f46e5",
-                    apps: [
-                        { icon: "fa-circle-nodes", emoji: "🌟", name: "Birth Chart Calc", desc: "คำนวณดวงชาตา แผนที่ดาวตามวันเกิด", bg: "#4f46e5" },
-                        { icon: "fa-dice", emoji: "🔢", name: "Lucky Number", desc: "หาเลขนำโชคจากเลขวันเกิดและชื่อ", bg: "#818cf8" },
-                        { icon: "fa-moon", emoji: "🔯", name: "Daily Horoscope", desc: "เช็คดวงรายวัน 12 ราศี พยากรณ์ชีวิต", bg: "#3730a3" }
-                    ]
-                })'>
-                    <span class="demo-badge">DEMO</span>
-                    🚧 แอปที่กำลังเตรียม
-                </button>
-            </div>
+            <button class="btn-sparkle w-100" onclick='openDemoModal({
+                title: "10. ดวงและพยากรณ์",
+                icon: "fa-star-and-crescent",
+                gradient: "linear-gradient(45deg, #4f46e5, #818cf8)",
+                color: "#4f46e5",
+                apps: [
+                    { icon: "fa-circle-nodes", emoji: "🌟", name: "Birth Chart Calc", desc: "คำนวณดวงชาตา แผนที่ดาวตามวันเกิด", bg: "#4f46e5" },
+                    { icon: "fa-dice", emoji: "🔢", name: "Lucky Number", desc: "หาเลขนำโชคจากเลขวันเกิดและชื่อ", bg: "#818cf8" },
+                    { icon: "fa-moon", emoji: "🔯", name: "Daily Horoscope", desc: "เช็คดวงรายวัน 12 ราศี พยากรณ์ชีวิต", bg: "#3730a3" }
+                ]
+            })'>เข้าสู่หมวดหมู่ <i class="fa-solid fa-arrow-right ms-1"></i></button>
         </div>
 
     </div>
@@ -899,32 +867,67 @@
         container.innerHTML = '';
 
         config.apps.forEach(function(app, index) {
-            const card = document.createElement('div');
-            card.className = 'demo-app-card';
-            card.style.setProperty('--app-color', app.bg);
+            // --- แอป LIVE (มีลิงก์เชื่อม) ---
+            if (app.live && app.link) {
+                const liveCard = document.createElement('a');
+                liveCard.href = app.link;
+                liveCard.className = 'demo-app-card demo-app-live text-decoration-none';
+                liveCard.style.setProperty('--app-color', app.bg);
+                liveCard.style.border = '2px solid transparent';
+                liveCard.style.background = 'white';
+                liveCard.innerHTML = `
+                    <div class="demo-app-icon" style="background: linear-gradient(135deg, ${app.bg}, ${adjustColor(app.bg)});">
+                        <i class="fa-solid ${app.icon}"></i>
+                    </div>
+                    <div class="demo-app-info">
+                        <div class="demo-app-name" style="color:#1e293b;">${app.emoji} ${app.name}</div>
+                        <p class="demo-app-desc">${app.desc}</p>
+                    </div>
+                    <span class="live-open-badge">
+                        <span class="live-dot" style="width:8px;height:8px;display:inline-block;"></span>
+                        เปิดแอป <i class="fa-solid fa-arrow-up-right-from-square ms-1" style="font-size:0.7rem;"></i>
+                    </span>
+                `;
+                // rainbow border animation
+                liveCard.style.cssText += `
+                    background: linear-gradient(white, white) padding-box,
+                    linear-gradient(90deg, #ff416c, #ff4b2b, #ffd200, #21d4fd, #b721ff) border-box;
+                    border: 2px solid transparent;
+                    animation: live-card-glow 3s linear infinite;
+                `;
+                liveCard.style.opacity = '0';
+                liveCard.style.transform = 'translateY(10px)';
+                liveCard.style.transition = `all 0.3s ease ${index * 0.08}s`;
+                container.appendChild(liveCard);
+                setTimeout(function() {
+                    liveCard.style.opacity = '1';
+                    liveCard.style.transform = 'translateY(0)';
+                }, 50 + index * 80);
 
-            card.innerHTML = `
-                <div class="demo-app-icon" style="background: linear-gradient(135deg, ${app.bg}, ${adjustColor(app.bg)});">
-                    <i class="fa-solid ${app.icon}"></i>
-                </div>
-                <div class="demo-app-info">
-                    <div class="demo-app-name">${app.emoji} ${app.name}</div>
-                    <p class="demo-app-desc">${app.desc}</p>
-                </div>
-                <span class="coming-soon-badge">🚧 COMING SOON</span>
-            `;
-
-            // เพิ่ม animation delay ทีละอัน
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(10px)';
-            card.style.transition = `all 0.3s ease ${index * 0.08}s`;
-            container.appendChild(card);
-
-            // Trigger animation
-            setTimeout(function() {
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, 50 + index * 80);
+            } else {
+                // --- แอป COMING SOON ปกติ ---
+                const card = document.createElement('div');
+                card.className = 'demo-app-card';
+                card.style.setProperty('--app-color', app.bg);
+                card.innerHTML = `
+                    <div class="demo-app-icon" style="background: linear-gradient(135deg, ${app.bg}, ${adjustColor(app.bg)});">
+                        <i class="fa-solid ${app.icon}"></i>
+                    </div>
+                    <div class="demo-app-info">
+                        <div class="demo-app-name">${app.emoji} ${app.name}</div>
+                        <p class="demo-app-desc">${app.desc}</p>
+                    </div>
+                    <span class="coming-soon-badge">🚧 COMING SOON</span>
+                `;
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(10px)';
+                card.style.transition = `all 0.3s ease ${index * 0.08}s`;
+                container.appendChild(card);
+                setTimeout(function() {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 50 + index * 80);
+            }
         });
 
         // เปิด Modal
