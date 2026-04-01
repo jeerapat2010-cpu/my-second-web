@@ -17,19 +17,12 @@
     <style>
         body {
             font-family: 'Kanit', sans-serif;
-            /* เพิ่มพื้นหลังลายน่ารักๆ แบบจางๆ */
             background-image: radial-gradient(#e0e7ff 1px, transparent 1px);
             background-size: 20px 20px;
         }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* 🚗 อนิเมชันรถดุ๊กดิ๊ก */
         @keyframes wiggle {
             0% { transform: rotate(-5deg) translateY(0); }
             25% { transform: rotate(5deg) translateY(-4px); }
@@ -37,39 +30,31 @@
             75% { transform: rotate(5deg) translateY(-2px); }
             100% { transform: rotate(-5deg) translateY(0); }
         }
-        .animate-car-wiggle {
-            animation: wiggle 1.2s infinite ease-in-out;
-            display: inline-block;
-        }
-        
-        /* อนิเมชันลอยเบาๆ สำหรับการ์ด */
-        .hover-float:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-        }
+        .animate-car-wiggle { animation: wiggle 1.2s infinite ease-in-out; display: inline-block; }
+        .hover-float:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
 <body class="bg-indigo-50/50 text-slate-800 pb-10 min-h-screen">
 
-    <!-- Navbar: เปลี่ยนเป็นสีสันสดใส -->
+    <!-- Navbar -->
     <nav class="bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600 text-white p-4 shadow-xl sticky top-0 z-40 border-b-4 border-yellow-400">
         <div class="max-w-5xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <!-- ไอคอนรถดุ๊กดิ๊ก -->
                 <div class="animate-car-wiggle bg-white/20 p-2.5 rounded-full shadow-inner border border-white/30 backdrop-blur-sm">
                     <i data-lucide="car-front" class="text-yellow-300 w-8 h-8 drop-shadow-md"></i>
                 </div>
                 <h1 class="text-2xl font-extrabold tracking-wide drop-shadow-sm">Garage Pro <span class="text-yellow-300">✨</span></h1>
             </div>
+            <div id="save-status" class="text-xs font-medium bg-white/20 px-2 py-1 rounded backdrop-blur-sm hidden transition-opacity">
+                <i data-lucide="check-circle" class="inline w-3 h-3"></i> บันทึกลงเครื่องแล้ว
+            </div>
         </div>
     </nav>
 
-    <!-- Main Content Application -->
-    <main class="max-w-5xl mx-auto p-4 md:p-6" id="app-root">
-        <!-- Injected via JavaScript -->
-    </main>
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto p-4 md:p-6" id="app-root"></main>
 
-    <!-- Modals Container -->
+    <!-- Modals -->
     <div id="modals-container"></div>
 
     <script>
@@ -84,7 +69,7 @@
         const CAR_MODELS = {
             ford: {
                 id: 'ford', name: 'Ford EcoSport (1.5L)', plate: 'กท 1234', ageYears: 11, 
-                color: 'bg-gradient-to-br from-blue-500 to-blue-700', // ปรับเป็น Gradient
+                color: 'bg-gradient-to-br from-blue-500 to-blue-700',
                 driveLink: 'https://drive.google.com/drive/folders/18kvuElOswUZf1cpAG0IcOmvbpKMhYde8?usp=sharing',
                 intervals: [
                     { id: 'engine_oil', name: 'น้ำมันเครื่อง + กรอง', interval: 10000, type: 'fluid', estCost: 1500, category: 'fluid' },
@@ -121,7 +106,7 @@
             },
             nissan: {
                 id: 'nissan', name: 'Nissan Sylphy (1.6/1.8)', plate: 'ขข 9876', ageYears: 7, 
-                color: 'bg-gradient-to-br from-red-500 to-rose-700', // ปรับเป็น Gradient
+                color: 'bg-gradient-to-br from-red-500 to-rose-700',
                 driveLink: 'https://drive.google.com/drive/folders/1PVluZuwpdu7dpapoEtJvYFugvea8HQTz?usp=sharing',
                 intervals: [
                     { id: 'engine_oil', name: 'น้ำมันเครื่อง + กรอง', interval: 10000, type: 'fluid', estCost: 1200, category: 'fluid' },
@@ -138,9 +123,11 @@
                     { id: 'throttle_body', name: 'ล้างลิ้นปีกผีเสื้อ/ตั้งรอบ', interval: 40000, type: 'part', estCost: 600, category: 'engine' },
                     { id: 'brake_pads_f', name: 'เปลี่ยนผ้าเบรกหน้า', interval: 50000, type: 'part', estCost: 1600, category: 'suspension' },
                     { id: 'brake_pads_r', name: 'เปลี่ยนผ้าเบรกหลัง', interval: 50000, type: 'part', estCost: 1400, category: 'suspension' },
+                    { id: 'brake_rotors', name: 'เจียร/เปลี่ยน จานเบรก', interval: 100000, type: 'part', estCost: 2500, category: 'suspension' },
                     { id: 'tires', name: 'เปลี่ยนยางรถยนต์ 4 เส้น', interval: 50000, type: 'part', estCost: 10000, category: 'suspension' },
                     { id: 'suspension', name: 'ชุดโช้คอัพ & ลูกหมาก', interval: 80000, type: 'part', estCost: 10000, category: 'suspension' },
                     { id: 'steering_rack', name: 'แร็คพวงมาลัย/ยอย', interval: 120000, type: 'part', estCost: 8500, category: 'suspension' },
+                    { id: 'wheel_bearing', name: 'ลูกปืนล้อ หน้า/หลัง', interval: 100000, type: 'part', estCost: 3000, category: 'suspension' },
                     { id: 'battery', name: 'แบตเตอรี่รถยนต์', interval: 40000, type: 'electric', estCost: 2200, category: 'electrical' },
                     { id: 'fan_motor', name: 'พัดลมไฟฟ้าหม้อน้ำ', interval: 80000, type: 'critical', estCost: 3500, category: 'electrical' },
                     { id: 'ac_compressor', name: 'คอมแอร์/ล้างตู้แอร์', interval: 150000, type: 'electric', estCost: 7500, category: 'electrical' },
@@ -155,50 +142,99 @@
             }
         };
 
-        // Data
-        let data = {
+        // --- IMPORTED REAL DATA FROM PDF ---
+        const INITIAL_DATA = {
             ford: {
-                mileage: 145000,
+                mileage: 185000,
                 profile: {
-                    plate: 'กท 1234 กรุงเทพมหานคร', purchaseDate: '2015-05-10', purchaseLocation: 'ศูนย์ Ford พระราม 2',
+                    plate: 'กท 1234 กรุงเทพมหานคร', purchaseDate: '2015-01-10', purchaseLocation: 'ศูนย์ Ford',
                     price: '759000', currentValue: '160000', 
                     insuranceYearly: '12000', taxYearly: '1800',
                     fuelMonthly: '3500', tollsMonthly: '500', parkingMonthly: '0', washMonthly: '400',
-                    accessoriesTotal: '15000', finesTotal: '1000',
+                    accessoriesTotal: '45700', finesTotal: '0', 
                     vin: 'MNBXX1234567890FD', color: 'สีแดง (Mars Red)', taxDate: '2026-05-10',
                 },
                 history: [
-                    { 
-                        id: 1, date: '2023-11-10', mileage: 140000, garage: 'ศูนย์ Ford', items: ['engine_oil', 'battery', 'tcm_check'], 
-                        notes: 'เปลี่ยนแบตใหม่ลูกที่ 4, เช็คคลัตช์ยังปกติ', receiptLink: '', cost: 4800,
-                        inspection: { obd: 'No DTCs', batteryV: '12.6', batteryCCA: '550', brakeF: '8', brakeR: '6', treadF: '5.5', treadR: '6.0', brandSpecific: 'TCM Learn: Completed' }
-                    },
-                    { 
-                        id: 2, date: '2022-05-15', mileage: 120000, garage: 'อู่นอก', items: ['trans_fluid', 'suspension', 'tires'], 
-                        notes: 'เปลี่ยนโช้คอัพ 4 ต้น, ยางชุดใหม่', receiptLink: '', cost: 24500, inspection: null
-                    }
-                ]
+                    { id: 101, date: '2015-03-28', mileage: 10000, garage: 'ศูนย์บริการ', items: ['cabin_filter'], notes: 'เปลี่ยนกรองอากาศตู้แอร์และตะกั่วถ่วงล้อ', cost: 471 },
+                    { id: 102, date: '2018-05-05', mileage: 75000, garage: 'อู่นอก', items: ['tires', 'wiper_blades'], notes: 'เปลี่ยนยางรถยนต์ 3 เส้น, รีซิสเตอร์พัดลม, ใบปัดน้ำฝน', cost: 16098 },
+                    { id: 103, date: '2019-05-03', mileage: 90000, garage: 'ศูนย์บริการ', items: ['engine_oil', 'air_filter'], notes: 'เช็คระยะ 90,000 กม.', cost: 5650 },
+                    { id: 104, date: '2019-05-11', mileage: 91000, garage: 'อู่นอก', items: ['suspension'], notes: 'เปลี่ยนหม้อน้ำ และโช้คอัพหลัง', cost: 15069 },
+                    { id: 105, date: '2019-10-28', mileage: 100000, garage: 'อู่นอก', items: ['drive_belt'], notes: 'แก้ปัญหาสายพานขาด', cost: 650 },
+                    { id: 106, date: '2019-12-03', mileage: 105000, garage: 'อู่นอก', items: ['fan_motor'], notes: 'เปลี่ยนชุดพัดลมหม้อน้ำ', cost: 4799 },
+                    { id: 107, date: '2020-02-25', mileage: 110000, garage: 'อู่นอก', items: ['ac_compressor', 'engine_oil'], notes: 'เปลี่ยนคอมเพรสเซอร์แอร์, ท่อน้ำ, วาล์วตู้แอร์ และเช็คระยะ', cost: 28730 },
+                    { id: 108, date: '2021-10-05', mileage: 135000, garage: 'ศูนย์บริการ', items: ['engine_oil', 'spark_plugs'], notes: 'เช็คระยะ 135,000 กม., เปลี่ยนหัวเทียน และของเหลวต่างๆ', cost: 5291 },
+                    { id: 109, date: '2022-02-12', mileage: 140000, garage: 'B-Quik/Cockpit', items: ['tires'], notes: 'เปลี่ยนยาง Goodyear 4 เส้น', cost: 12840 },
+                    { id: 110, date: '2022-05-01', mileage: 142000, garage: 'อู่นอก', items: ['water_pump', 'trans_fluid', 'engine_oil'], notes: 'เปลี่ยนวาล์วน้ำ, น้ำมันเกียร์, น้ำมันเครื่อง', cost: 5700 },
+                    { id: 111, date: '2022-05-22', mileage: 143000, garage: 'อู่นอก', items: ['brake_pads_f', 'drive_belt', 'cabin_filter'], notes: 'เปลี่ยนผ้าเบรกหน้า, สายพาน, กรองแอร์', cost: 3600 },
+                    { id: 112, date: '2022-08-07', mileage: 145000, garage: 'อู่ไดนาโม', items: ['alternator'], notes: 'เปลี่ยนถ่านไดชาร์จ', cost: 800 },
+                    { id: 113, date: '2022-09-03', mileage: 146000, garage: 'อู่แอร์', items: ['ac_compressor'], notes: 'เปลี่ยนคอนโทรลวาล์วแอร์, บล็อกวาล์ว', cost: 3900 },
+                    { id: 114, date: '2022-11-19', mileage: 148000, garage: 'อู่นอก', items: ['engine_mount'], notes: 'เปลี่ยนยางแท่นเครื่องและแท่นเกียร์', cost: 6800 },
+                    { id: 115, date: '2023-01-14', mileage: 150000, garage: 'อู่นอก', items: ['brake_pads_r'], notes: 'ติดฟิล์มและเปลี่ยนผ้าเบรก', cost: 4800 },
+                    { id: 116, date: '2023-01-19', mileage: 151000, garage: 'อู่นอก', items: ['suspension', 'engine_oil'], notes: 'เปลี่ยนยางกันโคลง, กรองเบนซิน, ออยน้ำมันเครื่อง', cost: 3500 },
+                    { id: 117, date: '2023-01-28', mileage: 151500, garage: 'อู่นอก', items: [], notes: 'ซ่อมมอเตอร์กลอนประตู', cost: 800 },
+                    { id: 118, date: '2023-03-04', mileage: 153000, garage: 'ศูนย์บริการ', items: ['engine_oil', 'brake_fluid'], notes: 'เปลี่ยนน้ำมันเครื่อง, น้ำมันเบรก, กรอง', cost: 3531 },
+                    { id: 119, date: '2023-03-12', mileage: 154000, garage: 'อู่นอก', items: [], notes: 'ซ่อมกลอนประตูท้าย', cost: 1000 },
+                    { id: 120, date: '2023-07-28', mileage: 160000, garage: 'อู่นอก', items: ['spark_plugs'], notes: 'เปลี่ยนหัวเทียนและสายหัวเทียน', cost: 3300 },
+                    { id: 121, date: '2023-08-12', mileage: 162000, garage: 'ร้านยาง', items: ['brake_rotors'], notes: 'เจียรจานเบรกและตั้งศูนย์ล้อ', cost: 1050 },
+                    { id: 122, date: '2023-10-13', mileage: 165000, garage: 'ร้านแบต', items: ['battery'], notes: 'เปลี่ยนแบตเตอรี่ Amaron', cost: 2900 },
+                    { id: 123, date: '2024-06-26', mileage: 172000, garage: 'อู่แอร์', items: ['ac_compressor', 'fan_motor'], notes: 'เปลี่ยนตู้แอร์, มอเตอร์พัดลม, แดมป์', cost: 18000 },
+                    { id: 124, date: '2024-09-01', mileage: 175000, garage: 'อู่นอก', items: ['wiper_blades'], notes: 'ล้างสวิตช์ปัดน้ำฝนและเปลี่ยนฟิวส์จุดบุหรี่', cost: 700 },
+                    { id: 125, date: '2025-03-15', mileage: 180000, garage: 'อู่นอก', items: ['engine_oil', 'cabin_filter'], notes: 'เปลี่ยนน้ำมันเครื่องและกรองแอร์', cost: 1000 },
+                    { id: 126, date: '2025-04-01', mileage: 181000, garage: 'อู่นอก', items: ['suspension'], notes: 'ซ่อมโช้คหลัง', cost: 1500 },
+                    { id: 127, date: '2025-06-19', mileage: 183000, garage: 'อู่นอก', items: ['battery', 'suspension'], notes: 'เปลี่ยนแบตเตอรี่, ปีกนก, กันโคลงคันชัก', cost: 11900 },
+                    { id: 128, date: '2025-08-23', mileage: 184000, garage: 'ร้านยาง', items: ['tires'], notes: 'เปลี่ยนยาง Bridgestone 4 เส้น', cost: 12148 },
+                    { id: 129, date: '2025-09-21', mileage: 184500, garage: 'อู่นอก', items: ['brake_fluid', 'trans_fluid', 'suspension'], notes: 'เปลี่ยนน้ำมันเบรก, น้ำมันเกียร์, ยางรองสปริง', cost: 3852 },
+                    { id: 130, date: '2025-12-14', mileage: 185000, garage: 'อู่นอก', items: ['brake_rotors'], notes: 'ซ่อมระบบ ABS', cost: 19795 }
+                ].sort((a, b) => b.mileage - a.mileage)
             },
             nissan: {
-                mileage: 92000,
+                mileage: 130000,
                 profile: {
-                    plate: 'ขข 9876 เชียงใหม่', purchaseDate: '2018-08-20', purchaseLocation: 'Nissan กรุงไทย',
+                    plate: 'ขข 9876 เชียงใหม่', purchaseDate: '2018-08-20', purchaseLocation: 'Nissan',
                     price: '850000', currentValue: '250000', 
                     insuranceYearly: '15000', taxYearly: '1600',
                     fuelMonthly: '4000', tollsMonthly: '1200', parkingMonthly: '1500', washMonthly: '500',
-                    accessoriesTotal: '8000', finesTotal: '0',
+                    accessoriesTotal: '77900', finesTotal: '0', 
                     vin: 'MNTNS1234567890SY', color: 'สีขาวมุก (White Pearl)', taxDate: '2026-08-20',
                 },
                 history: [
-                    { 
-                        id: 1, date: '2023-10-20', mileage: 90000, garage: 'อู่นิสสันเฉพาะทาง', items: ['engine_oil', 'tires'], 
-                        notes: 'เปลี่ยนยางชุดที่ 2', receiptLink: '', cost: 11200,
-                        inspection: { obd: 'P0000', batteryV: '12.2', batteryCCA: '320', brakeF: '4', brakeR: '5', treadF: '7.0', treadR: '7.0', brandSpecific: 'CVT Count: 12000' }
-                    },
-                    { id: 2, date: '2022-12-05', mileage: 80000, garage: 'อู่นอก', items: ['trans_fluid', 'fan_motor', 'battery'], notes: 'เปลี่ยนมอเตอร์พัดลมหม้อน้ำ (ของแท้)', receiptLink: '', cost: 7900, inspection: null }
-                ]
+                    { id: 201, date: '2021-05-10', mileage: 65000, garage: 'ร้านยาง', items: ['tires'], notes: 'เปลี่ยนยาง Goodyear Assurance 4 เส้น', cost: 13050 },
+                    { id: 202, date: '2022-03-15', mileage: 75000, garage: 'ศูนย์ Nissan', items: ['engine_oil', 'trans_fluid'], notes: 'เช็คระยะศูนย์ฯ (เปลี่ยนถ่ายน้ำมันเครื่อง, น้ำมันเกียร์, กรองต่างๆ)', cost: 5415 },
+                    { id: 203, date: '2022-06-20', mileage: 78000, garage: 'อู่นอก', items: ['drive_belt'], notes: 'เปลี่ยนสายพาน, บูชทองเหลือง, ประเก็นท่อ', cost: 1290 },
+                    { id: 204, date: '2022-08-10', mileage: 82000, garage: 'ศูนย์ Nissan', items: ['engine_oil'], notes: 'เช็คระยะศูนย์ฯ (ถ่ายน้ำมันเครื่อง, ทำความสะอาดและหล่อลื่นเบรก)', cost: 3771 },
+                    { id: 205, date: '2022-10-05', mileage: 85000, garage: 'ศูนย์ Nissan', items: ['engine_oil'], notes: 'เช็คระยะศูนย์ฯ (ถ่ายน้ำมันเครื่อง)', cost: 2907 },
+                    { id: 206, date: '2022-11-12', mileage: 86000, garage: 'อู่นอก', items: ['suspension'], notes: 'ใส่ค้ำโช้คหน้า และเปลี่ยนโช็คหลัง', cost: 800 },
+                    { id: 207, date: '2022-11-20', mileage: 86500, garage: 'อู่แอร์', items: [], notes: 'แก้ไขมอเตอร์แอร์มีเสียงดัง (ปิดช่องรับลม)', cost: 800 },
+                    { id: 208, date: '2022-12-10', mileage: 88000, garage: 'อู่นอก', items: ['suspension'], notes: 'เปลี่ยนลูกปืนเบ้าโช้ค และยางกันฝุ่นหน้า', cost: 2900 },
+                    { id: 209, date: '2023-04-15', mileage: 95000, garage: 'อู่นอก', items: ['trans_fluid', 'cabin_filter'], notes: 'เปลี่ยนถ่ายน้ำมันเกียร์แบบเปิดอ่าง และกรองแอร์', cost: 2450 },
+                    { id: 210, date: '2023-08-20', mileage: 100000, garage: 'อู่นอก', items: ['engine_oil', 'brake_fluid'], notes: 'ถ่ายน้ำมันเครื่อง และเปลี่ยนน้ำมันเบรก', cost: 900 },
+                    { id: 211, date: '2023-09-10', mileage: 102000, garage: 'อู่นอก', items: ['throttle_body'], notes: 'ล้างลิ้นปีกผีเสื้อ จูนอัพเครื่องยนต์', cost: 300 },
+                    { id: 212, date: '2023-11-05', mileage: 105000, garage: 'อู่นอก', items: ['wheel_bearing'], notes: 'เปลี่ยนลูกปืนล้อหน้าขวาและหลังขวา', cost: 5800 },
+                    { id: 213, date: '2024-02-10', mileage: 110000, garage: 'อู่นอก', items: ['engine_oil'], notes: 'เปลี่ยนถ่ายน้ำมันเครื่องและกรอง', cost: 570 },
+                    { id: 214, date: '2024-05-15', mileage: 115000, garage: 'อู่นอก', items: ['suspension'], notes: 'เปลี่ยนโช็คหน้าซ้าย-ขวา', cost: 5100 },
+                    { id: 215, date: '2024-08-20', mileage: 118000, garage: 'ร้านยาง', items: ['tires'], notes: 'เปลี่ยนยาง Bridgestone Turanza 4 เส้น', cost: 13400 },
+                    { id: 216, date: '2024-11-10', mileage: 122000, garage: 'ศูนย์ Nissan', items: ['trans_fluid', 'brake_fluid', 'coolant', 'drive_belt'], notes: 'เช็คระยะศูนย์ฯ (ถ่ายน้ำมันเกียร์, น้ำมันเบรก, น้ำยาหม้อน้ำ, สายพาน, เช็คเบรก)', cost: 7049 },
+                    { id: 217, date: '2025-02-15', mileage: 126000, garage: 'อู่นอก', items: ['suspension', 'brake_fluid'], notes: 'เปลี่ยนหม้อลมเบรก, เติมน้ำมันเบรก, ลูกปืนสตรัทหน้า, แผ่นรองข้อต่อ', cost: 8955 },
+                    { id: 218, date: '2025-06-20', mileage: 128000, garage: 'อู่นอก', items: ['brake_pads_f', 'brake_pads_r', 'brake_rotors'], notes: 'เปลี่ยนผ้าเบรกหน้า-หลัง และเจียรจานเบรก', cost: 6300 },
+                    { id: 219, date: '2025-09-10', mileage: 130000, garage: 'Autobacs', items: ['brake_rotors'], notes: 'เจียรจานเบรก ทำความสะอาดเบรก', cost: 700 }
+                ].sort((a, b) => b.mileage - a.mileage)
             }
         };
+
+        // --- LOCAL STORAGE LOGIC ---
+        // ตรวจสอบว่ามีข้อมูลเก่าใน LocalStorage หรือไม่ ถ้ามีให้ใช้ข้อมูลเก่า ถ้าไม่มีให้ใช้ INITIAL_DATA
+        let data = JSON.parse(localStorage.getItem('garageProData')) || INITIAL_DATA;
+
+        function saveToStorage() {
+            localStorage.setItem('garageProData', JSON.stringify(data));
+            
+            // แสดงแจ้งเตือนว่าเซฟแล้ว
+            const toast = document.getElementById('save-status');
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2000);
+        }
 
         // --- STATE ---
         let activeCar = 'ford';
@@ -320,6 +356,8 @@
             if (!inputVal || isNaN(inputVal)) return;
             data[activeCar].mileage = parseInt(inputVal);
             document.getElementById('mileageInput').value = '';
+            
+            saveToStorage(); // บันทึกข้อมูลลงเครื่อง
             renderApp();
         }
 
@@ -500,6 +538,7 @@
             data[activeCar].mileage = Math.max(data[activeCar].mileage, parseInt(mileage));
             data[activeCar].history.sort((a, b) => b.mileage - a.mileage);
 
+            saveToStorage(); // บันทึกข้อมูลลงเครื่อง
             closeModal();
             renderApp();
         }
@@ -527,6 +566,7 @@
             if (recordToDelete) {
                 data[activeCar].history = data[activeCar].history.filter(r => r.id !== recordToDelete);
             }
+            saveToStorage(); // บันทึกข้อมูลลงเครื่อง
             closeModal();
             renderApp();
         }
@@ -628,6 +668,8 @@
                 color: document.getElementById('p_color').value,
                 taxDate: document.getElementById('p_tax').value,
             };
+            
+            saveToStorage(); // บันทึกข้อมูลลงเครื่อง
             closeModal();
             renderApp();
         }
