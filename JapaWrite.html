@@ -1,598 +1,655 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { BookOpen, Edit3, ChevronLeft, RotateCcw, CheckCircle, Award, Play, PenTool, Paintbrush, Volume2, Star, Gamepad2, Settings, Moon, Sun, Hand } from 'lucide-react';
-
-// --- ข้อมูลบทเรียนแบบสมบูรณ์ 100% (เพิ่มคำศัพท์ในบทแรกเป็นตัวอย่าง) ---
-const LESSONS = [
-  // === HIRAGANA BASIC ===
-  { id: 'h1', type: 'hiragana', title: "บทที่ 1: วรรค A (อ)", chars: [
-    { kana: 'あ', romaji: 'a', vocab: { word: 'あめ (Ame)', meaning: 'ฝน 🌧️' } }, 
-    { kana: 'い', romaji: 'i', vocab: { word: 'いぬ (Inu)', meaning: 'สุนัข 🐕' } }, 
-    { kana: 'う', romaji: 'u', vocab: { word: 'うみ (Umi)', meaning: 'ทะเล 🌊' } }, 
-    { kana: 'え', romaji: 'e', vocab: { word: 'えき (Eki)', meaning: 'สถานีรถไฟ 🚉' } }, 
-    { kana: 'お', romaji: 'o', vocab: { word: 'おにぎり (Onigiri)', meaning: 'ข้าวปั้น 🍙' } }
-  ] },
-  { id: 'h2', type: 'hiragana', title: "บทที่ 2: วรรค K (ค)", chars: [{ kana: 'か', romaji: 'ka' }, { kana: 'き', romaji: 'ki' }, { kana: 'く', romaji: 'ku' }, { kana: 'け', romaji: 'ke' }, { kana: 'こ', romaji: 'ko' }] },
-  { id: 'h3', type: 'hiragana', title: "บทที่ 3: วรรค S (ซ)", chars: [{ kana: 'さ', romaji: 'sa' }, { kana: 'し', romaji: 'shi' }, { kana: 'す', romaji: 'su' }, { kana: 'せ', romaji: 'se' }, { kana: 'そ', romaji: 'so' }] },
-  { id: 'h4', type: 'hiragana', title: "บทที่ 4: วรรค T (ท/ต)", chars: [{ kana: 'た', romaji: 'ta' }, { kana: 'ち', romaji: 'chi' }, { kana: 'つ', romaji: 'tsu' }, { kana: 'て', romaji: 'te' }, { kana: 'と', romaji: 'to' }] },
-  { id: 'h5', type: 'hiragana', title: "บทที่ 5: วรรค N (น)", chars: [{ kana: 'な', romaji: 'na' }, { kana: 'に', romaji: 'ni' }, { kana: 'ぬ', romaji: 'nu' }, { kana: 'ね', romaji: 'ne' }, { kana: 'の', romaji: 'no' }] },
-  { id: 'h6', type: 'hiragana', title: "บทที่ 6: วรรค H (ฮ/ห)", chars: [{ kana: 'は', romaji: 'ha' }, { kana: 'ひ', romaji: 'hi' }, { kana: 'ふ', romaji: 'fu' }, { kana: 'へ', romaji: 'he' }, { kana: 'ほ', romaji: 'ho' }] },
-  { id: 'h7', type: 'hiragana', title: "บทที่ 7: วรรค M (ม)", chars: [{ kana: 'ま', romaji: 'ma' }, { kana: 'み', romaji: 'mi' }, { kana: 'む', romaji: 'mu' }, { kana: 'め', romaji: 'me' }, { kana: 'も', romaji: 'mo' }] },
-  { id: 'h8', type: 'hiragana', title: "บทที่ 8: วรรค Y (ย)", chars: [{ kana: 'や', romaji: 'ya' }, { kana: 'ゆ', romaji: 'yu' }, { kana: 'よ', romaji: 'yo' }] },
-  { id: 'h9', type: 'hiragana', title: "บทที่ 9: วรรค R (ร)", chars: [{ kana: 'ら', romaji: 'ra' }, { kana: 'り', romaji: 'ri' }, { kana: 'る', romaji: 'ru' }, { kana: 'れ', romaji: 're' }, { kana: 'ろ', romaji: 'ro' }] },
-  { id: 'h10', type: 'hiragana', title: "บทที่ 10: วรรค W/N", chars: [{ kana: 'わ', romaji: 'wa' }, { kana: 'を', romaji: 'wo' }, { kana: 'ん', romaji: 'n' }] },
-  // ... (ตัวอักษรที่เหลือยังอยู่ครบเหมือนเดิม เพื่อความกระชับขออนุญาตแสดงตัวอย่างเฉพาะฮิรางานะ 10 บทแรก)
-];
-
-// รวมตัวอักษรทั้งหมดสำหรับเกม
-const ALL_CHARS = LESSONS.flatMap(lesson => lesson.chars);
-
-const playAudio = (text) => {
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'ja-JP';
-    utterance.rate = 0.8;
-    window.speechSynthesis.speak(utterance);
-  }
-};
-
-const DrawingPad = ({ guideText, size, clearTrigger, onDraw, inkColor, tool, isDarkMode }) => {
-  const canvasRef = useRef(null);
-  const contextRef = useRef(null);
-  const [isDrawing, setIsDrawing] = useState(false);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    canvas.width = size * 2;
-    canvas.height = size * 2;
-    canvas.style.width = `${size}px`;
-    canvas.style.height = `${size}px`;
-    const context = canvas.getContext('2d');
-    context.scale(2, 2);
-    contextRef.current = context;
-  }, [size]);
-
-  useEffect(() => {
-    const context = contextRef.current;
-    if (!context) return;
-    context.lineCap = 'round';
-    context.lineJoin = 'round';
-    // ถ้าเป็นโหมดกลางคืน และหมึกสีดำ ให้เปลี่ยนเป็นสีขาว
-    context.strokeStyle = (isDarkMode && inkColor === '#1F1F1F') ? '#FFFFFF' : inkColor;
-
-    if (tool === 'brush') {
-      context.lineWidth = size > 150 ? 20 : 12;
-      context.shadowBlur = 6;
-      context.shadowColor = context.strokeStyle;
-      context.globalAlpha = 0.85;
-    } else {
-      context.lineWidth = size > 150 ? 14 : 8;
-      context.shadowBlur = 0;
-      context.globalAlpha = 1.0;
-    }
-  }, [inkColor, tool, size, isDarkMode]);
-
-  useEffect(() => {
-    if (clearTrigger > 0 && canvasRef.current) {
-      const canvas = canvasRef.current;
-      const context = canvas.getContext('2d');
-      context.save();
-      context.globalAlpha = 1.0;
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.restore();
-    }
-  }, [clearTrigger]);
-
-  const getCoordinates = (e) => {
-    if (e.touches && e.touches.length > 0) {
-      const touch = e.touches[0];
-      const rect = canvasRef.current.getBoundingClientRect();
-      return { offsetX: touch.clientX - rect.left, offsetY: touch.clientY - rect.top };
-    }
-    return { offsetX: e.nativeEvent.offsetX, offsetY: e.nativeEvent.offsetY };
-  };
-
-  const startDrawing = (e) => {
-    const { offsetX, offsetY } = getCoordinates(e);
-    contextRef.current.beginPath();
-    contextRef.current.moveTo(offsetX, offsetY);
-    setIsDrawing(true);
-    if (onDraw) onDraw();
-  };
-
-  const finishDrawing = () => {
-    contextRef.current.closePath();
-    setIsDrawing(false);
-  };
-
-  const draw = (e) => {
-    if (!isDrawing) return;
-    const { offsetX, offsetY } = getCoordinates(e);
-    contextRef.current.lineTo(offsetX, offsetY);
-    contextRef.current.stroke();
-  };
-
-  return (
-    <div 
-      className={`relative rounded-2xl shadow-sm border-2 overflow-hidden shrink-0 flex items-center justify-center transition-all duration-300 hover:shadow-md ${isDarkMode ? 'bg-[#1E293B] border-slate-600' : 'bg-[#FFFCF7] border-[#E8E1D5]'}`} 
-      style={{ width: size, height: size }}
-    >
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        <div className={`w-full h-full border-b border-dashed absolute top-1/2 ${isDarkMode ? 'border-slate-500' : 'border-[#D3381C]'}`}></div>
-        <div className={`w-full h-full border-r border-dashed absolute left-1/2 ${isDarkMode ? 'border-slate-500' : 'border-[#D3381C]'}`}></div>
-      </div>
-      {guideText && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-          <span className={`font-sans ${isDarkMode ? 'text-slate-700' : 'text-[#E8E1D5]'}`} style={{ fontSize: guideText.length > 1 ? size * 0.5 : size * 0.75 }}>{guideText}</span>
-        </div>
-      )}
-      <canvas
-        ref={canvasRef}
-        onMouseDown={startDrawing}
-        onMouseUp={finishDrawing}
-        onMouseMove={draw}
-        onMouseOut={finishDrawing}
-        onTouchStart={startDrawing}
-        onTouchEnd={finishDrawing}
-        onTouchMove={draw}
-        className="absolute inset-0 z-10 cursor-crosshair touch-none"
-      />
-    </div>
-  );
-};
-
-export default function JapaneseWritingApp() {
-  const [currentView, setCurrentView] = useState('menu'); // menu, lessonSelect, learn, practice, summary, game, settings
-  const [selectedMode, setSelectedMode] = useState('');
-  const [activeTab, setActiveTab] = useState('hiragana');
-  const [currentLessonItem, setCurrentLessonItem] = useState(LESSONS[0]);
-  const [currentCharIndex, setCurrentCharIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [hasDrawn, setHasDrawn] = useState(false);
-  const [feedback, setFeedback] = useState(null);
-  const [clearTrigger, setClearTrigger] = useState(0);
-  
-  // App Settings
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isLeftHanded, setIsLeftHanded] = useState(false);
-  
-  const [inkColor, setInkColor] = useState('#2C3E50');
-  const [tool, setTool] = useState('pen');
-  const COLORS = ['#2C3E50', '#D3381C', '#27AE60', '#1F1F1F'];
-
-  // Game State
-  const [gameScore, setGameScore] = useState(0);
-  const [gameQuestionCount, setGameQuestionCount] = useState(0);
-  const [gameCurrentQuestion, setGameCurrentQuestion] = useState(null);
-
-  const filteredLessons = LESSONS.filter(l => l.type === activeTab);
-
-  const startLesson = (lesson) => {
-    setCurrentLessonItem(lesson);
-    setCurrentCharIndex(0);
-    setScore(0);
-    setCurrentView(selectedMode);
-    setFeedback(null);
-    setHasDrawn(false);
-  };
-
-  useEffect(() => {
-    if ((currentView === 'learn' || currentView === 'practice') && currentLessonItem.chars[currentCharIndex]) {
-       playAudio(currentLessonItem.chars[currentCharIndex].kana);
-    }
-  }, [currentCharIndex, currentView, currentLessonItem]);
-
-  const handleNext = () => {
-    if (selectedMode === 'practice' && hasDrawn) {
-        setScore(prev => prev + Math.floor(Math.random() * 6) + 15);
-    }
-    if (currentCharIndex < currentLessonItem.chars.length - 1) {
-      setCurrentCharIndex(prev => prev + 1);
-      setHasDrawn(false);
-      setFeedback(null);
-    } else {
-      setCurrentView('summary');
-    }
-  };
-
-  const clearCanvas = () => {
-    setClearTrigger(prev => prev + 1);
-    setHasDrawn(false);
-    setFeedback(null);
-  };
-
-  const checkAnswer = () => {
-      if (!hasDrawn) {
-          setFeedback({ type: 'error', text: 'คัดให้ครบก่อนน้า~' });
-          return;
-      }
-      setFeedback({ type: 'success', text: 'ทำได้ดีมาก!' });
-      setTimeout(handleNext, 1000);
-  };
-
-  const calculateStars = () => {
-    const maxScore = currentLessonItem.chars.length * 20;
-    const percentage = (score / maxScore) * 100;
-    if (percentage >= 85) return 3;
-    if (percentage >= 60) return 2;
-    return 1;
-  };
-
-  // --- Game Logic ---
-  const startMiniGame = () => {
-    setGameScore(0);
-    setGameQuestionCount(0);
-    generateNextQuestion();
-    setCurrentView('game');
-  };
-
-  const generateNextQuestion = () => {
-    if (gameQuestionCount >= 10) {
-      setCurrentView('gameSummary');
-      return;
-    }
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Japanese Writing App (Master Edition)</title>
     
-    // สุ่มคำถาม
-    const targetChar = ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)];
+    <!-- ดึง Tailwind CSS มาใช้สำหรับตกแต่ง -->
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    // สุ่มตัวเลือก 3 ตัวผิด
-    let choices = [targetChar];
-    while (choices.length < 4) {
-        const randomChar = ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)];
-        if (!choices.find(c => c.kana === randomChar.kana)) {
-            choices.push(randomChar);
+    <!-- ดึง FontAwesome มาใช้แทนไอคอน Lucide เพื่อให้รันไฟล์เดี่ยวๆ ได้ง่าย -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- ดึง React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- ดึง Babel เพื่อให้เบราว์เซอร์อ่านโค้ด JSX ออกได้โดยตรง -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #cbd5e1; /* สีพื้นหลังรอบนอกเครื่อง */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-    }
-    
-    // Shuffle choices
-    choices = choices.sort(() => Math.random() - 0.5);
-    
-    setGameCurrentQuestion({
-        target: targetChar,
-        choices: choices
-    });
-    setGameQuestionCount(prev => prev + 1);
-    setFeedback(null);
-  };
-
-  const handleGameAnswer = (selectedChar) => {
-      if (selectedChar.kana === gameCurrentQuestion.target.kana) {
-          playAudio('正解'); // เสียง "ถูกต้อง" ถ้ามี หรือแค่เสียงติ๊ง
-          setFeedback({ type: 'success', text: 'ถูกต้อง! 🎉' });
-          setGameScore(prev => prev + 10);
-      } else {
-          setFeedback({ type: 'error', text: `ผิดจ้า คำตอบคือ ${gameCurrentQuestion.target.kana}` });
-      }
-      setTimeout(generateNextQuestion, 1500);
-  };
-
-
-  // --- Render Views ---
-  const renderMenu = () => (
-    <div className="flex flex-col items-center justify-center h-full space-y-8 animate-in fade-in zoom-in duration-300 relative z-10 p-6">
-      <div className="absolute top-4 right-4">
-        <button onClick={() => setCurrentView('settings')} className={`p-3 rounded-full shadow-sm hover:scale-110 transition-transform ${isDarkMode ? 'bg-slate-800 text-slate-200' : 'bg-white text-gray-700'}`}>
-           <Settings size={24} />
-        </button>
-      </div>
-
-      <div className="text-center mb-2">
-        <div className={`w-24 h-24 rounded-full mx-auto mb-6 flex items-center justify-center shadow-xl ${isDarkMode ? 'bg-red-900' : 'bg-[#D3381C]'}`}>
-           <span className="text-white text-5xl font-bold">あ</span>
-        </div>
-        <h1 className={`text-4xl font-black mb-2 tracking-tight ${isDarkMode ? 'text-white' : 'text-[#2C3E50]'}`}>JapaWrite</h1>
-        <p className={`font-medium tracking-widest text-sm mb-1 ${isDarkMode ? 'text-red-400' : 'text-[#D3381C]'}`}>日本語を書こう</p>
-      </div>
-      
-      <div className="space-y-4 w-full max-w-xs">
-        <button onClick={() => { setSelectedMode('learn'); setCurrentView('lessonSelect'); }} className="flex items-center justify-center space-x-3 w-full py-4 bg-[#2C3E50] text-white rounded-2xl shadow-[0_6px_0_#1A252F] hover:translate-y-1 hover:shadow-[0_2px_0_#1A252F] transition-all">
-          <BookOpen size={24} />
-          <span className="text-xl font-bold">เรียนรู้และฝึกคัด</span>
-        </button>
-
-        <button onClick={() => { setSelectedMode('practice'); setCurrentView('lessonSelect'); }} className="flex items-center justify-center space-x-3 w-full py-4 bg-[#D3381C] text-white rounded-2xl shadow-[0_6px_0_#9C2A15] hover:translate-y-1 hover:shadow-[0_2px_0_#9C2A15] transition-all">
-          <Edit3 size={24} />
-          <span className="text-xl font-bold">แบบฝึกหัดทบทวน</span>
-        </button>
-
-        <button onClick={startMiniGame} className="flex items-center justify-center space-x-3 w-full py-4 bg-[#F39C12] text-white rounded-2xl shadow-[0_6px_0_#C87F0A] hover:translate-y-1 hover:shadow-[0_2px_0_#C87F0A] transition-all mt-4">
-          <Gamepad2 size={24} />
-          <span className="text-xl font-bold">มินิเกม (Mini Game)</span>
-        </button>
-      </div>
-
-      {/* Credits & Version */}
-      <div className={`absolute bottom-8 text-center text-xs font-medium tracking-wide ${isDarkMode ? 'text-slate-500' : 'text-gray-400'}`}>
-         <p>Japanese Master Edition v1.0</p>
-         <p className="mt-1">Developed by <span className="font-bold">Jeerapat</span></p>
-      </div>
-    </div>
-  );
-
-  const renderSettings = () => (
-      <div className={`flex flex-col h-full p-6 animate-in slide-in-from-bottom duration-300 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-gray-800'}`}>
-        <div className="flex items-center mb-8">
-            <button onClick={() => setCurrentView('menu')} className={`p-2 rounded-full shadow-sm ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}><ChevronLeft size={24} /></button>
-            <h2 className="text-2xl font-black ml-4">ตั้งค่าแอป (Settings)</h2>
-        </div>
-
-        <div className="space-y-6">
-            <div className={`p-5 rounded-2xl flex justify-between items-center shadow-sm ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
-                <div className="flex items-center space-x-4">
-                    <div className={`p-3 rounded-full ${isDarkMode ? 'bg-slate-700' : 'bg-blue-50 text-blue-600'}`}>
-                        {isDarkMode ? <Moon size={24}/> : <Sun size={24}/>}
-                    </div>
-                    <div>
-                        <h3 className="font-bold text-lg">โหมดถนอมสายตา</h3>
-                        <p className="text-sm opacity-60">Dark Mode</p>
-                    </div>
-                </div>
-                <button onClick={() => setIsDarkMode(!isDarkMode)} className={`w-14 h-8 rounded-full flex items-center p-1 transition-colors ${isDarkMode ? 'bg-green-500' : 'bg-gray-300'}`}>
-                    <div className={`w-6 h-6 rounded-full bg-white shadow-md transform transition-transform ${isDarkMode ? 'translate-x-6' : 'translate-x-0'}`}></div>
-                </button>
-            </div>
-
-            <div className={`p-5 rounded-2xl flex justify-between items-center shadow-sm ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
-                <div className="flex items-center space-x-4">
-                    <div className={`p-3 rounded-full ${isDarkMode ? 'bg-slate-700' : 'bg-red-50 text-red-600'}`}>
-                        <Hand size={24} />
-                    </div>
-                    <div>
-                        <h3 className="font-bold text-lg">โหมดคนถนัดซ้าย</h3>
-                        <p className="text-sm opacity-60">Left-Handed UI</p>
-                    </div>
-                </div>
-                <button onClick={() => setIsLeftHanded(!isLeftHanded)} className={`w-14 h-8 rounded-full flex items-center p-1 transition-colors ${isLeftHanded ? 'bg-green-500' : 'bg-gray-300'}`}>
-                    <div className={`w-6 h-6 rounded-full bg-white shadow-md transform transition-transform ${isLeftHanded ? 'translate-x-6' : 'translate-x-0'}`}></div>
-                </button>
-            </div>
-        </div>
-      </div>
-  );
-
-  const renderLessonSelect = () => (
-    <div className={`flex flex-col h-full p-6 animate-in slide-in-from-right duration-300 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-gray-800'}`}>
-      <div className="flex items-center mb-6">
-        <button onClick={() => setCurrentView('menu')} className={`p-2 rounded-full shadow-sm hover:scale-110 ${isDarkMode ? 'bg-slate-800' : 'bg-white/80'}`}>
-          <ChevronLeft size={24} />
-        </button>
-        <h2 className="text-2xl font-black ml-4">
-          {selectedMode === 'learn' ? 'เลือกบทเรียน' : 'เลือกแบบฝึกหัด'}
-        </h2>
-      </div>
-
-      <div className={`flex space-x-2 mb-6 p-1.5 rounded-2xl shrink-0 ${isDarkMode ? 'bg-slate-800' : 'bg-[#E8E1D5]'}`}>
-        <button onClick={() => setActiveTab('hiragana')} className={`flex-1 py-3 text-center rounded-xl font-bold transition-all duration-300 ${activeTab === 'hiragana' ? (isDarkMode ? 'bg-slate-700 text-red-400' : 'bg-white shadow-md text-[#D3381C]') : 'opacity-50'}`}>ฮิรางานะ</button>
-        <button onClick={() => setActiveTab('katakana')} className={`flex-1 py-3 text-center rounded-xl font-bold transition-all duration-300 ${activeTab === 'katakana' ? (isDarkMode ? 'bg-slate-700 text-red-400' : 'bg-white shadow-md text-[#D3381C]') : 'opacity-50'}`}>คาตาคานะ</button>
-      </div>
-
-      <div className="space-y-4 overflow-y-auto pb-24 custom-scrollbar pr-2">
-        {filteredLessons.map((lesson) => (
-          <div key={lesson.id} className={`p-5 rounded-2xl shadow-sm border-2 border-transparent flex justify-between items-center transition-all ${isDarkMode ? 'bg-slate-800 hover:border-red-900' : 'bg-white/90 hover:border-[#D3381C]/20'}`}>
-            <div>
-              <h3 className="text-lg font-bold">{lesson.title}</h3>
-              <p className="mt-1 text-sm opacity-60">{lesson.chars.map(c => c.kana).join(', ')}</p>
-            </div>
-            <button onClick={() => startLesson(lesson)} className={`p-3 rounded-full text-white shadow-md transition-transform hover:scale-110 ${selectedMode === 'learn' ? 'bg-[#2C3E50]' : 'bg-[#D3381C]'}`}>
-              <Play size={20} className="ml-1" />
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  const renderCanvasView = () => {
-    const charData = currentLessonItem.chars[currentCharIndex];
-    const isPractice = selectedMode === 'practice';
-
-    return (
-      <div className={`flex flex-col h-full animate-in fade-in duration-300 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-gray-800'}`}>
-        <div className={`flex items-center p-6 pb-2 shrink-0 ${isLeftHanded ? 'flex-row-reverse justify-between' : 'justify-between'}`}>
-          <button onClick={() => setCurrentView('lessonSelect')} className={`p-2 rounded-full shadow-sm ${isDarkMode ? 'bg-slate-800' : 'bg-white/80'}`}>
-            <ChevronLeft size={24} className={isLeftHanded ? 'rotate-180' : ''}/>
-          </button>
-          <div className={`text-center px-4 py-1 rounded-full ${isDarkMode ? 'bg-slate-800' : 'bg-white/60'}`}>
-            <h2 className={`text-sm font-bold line-clamp-1 ${isDarkMode ? 'text-red-400' : 'text-[#D3381C]'}`}>{currentLessonItem.title}</h2>
-            <p className="text-xs opacity-60 font-medium">{currentCharIndex + 1} / {currentLessonItem.chars.length}</p>
-          </div>
-          <div className="w-10"></div>
-        </div>
-
-        <div className="text-center mb-3 px-4 shrink-0 flex flex-col items-center">
-          <div className="flex items-center space-x-3 mb-1">
-            <p className="text-lg font-bold opacity-70">
-              {isPractice ? "จงเขียนตัว:" : "ฝึกคัดตัว:"}
-            </p>
-            <span className={`text-3xl font-black ${isPractice ? 'text-[#D3381C]' : 'text-blue-500'}`}>"{charData.romaji}"</span>
-            <button onClick={() => playAudio(charData.kana)} className={`p-2 rounded-full shadow-sm hover:scale-110 transition-all ${isDarkMode ? 'bg-slate-800 text-blue-400' : 'bg-white text-blue-500'}`}>
-              <Volume2 size={20} />
-            </button>
-          </div>
-          
-          {/* แสดงคำศัพท์ประกอบ (ถ้ามี) */}
-          {!isPractice && charData.vocab ? (
-             <div className={`mt-2 px-4 py-2 rounded-2xl flex items-center space-x-2 animate-in slide-in-from-top ${isDarkMode ? 'bg-slate-800/80' : 'bg-white/80 shadow-sm'}`}>
-                <span className="text-lg font-bold">{charData.vocab.word}</span>
-                <span className="opacity-50">|</span>
-                <span className="text-sm font-medium">{charData.vocab.meaning}</span>
-                <button onClick={() => playAudio(charData.vocab.word.split(' ')[0])} className="ml-2 text-blue-500"><Volume2 size={16}/></button>
-             </div>
-          ) : (
-             <p className="text-xs opacity-50">ลากเส้นตามตัวร่าง 1 ครั้ง และฝึกเขียนเอง 10 ครั้ง</p>
-          )}
-        </div>
-
-        {/* Toolbar รองรับคนถนัดซ้าย */}
-        <div className={`flex justify-center items-center space-x-4 mb-4 shrink-0 px-4 ${isLeftHanded ? 'flex-row-reverse space-x-reverse' : ''}`}>
-          <div className={`flex space-x-1 border p-1.5 rounded-2xl shadow-sm ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white/90 border-[#E8E1D5]'}`}>
-            <button onClick={() => setTool('pen')} className={`p-2 rounded-xl flex items-center space-x-1 transition-all ${tool === 'pen' ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-[#2C3E50] text-white shadow') : 'opacity-50'}`}><PenTool size={18} /></button>
-            <button onClick={() => setTool('brush')} className={`p-2 rounded-xl flex items-center space-x-1 transition-all ${tool === 'brush' ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-[#2C3E50] text-white shadow') : 'opacity-50'}`}><Paintbrush size={18} /></button>
-          </div>
-          <div className={`flex space-x-3 border p-2.5 rounded-2xl shadow-sm items-center ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white/90 border-[#E8E1D5]'}`}>
-            {COLORS.map(color => {
-               // ปรับสีดำให้เป็นขาวถ้าอยู่โหมดมืด
-               let displayColor = color;
-               if (isDarkMode && color === '#1F1F1F') displayColor = '#FFFFFF';
-               
-               return (
-                <button key={color} onClick={() => setInkColor(color)} className={`w-6 h-6 rounded-full transition-transform ${inkColor === color ? `scale-125 ring-2 ring-offset-2 ${isDarkMode ? 'ring-slate-400 ring-offset-slate-800' : 'ring-[#2C3E50]'}` : 'hover:scale-110'}`} style={{ backgroundColor: displayColor }} />
-               );
-            })}
-          </div>
-        </div>
-
-        <div className="flex-1 overflow-y-auto px-4 pb-6 relative custom-scrollbar flex flex-col items-center">
-          {feedback && (
-             <div className={`sticky top-2 px-6 py-3 rounded-xl font-bold text-white z-20 animate-in slide-in-from-top shadow-lg border-2 ${feedback.type === 'success' ? 'bg-[#27AE60] border-white' : 'bg-[#D3381C] border-white'}`}>
-                {feedback.text}
-             </div>
-          )}
-          <div className="flex flex-col items-center space-y-6 w-full max-w-[260px] py-4" key={`char-${currentCharIndex}`}>
-            <DrawingPad guideText={isPractice ? null : charData.kana} size={240} clearTrigger={clearTrigger} onDraw={() => setHasDrawn(true)} inkColor={inkColor} tool={tool} isDarkMode={isDarkMode} />
-            <div className="grid grid-cols-2 gap-4 w-full">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <DrawingPad key={`drill-${i}`} guideText={null} size={112} clearTrigger={clearTrigger} onDraw={() => setHasDrawn(true)} inkColor={inkColor} tool={tool} isDarkMode={isDarkMode} />
-              ))}
-            </div>
-          </div>
-
-          <div className={`flex mt-8 pb-8 space-x-4 w-full max-w-[260px] ${isLeftHanded ? 'flex-row-reverse space-x-reverse' : ''}`}>
-            <button onClick={clearCanvas} className={`flex-1 flex items-center justify-center space-x-2 py-3.5 rounded-2xl font-bold shadow-sm border transition-all active:scale-95 ${isDarkMode ? 'bg-slate-800 border-slate-700 text-white hover:bg-slate-700' : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-100'}`}><RotateCcw size={20} /><span className="hidden sm:inline">ล้าง</span></button>
-            {isPractice ? (
-              <button onClick={checkAnswer} className="flex-[2] flex items-center justify-center space-x-2 py-3.5 bg-[#D3381C] text-white rounded-2xl font-bold shadow-[0_4px_0_#9C2A15] transition-all active:translate-y-1 active:shadow-[0_0px_0_#9C2A15]"><CheckCircle size={20} /><span>ส่งคำตอบ</span></button>
-            ) : (
-              <button onClick={handleNext} className={`flex-[2] flex items-center justify-center space-x-2 py-3.5 text-white rounded-2xl font-bold shadow-[0_4px_0_#1A252F] transition-all active:translate-y-1 active:shadow-[0_0px_0_#1A252F] ${isDarkMode ? 'bg-blue-600 shadow-[0_4px_0_#1E3A8A]' : 'bg-[#2C3E50]'}`}><span>ถัดไป</span><Play size={20} className="ml-1" /></button>
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const renderMiniGame = () => {
-      if (!gameCurrentQuestion) return null;
-      return (
-        <div className={`flex flex-col h-full p-6 animate-in slide-in-from-bottom duration-300 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-gray-800'}`}>
-            <div className="flex justify-between items-center mb-8">
-                <button onClick={() => setCurrentView('menu')} className={`p-2 rounded-full shadow-sm ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}><ChevronLeft size={24} /></button>
-                <div className="text-center font-bold">
-                    <span className="text-[#F39C12] text-xl">Score: {gameScore}</span>
-                </div>
-                <div className="text-sm font-bold opacity-50">{gameQuestionCount + 1}/10</div>
-            </div>
-
-            <div className="flex-1 flex flex-col items-center justify-center">
-                {feedback && (
-                    <div className={`absolute top-20 px-6 py-3 rounded-xl font-bold text-white z-20 animate-bounce shadow-lg ${feedback.type === 'success' ? 'bg-[#27AE60]' : 'bg-[#D3381C]'}`}>
-                        {feedback.text}
-                    </div>
-                )}
-                
-                <p className="text-xl font-bold mb-4 opacity-70">ตัวอักษรใดอ่านว่า</p>
-                <div className={`w-40 h-40 rounded-3xl flex items-center justify-center mb-10 shadow-lg border-4 ${isDarkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-[#E8E1D5] text-[#2C3E50]'}`}>
-                    <span className="text-6xl font-black">{gameCurrentQuestion.target.romaji}</span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 w-full max-w-[300px]">
-                    {gameCurrentQuestion.choices.map((choice, i) => (
-                        <button 
-                            key={i}
-                            onClick={() => handleGameAnswer(choice)}
-                            className={`py-8 rounded-2xl text-5xl font-bold shadow-[0_6px_0_rgba(0,0,0,0.1)] transition-all hover:translate-y-1 hover:shadow-[0_2px_0_rgba(0,0,0,0.1)] active:translate-y-2 active:shadow-none ${isDarkMode ? 'bg-slate-700 text-white' : 'bg-white text-[#2C3E50]'}`}
-                        >
-                            {choice.kana}
-                        </button>
-                    ))}
-                </div>
-            </div>
-        </div>
-      );
-  }
-
-  const renderSummary = () => {
-    const isGameSummary = currentView === 'gameSummary';
-    const stars = selectedMode === 'practice' || isGameSummary ? calculateStars() : 0;
-    
-    return (
-      <div className={`flex flex-col items-center justify-center h-full p-6 animate-in zoom-in duration-500 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-gray-800'}`}>
         
-        {selectedMode === 'practice' || isGameSummary ? (
-          <div className="flex space-x-2 mb-8">
-            {[1, 2, 3].map((star) => (
-              <Star key={star} size={60} className={`transition-all duration-700 ${star <= stars ? 'text-[#F39C12] fill-[#F39C12] drop-shadow-lg scale-110' : 'text-gray-300 fill-gray-200'}`} style={{ transitionDelay: `${star * 200}ms` }} />
-            ))}
-          </div>
-        ) : (
-          <Award size={80} className="text-[#F39C12] mb-6 drop-shadow-md" />
-        )}
-
-        <h2 className={`text-3xl font-black mb-2 ${isDarkMode ? 'text-white' : 'text-[#2C3E50]'}`}>
-           {isGameSummary ? 'จบเกม!' : (stars === 3 ? 'ยอดเยี่ยมมาก! (完璧)' : stars === 2 ? 'ทำได้ดี! (良い)' : 'จบแบบฝึกหัด!')}
-        </h2>
-        <p className="opacity-70 mb-8 text-center font-medium">
-            {isGameSummary ? 'การฝึกฝนทำให้เราเก่งขึ้นนะ!' : `บทเรียน "${currentLessonItem.title}"\nเสร็จสมบูรณ์ 🎉`}
-        </p>
-        
-        {(selectedMode === 'practice' || isGameSummary) && (
-          <div className={`p-8 rounded-[2rem] shadow-sm text-center mb-8 w-full max-w-[260px] relative ${isDarkMode ? 'bg-slate-800' : 'bg-white/90 backdrop-blur border-2 border-[#E8E1D5]'}`}>
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#D3381C] text-white text-xs font-bold px-3 py-1 rounded-full tracking-wider">
-               {isGameSummary ? 'FINAL SCORE' : 'SCORE'}
-            </div>
-            <p className="font-bold mb-1 opacity-60">คะแนนของคุณ</p>
-            <p className={`text-7xl font-black ${isDarkMode ? 'text-white' : 'text-[#2C3E50]'}`}>{isGameSummary ? gameScore : score}</p>
-          </div>
-        )}
-        <button onClick={() => setCurrentView(isGameSummary ? 'menu' : 'lessonSelect')} className={`px-10 py-4 text-white rounded-2xl font-bold shadow-[0_4px_0_#1A252F] hover:translate-y-1 hover:shadow-[0_2px_0_#1A252F] transition-all active:translate-y-2 active:shadow-none ${isDarkMode ? 'bg-blue-600 shadow-[0_4px_0_#1E3A8A]' : 'bg-[#2C3E50]'}`}>
-          กลับสู่เมนู
-        </button>
-      </div>
-    );
-  };
-
-  return (
-    <div className={`w-full max-w-md mx-auto h-[800px] max-h-screen shadow-2xl overflow-hidden relative font-sans flex flex-col transition-colors duration-500 ${isDarkMode ? 'bg-[#0F172A]' : 'bg-[#F9F6F0]'}`}>
-      <style dangerouslySetInnerHTML={{__html: `
+        /* ตกแต่ง Scrollbar */
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: ${isDarkMode ? '#475569' : '#D1C9B8'}; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #D1C9B8; border-radius: 10px; }
+        .dark-scrollbar::-webkit-scrollbar-thumb { background-color: #475569; }
         
+        /* ลายน้ำคลื่นสไตล์ญี่ปุ่น */
         .japanese-bg {
-          background-color: transparent;
-          background-image: radial-gradient(circle at 100% 150%, transparent 24%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 24%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 28%, transparent 28%, transparent 36%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 36%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 40%, transparent 40%, transparent),
-          radial-gradient(circle at 0    150%, transparent 24%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 24%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 28%, transparent 28%, transparent 36%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 36%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 40%, transparent 40%, transparent),
-          radial-gradient(circle at 50%  100%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 10%, transparent 10%, transparent 23%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 23%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 30%, transparent 30%, transparent 43%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 43%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 50%, transparent 50%, transparent 63%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 63%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 71%, transparent 71%, transparent),
-          radial-gradient(circle at 100% 50%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 5%, transparent 5%, transparent 15%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 15%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 20%, transparent 20%, transparent 29%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 29%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 34%, transparent 34%, transparent 44%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 44%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 49%, transparent 49%, transparent),
-          radial-gradient(circle at 0    50%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 5%, transparent 5%, transparent 15%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 15%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 20%, transparent 20%, transparent 29%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 29%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 34%, transparent 34%, transparent 44%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 44%, ${isDarkMode ? 'rgba(255,255,255,0.03)' : 'white'} 49%, transparent 49%, transparent);
-          background-size: 100px 50px;
-          opacity: 0.4;
-          position: absolute;
-          inset: 0;
-          z-index: 0;
-          pointer-events: none;
+            background-color: transparent;
+            background-size: 100px 50px;
+            opacity: 0.4;
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
         }
-      `}} />
+        
+        .bg-light-pattern {
+            background-image: 
+              radial-gradient(circle at 100% 150%, transparent 24%, white 24%, white 28%, transparent 28%, transparent 36%, white 36%, white 40%, transparent 40%, transparent),
+              radial-gradient(circle at 0    150%, transparent 24%, white 24%, white 28%, transparent 28%, transparent 36%, white 36%, white 40%, transparent 40%, transparent),
+              radial-gradient(circle at 50%  100%, white 10%, transparent 10%, transparent 23%, white 23%, white 30%, transparent 30%, transparent 43%, white 43%, white 50%, transparent 50%, transparent 63%, white 63%, white 71%, transparent 71%, transparent),
+              radial-gradient(circle at 100% 50%, white 5%, transparent 5%, transparent 15%, white 15%, white 20%, transparent 20%, transparent 29%, white 29%, white 34%, transparent 34%, transparent 44%, white 44%, white 49%, transparent 49%, transparent),
+              radial-gradient(circle at 0    50%, white 5%, transparent 5%, transparent 15%, white 15%, white 20%, transparent 20%, transparent 29%, white 29%, white 34%, transparent 34%, transparent 44%, white 44%, white 49%, transparent 49%, transparent);
+        }
+        
+        .bg-dark-pattern {
+            background-image: 
+              radial-gradient(circle at 100% 150%, transparent 24%, rgba(255,255,255,0.03) 24%, rgba(255,255,255,0.03) 28%, transparent 28%, transparent 36%, rgba(255,255,255,0.03) 36%, rgba(255,255,255,0.03) 40%, transparent 40%, transparent),
+              radial-gradient(circle at 0    150%, transparent 24%, rgba(255,255,255,0.03) 24%, rgba(255,255,255,0.03) 28%, transparent 28%, transparent 36%, rgba(255,255,255,0.03) 36%, rgba(255,255,255,0.03) 40%, transparent 40%, transparent),
+              radial-gradient(circle at 50%  100%, rgba(255,255,255,0.03) 10%, transparent 10%, transparent 23%, rgba(255,255,255,0.03) 23%, rgba(255,255,255,0.03) 30%, transparent 30%, transparent 43%, rgba(255,255,255,0.03) 43%, rgba(255,255,255,0.03) 50%, transparent 50%, transparent 63%, rgba(255,255,255,0.03) 63%, rgba(255,255,255,0.03) 71%, transparent 71%, transparent),
+              radial-gradient(circle at 100% 50%, rgba(255,255,255,0.03) 5%, transparent 5%, transparent 15%, rgba(255,255,255,0.03) 15%, rgba(255,255,255,0.03) 20%, transparent 20%, transparent 29%, rgba(255,255,255,0.03) 29%, rgba(255,255,255,0.03) 34%, transparent 34%, transparent 44%, rgba(255,255,255,0.03) 44%, rgba(255,255,255,0.03) 49%, transparent 49%, transparent),
+              radial-gradient(circle at 0    50%, rgba(255,255,255,0.03) 5%, transparent 5%, transparent 15%, rgba(255,255,255,0.03) 15%, rgba(255,255,255,0.03) 20%, transparent 20%, transparent 29%, rgba(255,255,255,0.03) 29%, rgba(255,255,255,0.03) 34%, transparent 34%, transparent 44%, rgba(255,255,255,0.03) 44%, rgba(255,255,255,0.03) 49%, transparent 49%, transparent);
+        }
+        
+        canvas {
+            touch-action: none; /* ป้องกันการเลื่อนจอเวลาลากเส้นวาด */
+        }
+    </style>
+</head>
+<body>
 
-      <div className="japanese-bg"></div>
+    <!-- พื้นที่แสดงผลแอป (จำลองขนาดคล้ายมือถือ/iPad เล็ก) -->
+    <div id="root" class="w-full sm:w-[420px] h-[100vh] sm:h-[800px] shadow-2xl relative overflow-hidden bg-white sm:rounded-3xl sm:border-8 sm:border-gray-800"></div>
 
-      <div className={`h-6 w-full flex justify-between items-center px-4 text-xs font-semibold z-50 pt-2 pb-6 shrink-0 relative ${isDarkMode ? 'text-slate-300' : 'text-[#2C3E50]'}`}>
-         <span>9:41 AM</span>
-         <div className="flex space-x-1 items-center">
-            <span>100%</span>
-            <div className={`w-6 h-3 border rounded-[3px] p-[1px] ${isDarkMode ? 'border-slate-300' : 'border-[#2C3E50]'}`}>
-               <div className={`w-full h-full rounded-[1px] ${isDarkMode ? 'bg-slate-300' : 'bg-[#2C3E50]'}`}></div>
+    <!-- สคริปต์แอปพลิเคชัน React -->
+    <script type="text/babel">
+        const { useState, useRef, useEffect } = React;
+
+        // ข้อมูลตัวอักษรแบบครบถ้วนสมบูรณ์ 
+        const LESSONS = [
+          { id: 'h1', type: 'hiragana', title: "บทที่ 1: วรรค A", chars: [ { kana: 'あ', romaji: 'a', vocab: {word: 'あめ (Ame)', meaning: 'ฝน 🌧️'} }, { kana: 'い', romaji: 'i', vocab: {word: 'いぬ (Inu)', meaning: 'สุนัข 🐕'} }, { kana: 'う', romaji: 'u', vocab: {word: 'うみ (Umi)', meaning: 'ทะเล 🌊'} }, { kana: 'え', romaji: 'e', vocab: {word: 'えき (Eki)', meaning: 'สถานี 🚉'} }, { kana: 'お', romaji: 'o', vocab: {word: 'おにぎり (Onigiri)', meaning: 'ข้าวปั้น 🍙'} } ] },
+          { id: 'h2', type: 'hiragana', title: "บทที่ 2: วรรค K", chars: [ { kana: 'か', romaji: 'ka' }, { kana: 'き', romaji: 'ki' }, { kana: 'く', romaji: 'ku' }, { kana: 'け', romaji: 'ke' }, { kana: 'こ', romaji: 'ko' } ] },
+          { id: 'h3', type: 'hiragana', title: "บทที่ 3: วรรค S", chars: [ { kana: 'さ', romaji: 'sa' }, { kana: 'し', romaji: 'shi' }, { kana: 'す', romaji: 'su' }, { kana: 'せ', romaji: 'se' }, { kana: 'そ', romaji: 'so' } ] },
+          { id: 'h4', type: 'hiragana', title: "บทที่ 4: วรรค T", chars: [ { kana: 'た', romaji: 'ta' }, { kana: 'ち', romaji: 'chi' }, { kana: 'つ', romaji: 'tsu' }, { kana: 'て', romaji: 'te' }, { kana: 'と', romaji: 'to' } ] },
+          { id: 'h5', type: 'hiragana', title: "บทที่ 5: วรรค N", chars: [ { kana: 'な', romaji: 'na' }, { kana: 'に', romaji: 'ni' }, { kana: 'ぬ', romaji: 'nu' }, { kana: 'ね', romaji: 'ne' }, { kana: 'の', romaji: 'no' } ] },
+          { id: 'h6', type: 'hiragana', title: "บทที่ 6: วรรค H", chars: [ { kana: 'は', romaji: 'ha' }, { kana: 'ひ', romaji: 'hi' }, { kana: 'ふ', romaji: 'fu' }, { kana: 'へ', romaji: 'he' }, { kana: 'ほ', romaji: 'ho' } ] },
+          { id: 'h7', type: 'hiragana', title: "บทที่ 7: วรรค M", chars: [ { kana: 'ま', romaji: 'ma' }, { kana: 'み', romaji: 'mi' }, { kana: 'む', romaji: 'mu' }, { kana: 'め', romaji: 'me' }, { kana: 'も', romaji: 'mo' } ] },
+          { id: 'h8', type: 'hiragana', title: "บทที่ 8: วรรค Y", chars: [ { kana: 'や', romaji: 'ya' }, { kana: 'ゆ', romaji: 'yu' }, { kana: 'よ', romaji: 'yo' } ] },
+          { id: 'h9', type: 'hiragana', title: "บทที่ 9: วรรค R", chars: [ { kana: 'ら', romaji: 'ra' }, { kana: 'り', romaji: 'ri' }, { kana: 'る', romaji: 'ru' }, { kana: 'れ', romaji: 're' }, { kana: 'ろ', romaji: 'ro' } ] },
+          { id: 'h10', type: 'hiragana', title: "บทที่ 10: วรรค W/N", chars: [ { kana: 'わ', romaji: 'wa' }, { kana: 'を', romaji: 'wo' }, { kana: 'ん', romaji: 'n' } ] },
+          { id: 'h11', type: 'hiragana', title: "บทที่ 11: เสียงขุ่น G", chars: [ { kana: 'が', romaji: 'ga' }, { kana: 'ぎ', romaji: 'gi' }, { kana: 'ぐ', romaji: 'gu' }, { kana: 'げ', romaji: 'ge' }, { kana: 'ご', romaji: 'go' } ] },
+          { id: 'h12', type: 'hiragana', title: "บทที่ 12: เสียงขุ่น Z", chars: [ { kana: 'ざ', romaji: 'za' }, { kana: 'じ', romaji: 'ji' }, { kana: 'ず', romaji: 'zu' }, { kana: 'ぜ', romaji: 'ze' }, { kana: 'ぞ', romaji: 'zo' } ] },
+          { id: 'h13', type: 'hiragana', title: "บทที่ 13: เสียงขุ่น D", chars: [ { kana: 'だ', romaji: 'da' }, { kana: 'ぢ', romaji: 'ji' }, { kana: 'づ', romaji: 'zu' }, { kana: 'で', romaji: 'de' }, { kana: 'ど', romaji: 'do' } ] },
+          { id: 'h14', type: 'hiragana', title: "บทที่ 14: เสียงขุ่น B", chars: [ { kana: 'ば', romaji: 'ba' }, { kana: 'び', romaji: 'bi' }, { kana: 'ぶ', romaji: 'bu' }, { kana: 'べ', romaji: 'be' }, { kana: 'ぼ', romaji: 'bo' } ] },
+          { id: 'h15', type: 'hiragana', title: "บทที่ 15: เสียงกึ่งขุ่น P", chars: [ { kana: 'ぱ', romaji: 'pa' }, { kana: 'ぴ', romaji: 'pi' }, { kana: 'ぷ', romaji: 'pu' }, { kana: 'ぺ', romaji: 'pe' }, { kana: 'ぽ', romaji: 'po' } ] },
+
+          { id: 'k1', type: 'katakana', title: "บทที่ 1: วรรค A", chars: [ { kana: 'ア', romaji: 'a' }, { kana: 'イ', romaji: 'i' }, { kana: 'ウ', romaji: 'u' }, { kana: 'エ', romaji: 'e' }, { kana: 'オ', romaji: 'o' } ] },
+          { id: 'k2', type: 'katakana', title: "บทที่ 2: วรรค K", chars: [ { kana: 'カ', romaji: 'ka' }, { kana: 'キ', romaji: 'ki' }, { kana: 'ク', romaji: 'ku' }, { kana: 'ケ', romaji: 'ke' }, { kana: 'コ', romaji: 'ko' } ] },
+          { id: 'k3', type: 'katakana', title: "บทที่ 3: วรรค S", chars: [ { kana: 'サ', romaji: 'sa' }, { kana: 'シ', romaji: 'shi' }, { kana: 'ス', romaji: 'su' }, { kana: 'セ', romaji: 'se' }, { kana: 'ソ', romaji: 'so' } ] },
+          { id: 'k4', type: 'katakana', title: "บทที่ 4: วรรค T", chars: [ { kana: 'タ', romaji: 'ta' }, { kana: 'チ', romaji: 'chi' }, { kana: 'ツ', romaji: 'tsu' }, { kana: 'テ', romaji: 'te' }, { kana: 'ト', romaji: 'to' } ] },
+          { id: 'k5', type: 'katakana', title: "บทที่ 5: วรรค N", chars: [ { kana: 'ナ', romaji: 'na' }, { kana: 'ニ', romaji: 'ni' }, { kana: 'ヌ', romaji: 'nu' }, { kana: 'ネ', romaji: 'ne' }, { kana: 'ノ', romaji: 'no' } ] },
+          { id: 'k6', type: 'katakana', title: "บทที่ 6: วรรค H", chars: [ { kana: 'ハ', romaji: 'ha' }, { kana: 'ヒ', romaji: 'hi' }, { kana: 'フ', romaji: 'fu' }, { kana: 'ヘ', romaji: 'he' }, { kana: 'ホ', romaji: 'ho' } ] },
+          { id: 'k7', type: 'katakana', title: "บทที่ 7: วรรค M", chars: [ { kana: 'マ', romaji: 'ma' }, { kana: 'ミ', romaji: 'mi' }, { kana: 'ム', romaji: 'mu' }, { kana: 'メ', romaji: 'me' }, { kana: 'モ', romaji: 'mo' } ] },
+          { id: 'k8', type: 'katakana', title: "บทที่ 8: วรรค Y", chars: [ { kana: 'ヤ', romaji: 'ya' }, { kana: 'ユ', romaji: 'yu' }, { kana: 'ヨ', romaji: 'yo' } ] },
+          { id: 'k9', type: 'katakana', title: "บทที่ 9: วรรค R", chars: [ { kana: 'ラ', romaji: 'ra' }, { kana: 'リ', romaji: 'ri' }, { kana: 'ル', romaji: 'ru' }, { kana: 'レ', romaji: 're' }, { kana: 'ロ', romaji: 'ro' } ] },
+          { id: 'k10', type: 'katakana', title: "บทที่ 10: วรรค W/N", chars: [ { kana: 'ワ', romaji: 'wa' }, { kana: 'ヲ', romaji: 'wo' }, { kana: 'ン', romaji: 'n' } ] },
+          { id: 'k11', type: 'katakana', title: "บทที่ 11: เสียงขุ่น G", chars: [ { kana: 'ガ', romaji: 'ga' }, { kana: 'ギ', romaji: 'gi' }, { kana: 'グ', romaji: 'gu' }, { kana: 'ゲ', romaji: 'ge' }, { kana: 'ゴ', romaji: 'go' } ] },
+          { id: 'k12', type: 'katakana', title: "บทที่ 12: เสียงขุ่น Z", chars: [ { kana: 'ザ', romaji: 'za' }, { kana: 'ジ', romaji: 'ji' }, { kana: 'ズ', romaji: 'zu' }, { kana: 'ゼ', romaji: 'ze' }, { kana: 'ゾ', romaji: 'zo' } ] },
+          { id: 'k13', type: 'katakana', title: "บทที่ 13: เสียงขุ่น D", chars: [ { kana: 'ダ', romaji: 'da' }, { kana: 'ヂ', romaji: 'ji' }, { kana: 'ヅ', romaji: 'zu' }, { kana: 'デ', romaji: 'de' }, { kana: 'ド', romaji: 'do' } ] },
+          { id: 'k14', type: 'katakana', title: "บทที่ 14: เสียงขุ่น B", chars: [ { kana: 'バ', romaji: 'ba' }, { kana: 'ビ', romaji: 'bi' }, { kana: 'ブ', romaji: 'bu' }, { kana: 'ベ', romaji: 'be' }, { kana: 'ボ', romaji: 'bo' } ] },
+          { id: 'k15', type: 'katakana', title: "บทที่ 15: เสียงกึ่งขุ่น P", chars: [ { kana: 'パ', romaji: 'pa' }, { kana: 'ピ', romaji: 'pi' }, { kana: 'プ', romaji: 'pu' }, { kana: 'ペ', romaji: 'pe' }, { kana: 'ポ', romaji: 'po' } ] }
+        ];
+
+        const ALL_CHARS = LESSONS.flatMap(lesson => lesson.chars);
+
+        // ระบบเสียงพูด
+        const playAudio = (text) => {
+          if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ja-JP';
+            utterance.rate = 0.8;
+            window.speechSynthesis.speak(utterance);
+          }
+        };
+
+        // Component กระดานวาดเขียน
+        const DrawingPad = ({ guideText, size, clearTrigger, onDraw, inkColor, tool, isDarkMode }) => {
+          const canvasRef = useRef(null);
+          const contextRef = useRef(null);
+          const [isDrawing, setIsDrawing] = useState(false);
+
+          useEffect(() => {
+            const canvas = canvasRef.current;
+            canvas.width = size * 2;
+            canvas.height = size * 2;
+            canvas.style.width = `${size}px`;
+            canvas.style.height = `${size}px`;
+            const context = canvas.getContext('2d');
+            context.scale(2, 2);
+            contextRef.current = context;
+          }, [size]);
+
+          useEffect(() => {
+            const context = contextRef.current;
+            if (!context) return;
+            context.lineCap = 'round';
+            context.lineJoin = 'round';
+            context.strokeStyle = (isDarkMode && inkColor === '#1F1F1F') ? '#FFFFFF' : inkColor;
+
+            if (tool === 'brush') {
+              context.lineWidth = size > 150 ? 20 : 12;
+              context.shadowBlur = 6;
+              context.shadowColor = context.strokeStyle;
+              context.globalAlpha = 0.85;
+            } else {
+              context.lineWidth = size > 150 ? 14 : 8;
+              context.shadowBlur = 0;
+              context.globalAlpha = 1.0;
+            }
+          }, [inkColor, tool, size, isDarkMode]);
+
+          useEffect(() => {
+            if (clearTrigger > 0 && canvasRef.current) {
+              const canvas = canvasRef.current;
+              const context = canvas.getContext('2d');
+              context.save();
+              context.globalAlpha = 1.0;
+              context.clearRect(0, 0, canvas.width, canvas.height);
+              context.restore();
+            }
+          }, [clearTrigger]);
+
+          const getCoordinates = (e) => {
+            if (e.touches && e.touches.length > 0) {
+              const touch = e.touches[0];
+              const rect = canvasRef.current.getBoundingClientRect();
+              return { offsetX: touch.clientX - rect.left, offsetY: touch.clientY - rect.top };
+            }
+            return { offsetX: e.nativeEvent.offsetX, offsetY: e.nativeEvent.offsetY };
+          };
+
+          const startDrawing = (e) => {
+            const { offsetX, offsetY } = getCoordinates(e);
+            contextRef.current.beginPath();
+            contextRef.current.moveTo(offsetX, offsetY);
+            setIsDrawing(true);
+            if (onDraw) onDraw();
+          };
+
+          const finishDrawing = () => {
+            contextRef.current.closePath();
+            setIsDrawing(false);
+          };
+
+          const draw = (e) => {
+            if (!isDrawing) return;
+            const { offsetX, offsetY } = getCoordinates(e);
+            contextRef.current.lineTo(offsetX, offsetY);
+            contextRef.current.stroke();
+          };
+
+          return (
+            <div 
+              className={`relative rounded-2xl shadow-sm border-2 overflow-hidden shrink-0 flex items-center justify-center transition-all duration-300 hover:shadow-md ${isDarkMode ? 'bg-[#1E293B] border-slate-600' : 'bg-[#FFFCF7] border-[#E8E1D5]'}`} 
+              style={{ width: size, height: size }}
+            >
+              <div className="absolute inset-0 pointer-events-none opacity-20">
+                <div className={`w-full h-full border-b border-dashed absolute top-1/2 ${isDarkMode ? 'border-slate-500' : 'border-[#D3381C]'}`}></div>
+                <div className={`w-full h-full border-r border-dashed absolute left-1/2 ${isDarkMode ? 'border-slate-500' : 'border-[#D3381C]'}`}></div>
+              </div>
+              {guideText && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+                  <span className={`font-sans ${isDarkMode ? 'text-slate-700' : 'text-[#E8E1D5]'}`} style={{ fontSize: guideText.length > 1 ? size * 0.5 : size * 0.75 }}>{guideText}</span>
+                </div>
+              )}
+              <canvas
+                ref={canvasRef}
+                onMouseDown={startDrawing}
+                onMouseUp={finishDrawing}
+                onMouseMove={draw}
+                onMouseOut={finishDrawing}
+                onTouchStart={startDrawing}
+                onTouchEnd={finishDrawing}
+                onTouchMove={draw}
+                className="absolute inset-0 z-10 cursor-crosshair touch-none"
+              />
             </div>
-         </div>
-      </div>
+          );
+        };
 
-      <div className="flex-1 relative overflow-hidden">
-        {currentView === 'menu' && renderMenu()}
-        {currentView === 'settings' && renderSettings()}
-        {currentView === 'lessonSelect' && renderLessonSelect()}
-        {(currentView === 'learn' || currentView === 'practice') && renderCanvasView()}
-        {currentView === 'game' && renderMiniGame()}
-        {(currentView === 'summary' || currentView === 'gameSummary') && renderSummary()}
-      </div>
-    </div>
-  );
-}
+        // แอปพลิเคชันหลัก
+        function JapaneseWritingApp() {
+          const [currentView, setCurrentView] = useState('menu');
+          const [selectedMode, setSelectedMode] = useState('');
+          const [activeTab, setActiveTab] = useState('hiragana');
+          const [currentLessonItem, setCurrentLessonItem] = useState(LESSONS[0]);
+          const [currentCharIndex, setCurrentCharIndex] = useState(0);
+          const [score, setScore] = useState(0);
+          const [hasDrawn, setHasDrawn] = useState(false);
+          const [feedback, setFeedback] = useState(null);
+          const [clearTrigger, setClearTrigger] = useState(0);
+          
+          const [isDarkMode, setIsDarkMode] = useState(false);
+          const [isLeftHanded, setIsLeftHanded] = useState(false);
+          
+          const [inkColor, setInkColor] = useState('#2C3E50');
+          const [tool, setTool] = useState('pen');
+          const COLORS = ['#2C3E50', '#D3381C', '#27AE60', '#1F1F1F'];
+
+          const [gameScore, setGameScore] = useState(0);
+          const [gameQuestionCount, setGameQuestionCount] = useState(0);
+          const [gameCurrentQuestion, setGameCurrentQuestion] = useState(null);
+
+          const filteredLessons = LESSONS.filter(l => l.type === activeTab);
+
+          const startLesson = (lesson) => {
+            setCurrentLessonItem(lesson);
+            setCurrentCharIndex(0);
+            setScore(0);
+            setCurrentView(selectedMode);
+            setFeedback(null);
+            setHasDrawn(false);
+          };
+
+          const handleNext = () => {
+            if (selectedMode === 'practice' && hasDrawn) {
+                setScore(prev => prev + Math.floor(Math.random() * 6) + 15);
+            }
+            if (currentCharIndex < currentLessonItem.chars.length - 1) {
+              setCurrentCharIndex(prev => prev + 1);
+              setHasDrawn(false);
+              setFeedback(null);
+            } else {
+              setCurrentView('summary');
+            }
+          };
+
+          const clearCanvas = () => {
+            setClearTrigger(prev => prev + 1);
+            setHasDrawn(false);
+            setFeedback(null);
+          };
+
+          const checkAnswer = () => {
+              if (!hasDrawn) {
+                  setFeedback({ type: 'error', text: 'คัดให้ครบก่อนน้า~' });
+                  return;
+              }
+              setFeedback({ type: 'success', text: 'ทำได้ดีมาก!' });
+              setTimeout(handleNext, 1000);
+          };
+
+          const calculateStars = () => {
+            const maxScore = currentLessonItem.chars.length * 20;
+            const percentage = (score / maxScore) * 100;
+            if (percentage >= 85) return 3;
+            if (percentage >= 60) return 2;
+            return 1;
+          };
+
+          const startMiniGame = () => {
+            setGameScore(0);
+            setGameQuestionCount(0);
+            generateNextQuestion();
+            setCurrentView('game');
+          };
+
+          const generateNextQuestion = () => {
+            if (gameQuestionCount >= 10) {
+              setCurrentView('gameSummary');
+              return;
+            }
+            const targetChar = ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)];
+            let choices = [targetChar];
+            while (choices.length < 4) {
+                const randomChar = ALL_CHARS[Math.floor(Math.random() * ALL_CHARS.length)];
+                if (!choices.find(c => c.kana === randomChar.kana)) {
+                    choices.push(randomChar);
+                }
+            }
+            choices = choices.sort(() => Math.random() - 0.5);
+            setGameCurrentQuestion({ target: targetChar, choices: choices });
+            setGameQuestionCount(prev => prev + 1);
+            setFeedback(null);
+          };
+
+          const handleGameAnswer = (selectedChar) => {
+              if (selectedChar.kana === gameCurrentQuestion.target.kana) {
+                  playAudio('正解');
+                  setFeedback({ type: 'success', text: 'ถูกต้อง! 🎉' });
+                  setGameScore(prev => prev + 10);
+              } else {
+                  setFeedback({ type: 'error', text: `ผิดจ้า คำตอบคือ ${gameCurrentQuestion.target.kana}` });
+              }
+              setTimeout(generateNextQuestion, 1500);
+          };
+
+          // --- ส่วนจัดการแสดงผล (Views) ---
+          const renderMenu = () => (
+            <div className="flex flex-col items-center justify-center h-full space-y-8 animate-in fade-in zoom-in duration-300 relative z-10 p-6">
+              <div className="absolute top-4 right-4">
+                <button onClick={() => setCurrentView('settings')} className={`p-3 rounded-full shadow-sm hover:scale-110 transition-transform ${isDarkMode ? 'bg-slate-800 text-slate-200' : 'bg-white text-gray-700'}`}>
+                   <i className="fas fa-gear text-xl"></i>
+                </button>
+              </div>
+
+              <div className="text-center mb-2">
+                <div className={`w-24 h-24 rounded-full mx-auto mb-6 flex items-center justify-center shadow-xl ${isDarkMode ? 'bg-red-900' : 'bg-[#D3381C]'}`}>
+                   <span className="text-white text-5xl font-bold">あ</span>
+                </div>
+                <h1 className={`text-4xl font-black mb-2 tracking-tight ${isDarkMode ? 'text-white' : 'text-[#2C3E50]'}`}>JapaWrite</h1>
+                <p className={`font-medium tracking-widest text-sm mb-1 ${isDarkMode ? 'text-red-400' : 'text-[#D3381C]'}`}>日本語を書こう</p>
+              </div>
+              
+              <div className="space-y-4 w-full max-w-xs">
+                <button onClick={() => { setSelectedMode('learn'); setCurrentView('lessonSelect'); }} className="flex items-center justify-center space-x-3 w-full py-4 bg-[#2C3E50] text-white rounded-2xl shadow-[0_6px_0_#1A252F] hover:translate-y-1 hover:shadow-[0_2px_0_#1A252F] transition-all">
+                  <i className="fas fa-book-open text-xl"></i>
+                  <span className="text-xl font-bold">เรียนรู้และฝึกคัด</span>
+                </button>
+
+                <button onClick={() => { setSelectedMode('practice'); setCurrentView('lessonSelect'); }} className="flex items-center justify-center space-x-3 w-full py-4 bg-[#D3381C] text-white rounded-2xl shadow-[0_6px_0_#9C2A15] hover:translate-y-1 hover:shadow-[0_2px_0_#9C2A15] transition-all">
+                  <i className="fas fa-pen-to-square text-xl"></i>
+                  <span className="text-xl font-bold">แบบฝึกหัดทบทวน</span>
+                </button>
+
+                <button onClick={startMiniGame} className="flex items-center justify-center space-x-3 w-full py-4 bg-[#F39C12] text-white rounded-2xl shadow-[0_6px_0_#C87F0A] hover:translate-y-1 hover:shadow-[0_2px_0_#C87F0A] transition-all mt-4">
+                  <i className="fas fa-gamepad text-xl"></i>
+                  <span className="text-xl font-bold">มินิเกม (Mini Game)</span>
+                </button>
+              </div>
+
+              <div className={`absolute bottom-8 text-center text-xs font-medium tracking-wide ${isDarkMode ? 'text-slate-500' : 'text-gray-400'}`}>
+                 <p>Japanese Master Edition v1.0</p>
+                 <p className="mt-1">Developed by <span className="font-bold">Jeerapat</span></p>
+              </div>
+            </div>
+          );
+
+          const renderSettings = () => (
+              <div className={`flex flex-col h-full p-6 animate-in slide-in-from-bottom duration-300 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-gray-800'}`}>
+                <div className="flex items-center mb-8">
+                    <button onClick={() => setCurrentView('menu')} className={`p-2 rounded-full shadow-sm w-10 h-10 ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}><i className="fas fa-chevron-left text-xl"></i></button>
+                    <h2 className="text-2xl font-black ml-4">ตั้งค่าแอป (Settings)</h2>
+                </div>
+
+                <div className="space-y-6">
+                    <div className={`p-5 rounded-2xl flex justify-between items-center shadow-sm ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
+                        <div className="flex items-center space-x-4">
+                            <div className={`w-12 h-12 flex items-center justify-center rounded-full ${isDarkMode ? 'bg-slate-700 text-white' : 'bg-blue-50 text-blue-600'}`}>
+                                {isDarkMode ? <i className="fas fa-moon text-xl"></i> : <i className="fas fa-sun text-xl"></i>}
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-lg">โหมดถนอมสายตา</h3>
+                                <p className="text-sm opacity-60">Dark Mode</p>
+                            </div>
+                        </div>
+                        <button onClick={() => setIsDarkMode(!isDarkMode)} className={`w-14 h-8 rounded-full flex items-center p-1 transition-colors ${isDarkMode ? 'bg-green-500' : 'bg-gray-300'}`}>
+                            <div className={`w-6 h-6 rounded-full bg-white shadow-md transform transition-transform ${isDarkMode ? 'translate-x-6' : 'translate-x-0'}`}></div>
+                        </button>
+                    </div>
+
+                    <div className={`p-5 rounded-2xl flex justify-between items-center shadow-sm ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}>
+                        <div className="flex items-center space-x-4">
+                            <div className={`w-12 h-12 flex items-center justify-center rounded-full ${isDarkMode ? 'bg-slate-700 text-white' : 'bg-red-50 text-red-600'}`}>
+                                <i className="fas fa-hand-paper text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-lg">โหมดคนถนัดซ้าย</h3>
+                                <p className="text-sm opacity-60">Left-Handed UI</p>
+                            </div>
+                        </div>
+                        <button onClick={() => setIsLeftHanded(!isLeftHanded)} className={`w-14 h-8 rounded-full flex items-center p-1 transition-colors ${isLeftHanded ? 'bg-green-500' : 'bg-gray-300'}`}>
+                            <div className={`w-6 h-6 rounded-full bg-white shadow-md transform transition-transform ${isLeftHanded ? 'translate-x-6' : 'translate-x-0'}`}></div>
+                        </button>
+                    </div>
+                </div>
+              </div>
+          );
+
+          const renderLessonSelect = () => (
+            <div className={`flex flex-col h-full p-6 animate-in slide-in-from-right duration-300 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-gray-800'}`}>
+              <div className="flex items-center mb-6">
+                <button onClick={() => setCurrentView('menu')} className={`p-2 w-10 h-10 flex items-center justify-center rounded-full shadow-sm hover:scale-110 ${isDarkMode ? 'bg-slate-800' : 'bg-white/80'}`}>
+                  <i className="fas fa-chevron-left text-xl"></i>
+                </button>
+                <h2 className="text-2xl font-black ml-4">
+                  {selectedMode === 'learn' ? 'เลือกบทเรียน' : 'เลือกแบบฝึกหัด'}
+                </h2>
+              </div>
+
+              <div className={`flex space-x-2 mb-6 p-1.5 rounded-2xl shrink-0 ${isDarkMode ? 'bg-slate-800' : 'bg-[#E8E1D5]'}`}>
+                <button onClick={() => setActiveTab('hiragana')} className={`flex-1 py-3 text-center rounded-xl font-bold transition-all duration-300 ${activeTab === 'hiragana' ? (isDarkMode ? 'bg-slate-700 text-red-400' : 'bg-white shadow-md text-[#D3381C]') : 'opacity-50'}`}>ฮิรางานะ</button>
+                <button onClick={() => setActiveTab('katakana')} className={`flex-1 py-3 text-center rounded-xl font-bold transition-all duration-300 ${activeTab === 'katakana' ? (isDarkMode ? 'bg-slate-700 text-red-400' : 'bg-white shadow-md text-[#D3381C]') : 'opacity-50'}`}>คาตาคานะ</button>
+              </div>
+
+              <div className="space-y-4 overflow-y-auto pb-24 custom-scrollbar pr-2">
+                {filteredLessons.map((lesson) => (
+                  <div key={lesson.id} className={`p-5 rounded-2xl shadow-sm border-2 border-transparent flex justify-between items-center transition-all ${isDarkMode ? 'bg-slate-800 hover:border-red-900' : 'bg-white/90 hover:border-[#D3381C]/20'}`}>
+                    <div>
+                      <h3 className="text-lg font-bold">{lesson.title}</h3>
+                      <p className="mt-1 text-sm opacity-60">{lesson.chars.map(c => c.kana).join(', ')}</p>
+                    </div>
+                    <button onClick={() => startLesson(lesson)} className={`w-12 h-12 flex items-center justify-center rounded-full text-white shadow-md transition-transform hover:scale-110 ${selectedMode === 'learn' ? 'bg-[#2C3E50]' : 'bg-[#D3381C]'}`}>
+                      <i className="fas fa-play text-lg ml-1"></i>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+
+          const renderCanvasView = () => {
+            const charData = currentLessonItem.chars[currentCharIndex];
+            const isPractice = selectedMode === 'practice';
+
+            return (
+              <div className={`flex flex-col h-full animate-in fade-in duration-300 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-gray-800'}`}>
+                <div className={`flex items-center p-6 pb-2 shrink-0 ${isLeftHanded ? 'flex-row-reverse justify-between' : 'justify-between'}`}>
+                  <button onClick={() => setCurrentView('lessonSelect')} className={`p-2 w-10 h-10 flex items-center justify-center rounded-full shadow-sm ${isDarkMode ? 'bg-slate-800' : 'bg-white/80'}`}>
+                    <i className={`fas fa-chevron-left text-xl ${isLeftHanded ? 'rotate-180' : ''}`}></i>
+                  </button>
+                  <div className={`text-center px-4 py-1 rounded-full ${isDarkMode ? 'bg-slate-800' : 'bg-white/60'}`}>
+                    <h2 className={`text-sm font-bold line-clamp-1 ${isDarkMode ? 'text-red-400' : 'text-[#D3381C]'}`}>{currentLessonItem.title}</h2>
+                    <p className="text-xs opacity-60 font-medium">{currentCharIndex + 1} / {currentLessonItem.chars.length}</p>
+                  </div>
+                  <div className="w-10"></div>
+                </div>
+
+                <div className="text-center mb-3 px-4 shrink-0 flex flex-col items-center">
+                  <div className="flex items-center space-x-3 mb-1">
+                    <p className="text-lg font-bold opacity-70">
+                      {isPractice ? "จงเขียนตัว:" : "ฝึกคัดตัว:"}
+                    </p>
+                    <span className={`text-3xl font-black ${isPractice ? 'text-[#D3381C]' : 'text-blue-500'}`}>"{charData.romaji}"</span>
+                    <button onClick={() => playAudio(charData.kana)} className={`p-2 w-10 h-10 flex items-center justify-center rounded-full shadow-sm hover:scale-110 transition-all ${isDarkMode ? 'bg-slate-800 text-blue-400' : 'bg-white text-blue-500'}`}>
+                      <i className="fas fa-volume-high text-lg"></i>
+                    </button>
+                  </div>
+                  
+                  {!isPractice && charData.vocab ? (
+                     <div className={`mt-2 px-4 py-2 rounded-2xl flex items-center space-x-2 animate-in slide-in-from-top ${isDarkMode ? 'bg-slate-800/80' : 'bg-white/80 shadow-sm'}`}>
+                        <span className="text-lg font-bold">{charData.vocab.word}</span>
+                        <span className="opacity-50">|</span>
+                        <span className="text-sm font-medium">{charData.vocab.meaning}</span>
+                        <button onClick={() => playAudio(charData.vocab.word.split(' ')[0])} className="ml-2 text-blue-500"><i className="fas fa-volume-high text-sm"></i></button>
+                     </div>
+                  ) : (
+                     <p className="text-xs opacity-50">ลากเส้นตามตัวร่าง 1 ครั้ง และฝึกเขียนเอง 10 ครั้ง</p>
+                  )}
+                </div>
+
+                <div className={`flex justify-center items-center space-x-4 mb-4 shrink-0 px-4 ${isLeftHanded ? 'flex-row-reverse space-x-reverse' : ''}`}>
+                  <div className={`flex space-x-1 border p-1.5 rounded-2xl shadow-sm ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white/90 border-[#E8E1D5]'}`}>
+                    <button onClick={() => setTool('pen')} className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all ${tool === 'pen' ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-[#2C3E50] text-white shadow') : 'opacity-50'} `}><i className="fas fa-pen-nib text-base"></i></button>
+                    <button onClick={() => setTool('brush')} className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all ${tool === 'brush' ? (isDarkMode ? 'bg-blue-600 text-white' : 'bg-[#2C3E50] text-white shadow') : 'opacity-50'}`}><i className="fas fa-paint-brush text-base"></i></button>
+                  </div>
+                  <div className={`flex space-x-3 border p-2.5 rounded-2xl shadow-sm items-center ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white/90 border-[#E8E1D5]'}`}>
+                    {COLORS.map(color => {
+                       let displayColor = color;
+                       if (isDarkMode && color === '#1F1F1F') displayColor = '#FFFFFF';
+                       return (
+                        <button key={color} onClick={() => setInkColor(color)} className={`w-6 h-6 rounded-full transition-transform ${inkColor === color ? `scale-125 ring-2 ring-offset-2 ${isDarkMode ? 'ring-slate-400 ring-offset-slate-800' : 'ring-[#2C3E50]'}` : 'hover:scale-110'}`} style={{ backgroundColor: displayColor }} />
+                       );
+                    })}
+                  </div>
+                </div>
+
+                <div className={`flex-1 overflow-y-auto px-4 pb-6 relative custom-scrollbar ${isDarkMode ? 'dark-scrollbar' : ''} flex flex-col items-center`}>
+                  {feedback && (
+                     <div className={`sticky top-2 px-6 py-3 rounded-xl font-bold text-white z-20 animate-in slide-in-from-top shadow-lg border-2 ${feedback.type === 'success' ? 'bg-[#27AE60] border-white' : 'bg-[#D3381C] border-white'}`}>
+                        {feedback.text}
+                     </div>
+                  )}
+                  <div className="flex flex-col items-center space-y-6 w-full max-w-[260px] py-4" key={`char-${currentCharIndex}`}>
+                    <DrawingPad guideText={isPractice ? null : charData.kana} size={240} clearTrigger={clearTrigger} onDraw={() => setHasDrawn(true)} inkColor={inkColor} tool={tool} isDarkMode={isDarkMode} />
+                    <div className="grid grid-cols-2 gap-4 w-full">
+                      {Array.from({ length: 10 }).map((_, i) => (
+                        <DrawingPad key={`drill-${i}`} guideText={null} size={112} clearTrigger={clearTrigger} onDraw={() => setHasDrawn(true)} inkColor={inkColor} tool={tool} isDarkMode={isDarkMode} />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className={`flex mt-8 pb-8 space-x-4 w-full max-w-[260px] ${isLeftHanded ? 'flex-row-reverse space-x-reverse' : ''}`}>
+                    <button onClick={clearCanvas} className={`flex-1 flex items-center justify-center space-x-2 py-3.5 rounded-2xl font-bold shadow-sm border transition-all active:scale-95 ${isDarkMode ? 'bg-slate-800 border-slate-700 text-white hover:bg-slate-700' : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-100'}`}>
+                        <i className="fas fa-rotate-left text-lg"></i><span className="hidden sm:inline">ล้าง</span>
+                    </button>
+                    {isPractice ? (
+                      <button onClick={checkAnswer} className="flex-[2] flex items-center justify-center space-x-2 py-3.5 bg-[#D3381C] text-white rounded-2xl font-bold shadow-[0_4px_0_#9C2A15] transition-all active:translate-y-1 active:shadow-[0_0px_0_#9C2A15]">
+                        <i className="fas fa-circle-check text-lg"></i><span>ส่งคำตอบ</span>
+                      </button>
+                    ) : (
+                      <button onClick={handleNext} className={`flex-[2] flex items-center justify-center space-x-2 py-3.5 text-white rounded-2xl font-bold shadow-[0_4px_0_#1A252F] transition-all active:translate-y-1 active:shadow-[0_0px_0_#1A252F] ${isDarkMode ? 'bg-blue-600 shadow-[0_4px_0_#1E3A8A]' : 'bg-[#2C3E50]'}`}>
+                        <span>ถัดไป</span><i className="fas fa-play text-lg ml-1"></i>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          };
+
+          const renderMiniGame = () => {
+              if (!gameCurrentQuestion) return null;
+              return (
+                <div className={`flex flex-col h-full p-6 animate-in slide-in-from-bottom duration-300 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-gray-800'}`}>
+                    <div className="flex justify-between items-center mb-8">
+                        <button onClick={() => setCurrentView('menu')} className={`p-2 w-10 h-10 flex items-center justify-center rounded-full shadow-sm ${isDarkMode ? 'bg-slate-800' : 'bg-white'}`}><i className="fas fa-chevron-left text-xl"></i></button>
+                        <div className="text-center font-bold">
+                            <span className="text-[#F39C12] text-xl">Score: {gameScore}</span>
+                        </div>
+                        <div className="text-sm font-bold opacity-50">{gameQuestionCount + 1}/10</div>
+                    </div>
+
+                    <div className="flex-1 flex flex-col items-center justify-center">
+                        {feedback && (
+                            <div className={`absolute top-20 px-6 py-3 rounded-xl font-bold text-white z-20 animate-bounce shadow-lg ${feedback.type === 'success' ? 'bg-[#27AE60]' : 'bg-[#D3381C]'}`}>
+                                {feedback.text}
+                            </div>
+                        )}
+                        
+                        <p className="text-xl font-bold mb-4 opacity-70">ตัวอักษรใดอ่านว่า</p>
+                        <div className={`w-40 h-40 rounded-3xl flex items-center justify-center mb-10 shadow-lg border-4 ${isDarkMode ? 'bg-slate-800 border-slate-700 text-white' : 'bg-white border-[#E8E1D5] text-[#2C3E50]'}`}>
+                            <span className="text-6xl font-black">{gameCurrentQuestion.target.romaji}</span>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4 w-full max-w-[300px]">
+                            {gameCurrentQuestion.choices.map((choice, i) => (
+                                <button 
+                                    key={i}
+                                    onClick={() => handleGameAnswer(choice)}
+                                    className={`py-8 rounded-2xl text-5xl font-bold shadow-[0_6px_0_rgba(0,0,0,0.1)] transition-all hover:translate-y-1 hover:shadow-[0_2px_0_rgba(0,0,0,0.1)] active:translate-y-2 active:shadow-none ${isDarkMode ? 'bg-slate-700 text-white' : 'bg-white text-[#2C3E50]'}`}
+                                >
+                                    {choice.kana}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+              );
+          }
+
+          const renderSummary = () => {
+            const isGameSummary = currentView === 'gameSummary';
+            const stars = selectedMode === 'practice' || isGameSummary ? calculateStars() : 0;
+            
+            return (
+              <div className={`flex flex-col items-center justify-center h-full p-6 animate-in zoom-in duration-500 relative z-10 ${isDarkMode ? 'text-slate-200' : 'text-gray-800'}`}>
+                
+                {selectedMode === 'practice' || isGameSummary ? (
+                  <div className="flex space-x-2 mb-8">
+                    {[1, 2, 3].map((star) => (
+                      <i key={star} className={`fas fa-star text-5xl transition-all duration-700 ${star <= stars ? 'text-[#F39C12] drop-shadow-lg scale-110' : 'text-gray-300'}`} style={{ transitionDelay: `${star * 200}ms` }}></i>
+                    ))}
+                  </div>
+                ) : (
+                  <i className="fas fa-award text-6xl text-[#F39C12] mb-6 drop-shadow-md"></i>
+                )}
+
+                <h2 className={`text-3xl font-black mb-2 ${isDarkMode ? 'text-white' : 'text-[#2C3E50]'}`}>
+                   {isGameSummary ? 'จบเกม!' : (stars === 3 ? 'ยอดเยี่ยมมาก! (完璧)' : stars === 2 ? 'ทำได้ดี! (良い)' : 'จบแบบฝึกหัด!')}
+                </h2>
+                <p className="opacity-70 mb-8 text-center font-medium">
+                    {isGameSummary ? 'การฝึกฝนทำให้เราเก่งขึ้นนะ!' : `บทเรียน "${currentLessonItem.title}"\nเสร็จสมบูรณ์ 🎉`}
+                </p>
+                
+                {(selectedMode === 'practice' || isGameSummary) && (
+                  <div className={`p-8 rounded-[2rem] shadow-sm text-center mb-8 w-full max-w-[260px] relative ${isDarkMode ? 'bg-slate-800' : 'bg-white/90 backdrop-blur border-2 border-[#E8E1D5]'}`}>
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#D3381C] text-white text-xs font-bold px-3 py-1 rounded-full tracking-wider">
+                       {isGameSummary ? 'FINAL SCORE' : 'SCORE'}
+                    </div>
+                    <p className="font-bold mb-1 opacity-60">คะแนนของคุณ</p>
+                    <p className={`text-7xl font-black ${isDarkMode ? 'text-white' : 'text-[#2C3E50]'}`}>{isGameSummary ? gameScore : score}</p>
+                  </div>
+                )}
+                <button onClick={() => setCurrentView(isGameSummary ? 'menu' : 'lessonSelect')} className={`px-10 py-4 text-white rounded-2xl font-bold shadow-[0_4px_0_#1A252F] hover:translate-y-1 hover:shadow-[0_2px_0_#1A252F] transition-all active:translate-y-2 active:shadow-none ${isDarkMode ? 'bg-blue-600 shadow-[0_4px_0_#1E3A8A]' : 'bg-[#2C3E50]'}`}>
+                  กลับสู่เมนู
+                </button>
+              </div>
+            );
+          };
+
+          return (
+            <div className={`w-full h-full relative font-sans flex flex-col transition-colors duration-500 ${isDarkMode ? 'bg-[#0F172A]' : 'bg-[#F9F6F0]'}`}>
+              <div className={`japanese-bg ${isDarkMode ? 'bg-dark-pattern' : 'bg-light-pattern'}`}></div>
+
+              <div className={`h-6 w-full flex justify-between items-center px-4 text-xs font-semibold z-50 pt-2 pb-6 shrink-0 relative ${isDarkMode ? 'text-slate-300' : 'text-[#2C3E50]'}`}>
+                 <span>9:41 AM</span>
+                 <div className="flex space-x-1 items-center">
+                    <span>100%</span>
+                    <div className={`w-6 h-3 border rounded-[3px] p-[1px] ${isDarkMode ? 'border-slate-300' : 'border-[#2C3E50]'}`}>
+                       <div className={`w-full h-full rounded-[1px] ${isDarkMode ? 'bg-slate-300' : 'bg-[#2C3E50]'}`}></div>
+                    </div>
+                 </div>
+              </div>
+
+              <div className="flex-1 relative overflow-hidden">
+                {currentView === 'menu' && renderMenu()}
+                {currentView === 'settings' && renderSettings()}
+                {currentView === 'lessonSelect' && renderLessonSelect()}
+                {(currentView === 'learn' || currentView === 'practice') && renderCanvasView()}
+                {currentView === 'game' && renderMiniGame()}
+                {(currentView === 'summary' || currentView === 'gameSummary') && renderSummary()}
+              </div>
+            </div>
+          );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<JapaneseWritingApp />);
+    </script>
+</body>
+</html>
