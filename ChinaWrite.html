@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>ChinaWrite Pro LessonDeep v4 中文书写练习</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      margin: 0; padding: 0; min-height: 100vh; display: flex; justify-content: center; align-items: center;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(255,225,140,.72), transparent 26%),
+        radial-gradient(circle at 84% 18%, rgba(248,113,113,.45), transparent 26%),
+        radial-gradient(circle at 50% 92%, rgba(251,191,36,.38), transparent 34%),
+        linear-gradient(135deg, #5f0f0f 0%, #991b1b 42%, #b45309 100%);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e7bd54; border-radius: 10px; }
+    .dark-scrollbar::-webkit-scrollbar-thumb { background-color: #92400e; }
+    .chinese-bg { background-size: 96px 96px; opacity: .33; position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+    .bg-light-pattern {
+      background-image:
+        radial-gradient(circle at 25% 25%, rgba(185,28,28,.15) 0 9px, transparent 10px),
+        radial-gradient(circle at 75% 75%, rgba(234,179,8,.20) 0 10px, transparent 11px),
+        linear-gradient(45deg, transparent 44%, rgba(185,28,28,.08) 45% 55%, transparent 56%),
+        linear-gradient(-45deg, transparent 44%, rgba(234,179,8,.11) 45% 55%, transparent 56%);
+    }
+    .bg-dark-pattern {
+      background-image:
+        radial-gradient(circle at 25% 25%, rgba(250,204,21,.075) 0 9px, transparent 10px),
+        radial-gradient(circle at 75% 75%, rgba(248,113,113,.09) 0 10px, transparent 11px),
+        linear-gradient(45deg, transparent 44%, rgba(250,204,21,.045) 45% 55%, transparent 56%),
+        linear-gradient(-45deg, transparent 44%, rgba(248,113,113,.045) 45% 55%, transparent 56%);
+    }
+    .gold-sheen { background: linear-gradient(120deg, #fff7d6, #f59e0b, #fff7d6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .lantern-glow { box-shadow: 0 18px 46px rgba(220,38,38,.42), inset 0 0 24px rgba(255,237,213,.24); }
+    .paper-card { background-image: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,247,237,.88)); }
+    .fine-grid { background-image: linear-gradient(rgba(185,28,28,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(185,28,28,.08) 1px, transparent 1px); background-size: 18px 18px; }
+    canvas { touch-action: none; }
+  </style>
+</head>
+<body>
+  <div id="root" class="w-full sm:w-[430px] h-[100vh] sm:h-[830px] shadow-2xl relative overflow-hidden bg-white sm:rounded-3xl sm:border-8 sm:border-red-950"></div>
+
+  <script type="text/babel">
+    const { useState, useRef, useEffect, useMemo } = React;
+
+    const STORAGE_KEY = 'chinawrite_pro_v4_progress';
+    const todayISO = () => new Date().toISOString().slice(0,10);
+    const addDays = (days) => Date.now() + days * 24 * 60 * 60 * 1000;
+
+    const STROKE_GUIDES = {
+      '一': ['ขีดนอนจากซ้ายไปขวา'],
+      '二': ['ขีดนอนบน สั้นกว่า', 'ขีดนอนล่าง ยาวกว่า'],
+      '三': ['ขีดนอนบน', 'ขีดนอนกลางสั้น', 'ขีดนอนล่างยาว'],
+      '十': ['ขีดนอนก่อน', 'ขีดตั้งกลางจากบนลงล่าง'],
+      '人': ['ปาดซ้ายลง', 'ปาดขวาลง'],
+      '大': ['ขีดนอน', 'ปาดซ้ายลง', 'ปาดขวาลง'],
+      '小': ['ขีดตั้งกลาง', 'จุดซ้าย', 'จุดขวา'],
+      '口': ['ขีดตั้งซ้ายลง', 'ขีดบนต่อขวาลง', 'ขีดล่างปิดกรอบ'],
+      '日': ['กรอบนอกซ้าย-บน-ขวา', 'ขีดกลาง', 'ขีดล่างปิด'],
+      '月': ['ขีดซ้ายโค้งลง', 'ขีดบน-ขวา', 'ขีดกลางบน', 'ขีดกลางล่าง'],
+      '木': ['ขีดนอน', 'ขีดตั้ง', 'ปาดซ้าย', 'ปาดขวา'],
+      '水': ['ขีดตั้ง/ตะขอกลาง', 'ปาดซ้าย', 'ปาดขวาบน', 'ปาดขวาล่าง'],
+      '火': ['จุดซ้าย', 'จุดขวา', 'ปาดซ้ายใหญ่', 'ปาดขวาใหญ่'],
+      '女': ['ปาด/โค้งซ้าย', 'ปาดยาวขวา', 'ขีดนอนตัดกลาง'],
+      '子': ['ขีดโค้งบน', 'ขีดตั้งตะขอ', 'ขีดนอนล่าง'],
+      '好': ['เขียน 女 ด้านซ้าย', 'เขียน 子 ด้านขวา'],
+      '我': ['ปาดสั้นบน', 'ขีดนอน', 'ขีดตั้งตะขอ', 'ปาดซ้าย', 'ขีดเฉียงขวา', 'จุด', 'ปาดขวา'],
+      '你': ['亻 ด้านซ้าย', 'ส่วน 尔 ด้านขวา: ปาดบน/ขีดโค้ง/จุดสองข้าง'],
+      '他': ['亻 ด้านซ้าย', '也 ด้านขวา'],
+      '她': ['女 ด้านซ้าย', '也 ด้านขวา'],
+      '是': ['日 ด้านบน', 'ขีดนอนกลาง', 'ส่วนล่างเดินลง'],
+      '不': ['ขีดนอน', 'ปาดซ้ายลง', 'ขีดตั้ง', 'จุดขวา'],
+      '中': ['กรอบ 口', 'ขีดตั้งทะลุกลาง'],
+      '国': ['กรอบนอกก่อน', '玉 ด้านใน', 'ปิดกรอบล่าง'],
+      '学': ['จุด/ขีดส่วนบน', '冖 กลาง', '子 ด้านล่าง'],
+      '医': ['กรอบ 匚 ก่อน', '矢 ด้านใน', 'ปิดกรอบ'],
+      '药': ['艹 ด้านบน', '约 ด้านล่าง'],
+      '病': ['疒 ด้านนอก', '丙 ด้านใน'],
+      '心': ['จุดซ้าย', 'ขีดโค้งกลาง', 'จุดกลาง', 'จุดขวา'],
+      '手': ['ปาดบน', 'ขีดนอน', 'ขีดนอน', 'ขีดตั้งตะขอ'],
+      '气': ['ปาดบน', 'ขีดนอน', 'ขีดนอน', 'ขีดโค้งตะขอ'],
+      '草': ['艹 ด้านบน', '早 ด้านล่าง'],
+      '参': ['厶 ด้านบน', '大 กลาง', 'ปาดสามขีดล่าง'],
+      '姜': ['羊 ด้านบน', '女 ด้านล่าง'],
+      '甘': ['ขีดนอนบน', 'ขีดตั้งซ้าย', 'ขีดตั้งขวา', 'ขีดนอนใน', 'ขีดนอนล่าง'],
+      '寒': ['宀 ด้านบน', 'ส่วนกลาง', 'จุดน้ำแข็งด้านล่าง'],
+      '热': ['执 ด้านบน', '灬 สี่จุดด้านล่าง'],
+    };
+
+    const COMMON_STROKES = {
+      '零':13,'一':1,'二':2,'三':3,'四':5,'五':4,'六':4,'七':2,'八':2,'九':2,'十':2,'百':6,'千':3,'万':3,
+      '人':2,'女':3,'儿':2,'子':3,'父':4,'母':5,'爸':8,'妈':6,'哥':10,'姐':8,'弟':7,'妹':8,'家':10,
+      '我':7,'你':7,'他':5,'她':6,'们':5,'这':7,'那':6,'哪':9,'谁':10,'什':4,'么':3,'吗':6,
+      '是':9,'有':6,'在':6,'来':7,'去':5,'回':6,'看':9,'见':4,'听':7,'说':9,'读':10,'写':5,'学':8,
+      '中':4,'国':8,'文':4,'汉':5,'字':6,'拼':9,'音':9,'书':4,'习':3,'医':7,'药':9,'病':10,'痛':12,'心':4,'肝':7,'肺':8,'肾':8,
+      '口':3,'日':4,'月':4,'木':4,'水':4,'火':4,'土':3,'手':4,'目':5,'耳':6,'足':7,'艹':3,'氵':3,'疒':5,
+      '寒':12,'热':10,'湿':12,'气':4,'血':6,'草':9,'参':8,'姜':9,'甘':5,'风':4,'咳':9,'烧':10
+    };
+
+    const strokeRules = [
+      {title:'บนก่อนล่าง', example:'写 / 学', detail:'ส่วนบน เช่น 宀 หรือ 艹 มักเขียนก่อนส่วนล่าง'},
+      {title:'ซ้ายก่อนขวา', example:'你 / 好', detail:'อักษรที่แบ่งซ้าย-ขวา ให้เขียนซ้ายก่อนขวา'},
+      {title:'ขีดนอนก่อนขีดตั้ง', example:'十', detail:'เมื่อขีดตัดกัน มักเขียนขีดนอนก่อน'},
+      {title:'ข้างนอกก่อนข้างใน', example:'国 / 问', detail:'เขียนกรอบนอกก่อน เติมด้านใน แล้วปิดกรอบท้าย'},
+      {title:'กลางก่อนสองข้าง', example:'小 / 水', detail:'บางตัวเขียนแกนกลางก่อน แล้วจึงซ้าย-ขวา'},
+      {title:'ปาดซ้ายก่อนปาดขวา', example:'人 / 大', detail:'ขีดปาดซ้ายมักมาก่อนปาดขวา'}
+    ];
+
+
+    const BASIC_STROKES = [
+      {mark:'一', name:'héng ขีดนอน', detail:'ซ้ายไปขวา เส้นนิ่ง'}, {mark:'丨', name:'shù ขีดตั้ง', detail:'บนลงล่าง แกนตรง'},
+      {mark:'丿', name:'piě ปาดซ้าย', detail:'หนักต้น เบาปลาย'}, {mark:'㇏', name:'nà กดขวา', detail:'กดแล้วผ่อนปลาย'},
+      {mark:'丶', name:'diǎn จุด', detail:'สั้นแต่มีทิศทาง'}, {mark:'亅', name:'gōu ตะขอ', detail:'เกี่ยวปลายให้พอดี'}
+    ];
+    const LEARNING_PATH = [
+      ['1','พินอิน','วางฐานเสียง พยัญชนะ สระ วรรณยุกต์','fa-language'], ['2','ขีดพื้นฐาน','ฝึกเส้น 一 丨 丿 ㇏ 丶 亅 ก่อนเขียนจริง','fa-grip-lines'],
+      ['3','รากศัพท์ 部首','อ่านโครงสร้าง 艹 疒 口 人 心 水 火','fa-seedling'], ['4','อักษรพื้นฐาน','ตัวเลข คน เวลา กริยา สถานที่','fa-font'],
+      ['5','HSK Path','จัดคำเป็นระดับเพื่อเรียนต่อเนื่อง','fa-layer-group'], ['6','จีนสุขภาพ','คำศัพท์ยา โรค อาการ สมุนไพร และคลินิก','fa-notes-medical']
+    ];
+    const THAI_TIPS = [
+      ['zh/ch/sh/r','ม้วนลิ้นเล็กน้อย อย่าอ่านเป็น จ/ช/ซ ไทยตรง ๆ','zhōng, chī, shì, rì'],
+      ['j/q/x','q ต้องมีลม ส่วน x เป็นเสียงนุ่มแหลมกว่าซอไทย','jī, qī, xī'],
+      ['ü','ปากจู๋แบบอู แต่ลิ้นพูดอี จะได้เสียงใกล้ “อวี”','nǚ, lǜ, yǔ'],
+      ['เสียง 3','หลายครั้งกดต่ำไว้ ไม่ต้องตกแล้วขึ้นเต็มทุกคำ','nǐ hǎo → ní hǎo'],
+      ['เสียงมีลม','p t k q ch c ต้องพ่นลมชัด แยกจาก b d g j zh z','b/p, d/t, g/k']
+    ];
+    const PHARMACY_PATH = [
+      ['ร้านยา 药店',['药师 yàoshī เภสัชกร','药店 yàodiàn ร้านยา','处方 chǔfāng ใบสั่งยา','副作用 fùzuòyòng ผลข้างเคียง']],
+      ['โรคเรื้อรัง 慢性病',['高血压 ความดันสูง','糖尿病 เบาหวาน','血糖 น้ำตาลในเลือด','血脂 ไขมันในเลือด']],
+      ['สมุนไพรจีน 中草药',['中药 ยาจีน','草药 สมุนไพร','人参 โสม','甘草 ชะเอม','生姜 ขิงสด']],
+      ['คำแนะนำผู้ป่วย',['请按时吃药 กินยาให้ตรงเวลา','饭后服用 หลังอาหาร','不要过量使用 อย่าใช้เกินขนาด','有不适请停用 หากไม่สบายให้หยุดใช้']]
+    ];
+    const SCENARIOS = [
+      ['ร้านยา',['你哪里不舒服？ — ไม่สบายตรงไหนคะ','我头痛。— ฉันปวดหัว','请一天吃三次。— กรุณากินวันละ 3 ครั้ง']],
+      ['คลินิก',['你有高血压吗？— มีความดันสูงไหม','请量血压。— กรุณาวัดความดัน','请按时复诊。— กรุณามาตรวจตามนัด']],
+      ['สมุนไพรจีน',['这是中药。— นี่คือยาจีน','这种草药可以泡茶。— สมุนไพรนี้ชงชาได้','请不要过量使用。— อย่าใช้เกินขนาด']]
+    ];
+    const DEEP_NOTES = {
+      '药': ['艹 พืช/สมุนไพร','บน–ล่าง: 艹 + 约',['药 ยา','中药 ยาจีน','草药 สมุนไพร','药店 ร้านยา','药师 เภสัชกร'],['我吃药。ฉันกินยา','你每天吃药吗？คุณกินยาทุกวันไหม','请按时吃药。กรุณากินยาให้ตรงเวลา'],'yào เสียง 4 ตกสั้นและชัด'],
+      '病': ['疒 โรค/เจ็บป่วย','疒 ด้านนอก + 丙 ด้านใน',['病 โรค','生病 ป่วย','慢性病 โรคเรื้อรัง','糖尿病 เบาหวาน'],['我生病了。ฉันป่วยแล้ว','他有慢性病。เขามีโรคเรื้อรัง','糖尿病需要控制饮食。เบาหวานต้องควบคุมอาหาร'],'bìng เสียง 4 อย่าลากยาว'],
+      '痛': ['疒 โรค/อาการเจ็บ','疒 + 甬',['痛 ปวด','头痛 ปวดหัว','心痛 เจ็บใจ/เจ็บหัวใจ','疼痛 ความเจ็บปวด'],['我头痛。ฉันปวดหัว','哪里痛？ปวดตรงไหน','如果疼痛加重，请去医院。ถ้าปวดมากขึ้นควรไปโรงพยาบาล'],'tòng เสียง 4 และ t ต้องมีลม'],
+      '医': ['匚 กรอบเปิด','匚 + 矢',['医 แพทย์/รักษา','医生 แพทย์','中医 แพทย์จีน','医院 โรงพยาบาล'],['我是药师。ฉันเป็นเภสัชกร','他去医院。เขาไปโรงพยาบาล','中医和草药有关。แพทย์จีนเกี่ยวกับสมุนไพร'],'yī เสียง 1 สูงราบ'],
+      '水': ['水/氵 น้ำ','แกนกลางก่อน แล้วซ้าย–ขวา',['水 น้ำ','喝水 ดื่มน้ำ','开水 น้ำต้ม','水果 ผลไม้'],['我喝水。ฉันดื่มน้ำ','请多喝水。กรุณาดื่มน้ำมากขึ้น','水果很好吃。ผลไม้อร่อย'],'shuǐ มี sh ม้วนลิ้น + เสียง 3'],
+      '心': ['心/忄 ใจ/หัวใจ','เดี่ยว 4 ขีด',['心 ใจ','开心 ดีใจ','小心 ระวัง','心脏 หัวใจ'],['我很开心。ฉันดีใจ','请小心。กรุณาระวัง','心脏很重要。หัวใจสำคัญ'],'xīn เสียง x นุ่ม'],
+      '人': ['人/亻 คน','ปาดซ้ายก่อน ปาดขวา',['人 คน','病人 ผู้ป่วย','家人 ครอบครัว','中国人 คนจีน'],['我是泰国人。ฉันเป็นคนไทย','他是病人。เขาเป็นผู้ป่วย','家人很重要。ครอบครัวสำคัญ'],'rén ไม่ใช่ ร ไทยชัด ๆ'],
+      '口': ['口 ปาก/ช่อง','กรอบ: ซ้าย → บน/ขวา → ล่าง',['口 ปาก','口服 รับประทานทางปาก','入口 ทางเข้า','人口 ประชากร'],['这是口服药。นี่คือยากิน','请张口。กรุณาอ้าปาก','入口在前面。ทางเข้าอยู่ด้านหน้า'],'kǒu เสียง 3 อย่าลากยาว'],
+      '中': ['丨 แกนกลาง','กรอบ 口 + ขีดตั้งกลาง',['中 กลาง/จีน','中国 ประเทศจีน','中文 ภาษาจีน','中药 ยาจีน'],['我学中文。ฉันเรียนจีน','这是中药。นี่คือยาจีน','中国很大。ประเทศจีนใหญ่มาก'],'zhōng ม้วนลิ้น + เสียง 1'],
+      '血': ['血 เลือด','เดี่ยว: ส่วนบนแล้วกรอบล่าง',['血 เลือด','血压 ความดัน','血糖 น้ำตาลเลือด','血脂 ไขมันเลือด'],['请量血压。กรุณาวัดความดัน','血糖有点高。น้ำตาลค่อนข้างสูง','血脂需要控制。ไขมันต้องควบคุม'],'xuè เสียง x นุ่ม ปากจู๋เล็กน้อย'],
+      '草': ['艹 พืช/หญ้า','บน–ล่าง: 艹 + 早',['草 หญ้า','草药 สมุนไพร','甘草 ชะเอม','中草药 สมุนไพรจีน'],['这是草药。นี่คือสมุนไพร','甘草是中药。ชะเอมเป็นยาจีน','草药可以泡茶。สมุนไพรชงชาได้'],'cǎo ต้องมีลมชัด'],
+      '气': ['气 อากาศ/ชี่','ขีดบนก่อน แล้วตะขอ',['气 ชี่','空气 อากาศ','气血 ชี่และเลือด','生气 โกรธ'],['中医讲气血。แพทย์จีนกล่าวถึงชี่และเลือด','空气很好。อากาศดี','不要生气。อย่าโกรธ'],'qì เสียง 4 และ q พ่นลม']
+    };
+    const TONE_MARKS = {1:'āēīōūǖ',2:'áéíóúǘ',3:'ǎěǐǒǔǚ',4:'àèìòùǜ'};
+    const getToneNumber = (p='') => { for (const [t,marks] of Object.entries(TONE_MARKS)) if ([...p].some(ch => marks.includes(ch))) return Number(t); return 0; };
+    const thaiTipFor = (p='') => { const x=p.toLowerCase(); if(x.includes('zh')||x.includes('ch')||x.includes('sh')||x.startsWith('r')) return THAI_TIPS[0]; if(x.startsWith('j')||x.startsWith('q')||x.startsWith('x')) return THAI_TIPS[1]; if(x.includes('ü')) return THAI_TIPS[2]; if(getToneNumber(p)===3) return THAI_TIPS[3]; if(/^[ptkqc]/.test(x)) return THAI_TIPS[4]; return ['รวมเสียง','แยกพยัญชนะ สระ วรรณยุกต์ แล้วค่อยรวมเสียง',p]; };
+    const shuffle = (a) => [...a].sort(() => Math.random() - .5);
+    const uniqueBy = (arr, fn) => { const seen = new Set(); return arr.filter(x => { const k=fn(x); if(seen.has(k)) return false; seen.add(k); return true; }); };
+    const getDeepLesson = (charData, lesson={}) => {
+      const note = DEEP_NOTES[charData.kana]; const tip = thaiTipFor(charData.romaji);
+      if (charData.kind === 'pinyin') return {tone:getToneNumber(charData.romaji), radical:'ระบบเสียง 拼音', structure:'ฝึกพยัญชนะ–สระ–วรรณยุกต์', analysis:['พินอินคือระบบถอดเสียงจีนกลาง','คนไทยควรฝึกฟัง–พูด–เขียนพร้อมกัน'], words:[`${charData.audio||charData.kana} ตัวอย่างเสียง`,`${charData.kana} รูปเขียน`,`${charData.romaji} คำอธิบาย`], sentences:['先听，再写。ฟังก่อนแล้วเขียน','请慢慢读。อ่านช้า ๆ','声调很重要。วรรณยุกต์สำคัญ'], tip};
+      return {tone:getToneNumber(charData.romaji), radical:note?.[0] || 'วิเคราะห์รากศัพท์/โครงสร้าง', structure:note?.[1] || 'ดูโครงสร้าง ซ้าย–ขวา / บน–ล่าง / ล้อมรอบ', analysis:note ? ['ดูส่วนบอกความหมายและส่วนช่วยเสียง','เชื่อมตัวอักษรกับคำจริงเพื่อจำระยะยาว'] : ['จับโครงสร้างใหญ่ก่อนลงรายละเอียด','โยงกับคำศัพท์อย่างน้อย 3 คำ'], words:note?.[2] || [`${charData.kana} ${charData.romaji} — ${charData.vocab?.meaning||''}`,`学${charData.kana} ฝึกใช้ตัวนี้`,`${charData.kana}字 ตัวอักษรที่มี ${charData.kana}`], sentences:note?.[3] || [`我学${charData.kana}。ฉันเรียนตัวนี้`,`请写${charData.kana}。กรุณาเขียนตัวนี้`,`这个字是${charData.kana}。ตัวนี้คือ ${charData.kana}`], tip: note ? ['จุดระวังสำหรับคนไทย', note[4], charData.romaji] : tip};
+    };
+    const EXERCISE_TYPES = [['hanziToPinyin','เห็นจีน → เลือกพินอิน','fa-spell-check'],['pinyinToHanzi','เห็นพินอิน → เลือกจีน','fa-font'],['meaningToHanzi','เห็นไทย → เลือกจีน','fa-language'],['radicalMatch','แยกรากศัพท์','fa-seedling'],['tonePick','เติมวรรณยุกต์','fa-wave-square']];
+
+    const makePinyinChar = (symbol, label, meaning, audioText=null, tone=null) => ({
+      kind:'pinyin', kana:symbol, romaji:label, audio:audioText || symbol, tone,
+      vocab:{word:`${symbol}  ${label}`, meaning}, expectedStrokes: Math.min(Math.max(symbol.length, 1), 4), strokeGuide:['เขียนจากซ้ายไปขวา','รักษาระดับเส้นฐานให้สม่ำเสมอ','เว้นช่องไฟให้สวยแบบตัวพิมพ์']
+    });
+    const makeHanziChar = (hanzi, pinyin, meaning, word=null, audioText=null, category='hsk') => ({
+      kind:category, kana:hanzi, romaji:pinyin, audio:audioText || hanzi, vocab:{word: word || `${hanzi} ${pinyin}`, meaning},
+      expectedStrokes: COMMON_STROKES[hanzi] || Math.max(4, Math.min(12, hanzi.charCodeAt(0) % 11 + 3)),
+      strokeGuide: STROKE_GUIDES[hanzi] || ['ดูโครงสร้างรวมก่อน', 'เขียนตามกฎ: บนก่อนล่าง / ซ้ายก่อนขวา', 'คุมสัดส่วนให้อยู่กลางช่อง']
+    });
+
+    const PINYIN_GROUPS = [
+      {title:'พินอิน 1: พยัญชนะต้น b–h', items:[['b','b / bo','เสียง ปอ ไม่พ่นลม','bo'],['p','p / po','เสียง พอ พ่นลม','po'],['m','m / mo','เสียง มอ','mo'],['f','f / fo','เสียง ฟอ','fo'],['d','d / de','เสียง เตอ','de'],['t','t / te','เสียง เทอ พ่นลม','te'],['n','n / ne','เสียง เนอ','ne'],['l','l / le','เสียง เลอ','le'],['g','g / ge','เสียง เกอ','ge'],['k','k / ke','เสียง เคอ พ่นลม','ke'],['h','h / he','เสียง เฮอ','he']]},
+      {title:'พินอิน 2: พยัญชนะต้น j–w', items:[['j','j / ji','เสียง จี','ji'],['q','q / qi','เสียง ชี พ่นลม','qi'],['x','x / xi','เสียง ซี นุ่ม','xi'],['zh','zh / zhi','จือ ม้วนลิ้น','zhi'],['ch','ch / chi','ชือ ม้วนลิ้น พ่นลม','chi'],['sh','sh / shi','ซือ/ชือ ม้วนลิ้น','shi'],['r','r / ri','รือ ม้วนลิ้น','ri'],['z','z / zi','จือ ไม่ม้วนลิ้น','zi'],['c','c / ci','ชือ ไม่ม้วนลิ้น พ่นลม','ci'],['s','s / si','ซือ ไม่ม้วนลิ้น','si'],['y','y / yi','ตัวช่วยนำเสียง i/ü','yi'],['w','w / wu','ตัวช่วยนำเสียง u','wu']]},
+      {title:'พินอิน 3: สระเดี่ยว', items:[['a','a','อา เปิดปากกว้าง','a'],['o','o','โอ ปากกลม','o'],['e','e','เออ เสียงกลางคอ','e'],['i','i','อี','yi'],['u','u','อู','wu'],['ü','ü','อวี ปากจู๋ ลิ้นเสียง i','yu']]},
+      {title:'พินอิน 4: สระผสม', items:[['ai','ai','ไอ/อาย','ai'],['ei','ei','เอย์','ei'],['ao','ao','เอา','ao'],['ou','ou','โอว','ou'],['ia','ia','เอียะ/ยา','ya'],['ie','ie','เย','ye'],['ua','ua','วา','wa'],['uo','uo','อัว/วอ','wo'],['üe','üe','เยว','yue'],['er','er','เออร์ ปลายลิ้น','er']]},
+      {title:'พินอิน 5: สระนาสิก', items:[['an','an','อัน','an'],['en','en','เอิน','en'],['in','in','อิน','yin'],['ün','ün','ยวิน','yun'],['ang','ang','อาง','ang'],['eng','eng','เอิง','eng'],['ing','ing','อิง','ying'],['ong','ong','อง','yong'],['ian','ian','เยียน','yan'],['uan','uan','วาน/อวน','wan'],['üan','üan','เยวียน','yuan'],['iang','iang','เอียง','yang'],['uang','uang','วาง','wang'],['iong','iong','ยง','yong']]},
+      {title:'พินอิน 6: วรรณยุกต์ a/o/e', items:[['ā','เสียง 1','สูงราบ เช่น mā','mā',1],['á','เสียง 2','เสียงขึ้น เช่น má','má',2],['ǎ','เสียง 3','ต่ำแล้วขึ้น เช่น mǎ','mǎ',3],['à','เสียง 4','เสียงตก เช่น mà','mà',4],['a','เสียงเบา','เสียงเบา เช่น ma','ma',0],['ō','เสียง 1','เสียงสูงราบของ o','ō',1],['ó','เสียง 2','เสียงขึ้นของ o','ó',2],['ǒ','เสียง 3','เสียงต่ำแล้วขึ้นของ o','ǒ',3],['ò','เสียง 4','เสียงตกของ o','ò',4],['ē','เสียง 1','เสียงสูงราบของ e','ē',1],['é','เสียง 2','เสียงขึ้นของ e','é',2],['ě','เสียง 3','ต่ำแล้วขึ้นของ e','ě',3],['è','เสียง 4','เสียงตกของ e','è',4]]},
+      {title:'พินอิน 7: วรรณยุกต์ i/u/ü', items:[['ī','เสียง 1','สูงราบของ i','yī',1],['í','เสียง 2','ขึ้นของ i','yí',2],['ǐ','เสียง 3','ต่ำแล้วขึ้นของ i','yǐ',3],['ì','เสียง 4','ตกของ i','yì',4],['ū','เสียง 1','สูงราบของ u','wū',1],['ú','เสียง 2','ขึ้นของ u','wú',2],['ǔ','เสียง 3','ต่ำแล้วขึ้นของ u','wǔ',3],['ù','เสียง 4','ตกของ u','wù',4],['ǖ','เสียง 1','สูงราบของ ü','yū',1],['ǘ','เสียง 2','ขึ้นของ ü','yú',2],['ǚ','เสียง 3','ต่ำแล้วขึ้นของ ü','yǔ',3],['ǜ','เสียง 4','ตกของ ü','yù',4]]},
+      {title:'พินอิน 8: พยางค์อ่านทั้งคำ', items:[['zhi','zhi','จือ ม้วนลิ้น','zhi'],['chi','chi','ชือ ม้วนลิ้น','chi'],['shi','shi','ซือ/ชือ ม้วนลิ้น','shi'],['ri','ri','รือ','ri'],['zi','zi','จือ ไม่ม้วนลิ้น','zi'],['ci','ci','ชือ ไม่ม้วนลิ้น','ci'],['si','si','ซือ ไม่ม้วนลิ้น','si'],['yi','yi','อี','yi'],['wu','wu','อู','wu'],['yu','yu','อวี','yu'],['ye','ye','เย','ye'],['yue','yue','เยว','yue'],['yuan','yuan','เยวียน','yuan'],['yin','yin','อิน','yin'],['yun','yun','ยวิน','yun'],['ying','ying','อิง','ying']]}
+    ];
+
+    const HSK_GROUPS = [
+      {title:'HSK 1: ตัวเลขและเวลา', items:[['零','líng','ศูนย์'],['一','yī','หนึ่ง'],['二','èr','สอง'],['三','sān','สาม'],['四','sì','สี่'],['五','wǔ','ห้า'],['六','liù','หก'],['七','qī','เจ็ด'],['八','bā','แปด'],['九','jiǔ','เก้า'],['十','shí','สิบ'],['年','nián','ปี'],['月','yuè','เดือน'],['日','rì','วัน/พระอาทิตย์'],['天','tiān','วัน/ฟ้า'],['点','diǎn','โมง/จุด'],['分','fēn','นาที/แบ่ง'],['今','jīn','วันนี้ ส่วนหน้า'],['明','míng','พรุ่งนี้/สว่าง'],['昨','zuó','เมื่อวาน ส่วนหน้า']]},
+      {title:'HSK 1: คน ครอบครัว สรรพนาม', items:[['我','wǒ','ฉัน/ผม'],['你','nǐ','คุณ'],['他','tā','เขาผู้ชาย'],['她','tā','เขาผู้หญิง'],['们','men','พวก/หลายคน'],['人','rén','คน'],['女','nǚ','ผู้หญิง'],['儿','ér','ลูก/เด็ก'],['子','zi','ลูก/ส่วนประกอบ'],['家','jiā','บ้าน/ครอบครัว'],['爸','bà','พ่อ'],['妈','mā','แม่'],['哥','gē','พี่ชาย'],['姐','jiě','พี่สาว'],['弟','dì','น้องชาย'],['妹','mèi','น้องสาว'],['朋','péng','เพื่อน ส่วนหน้า'],['友','yǒu','เพื่อน ส่วนหลัง']]},
+      {title:'HSK 1: คำถามและคำชี้เฉพาะ', items:[['这','zhè','นี่'],['那','nà','นั่น'],['哪','nǎ','ไหน'],['谁','shéi','ใคร'],['什','shén','อะไร ส่วนหน้า'],['么','me','อะไร/คำประกอบ'],['几','jǐ','กี่'],['多','duō','มาก/เท่าไร'],['少','shǎo','น้อย'],['吗','ma','คำถาม ใช่ไหม'],['呢','ne','ล่ะ/นะ'],['也','yě','ก็/ด้วย'],['都','dōu','ทั้งหมด'],['很','hěn','มาก'],['的','de','ของ/ที่']]},
+      {title:'HSK 1: กริยาหลัก', items:[['是','shì','เป็น/คือ/ใช่'],['有','yǒu','มี'],['在','zài','อยู่ที่/กำลัง'],['来','lái','มา'],['去','qù','ไป'],['回','huí','กลับ'],['看','kàn','ดู/อ่าน'],['见','jiàn','เห็น/พบ'],['听','tīng','ฟัง'],['说','shuō','พูด'],['读','dú','อ่าน'],['写','xiě','เขียน'],['学','xué','เรียน'],['习','xí','ฝึก'],['做','zuò','ทำ'],['坐','zuò','นั่ง'],['住','zhù','อยู่/พัก'],['开','kāi','เปิด'],['关','guān','ปิด/เกี่ยวกับ']]},
+      {title:'HSK 1: อาหารและชีวิตประจำวัน', items:[['吃','chī','กิน'],['喝','hē','ดื่ม'],['水','shuǐ','น้ำ'],['茶','chá','ชา'],['饭','fàn','ข้าว/อาหาร'],['菜','cài','ผัก/อาหาร'],['果','guǒ','ผลไม้'],['苹','píng','แอปเปิล ส่วนหน้า'],['买','mǎi','ซื้อ'],['卖','mài','ขาย'],['钱','qián','เงิน'],['块','kuài','ก้อน/หยวน'],['睡','shuì','นอน'],['觉','jiào','การนอน/รู้สึก'],['爱','ài','รัก'],['喜','xǐ','ชอบ ส่วนหน้า'],['欢','huān','ชอบ ส่วนหลัง']]},
+      {title:'HSK 1: สถานที่ ทิศทาง และของใช้', items:[['中','zhōng','กลาง/จีน'],['国','guó','ประเทศ'],['文','wén','ภาษา/วัฒนธรรม'],['汉','hàn','จีนฮั่น'],['字','zì','ตัวอักษร'],['书','shū','หนังสือ'],['校','xiào','โรงเรียน'],['院','yuàn','สถานพยาบาล/院'],['店','diàn','ร้าน'],['车','chē','รถ'],['前','qián','หน้า/ก่อน'],['后','hòu','หลัง'],['上','shàng','บน/ขึ้น'],['下','xià','ล่าง/ลง'],['左','zuǒ','ซ้าย'],['右','yòu','ขวา'],['里','lǐ','ข้างใน'],['外','wài','ข้างนอก']]}
+    ];
+
+    const RADICAL_GROUPS = [
+      {title:'部首 1: รากอักษรพื้นฐาน', items:[['人','rén','คน / ราก 亻'],['口','kǒu','ปาก / ช่องปาก'],['女','nǚ','หญิง'],['子','zǐ','เด็ก/ลูก'],['心','xīn','ใจ / 忄'],['手','shǒu','มือ / 扌'],['目','mù','ตา'],['耳','ěr','หู'],['足','zú','เท้า'],['言','yán','คำพูด / 讠']]},
+      {title:'部首 2: ธรรมชาติและสมุนไพร', items:[['水','shuǐ','น้ำ / 氵'],['火','huǒ','ไฟ / 灬'],['木','mù','ไม้'],['土','tǔ','ดิน'],['金','jīn','ทอง/โลหะ'],['艹','cǎo','หญ้า/พืช/สมุนไพร'],['竹','zhú','ไผ่'],['米','mǐ','ข้าวสาร'],['雨','yǔ','ฝน'],['气','qì','ลมปราณ/อากาศ']]},
+      {title:'部首 3: สุขภาพและร่างกาย', items:[['疒','nè','รากโรค/เจ็บป่วย'],['肉','ròu','เนื้อ / 月 ในร่างกาย'],['血','xuè','เลือด'],['骨','gǔ','กระดูก'],['牙','yá','ฟัน'],['舌','shé','ลิ้น'],['药','yào','ยา มีราก 艹'],['病','bìng','โรค มีราก 疒'],['痛','tòng','ปวด มีราก 疒'],['医','yī','แพทย์/รักษา']]}
+    ];
+
+    const MEDICAL_GROUPS = [
+      {title:'จีนสุขภาพ 1: อวัยวะและร่างกาย', items:[['心','xīn','หัวใจ/ใจ'],['肝','gān','ตับ'],['肺','fèi','ปอด'],['肾','shèn','ไต'],['胃','wèi','กระเพาะอาหาร'],['脑','nǎo','สมอง'],['眼','yǎn','ตา'],['耳','ěr','หู'],['鼻','bí','จมูก'],['口','kǒu','ปาก'],['手','shǒu','มือ'],['脚','jiǎo','เท้า']]},
+      {title:'จีนสุขภาพ 2: อาการและภาวะ', items:[['病','bìng','โรค/ป่วย'],['痛','tòng','ปวด'],['热','rè','ร้อน/ไข้'],['寒','hán','เย็น/หนาว'],['湿','shī','ชื้น'],['咳','ké','ไอ'],['烧','shāo','ไข้/เผา'],['累','lèi','เหนื่อย'],['晕','yūn','เวียนหัว'],['胀','zhàng','แน่น/บวม'],['麻','má','ชา'],['痒','yǎng','คัน']]},
+      {title:'จีนสมุนไพร 3: คำศัพท์แพทย์จีนเบื้องต้น', items:[['药','yào','ยา'],['草','cǎo','หญ้า/สมุนไพร'],['中','zhōng','กลาง/จีน'],['医','yī','แพทย์'],['气','qì','ชี่/ลมปราณ'],['血','xuè','เลือด'],['风','fēng','ลม'],['火','huǒ','ไฟ'],['水','shuǐ','น้ำ'],['参','shēn','โสม/รากสมุนไพร'],['姜','jiāng','ขิง'],['甘','gān','หวาน/ชะเอมส่วนหน้า']]},
+      {title:'จีนคลินิก 4: ประโยคสั้นฝึกอ่าน', items:[['疼','téng','เจ็บ/ปวด'],['药','yào','ยา'],['吃','chī','กิน/รับประทาน'],['喝','hē','ดื่ม'],['睡','shuì','นอน'],['安','ān','สงบ/ปลอดภัย'],['康','kāng','สุขภาพดี'],['问','wèn','ถาม'],['请','qǐng','กรุณา'],['看','kàn','ดู/ตรวจ'],['体','tǐ','ร่างกาย'],['检','jiǎn','ตรวจ']]}
+    ];
+
+    const buildPinyinLessons = () => PINYIN_GROUPS.map((group, index) => ({
+      id:`p${index+1}`, type:'pinyin', title:group.title,
+      chars: group.items.map(row => makePinyinChar(row[0], row[1], row[2], row[3], row[4] || null))
+    }));
+    const buildHanziLessons = (groups, prefix, type, category) => groups.map((group, index) => ({
+      id:`${prefix}${index+1}`, type, title:group.title,
+      chars: group.items.map(row => makeHanziChar(row[0], row[1], row[2], null, row[0], category))
+    }));
+
+    const LESSONS = [
+      ...buildPinyinLessons(),
+      ...buildHanziLessons(HSK_GROUPS, 'hsk', 'hsk', 'hsk'),
+      ...buildHanziLessons(RADICAL_GROUPS, 'rad', 'radical', 'radical'),
+      ...buildHanziLessons(MEDICAL_GROUPS, 'med', 'medical', 'medical')
+    ];
+    const HANZI_FOR_GAME = LESSONS.filter(l => l.type !== 'pinyin').flatMap(l => l.chars);
+    const ALL_CHARS = LESSONS.flatMap(lesson => lesson.chars);
+
+    const playAudio = (text) => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'zh-CN'; utterance.rate = 0.72; utterance.pitch = 1.02;
+        window.speechSynthesis.speak(utterance);
+      }
+    };
+
+    const DrawingPad = ({ guideText, size, clearTrigger, onDraw, onStats, inkColor, tool, isDarkMode }) => {
+      const canvasRef = useRef(null);
+      const contextRef = useRef(null);
+      const [isDrawing, setIsDrawing] = useState(false);
+      const strokeCountRef = useRef(0);
+      const startAtRef = useRef(0);
+      useEffect(() => {
+        const canvas = canvasRef.current;
+        canvas.width = size * 2; canvas.height = size * 2; canvas.style.width = `${size}px`; canvas.style.height = `${size}px`;
+        const context = canvas.getContext('2d'); context.scale(2,2); contextRef.current = context;
+      }, [size]);
+      useEffect(() => {
+        const context = contextRef.current; if (!context) return;
+        context.lineCap = 'round'; context.lineJoin = 'round';
+        context.strokeStyle = (isDarkMode && inkColor === '#1F1F1F') ? '#FFFFFF' : inkColor;
+        if (tool === 'brush') { context.lineWidth = size > 150 ? 20 : 12; context.shadowBlur = 5; context.shadowColor = context.strokeStyle; context.globalAlpha = .86; }
+        else { context.lineWidth = size > 150 ? 13 : 8; context.shadowBlur = 0; context.globalAlpha = 1; }
+      }, [inkColor, tool, size, isDarkMode]);
+      useEffect(() => {
+        if (clearTrigger > 0 && canvasRef.current) {
+          const canvas = canvasRef.current; const context = canvas.getContext('2d');
+          context.save(); context.globalAlpha = 1; context.clearRect(0,0,canvas.width,canvas.height); context.restore(); strokeCountRef.current = 0;
+          onStats && onStats({strokes:0, coverage:0, durationMs:0});
+        }
+      }, [clearTrigger]);
+      const getCoordinates = (e) => {
+        if (e.touches && e.touches.length > 0) { const touch = e.touches[0]; const rect = canvasRef.current.getBoundingClientRect(); return { offsetX: touch.clientX - rect.left, offsetY: touch.clientY - rect.top }; }
+        return { offsetX: e.nativeEvent.offsetX, offsetY: e.nativeEvent.offsetY };
+      };
+      const calcCoverage = () => {
+        try {
+          const canvas = canvasRef.current; const ctx = canvas.getContext('2d'); const data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+          let ink = 0; for (let i=3; i<data.length; i+=4) if (data[i] > 8) ink++;
+          return Math.round((ink / (canvas.width*canvas.height)) * 1000) / 10;
+        } catch { return 0; }
+      };
+      const startDrawing = (e) => { e.preventDefault && e.preventDefault(); const {offsetX, offsetY} = getCoordinates(e); const ctx = contextRef.current; ctx.beginPath(); ctx.moveTo(offsetX, offsetY); setIsDrawing(true); strokeCountRef.current += 1; startAtRef.current = Date.now(); onDraw && onDraw(); };
+      const finishDrawing = () => { if (!isDrawing) return; contextRef.current.closePath(); setIsDrawing(false); onStats && onStats({strokes: strokeCountRef.current, coverage: calcCoverage(), durationMs: Date.now() - startAtRef.current}); };
+      const draw = (e) => { if (!isDrawing) return; e.preventDefault && e.preventDefault(); const {offsetX, offsetY} = getCoordinates(e); contextRef.current.lineTo(offsetX, offsetY); contextRef.current.stroke(); };
+      return (
+        <div className={`relative rounded-2xl shadow-sm border-2 overflow-hidden shrink-0 flex items-center justify-center transition-all duration-300 hover:shadow-md ${isDarkMode ? 'bg-[#21150f] border-amber-700/50' : 'bg-[#fffaf0] border-[#e8c36a]'}`} style={{width:size, height:size}}>
+          <div className="absolute inset-0 pointer-events-none opacity-30">
+            <div className={`w-full h-full border-b border-dashed absolute top-1/2 ${isDarkMode ? 'border-amber-700' : 'border-red-700'}`}></div>
+            <div className={`w-full h-full border-r border-dashed absolute left-1/2 ${isDarkMode ? 'border-amber-700' : 'border-red-700'}`}></div>
+            <div className={`w-full h-full border border-dotted absolute inset-4 rounded-xl ${isDarkMode ? 'border-amber-900' : 'border-amber-200'}`}></div>
+          </div>
+          {guideText && <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"><span className={`font-serif ${isDarkMode ? 'text-amber-950/70' : 'text-red-100'}`} style={{fontSize: guideText.length > 2 ? size*.32 : guideText.length > 1 ? size*.45 : size*.75}}>{guideText}</span></div>}
+          <canvas ref={canvasRef} onMouseDown={startDrawing} onMouseUp={finishDrawing} onMouseMove={draw} onMouseOut={finishDrawing} onTouchStart={startDrawing} onTouchEnd={finishDrawing} onTouchMove={draw} className="absolute inset-0 z-10 cursor-crosshair touch-none" />
+        </div>
+      );
+    };
+
+    const ToneGraph = ({tone=1}) => {
+      const paths = {1:'M15 35 L145 35', 2:'M15 75 L145 25', 3:'M15 50 C45 85, 85 85, 145 25', 4:'M15 25 L145 78', 0:'M15 55 L145 55'};
+      const labels = {1:'เสียง 1 สูงราบ', 2:'เสียง 2 ขึ้น', 3:'เสียง 3 ต่ำแล้วขึ้น', 4:'เสียง 4 ตก', 0:'เสียงเบา'};
+      return <div className="flex flex-col items-center"><svg width="160" height="96" viewBox="0 0 160 96" className="drop-shadow-sm"><line x1="15" y1="20" x2="15" y2="82" stroke="currentColor" opacity=".22"/><line x1="15" y1="82" x2="148" y2="82" stroke="currentColor" opacity=".22"/><path d={paths[tone] || paths[1]} fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round"/><circle cx="145" cy={(tone===1?35:tone===2?25:tone===3?25:tone===4?78:55)} r="5" fill="currentColor"/></svg><span className="text-xs font-bold opacity-70">{labels[tone] || labels[1]}</span></div>;
+    };
+
+    function ChineseWritingApp() {
+      const [currentView, setCurrentView] = useState('menu');
+      const [selectedMode, setSelectedMode] = useState('learn');
+      const [activeTab, setActiveTab] = useState('pinyin');
+      const [currentLessonItem, setCurrentLessonItem] = useState(LESSONS[0]);
+      const [currentCharIndex, setCurrentCharIndex] = useState(0);
+      const [score, setScore] = useState(0);
+      const [hasDrawn, setHasDrawn] = useState(false);
+      const [feedback, setFeedback] = useState(null);
+      const [clearTrigger, setClearTrigger] = useState(0);
+      const [isDarkMode, setIsDarkMode] = useState(false);
+      const [isLeftHanded, setIsLeftHanded] = useState(false);
+      const [inkColor, setInkColor] = useState('#5B2118');
+      const [tool, setTool] = useState('pen');
+      const [showStrokeGuide, setShowStrokeGuide] = useState(true);
+      const COLORS = ['#5B2118','#B91C1C','#D4A017','#1F1F1F','#15803D'];
+      const [gameScore, setGameScore] = useState(0);
+      const [gameQuestionCount, setGameQuestionCount] = useState(0);
+      const [gameCurrentQuestion, setGameCurrentQuestion] = useState(null);
+      const [toneQuestion, setToneQuestion] = useState(null);
+      const [exerciseType, setExerciseType] = useState('hanziToPinyin');
+      const [exerciseQuestion, setExerciseQuestion] = useState(null);
+      const [exerciseStats, setExerciseStats] = useState({correct:0,total:0});
+      const [drawStats, setDrawStats] = useState({strokes:0, coverage:0, durationMs:0});
+      const [progress, setProgress] = useState(() => {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {completed:{}, attempts:{}, scores:[], srs:{}, streak:{date:null,count:0}}; }
+        catch { return {completed:{}, attempts:{}, scores:[], srs:{}, streak:{date:null,count:0}}; }
+      });
+      useEffect(() => { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }, [progress]);
+
+      const filteredLessons = LESSONS.filter(l => l.type === activeTab);
+      const dueItems = useMemo(() => Object.entries(progress.srs || {}).filter(([k,v]) => (v.nextDue || 0) <= Date.now()).map(([k]) => k), [progress]);
+      const avgScore = progress.scores?.length ? Math.round(progress.scores.reduce((a,b)=>a+b,0)/progress.scores.length) : 0;
+
+      const markProgress = (charData, finalScore=80, quality='ok') => {
+        const key = `${charData.kind || 'item'}:${charData.kana}:${charData.romaji}`;
+        setProgress(prev => {
+          const old = prev.srs?.[key] || {level:0, ease:2};
+          const delta = quality === 'easy' ? 2 : quality === 'hard' ? 0 : quality === 'forgot' ? -1 : 1;
+          const level = Math.max(0, Math.min(8, old.level + delta));
+          const days = quality === 'forgot' ? .25 : [0.5,1,2,4,7,14,30,60,120][level] || 7;
+          const streakDate = prev.streak?.date === todayISO() ? prev.streak : {date: todayISO(), count: (prev.streak?.date ? prev.streak.count + 1 : 1)};
+          return {
+            completed: {...prev.completed, [key]: true},
+            attempts: {...prev.attempts, [key]: (prev.attempts?.[key] || 0) + 1},
+            scores: [...(prev.scores || []), finalScore].slice(-200),
+            srs: {...(prev.srs || {}), [key]: {level, ease: quality, nextDue:addDays(days), last:Date.now(), text:charData.kana, pinyin:charData.romaji}},
+            streak: streakDate
+          };
+        });
+      };
+
+      const startLesson = (lesson) => { setCurrentLessonItem(lesson); setCurrentCharIndex(0); setScore(0); setCurrentView('lessonIntro'); setFeedback(null); setHasDrawn(false); setDrawStats({strokes:0, coverage:0, durationMs:0}); };
+      const beginSelectedLesson = () => { setCurrentView(selectedMode); setFeedback(null); setHasDrawn(false); setClearTrigger(prev => prev + 1); };
+      const calcWritingScore = (charData) => {
+        const expected = charData.expectedStrokes || 5;
+        const strokeScore = Math.max(0, 38 - Math.abs(drawStats.strokes - expected) * 6);
+        const coverageIdeal = charData.kind === 'pinyin' ? 3.5 : 6.5;
+        const coverageScore = Math.max(0, 32 - Math.abs((drawStats.coverage || 0) - coverageIdeal) * 3);
+        const practiceBonus = hasDrawn ? 20 : 0;
+        const guideBonus = showStrokeGuide ? 4 : 8;
+        return Math.max(35, Math.min(100, Math.round(strokeScore + coverageScore + practiceBonus + guideBonus)));
+      };
+      const handleNext = () => {
+        const charData = currentLessonItem.chars[currentCharIndex];
+        const finalScore = selectedMode === 'practice' ? calcWritingScore(charData) : Math.max(75, calcWritingScore(charData));
+        if (hasDrawn) { setScore(prev => prev + finalScore); markProgress(charData, finalScore, finalScore >= 86 ? 'easy' : finalScore < 65 ? 'hard' : 'ok'); }
+        if (currentCharIndex < currentLessonItem.chars.length - 1) { setCurrentCharIndex(prev => prev + 1); setHasDrawn(false); setFeedback(null); setDrawStats({strokes:0, coverage:0, durationMs:0}); setClearTrigger(prev=>prev+1); }
+        else { setCurrentView('summary'); }
+      };
+      const clearCanvas = () => { setClearTrigger(prev => prev + 1); setHasDrawn(false); setFeedback(null); setDrawStats({strokes:0, coverage:0, durationMs:0}); };
+      const checkAnswer = () => {
+        const charData = currentLessonItem.chars[currentCharIndex];
+        if (!hasDrawn) { setFeedback({type:'error', text:'คัดให้ครบก่อนน้า~'}); return; }
+        const finalScore = calcWritingScore(charData);
+        setFeedback({type: finalScore >= 65 ? 'success' : 'error', text: `คะแนนประเมิน ${finalScore}/100 · ขีด ${drawStats.strokes}/${charData.expectedStrokes || '-'} · พื้นที่หมึก ${drawStats.coverage || 0}%`});
+      };
+      const calculateStars = () => {
+        const maxScore = currentLessonItem.chars.length * 100; const percentage = maxScore ? (score/maxScore)*100 : gameScore;
+        if (percentage >= 85 || gameScore >= 80) return 3; if (percentage >= 60 || gameScore >= 50) return 2; return 1;
+      };
+      const startMiniGame = () => { setGameScore(0); setGameQuestionCount(0); setCurrentView('game'); setTimeout(() => generateNextQuestion(0), 0); };
+      const generateNextQuestion = (count = gameQuestionCount) => {
+        if (count >= 10) { setCurrentView('gameSummary'); return; }
+        const targetChar = HANZI_FOR_GAME[Math.floor(Math.random() * HANZI_FOR_GAME.length)];
+        let choices = [targetChar];
+        while (choices.length < 4) { const randomChar = HANZI_FOR_GAME[Math.floor(Math.random() * HANZI_FOR_GAME.length)]; if (!choices.find(c => c.kana === randomChar.kana)) choices.push(randomChar); }
+        setGameCurrentQuestion({target:targetChar, choices:choices.sort(()=>Math.random()-.5)}); setGameQuestionCount(count+1); setFeedback(null);
+      };
+      const handleGameAnswer = (selectedChar) => {
+        if (selectedChar.kana === gameCurrentQuestion.target.kana) { playAudio(gameCurrentQuestion.target.audio); setFeedback({type:'success', text:'ถูกต้องค่ะ 🎉'}); setGameScore(prev=>prev+10); markProgress(gameCurrentQuestion.target, 90, 'easy'); }
+        else setFeedback({type:'error', text:`คำตอบคือ ${gameCurrentQuestion.target.kana}`});
+        setTimeout(()=>generateNextQuestion(gameQuestionCount), 900);
+      };
+      const nextToneQuestion = () => { const tones = [1,2,3,4,0]; const t = tones[Math.floor(Math.random()*tones.length)]; const samples = {1:'mā',2:'má',3:'mǎ',4:'mà',0:'ma'}; setToneQuestion({tone:t, sample:samples[t]}); playAudio(samples[t]); };
+      const buildExerciseQuestion = (type = exerciseType) => {
+        const basePool = type === 'radicalMatch' ? HANZI_FOR_GAME.filter(c => DEEP_NOTES[c.kana]) : HANZI_FOR_GAME;
+        const pool = basePool.length ? basePool : HANZI_FOR_GAME;
+        const target = pool[Math.floor(Math.random() * pool.length)];
+        const deep = getDeepLesson(target, currentLessonItem);
+        let prompt = '', answer = '', choices = [], questionText = '';
+        if (type === 'hanziToPinyin') { questionText='ตัวจีนนี้อ่านว่าอะไร'; prompt=target.kana; answer=target.romaji; choices=shuffle(uniqueBy([target,...shuffle(pool).slice(0,12)], c=>c.romaji).map(c=>c.romaji)).slice(0,4); }
+        else if (type === 'pinyinToHanzi') { questionText='พินอินนี้ตรงกับตัวจีนใด'; prompt=target.romaji; answer=target.kana; choices=shuffle(uniqueBy([target,...shuffle(pool).slice(0,12)], c=>c.kana).map(c=>c.kana)).slice(0,4); }
+        else if (type === 'meaningToHanzi') { questionText='ความหมายไทยนี้ตรงกับตัวจีนใด'; prompt=target.vocab?.meaning || ''; answer=target.kana; choices=shuffle(uniqueBy([target,...shuffle(pool).slice(0,12)], c=>c.kana).map(c=>c.kana)).slice(0,4); }
+        else if (type === 'radicalMatch') { questionText='ราก/โครงสร้างสำคัญคือข้อใด'; prompt=target.kana; answer=deep.radical; choices=shuffle(uniqueBy([answer, ...shuffle(pool).map(c=>getDeepLesson(c,currentLessonItem).radical)], x=>x)).slice(0,4); }
+        else { questionText='พินอินนี้เป็นเสียงวรรณยุกต์ใด'; prompt=target.romaji; answer=String(getToneNumber(target.romaji) || 'เบา/ไม่มี'); choices=['1','2','3','4','เบา/ไม่มี']; }
+        if (!choices.includes(answer)) choices = shuffle([answer, ...choices]).slice(0,4);
+        setExerciseQuestion({type,target,prompt,answer,choices,questionText}); setFeedback(null);
+      };
+      const startExercise = (type='hanziToPinyin') => { setExerciseType(type); setExerciseStats({correct:0,total:0}); setCurrentView('exerciseHub'); setTimeout(()=>buildExerciseQuestion(type),0); };
+      const answerExercise = (choice) => {
+        if (!exerciseQuestion) return;
+        const ok = choice === exerciseQuestion.answer;
+        setFeedback({type:ok?'success':'error', text: ok?'ถูกต้องค่ะ 🎯':`ยังไม่ใช่ คำตอบคือ ${exerciseQuestion.answer}`});
+        setExerciseStats(prev => ({correct:prev.correct + (ok?1:0), total:prev.total+1}));
+        if (ok) markProgress(exerciseQuestion.target, 88, 'easy');
+        setTimeout(()=>buildExerciseQuestion(exerciseQuestion.type), 900);
+      };
+
+      const HeaderButton = ({onClick, icon}) => <button onClick={onClick} className={`p-2 w-10 h-10 flex items-center justify-center rounded-full shadow-sm hover:scale-105 transition ${isDarkMode ? 'bg-red-950 text-amber-100' : 'bg-white/85 text-red-950'}`}><i className={`fas ${icon} text-lg`}></i></button>;
+
+
+      const DeepLessonPanel = ({charData}) => {
+        const d = getDeepLesson(charData, currentLessonItem);
+        return <div className={`w-full max-w-[330px] p-4 rounded-3xl border shadow-sm text-sm ${isDarkMode?'bg-red-950/70 border-amber-700/35 text-amber-100':'bg-white/95 border-amber-200 text-red-950'}`}>
+          <div className="flex justify-between items-start mb-3"><div><h3 className="font-black text-base"><i className="fas fa-chalkboard-teacher mr-2 text-amber-600"></i>บทเรียนละเอียดรายตัว</h3><p className="opacity-60 text-xs">อ่านเข้าใจ → คัดตาม → ใช้ในคำจริง</p></div><span className="px-2 py-1 rounded-full bg-amber-100 text-red-900 text-xs font-black">Tone {d.tone || 'เบา'}</span></div>
+          <div className="grid grid-cols-2 gap-2 mb-3"><div className="p-3 rounded-2xl bg-amber-50/80 text-red-950"><b>ราก/部首</b><p className="text-xs mt-1">{d.radical}</p></div><div className="p-3 rounded-2xl bg-amber-50/80 text-red-950"><b>โครงสร้าง</b><p className="text-xs mt-1">{d.structure}</p></div></div>
+          <div className="mb-3"><b><i className="fas fa-sitemap mr-1 text-amber-600"></i>วิเคราะห์จำง่าย</b><ul className="list-disc pl-5 mt-1 space-y-1 text-xs">{d.analysis.map((x,i)=><li key={i}>{x}</li>)}</ul></div>
+          <div className="mb-3"><b><i className="fas fa-book mr-1 text-amber-600"></i>คำศัพท์ต่อยอด</b><div className="grid grid-cols-1 gap-1 mt-1">{d.words.slice(0,5).map((x,i)=><div key={i} className="px-3 py-2 rounded-xl bg-red-50/80 text-red-950 text-xs">{x}</div>)}</div></div>
+          <div className="mb-3"><b><i className="fas fa-comment-dots mr-1 text-amber-600"></i>ประโยค 3 ระดับ</b><div className="space-y-1 mt-1">{d.sentences.slice(0,3).map((x,i)=><div key={i} className="px-3 py-2 rounded-xl bg-white/70 text-xs"><span className="font-black text-amber-700">{['ง่าย','กลาง','ใช้จริง'][i]}:</span> {x}</div>)}</div></div>
+          <div className="p-3 rounded-2xl bg-[#5B2118] text-amber-100 text-xs"><b>{Array.isArray(d.tip)?d.tip[0]:d.tip.title}</b><p>{Array.isArray(d.tip)?d.tip[1]:d.tip.detail}</p><p className="opacity-70 mt-1">ตัวอย่าง: {Array.isArray(d.tip)?d.tip[2]:d.tip.example}</p></div>
+        </div>;
+      };
+
+      const renderLessonIntro = () => {
+        const preview = currentLessonItem.chars.slice(0,8);
+        const typeText = currentLessonItem.type === 'pinyin' ? 'ระบบเสียงพินอิน' : currentLessonItem.type === 'radical' ? 'รากศัพท์จีน 部首' : currentLessonItem.type === 'medical' ? 'จีนสุขภาพ–สมุนไพร' : 'อักษรจีน HSK';
+        return <div className={`flex flex-col h-full p-6 relative z-10 overflow-y-auto custom-scrollbar ${isDarkMode?'text-amber-100':'text-red-950'}`}>
+          <div className="flex items-center mb-5"><HeaderButton onClick={()=>setCurrentView('lessonSelect')} icon="fa-chevron-left"/><h2 className="text-2xl font-black ml-4">ก่อนเริ่มบทเรียน</h2></div>
+          <div className={`p-5 rounded-3xl mb-4 border ${isDarkMode?'bg-red-950/75 border-amber-700/35':'bg-white/95 border-amber-200'}`}><p className="text-xs font-black opacity-60">{typeText}</p><h3 className="text-xl font-black mt-1">{currentLessonItem.title}</h3><p className="mt-2 text-sm opacity-75">บทนี้จะเรียนแบบ 5 ชั้น: รูปเขียน → เสียง → ราก/โครงสร้าง → คำศัพท์ → ประโยคใช้งานจริง</p><div className="flex flex-wrap gap-2 mt-4">{preview.map((c,i)=><span key={i} className="px-3 py-2 rounded-2xl bg-amber-100 text-red-950 font-serif font-bold">{c.kana}<small className="ml-1 font-sans">{c.romaji}</small></span>)}</div></div>
+          <div className="grid grid-cols-2 gap-3 mb-4">{BASIC_STROKES.map((s,i)=><div key={i} className={`p-3 rounded-2xl ${isDarkMode?'bg-red-950/60':'bg-amber-50'}`}><div className="text-3xl font-serif font-black">{s.mark}</div><b className="text-xs">{s.name}</b><p className="text-[11px] opacity-70">{s.detail}</p></div>)}</div>
+          <div className={`p-4 rounded-3xl mb-4 ${isDarkMode?'bg-red-950/60':'bg-white/90'}`}><h3 className="font-black mb-2"><i className="fas fa-triangle-exclamation mr-2 text-amber-600"></i>จุดยากของคนไทยที่เกี่ยวข้อง</h3><div className="space-y-2">{THAI_TIPS.slice(0,3).map((t,i)=><div key={i} className="text-xs p-2 rounded-xl bg-amber-50/80 text-red-950"><b>{t[0]}:</b> {t[1]} <span className="opacity-60">({t[2]})</span></div>)}</div></div>
+          <button onClick={beginSelectedLesson} className="w-full py-4 rounded-2xl bg-[#B91C1C] text-white font-black shadow-[0_5px_0_#7f1d1d]"><i className="fas fa-play mr-2 text-amber-200"></i>เริ่มฝึกบทนี้</button>
+        </div>;
+      };
+
+      const renderPathMap = () => <div className={`flex flex-col h-full p-6 relative z-10 overflow-y-auto custom-scrollbar ${isDarkMode?'text-amber-100':'text-red-950'}`}>
+        <div className="flex items-center mb-5"><HeaderButton onClick={()=>setCurrentView('menu')} icon="fa-chevron-left"/><h2 className="text-2xl font-black ml-4">Learning Path v4</h2></div>
+        <div className="space-y-3 mb-5">{LEARNING_PATH.map((x,i)=><div key={i} className={`p-4 rounded-3xl flex gap-4 items-center ${isDarkMode?'bg-red-950/70 border border-amber-700/35':'bg-white/95'}`}><div className="w-12 h-12 rounded-2xl bg-[#B91C1C] text-amber-200 flex items-center justify-center font-black">{x[0]}</div><div><h3 className="font-black"><i className={`fas ${x[3]} mr-2 text-amber-600`}></i>{x[1]}</h3><p className="text-sm opacity-70">{x[2]}</p></div></div>)}</div>
+        <div className={`p-5 rounded-3xl mb-5 ${isDarkMode?'bg-red-950/70':'bg-white/95'}`}><h3 className="font-black mb-3">เส้นทางเฉพาะคุณจี: จีนเภสัช–สมุนไพร</h3>{PHARMACY_PATH.map((g,i)=><div key={i} className="mb-3"><b className="text-amber-700">{g[0]}</b><div className="grid grid-cols-1 gap-1 mt-1">{g[1].map((t,j)=><span key={j} className="text-xs px-3 py-2 rounded-xl bg-amber-50 text-red-950">{t}</span>)}</div></div>)}</div>
+        <div className={`p-5 rounded-3xl ${isDarkMode?'bg-red-950/70':'bg-white/95'}`}><h3 className="font-black mb-3">สถานการณ์ฝึกใช้จริง</h3>{SCENARIOS.map((s,i)=><div key={i} className="mb-3"><b>{s[0]}</b>{s[1].map((l,j)=><p key={j} className="text-xs opacity-75 mt-1">• {l}</p>)}</div>)}</div>
+      </div>;
+
+      const renderExerciseHub = () => <div className={`flex flex-col h-full p-6 relative z-10 ${isDarkMode?'text-amber-100':'text-red-950'}`}>
+        <div className="flex items-center mb-4"><HeaderButton onClick={()=>setCurrentView('menu')} icon="fa-chevron-left"/><h2 className="text-2xl font-black ml-4">แบบฝึกหลายรูปแบบ</h2></div>
+        <div className="grid grid-cols-2 gap-2 mb-4">{EXERCISE_TYPES.map(t=><button key={t[0]} onClick={()=>startExercise(t[0])} className={`p-3 rounded-2xl text-xs font-bold ${exerciseType===t[0]?'bg-[#B91C1C] text-white':'bg-white/85 text-red-950'}`}><i className={`fas ${t[2]} mr-1`}></i>{t[1]}</button>)}</div>
+        <div className={`flex-1 rounded-3xl p-5 flex flex-col items-center justify-center text-center border ${isDarkMode?'bg-red-950/70 border-amber-700/35':'bg-white/95 border-amber-200'}`}>
+          <p className="font-bold opacity-60 mb-3">{exerciseQuestion?.questionText || 'เลือกแบบฝึกด้านบน'}</p><div className="text-6xl font-serif font-black text-[#B91C1C] mb-3">{exerciseQuestion?.prompt || '中'}</div><p className="text-sm opacity-60 mb-5">คะแนน {exerciseStats.correct}/{exerciseStats.total}</p>
+          <div className="grid grid-cols-2 gap-3 w-full">{(exerciseQuestion?.choices||[]).map((c,i)=><button key={i} onClick={()=>answerExercise(c)} className="py-4 px-2 rounded-2xl bg-amber-100 text-red-950 font-black text-sm shadow-sm">{c}</button>)}</div>
+          {feedback && <div className={`mt-5 p-3 rounded-2xl text-white font-bold ${feedback.type==='success'?'bg-green-600':'bg-red-700'}`}>{feedback.text}</div>}
+        </div>
+      </div>;
+
+      const renderMenu = () => (
+        <div className="flex flex-col items-center justify-center h-full space-y-5 animate-in fade-in zoom-in duration-300 relative z-10 p-6">
+          <div className="absolute top-4 right-4 flex gap-2"><HeaderButton onClick={()=>setCurrentView('dashboard')} icon="fa-chart-line"/><HeaderButton onClick={()=>setCurrentView('settings')} icon="fa-gear"/></div>
+          <div className="text-center mb-2">
+            <div className={`w-24 h-24 rounded-full mx-auto mb-5 flex items-center justify-center lantern-glow ${isDarkMode ? 'bg-red-950 border border-amber-600' : 'bg-[#b91c1c]'}`}><span className="text-amber-200 text-5xl font-serif font-bold">中</span></div>
+            <h1 className={`text-4xl font-black mb-1 tracking-tight ${isDarkMode ? 'gold-sheen' : 'text-[#5B2118]'}`}>ChinaWrite Pro</h1>
+            <p className={`font-bold tracking-widest text-sm ${isDarkMode ? 'text-amber-300' : 'text-[#B91C1C]'}`}>中文书写练习 · พินอิน · HSK · สุขภาพ</p>
+          </div>
+          <div className={`w-full max-w-xs grid grid-cols-3 gap-2 text-center text-xs font-bold ${isDarkMode ? 'text-amber-100' : 'text-red-950'}`}>
+            <div className={`p-3 rounded-2xl ${isDarkMode?'bg-red-950/70':'bg-white/80'}`}><p className="text-xl">{Object.keys(progress.completed||{}).length}</p><p className="opacity-60">ตัวผ่าน</p></div>
+            <div className={`p-3 rounded-2xl ${isDarkMode?'bg-red-950/70':'bg-white/80'}`}><p className="text-xl">{avgScore}</p><p className="opacity-60">คะแนนเฉลี่ย</p></div>
+            <div className={`p-3 rounded-2xl ${isDarkMode?'bg-red-950/70':'bg-white/80'}`}><p className="text-xl">{dueItems.length}</p><p className="opacity-60">ควรทบทวน</p></div>
+          </div>
+          <div className="space-y-3 w-full max-w-xs">
+            <button onClick={()=>{setSelectedMode('learn');setCurrentView('lessonSelect');}} className="flex items-center justify-center space-x-3 w-full py-4 bg-[#5B2118] text-white rounded-2xl shadow-[0_6px_0_#35130e] hover:translate-y-1 hover:shadow-[0_2px_0_#35130e] transition-all"><i className="fas fa-book-open text-amber-200 text-xl"></i><span className="text-lg font-bold">เรียนรู้และฝึกคัด</span></button>
+            <button onClick={()=>{setSelectedMode('practice');setCurrentView('lessonSelect');}} className="flex items-center justify-center space-x-3 w-full py-4 bg-[#B91C1C] text-white rounded-2xl shadow-[0_6px_0_#7f1d1d] hover:translate-y-1 hover:shadow-[0_2px_0_#7f1d1d] transition-all"><i className="fas fa-pen-to-square text-amber-200 text-xl"></i><span className="text-lg font-bold">แบบฝึกหัดประเมินคะแนน</span></button>
+            <div className="grid grid-cols-2 gap-3">
+              <button onClick={startMiniGame} className="py-4 bg-[#D4A017] text-white rounded-2xl shadow-[0_6px_0_#9a6b00] hover:translate-y-1 transition-all"><i className="fas fa-gamepad mr-2"></i><b>มินิเกม</b></button>
+              <button onClick={()=>{nextToneQuestion();setCurrentView('toneLab');}} className="py-4 bg-[#15803D] text-white rounded-2xl shadow-[0_6px_0_#14532d] hover:translate-y-1 transition-all"><i className="fas fa-wave-square mr-2"></i><b>Tone Lab</b></button>
+              <button onClick={()=>setCurrentView('pathMap')} className="py-4 bg-[#5B2118] text-white rounded-2xl shadow-[0_6px_0_#35130e] hover:translate-y-1 transition-all"><i className="fas fa-route mr-2 text-amber-200"></i><b>Path</b></button>
+              <button onClick={()=>startExercise('hanziToPinyin')} className="py-4 bg-[#7C2D12] text-white rounded-2xl shadow-[0_6px_0_#431407] hover:translate-y-1 transition-all"><i className="fas fa-puzzle-piece mr-2 text-amber-200"></i><b>Quiz</b></button>
+            </div>
+          </div>
+          <div className={`absolute bottom-6 text-center text-[11px] font-medium tracking-wide ${isDarkMode ? 'text-amber-700' : 'text-red-900/45'}`}><p>Professional LessonDeep Edition v4.0</p><p>Developed for ภก.จีรภัทร พลายงาม</p></div>
+        </div>
+      );
+
+      const renderSettings = () => (
+        <div className={`flex flex-col h-full p-6 animate-in slide-in-from-bottom duration-300 relative z-10 ${isDarkMode?'text-amber-100':'text-red-950'}`}>
+          <div className="flex items-center mb-6"><HeaderButton onClick={()=>setCurrentView('menu')} icon="fa-chevron-left"/><h2 className="text-2xl font-black ml-4">ตั้งค่าแอป</h2></div>
+          <div className="space-y-4">
+            {[{title:'โหมดถนอมสายตา',sub:'Dark Mode',icon:isDarkMode?'fa-moon':'fa-sun',on:isDarkMode,set:()=>setIsDarkMode(!isDarkMode)},{title:'โหมดคนถนัดซ้าย',sub:'Left-Handed UI',icon:'fa-hand-paper',on:isLeftHanded,set:()=>setIsLeftHanded(!isLeftHanded)},{title:'แสดงลำดับขีด',sub:'Stroke Order Coach',icon:'fa-list-ol',on:showStrokeGuide,set:()=>setShowStrokeGuide(!showStrokeGuide)}].map((it,idx)=>(
+              <div key={idx} className={`p-5 rounded-2xl flex justify-between items-center shadow-sm ${isDarkMode?'bg-red-950/75 border border-amber-700/30':'bg-white/90'}`}>
+                <div className="flex items-center space-x-4"><div className={`w-12 h-12 flex items-center justify-center rounded-full ${isDarkMode?'bg-amber-900/40 text-amber-200':'bg-red-50 text-red-700'}`}><i className={`fas ${it.icon} text-xl`}></i></div><div><h3 className="font-bold text-lg">{it.title}</h3><p className="text-sm opacity-60">{it.sub}</p></div></div>
+                <button onClick={it.set} className={`w-14 h-8 rounded-full flex items-center p-1 transition-colors ${it.on?'bg-green-500':'bg-gray-300'}`}><div className={`w-6 h-6 rounded-full bg-white shadow-md transform transition-transform ${it.on?'translate-x-6':'translate-x-0'}`}></div></button>
+              </div>
+            ))}
+            <button onClick={()=>{ if(confirm('ล้างข้อมูลความก้าวหน้าทั้งหมด?')) setProgress({completed:{}, attempts:{}, scores:[], srs:{}, streak:{date:null,count:0}}); }} className="w-full py-4 rounded-2xl bg-red-700 text-white font-bold shadow-md"><i className="fas fa-trash mr-2"></i>ล้างข้อมูลความก้าวหน้า</button>
+          </div>
+        </div>
+      );
+
+      const renderLessonSelect = () => (
+        <div className={`flex flex-col h-full p-6 animate-in slide-in-from-right duration-300 relative z-10 ${isDarkMode?'text-amber-100':'text-red-950'}`}>
+          <div className="flex items-center mb-5"><HeaderButton onClick={()=>setCurrentView('menu')} icon="fa-chevron-left"/><h2 className="text-2xl font-black ml-4">{selectedMode==='learn'?'เลือกบทเรียน':'เลือกแบบฝึกหัด'}</h2></div>
+          <div className={`grid grid-cols-4 gap-1 mb-5 p-1.5 rounded-2xl shrink-0 text-xs ${isDarkMode?'bg-red-950/80':'bg-[#f7ddb0]'}`}>
+            {[['pinyin','พินอิน'],['hsk','HSK'],['radical','部首'],['medical','สุขภาพ']].map(tab => <button key={tab[0]} onClick={()=>setActiveTab(tab[0])} className={`py-3 text-center rounded-xl font-bold transition-all ${activeTab===tab[0] ? (isDarkMode?'bg-amber-700 text-white':'bg-white shadow-md text-[#B91C1C]') : 'opacity-55'}`}>{tab[1]}</button>)}
+          </div>
+          <div className="space-y-4 overflow-y-auto pb-24 custom-scrollbar pr-2">
+            {filteredLessons.map((lesson)=>(
+              <div key={lesson.id} className={`p-5 rounded-2xl shadow-sm border-2 border-transparent flex justify-between items-center transition-all ${isDarkMode?'bg-red-950/75 hover:border-amber-700/60':'bg-white/90 hover:border-[#B91C1C]/20'}`}>
+                <div className="min-w-0 pr-3"><h3 className="text-base font-bold leading-snug">{lesson.title}</h3><p className="mt-1 text-sm opacity-60 truncate font-serif">{lesson.chars.map(c=>c.kana).join('  ')}</p><p className="text-[11px] mt-1 opacity-50">{lesson.chars.length} รายการ · {lesson.type==='pinyin'?'ฝึกพินอิน':lesson.type==='radical'?'รากศัพท์จีน':lesson.type==='medical'?'จีนสุขภาพ':'อักษรจีน HSK'}</p></div>
+                <button onClick={()=>startLesson(lesson)} className={`w-12 h-12 flex items-center justify-center rounded-full text-white shadow-md transition-transform hover:scale-110 ${selectedMode==='learn'?'bg-[#5B2118]':'bg-[#B91C1C]'}`}><i className="fas fa-play text-lg ml-1 text-amber-200"></i></button>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+
+      const renderCanvasView = () => {
+        const charData = currentLessonItem.chars[currentCharIndex]; const isPractice = selectedMode === 'practice'; const assessedScore = calcWritingScore(charData);
+        return (
+          <div className={`flex flex-col h-full animate-in fade-in duration-300 relative z-10 ${isDarkMode?'text-amber-100':'text-red-950'}`}>
+            <div className={`flex items-center p-6 pb-2 shrink-0 ${isLeftHanded?'flex-row-reverse justify-between':'justify-between'}`}>
+              <HeaderButton onClick={()=>setCurrentView('lessonSelect')} icon={isLeftHanded?'fa-chevron-right':'fa-chevron-left'}/>
+              <div className={`text-center px-4 py-1 rounded-full ${isDarkMode?'bg-red-950/75':'bg-white/65'}`}><h2 className={`text-sm font-bold line-clamp-1 ${isDarkMode?'text-amber-300':'text-[#B91C1C]'}`}>{currentLessonItem.title}</h2><p className="text-xs opacity-60 font-medium">{currentCharIndex+1} / {currentLessonItem.chars.length}</p></div><div className="w-10"></div>
+            </div>
+            <div className="text-center mb-3 px-4 shrink-0 flex flex-col items-center">
+              <div className="flex items-center space-x-3 mb-1"><p className="text-base font-bold opacity-75">{isPractice?'จงเขียน':'ฝึกคัด'}</p><span className={`text-4xl font-black font-serif ${isPractice?'text-[#B91C1C]':'text-[#D4A017]'}`}>{charData.kana}</span><span className="text-xl font-black">{charData.romaji}</span><button onClick={()=>playAudio(charData.audio)} className={`p-2 w-10 h-10 flex items-center justify-center rounded-full shadow-sm hover:scale-110 transition-all ${isDarkMode?'bg-red-950 text-amber-200':'bg-white text-red-700'}`}><i className="fas fa-volume-high text-lg"></i></button></div>
+              <div className={`mt-2 px-4 py-2 rounded-2xl flex items-center space-x-2 animate-in slide-in-from-top ${isDarkMode?'bg-red-950/75 border border-amber-700/30':'bg-white/80 shadow-sm'}`}><span className="text-sm font-bold">{charData.vocab.word}</span><span className="opacity-40">|</span><span className="text-sm font-medium">{charData.vocab.meaning}</span></div>
+            </div>
+            <div className={`mx-4 mb-3 p-3 rounded-2xl text-xs ${isDarkMode?'bg-red-950/60 border border-amber-700/30':'bg-amber-50/90 border border-amber-200'}`}>
+              <div className="flex justify-between items-center mb-2"><b><i className="fas fa-list-ol mr-1"></i>Stroke Coach</b><button onClick={()=>setShowStrokeGuide(!showStrokeGuide)} className="underline opacity-70">{showStrokeGuide?'ซ่อน':'แสดง'}</button></div>
+              {showStrokeGuide && <div className="grid grid-cols-2 gap-2"><div><p>จำนวนขีดแนะนำ: <b>{charData.expectedStrokes}</b></p><p>ที่เขียนตอนนี้: <b>{drawStats.strokes}</b> ขีด</p><p>พื้นที่หมึก: <b>{drawStats.coverage || 0}%</b></p></div><ol className="list-decimal pl-4 space-y-1">{charData.strokeGuide.slice(0,3).map((s,i)=><li key={i}>{s}</li>)}</ol></div>}
+            </div>
+            <div className={`flex justify-center items-center space-x-4 mb-4 shrink-0 px-4 ${isLeftHanded?'flex-row-reverse space-x-reverse':''}`}>
+              <div className={`flex space-x-1 border p-1.5 rounded-2xl shadow-sm ${isDarkMode?'bg-red-950/75 border-amber-700/40':'bg-white/90 border-[#e8c36a]'}`}><button onClick={()=>setTool('pen')} className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all ${tool==='pen'?(isDarkMode?'bg-amber-700 text-white':'bg-[#5B2118] text-white shadow'):'opacity-50'}`}><i className="fas fa-pen-nib"></i></button><button onClick={()=>setTool('brush')} className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all ${tool==='brush'?(isDarkMode?'bg-amber-700 text-white':'bg-[#5B2118] text-white shadow'):'opacity-50'}`}><i className="fas fa-paint-brush"></i></button></div>
+              <div className={`flex space-x-3 border p-2.5 rounded-2xl shadow-sm items-center ${isDarkMode?'bg-red-950/75 border-amber-700/40':'bg-white/90 border-[#e8c36a]'}`}>{COLORS.map(color=>{let displayColor=(isDarkMode&&color==='#1F1F1F')?'#FFFFFF':color; return <button key={color} onClick={()=>setInkColor(color)} className={`w-6 h-6 rounded-full transition-transform ${inkColor===color?`scale-125 ring-2 ring-offset-2 ${isDarkMode?'ring-amber-300 ring-offset-red-950':'ring-[#5B2118]'}`:'hover:scale-110'}`} style={{backgroundColor:displayColor}} />})}</div>
+            </div>
+            <div className={`flex-1 overflow-y-auto px-4 pb-6 relative custom-scrollbar ${isDarkMode?'dark-scrollbar':''} flex flex-col items-center`}>
+              {feedback && <div className={`sticky top-2 px-5 py-3 rounded-xl font-bold text-white z-20 animate-in slide-in-from-top shadow-lg border-2 text-sm ${feedback.type==='success'?'bg-[#15803D] border-white':'bg-[#B91C1C] border-white'}`}>{feedback.text}</div>}
+              <DeepLessonPanel charData={charData}/>
+              <div className="flex flex-col items-center space-y-6 w-full max-w-[265px] py-4" key={`char-${currentCharIndex}`}>
+                <DrawingPad guideText={isPractice?null:charData.kana} size={245} clearTrigger={clearTrigger} onDraw={()=>setHasDrawn(true)} onStats={setDrawStats} inkColor={inkColor} tool={tool} isDarkMode={isDarkMode}/>
+                <div className="grid grid-cols-2 gap-4 w-full">{Array.from({length:8}).map((_,i)=><DrawingPad key={`drill-${i}`} guideText={null} size={116} clearTrigger={clearTrigger} onDraw={()=>setHasDrawn(true)} onStats={(s)=>{ if(i===0) setDrawStats(s); }} inkColor={inkColor} tool={tool} isDarkMode={isDarkMode}/>)}</div>
+              </div>
+              <div className={`w-full max-w-[265px] grid grid-cols-3 gap-2 mb-3 text-xs ${isDarkMode?'text-amber-100':'text-red-950'}`}><button onClick={()=>{markProgress(charData, Math.max(assessedScore,85), 'easy'); setFeedback({type:'success', text:'บันทึกว่า จำง่าย แล้วค่ะ'});}} className="py-2 rounded-xl bg-green-600 text-white font-bold">จำง่าย</button><button onClick={()=>{markProgress(charData, assessedScore, 'hard'); setFeedback({type:'success', text:'บันทึกให้ทบทวนเร็วขึ้นค่ะ'});}} className="py-2 rounded-xl bg-amber-600 text-white font-bold">ยังยาก</button><button onClick={()=>{markProgress(charData, 45, 'forgot'); setFeedback({type:'error', text:'บันทึกว่า ลืมแล้ว จะกลับมาให้ทบทวนค่ะ'});}} className="py-2 rounded-xl bg-red-700 text-white font-bold">ลืมแล้ว</button></div>
+              <div className={`flex mt-2 pb-8 space-x-4 w-full max-w-[265px] ${isLeftHanded?'flex-row-reverse space-x-reverse':''}`}><button onClick={clearCanvas} className={`flex-1 flex items-center justify-center space-x-2 py-3.5 rounded-2xl font-bold shadow-sm border transition-all active:scale-95 ${isDarkMode?'bg-red-950/80 border-amber-700/40 text-amber-100 hover:bg-red-900':'bg-white border-amber-200 text-red-950 hover:bg-amber-50'}`}><i className="fas fa-rotate-left"></i><span>ล้าง</span></button>{isPractice?<button onClick={checkAnswer} className="flex-[2] flex items-center justify-center space-x-2 py-3.5 bg-[#B91C1C] text-white rounded-2xl font-bold shadow-[0_4px_0_#7f1d1d] active:translate-y-1"><i className="fas fa-circle-check text-amber-200"></i><span>ตรวจคะแนน</span></button>:<button onClick={handleNext} className={`flex-[2] flex items-center justify-center space-x-2 py-3.5 text-white rounded-2xl font-bold shadow-[0_4px_0_#35130e] active:translate-y-1 ${isDarkMode?'bg-amber-700':'bg-[#5B2118]'}`}><span>ถัดไป</span><i className="fas fa-play text-amber-200"></i></button>}</div>
+              {isPractice && feedback && <button onClick={handleNext} className="mb-8 px-8 py-3 bg-[#5B2118] text-white rounded-2xl font-bold shadow-md">บันทึกคะแนนและไปต่อ</button>}
+            </div>
+          </div>
+        );
+      };
+
+      const renderMiniGame = () => gameCurrentQuestion && (
+        <div className={`flex flex-col h-full p-6 animate-in slide-in-from-bottom duration-300 relative z-10 ${isDarkMode?'text-amber-100':'text-red-950'}`}>
+          <div className="flex justify-between items-center mb-8"><HeaderButton onClick={()=>setCurrentView('menu')} icon="fa-chevron-left"/><div className="text-center font-bold"><span className="text-[#D4A017] text-xl">Score: {gameScore}</span></div><div className="text-sm font-bold opacity-60">{gameQuestionCount}/10</div></div>
+          <div className="flex-1 flex flex-col items-center justify-center">{feedback && <div className={`absolute top-20 px-6 py-3 rounded-xl font-bold text-white z-20 animate-bounce shadow-lg ${feedback.type==='success'?'bg-[#15803D]':'bg-[#B91C1C]'}`}>{feedback.text}</div>}<p className="text-xl font-bold mb-4 opacity-75">อักษรจีนตัวใดอ่านว่า</p><div className={`w-44 h-44 rounded-3xl flex flex-col items-center justify-center mb-10 shadow-lg border-4 ${isDarkMode?'bg-red-950/75 border-amber-700 text-amber-100':'bg-white border-[#e8c36a] text-[#5B2118]'}`}><span className="text-5xl font-black">{gameCurrentQuestion.target.romaji}</span><span className="text-xs mt-3 opacity-50">拼音 pīnyīn</span></div><div className="grid grid-cols-2 gap-4 w-full max-w-[300px]">{gameCurrentQuestion.choices.map((choice,i)=><button key={i} onClick={()=>handleGameAnswer(choice)} className={`py-8 rounded-2xl text-5xl font-bold font-serif shadow-[0_6px_0_rgba(0,0,0,.1)] transition-all hover:translate-y-1 ${isDarkMode?'bg-red-950/80 text-amber-100 border border-amber-700/40':'bg-white text-[#5B2118]'}`}>{choice.kana}</button>)}</div></div>
+        </div>
+      );
+
+      const renderToneLab = () => (
+        <div className={`flex flex-col h-full p-6 animate-in slide-in-from-bottom duration-300 relative z-10 ${isDarkMode?'text-amber-100':'text-red-950'}`}>
+          <div className="flex items-center mb-6"><HeaderButton onClick={()=>setCurrentView('menu')} icon="fa-chevron-left"/><h2 className="text-2xl font-black ml-4">Tone Lab วรรณยุกต์จีน</h2></div>
+          <div className={`p-5 rounded-3xl mb-4 text-center ${isDarkMode?'bg-red-950/75 border border-amber-700/30':'bg-white/90'}`}><p className="font-bold opacity-70 mb-3">ฟังเสียง แล้วดูกราฟเสียงขึ้นลง</p><div className="text-6xl font-black mb-2">{toneQuestion?.sample || 'mā'}</div><div className="text-[#D4A017]"><ToneGraph tone={toneQuestion?.tone ?? 1}/></div><button onClick={()=>playAudio(toneQuestion?.sample || 'mā')} className="mt-4 px-5 py-3 rounded-2xl bg-[#B91C1C] text-white font-bold"><i className="fas fa-volume-high mr-2"></i>ฟังอีกครั้ง</button></div>
+          <div className="grid grid-cols-5 gap-2 mb-5">{[1,2,3,4,0].map(t=><button key={t} onClick={()=>{ const ok = toneQuestion && t===toneQuestion.tone; setFeedback({type:ok?'success':'error', text:ok?'แม่นมากค่ะ 🎯':'ยังไม่ใช่ ลองฟังใหม่ค่ะ'}); if(ok) setTimeout(nextToneQuestion,800); }} className="py-3 rounded-2xl bg-[#5B2118] text-white font-bold">{t===0?'เบา':t}</button>)}</div>
+          {feedback && <div className={`p-4 rounded-2xl text-white font-bold text-center ${feedback.type==='success'?'bg-green-600':'bg-red-700'}`}>{feedback.text}</div>}
+          <button onClick={nextToneQuestion} className="mt-5 py-4 rounded-2xl bg-[#D4A017] text-white font-bold shadow-md"><i className="fas fa-random mr-2"></i>สุ่มเสียงใหม่</button>
+          <div className={`mt-5 p-4 rounded-2xl text-sm ${isDarkMode?'bg-red-950/60':'bg-amber-50'}`}><b>เคล็ดลับคนไทย:</b> เสียง 1 คงที่เหมือนลากเส้นตรง, เสียง 2 เหมือนถาม “หืม?”, เสียง 3 กดต่ำแล้วค่อยขึ้น, เสียง 4 สั้นและตกชัดค่ะ</div>
+        </div>
+      );
+
+      const renderDashboard = () => {
+        const total = ALL_CHARS.length; const done = Object.keys(progress.completed||{}).length; const percent = Math.round((done/total)*100);
+        const topDue = Object.values(progress.srs || {}).filter(v => (v.nextDue || 0) <= Date.now()).slice(0,8);
+        return <div className={`flex flex-col h-full p-6 animate-in slide-in-from-bottom duration-300 relative z-10 ${isDarkMode?'text-amber-100':'text-red-950'}`}><div className="flex items-center mb-5"><HeaderButton onClick={()=>setCurrentView('menu')} icon="fa-chevron-left"/><h2 className="text-2xl font-black ml-4">Dashboard ความก้าวหน้า</h2></div><div className="grid grid-cols-2 gap-3 mb-4"><div className={`p-5 rounded-3xl ${isDarkMode?'bg-red-950/75':'bg-white/90'}`}><p className="text-xs opacity-60 font-bold">เรียนแล้ว</p><p className="text-4xl font-black">{done}</p><p className="text-xs opacity-60">จาก {total} รายการ</p></div><div className={`p-5 rounded-3xl ${isDarkMode?'bg-red-950/75':'bg-white/90'}`}><p className="text-xs opacity-60 font-bold">คะแนนเฉลี่ย</p><p className="text-4xl font-black">{avgScore}</p><p className="text-xs opacity-60">จาก {progress.scores?.length || 0} ครั้ง</p></div></div><div className={`p-5 rounded-3xl mb-4 ${isDarkMode?'bg-red-950/75':'bg-white/90'}`}><div className="flex justify-between text-sm font-bold mb-2"><span>Progress</span><span>{percent}%</span></div><div className="w-full h-4 bg-amber-100 rounded-full overflow-hidden"><div className="h-full bg-gradient-to-r from-red-700 to-amber-500" style={{width:`${percent}%`}}></div></div><p className="mt-3 text-sm opacity-70">Streak: {progress.streak?.count || 0} วัน · ควรทบทวนวันนี้ {dueItems.length} รายการ</p></div><div className={`p-5 rounded-3xl mb-4 ${isDarkMode?'bg-red-950/75':'bg-white/90'}`}><h3 className="font-black mb-3"><i className="fas fa-clock-rotate-left mr-2 text-amber-600"></i>คิวทบทวนแบบ Spaced Repetition</h3>{topDue.length ? <div className="grid grid-cols-4 gap-2">{topDue.map((v,i)=><div key={i} className="p-3 rounded-2xl bg-amber-100/80 text-red-950 text-center"><div className="text-2xl font-serif font-bold">{v.text}</div><div className="text-xs">{v.pinyin}</div></div>)}</div> : <p className="text-sm opacity-65">ยังไม่มีคิวค้าง ดีงามเหมือนโต๊ะทำงานก่อนเริ่มประชุมค่ะ 😄</p>}</div><div className={`p-5 rounded-3xl ${isDarkMode?'bg-red-950/75':'bg-white/90'}`}><h3 className="font-black mb-2">Badge</h3><div className="grid grid-cols-2 gap-2 text-sm">{[['初学者','ผู้เริ่มต้น',done>=1],['拼音达人','เซียนพินอิน',done>=30],['汉字小师傅','ครูน้อยอักษรจีน',done>=80],['中医词汇','ศัพท์สุขภาพจีน',done>=120]].map((b,i)=><div key={i} className={`p-3 rounded-2xl border ${b[2]?'bg-amber-100 border-amber-300 text-red-950':'opacity-40 border-gray-300'}`}><b>{b[0]}</b><p>{b[1]}</p></div>)}</div></div></div>;
+      };
+
+      const renderSummary = () => {
+        const isGameSummary = currentView === 'gameSummary';
+        const stars = selectedMode === 'practice' || isGameSummary ? calculateStars() : 0;
+        const learned = currentLessonItem.chars || [];
+        const reviewText = learned.slice(0,6).map(c => `${c.kana} ${c.romaji}`).join(' · ');
+        return <div className={`flex flex-col h-full p-6 overflow-y-auto custom-scrollbar animate-in zoom-in duration-500 relative z-10 ${isDarkMode?'text-amber-100':'text-red-950'}`}>
+          <div className="text-center mb-5">{selectedMode==='practice'||isGameSummary?<div className="flex justify-center space-x-2 mb-5">{[1,2,3].map(star=><i key={star} className={`fas fa-star text-5xl ${star<=stars?'text-[#D4A017] drop-shadow-lg':'text-gray-300'}`}></i>)}</div>:<i className="fas fa-award text-6xl text-[#D4A017] mb-4 drop-shadow-md"></i>}<h2 className={`text-3xl font-black ${isDarkMode?'gold-sheen':'text-[#5B2118]'}`}>{isGameSummary?'จบเกมแล้วค่ะ!':'สรุปบทเรียน'}</h2><p className="opacity-70 text-sm mt-2">{isGameSummary?'ทบทวนพินอินกับตัวจีนต่ออีกนิด เก่งขึ้นแน่นอนค่ะ':currentLessonItem.title}</p></div>
+          <div className={`p-5 rounded-3xl mb-4 ${isDarkMode?'bg-red-950/75 border border-amber-700/35':'bg-white/95 border border-amber-200'}`}><h3 className="font-black mb-2"><i className="fas fa-clipboard-check mr-2 text-amber-600"></i>Lesson Summary</h3><p className="text-sm opacity-75">วันนี้เรียน/ฝึก: {reviewText || '—'}</p><p className="text-sm opacity-75 mt-1">จำนวนรายการในบทนี้: <b>{learned.length}</b> · คะแนนสะสม: <b>{isGameSummary?gameScore:score}</b></p><div className="grid grid-cols-3 gap-2 mt-3 text-center text-xs"><div className="p-2 rounded-xl bg-amber-100 text-red-950"><b>เสียง</b><p>พินอิน/โทน</p></div><div className="p-2 rounded-xl bg-amber-100 text-red-950"><b>เขียน</b><p>ขีด/สัดส่วน</p></div><div className="p-2 rounded-xl bg-amber-100 text-red-950"><b>ใช้จริง</b><p>คำ/ประโยค</p></div></div></div>
+          <div className={`p-5 rounded-3xl mb-4 ${isDarkMode?'bg-red-950/75':'bg-white/95'}`}><h3 className="font-black mb-2">คำแนะนำรอบถัดไป</h3><ul className="list-disc pl-5 text-sm space-y-1 opacity-80"><li>ตัวที่ยังไม่มั่นใจให้กด “ยังยาก” เพื่อเข้า Spaced Repetition</li><li>ฝึกจากรากศัพท์ก่อน แล้วค่อยจำคำศัพท์ประกอบ</li><li>ใช้ Quiz อย่างน้อย 5 ข้อต่อวัน เพื่อเชื่อมจีน–พินอิน–ความหมายไทย</li></ul></div>
+          <div className="grid grid-cols-2 gap-3"><button onClick={()=>setCurrentView(isGameSummary?'menu':'lessonSelect')} className={`px-6 py-4 text-white rounded-2xl font-bold shadow-[0_4px_0_#35130e] ${isDarkMode?'bg-amber-700':'bg-[#5B2118]'}`}>กลับบทเรียน</button><button onClick={()=>setCurrentView('dashboard')} className="px-6 py-4 text-white rounded-2xl font-bold shadow-[0_4px_0_#7f1d1d] bg-[#B91C1C]">ดู Dashboard</button></div>
+        </div>;
+      };
+
+
+      return (
+        <div className={`w-full h-full relative font-sans flex flex-col transition-colors duration-500 ${isDarkMode?'bg-[#160f0c]':'bg-[#fff7ed]'}`}>
+          <div className={`chinese-bg ${isDarkMode?'bg-dark-pattern':'bg-light-pattern'}`}></div>
+          <div className={`h-6 w-full flex justify-between items-center px-4 text-xs font-semibold z-50 pt-2 pb-6 shrink-0 relative ${isDarkMode?'text-amber-200':'text-[#5B2118]'}`}><span>9:41 AM</span><div className="flex space-x-1 items-center"><span>100%</span><div className={`w-6 h-3 border rounded-[3px] p-[1px] ${isDarkMode?'border-amber-200':'border-[#5B2118]'}`}><div className={`w-full h-full rounded-[1px] ${isDarkMode?'bg-amber-200':'bg-[#5B2118]'}`}></div></div></div></div>
+          <div className="flex-1 relative overflow-hidden">
+            {currentView === 'menu' && renderMenu()}
+            {currentView === 'settings' && renderSettings()}
+            {currentView === 'pathMap' && renderPathMap()}
+            {currentView === 'exerciseHub' && renderExerciseHub()}
+            {currentView === 'lessonSelect' && renderLessonSelect()}
+            {currentView === 'lessonIntro' && renderLessonIntro()}
+            {(currentView === 'learn' || currentView === 'practice') && renderCanvasView()}
+            {currentView === 'game' && renderMiniGame()}
+            {currentView === 'toneLab' && renderToneLab()}
+            {currentView === 'dashboard' && renderDashboard()}
+            {(currentView === 'summary' || currentView === 'gameSummary') && renderSummary()}
+          </div>
+        </div>
+      );
+    }
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<ChineseWritingApp />);
+  </script>
+</body>
+</html>
