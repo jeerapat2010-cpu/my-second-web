@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JPE201 Lesson 17 Companion App Pro Plus</title>
+  <style>
+    :root{
+      --ink:#26312c;--muted:#64746d;--card:rgba(255,255,255,.94);--primary:#2f9e73;--primary-dark:#17684a;
+      --soft:#e8fff4;--cream:#fff9e9;--gold:#d5a442;--red:#e65f5c;--blue:#3f8fe5;--violet:#8064d8;
+      --line:#bfe8d7;--shadow:0 18px 42px rgba(47,158,115,.15);--radius:26px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:"Noto Sans Thai","Noto Sans JP",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);background:radial-gradient(circle at 14% 10%,rgba(47,158,115,.20),transparent 28%),radial-gradient(circle at 86% 7%,rgba(213,164,66,.14),transparent 25%),radial-gradient(circle at 50% 100%,rgba(63,143,229,.10),transparent 36%),linear-gradient(135deg,#f8fbf7 0%,#fffdf3 52%,#effff7 100%)}
+    .jp{font-family:"Noto Sans JP","Yu Gothic",system-ui,sans-serif;letter-spacing:.02em}
+    header{text-align:center;padding:30px 16px 18px;position:relative;overflow:hidden}
+    header:before{content:"";position:absolute;inset:0;opacity:.20;background-image:linear-gradient(45deg,transparent 45%,rgba(47,158,115,.25) 46%,rgba(47,158,115,.25) 54%,transparent 55%),linear-gradient(-45deg,transparent 45%,rgba(213,164,66,.22) 46%,rgba(213,164,66,.22) 54%,transparent 55%);background-size:64px 64px}
+    header>*{position:relative}.badge{display:inline-flex;gap:8px;align-items:center;background:var(--soft);border:1px solid var(--line);color:var(--primary-dark);padding:8px 14px;border-radius:999px;font-weight:900}
+    h1{font-size:clamp(1.9rem,4.2vw,3.25rem);line-height:1.08;margin:14px 0 8px}.subtitle{max-width:1100px;margin:0 auto;color:var(--muted);line-height:1.75;font-size:1.04rem}
+    main{width:min(1260px,calc(100% - 28px));margin:0 auto 48px}.layout{display:grid;grid-template-columns:330px 1fr;gap:18px;align-items:start}@media(max-width:990px){.layout{grid-template-columns:1fr}.side{position:static!important}}
+    .side,.card{background:var(--card);border:1px solid rgba(191,232,215,.96);box-shadow:var(--shadow);border-radius:var(--radius);backdrop-filter:blur(8px)}.side{position:sticky;top:14px;padding:16px}.side h2{font-size:1.06rem;margin:4px 0 12px}.nav{display:grid;gap:7px}.nav button{width:100%;text-align:left;background:transparent;border:1px solid transparent;color:var(--ink);border-radius:16px;padding:11px 12px;font:inherit;font-weight:850;cursor:pointer}.nav button:hover,.nav button.active{background:var(--soft);border-color:var(--line);color:var(--primary-dark);transform:translateX(2px)}
+    .card{padding:22px;margin-bottom:18px}.card h2{display:flex;gap:10px;align-items:center;margin:0 0 12px;font-size:1.28rem}.step{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:12px;background:var(--primary);color:#fff;font-weight:950;flex:0 0 auto}.hint{color:var(--muted);line-height:1.75;margin:8px 0}.book-ref{background:var(--cream);border-left:5px solid var(--gold);border-radius:17px;padding:13px 15px;line-height:1.7;margin:12px 0;color:#5c4817}
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}@media(max-width:860px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
+    label{display:block;font-weight:900;margin:16px 0 8px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:18px;background:#fff;padding:13px 14px;color:var(--ink);font:inherit;outline:none;transition:.16s ease}textarea{min-height:88px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(47,158,115,.12)}
+    .mini-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;min-height:106px}.mini-card strong{color:var(--primary-dark)}.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}button{border:0;border-radius:16px;padding:12px 16px;cursor:pointer;font:inherit;font-weight:950;transition:.16s ease}button:hover{transform:translateY(-1px)}.primary{background:linear-gradient(135deg,var(--primary),#68cba4);color:#fff;box-shadow:0 12px 24px rgba(47,158,115,.24)}.blue{background:#eef6ff;color:#2164a8;border:1px solid #c8def8}.green{background:#ecfff7;color:#1d7a5a;border:1px solid #bce8d7}.violet{background:#f4f0ff;color:#5d42b5;border:1px solid #d8cdfb}.gold{background:#fff8e6;color:#815f11;border:1px solid #efdba4}.ghost{background:#fff;color:var(--primary-dark);border:1px solid var(--line)}.danger{background:#fff1f1;color:#b73835;border:1px solid #ffc7c6}
+    .guide-steps{display:grid;gap:10px;margin-top:12px}.guide-step{display:grid;grid-template-columns:42px 1fr;gap:10px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px}.guide-no{display:grid;place-items:center;width:34px;height:34px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--blue));color:#fff;font-weight:950}.map-table{width:100%;border-collapse:separate;border-spacing:0 8px;margin-top:12px}.map-table td{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px;vertical-align:top}.map-table td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px;font-weight:950;color:var(--primary-dark);width:34%}.map-table td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0}.pattern{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:14px;background:#fbfffd;border:1px dashed #9ddbc2;border-radius:18px;margin-top:10px}.block{display:inline-flex;align-items:center;justify-content:center;padding:9px 12px;border-radius:13px;background:#fff;border:1px solid var(--line);font-weight:950;color:var(--primary-dark);min-height:40px}.plus{color:var(--muted);font-weight:950}
+    .rubric{display:grid;gap:8px;margin-top:12px}.rubric label{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;margin:0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px}.rubric input{width:auto;accent-color:var(--primary)}.progress-wrap{height:16px;border-radius:999px;background:#ddf6eb;border:1px solid var(--line);overflow:hidden;margin-top:12px}.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--blue));transition:.3s ease}.output{background:#20332b;color:#f7fffb;border-radius:22px;padding:18px;white-space:pre-wrap;line-height:1.82;min-height:260px;overflow-wrap:anywhere}.footer{text-align:center;color:var(--muted);font-size:.92rem;margin:20px 0}
+    .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.tag{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:850}.tag:hover{background:var(--soft)}.quiz{display:grid;gap:10px}.quiz-item{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px}.quiz-item strong{color:var(--primary-dark)}.kanji-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}@media(max-width:720px){.kanji-list{grid-template-columns:1fr}}.kanji-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:17px;padding:11px 12px}.kanji-char{font-size:1.45rem;font-weight:950;color:var(--primary-dark);min-width:58px;text-align:center}.kanji-item input{width:auto;accent-color:var(--primary)}.script-row{display:grid;grid-template-columns:220px 1fr;gap:10px;align-items:center;margin-top:10px}.script-label{background:linear-gradient(135deg,var(--primary),var(--gold));color:#fff;border-radius:16px;padding:12px;font-weight:950;text-align:center}@media(max-width:700px){.script-row{grid-template-columns:1fr}}
+    @media print{.side,.btn-row,header:before{display:none}.layout{display:block}.card{box-shadow:none;border:1px solid #ddd}.output{background:#fff;color:#000;border:1px solid #ddd}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="badge">⛩️ Lesson 17 Pro Plus · Rules & Manners Master</div>
+  <h1>Lesson 17: Rules and Manners</h1>
+  <p class="subtitle">App ฝึกเสริมบท 17 แบบเต็ม: เปิดหนังสือคู่กัน ฝึก て-form ขออนุญาต กฎ/ข้อห้าม หน้าที่ หอพัก มารยาทญี่ปุ่น–ไทย ป้ายสัญลักษณ์ role-play quiz และ error clinic เพื่อเรียนให้ได้ผลสูงสุดค่ะ</p>
+</header>
+<main class="layout">
+  <aside class="side">
+    <h2>เมนู Lesson 17</h2>
+    <div class="nav">
+      <button class="active" onclick="go('guide',this)">📖 Textbook Guide</button>
+      <button onclick="go('warmup',this)">🚦 Warm-up</button>
+      <button onclick="go('teform',this)">🔧 て-form Lab</button>
+      <button onclick="go('permission',this)">🙋 Permission</button>
+      <button onclick="go('response',this)">💬 Response Drill</button>
+      <button onclick="go('rules',this)">🚫 Rules Maker</button>
+      <button onclick="go('duties',this)">🧹 Duties Maker</button>
+      <button onclick="go('dorm',this)">🏠 Dorm/Home Rules</button>
+      <button onclick="go('signs',this)">🚸 Signs Lab</button>
+      <button onclick="go('culture',this)">🌏 Culture Compare</button>
+      <button onclick="go('roleplay',this)">🎭 Role-play</button>
+      <button onclick="go('listening',this)">🎧 Listening Notes</button>
+      <button onclick="go('quiz',this)">🧪 Mini Quiz</button>
+      <button onclick="go('error',this)">🧯 Error Clinic</button>
+      <button onclick="go('kanji',this)">字 Kanji Studio</button>
+      <button onclick="go('rubric',this)">✅ Rubric</button>
+      <button onclick="go('outputCard',this)">📒 Output</button>
+    </div>
+    <div class="btn-row" style="display:grid">
+      <button class="green" onclick="saveData()">💾 Save</button>
+      <button class="ghost" onclick="loadData()">📂 Load</button>
+      <button class="gold" onclick="window.print()">🖨️ Print</button>
+      <button class="danger" onclick="clearAll()">🧽 Reset</button>
+    </div>
+  </aside>
+
+  <section>
+    <div class="card" id="guide">
+      <h2><span class="step">1</span> Textbook Guide: เปิดแบบเรียนคู่กัน</h2>
+      <div class="book-ref"><strong>เปิดไฟล์ 25-1JPE201 L17.pdf</strong><br>บทนี้เน้นการขออนุญาต การเข้าใจกฎ/มารยาท และการบอกหน้าที่ที่ต้องทำหรือไม่ต้องทำในห้องเรียน หอพัก บ้าน และสถานการณ์จริง</div>
+      <table class="map-table">
+        <tr><td>Activity Mapping</td><td>• Target 1: Ask for permission → Permission + Response Drill<br>• Target 2: Classroom rules/signs → Rules Maker + Signs Lab<br>• Target 3: Dormitory/home duties → Duties Maker + Dorm/Home Rules<br>• Task: Compare rules and manners → Culture Compare + Role-play</td></tr>
+        <tr><td>Listening Placeholder</td><td>ฟัง Track ของ Lesson 17 แล้วจดว่าใครขออนุญาตอะไร ได้รับอนุญาตไหม มีกฎอะไร และใครต้องทำอะไร<br><textarea id="listenNote" placeholder="จดคำที่ได้ยิน เช่น てもいいですか / だめです / しないといけません / 門限"></textarea></td></tr>
+        <tr><td>App Practice</td><td>ฝึก て-form → ขออนุญาต → ตอบรับ/ปฏิเสธ → สร้างกฎ → สร้างหน้าที่ → เปรียบเทียบมารยาท → ทำ role-play</td></tr>
+      </table>
+      <div class="guide-steps">
+        <div class="guide-step"><div class="guide-no">1</div><div><strong>เปิดหนังสือ</strong><br>ดูภาพสถานการณ์และลองตอบในหนังสือก่อนใช้ App</div></div>
+        <div class="guide-step"><div class="guide-no">2</div><div><strong>จับกริยา</strong><br>แยกกริยาเป็นรูปพจนานุกรม → て-form → ない-form</div></div>
+        <div class="guide-step"><div class="guide-no">3</div><div><strong>พูดเป็นกฎจริง</strong><br>สร้างประโยคที่ใช้ได้ในห้องเรียน บ้าน หอพัก หรือที่ทำงาน</div></div>
+        <div class="guide-step"><div class="guide-no">4</div><div><strong>ซ้อม role-play</strong><br>ฝึกขออนุญาตและตอบปฏิเสธแบบสุภาพ ไม่ใช่แค่ท่องสูตรค่ะ</div></div>
+      </div>
+    </div>
+
+    <div class="card" id="warmup">
+      <h2><span class="step">2</span> Warm-up: กฎและมารยาทรอบตัว</h2>
+      <div class="grid3">
+        <div><label>ในห้องเรียน</label><textarea id="ruleClass" placeholder="เช่น ห้ามใช้มือถือ / ต้องถามครู / พูดภาษาญี่ปุ่น"></textarea></div>
+        <div><label>ที่บ้าน/หอพัก</label><textarea id="ruleHome" placeholder="เช่น ต้องทำความสะอาด / ห้ามซักผ้าดึก / ต้องกลับก่อนเวลา"></textarea></div>
+        <div><label>ในที่สาธารณะ</label><textarea id="rulePublic" placeholder="เช่น ห้ามเสียงดัง / ต้องต่อแถว / ห้ามสูบบุหรี่"></textarea></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateWarmup()">สร้าง Warm-up Note</button></div>
+    </div>
+
+    <div class="card" id="teform">
+      <h2><span class="step">3</span> て-form Lab</h2>
+      <div class="grid3">
+        <div class="mini-card"><strong>Group 2</strong><br><span class="jp">食べる → 食べて<br>見る → 見て</span></div>
+        <div class="mini-card"><strong>Group 3</strong><br><span class="jp">する → して<br>来る → 来て</span></div>
+        <div class="mini-card"><strong>Group 1</strong><br><span class="jp">書く→書いて / 飲む→飲んで<br>行く→行って</span></div>
+      </div>
+      <div class="tagrow">
+        <span class="tag" onclick="setTe('エアコンをつける','エアコンをつけて','つけない')">เปิดแอร์</span>
+        <span class="tag" onclick="setTe('ここに座る','ここに座って','座らない')">นั่ง</span>
+        <span class="tag" onclick="setTe('水を飲む','水を飲んで','飲まない')">ดื่มน้ำ</span>
+        <span class="tag" onclick="setTe('写真を撮る','写真を撮って','撮らない')">ถ่ายรูป</span>
+        <span class="tag" onclick="setTe('パソコンを使う','パソコンを使って','使わない')">ใช้คอม</span>
+      </div>
+      <div class="grid3">
+        <div><label>Dictionary form</label><input id="dictVerb" class="jp" placeholder="エアコンをつける"></div>
+        <div><label>て-form</label><input id="teVerb" class="jp" placeholder="エアコンをつけて"></div>
+        <div><label>ない-form</label><input id="naiVerb" class="jp" placeholder="つけない"></div>
+      </div>
+      <label>Verb ที่ยังผันไม่คล่อง</label><textarea id="teMemo" class="jp" placeholder="เช่น 書く→書いて / 飲む→飲んで / する→して"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateTeMemo()">บันทึก て-form / ない-form</button></div>
+    </div>
+
+    <div class="card" id="permission">
+      <h2><span class="step">4</span> Permission Simulator</h2>
+      <div class="grid2">
+        <div><label>V-て ที่จะขออนุญาต</label><input id="permTe" class="jp" placeholder="エアコンをつけて"></div>
+        <div><label>สถานที่/บริบท</label><input id="permPlace" class="jp" placeholder="教室で"></div>
+      </div>
+      <div class="tagrow">
+        <span class="tag" onclick="setPerm('エアコンをつけて','教室で')">❄️ เปิดแอร์</span>
+        <span class="tag" onclick="setPerm('窓を開けて','教室で')">🪟 เปิดหน้าต่าง</span>
+        <span class="tag" onclick="setPerm('ここに座って','ここで')">🪑 นั่งตรงนี้</span>
+        <span class="tag" onclick="setPerm('写真を撮って','ここで')">📷 ถ่ายรูป</span>
+        <span class="tag" onclick="setPerm('パソコンを使って','図書館で')">💻 ใช้คอม</span>
+      </div>
+      <div class="pattern"><span class="block jp">V-て</span><span class="plus">+</span><span class="block jp">もいいですか。</span><span class="plus">= ขอทำ...ได้ไหม</span></div>
+      <div class="btn-row"><button class="primary" onclick="generatePermission()">สร้างประโยคขออนุญาต</button></div>
+    </div>
+
+    <div class="card" id="response">
+      <h2><span class="step">5</span> Response Drill: ตอบรับ/ปฏิเสธแบบสุภาพ</h2>
+      <div class="grid2">
+        <div><label>คำตอบเมื่ออนุญาต</label><select id="okResponse" class="jp"><option>はい、いいですよ。どうぞ。</option><option>はい、大丈夫です。</option><option>ええ、使ってもいいですよ。</option></select></div>
+        <div><label>คำตอบเมื่อไม่อนุญาต</label><select id="noResponse" class="jp"><option>すみません。ちょっと・・・。</option><option>すみません。だめです。</option><option>すみません。ここではできません。</option></select></div>
+      </div>
+      <label>เหตุผลเมื่อไม่อนุญาต</label><input id="denyReason" class="jp" placeholder="授業中ですから / ルールですから">
+      <div class="btn-row"><button class="green" onclick="generateOkResponse()">สร้างตอบรับ</button><button class="danger" onclick="generateNoResponse()">สร้างปฏิเสธสุภาพ</button><button class="blue" onclick="generateConversation()">สร้างบทสนทนา A-B</button></div>
+    </div>
+
+    <div class="card" id="rules">
+      <h2><span class="step">6</span> Rules Maker: ทำได้ / ห้ามทำ</h2>
+      <div class="grid2">
+        <div><label>สถานที่</label><select id="rulePlace" class="jp"><option>教室で</option><option>図書館で</option><option>寮で</option><option>電車の中で</option><option>レストランで</option></select></div>
+        <div><label>V-て</label><input id="ruleTe" class="jp" placeholder="電話して"></div>
+      </div>
+      <div class="tagrow">
+        <span class="tag" onclick="setRuleVerb('日本語で話して')">🗣️ พูดญี่ปุ่น</span><span class="tag" onclick="setRuleVerb('質問して')">🙋 ถาม</span><span class="tag" onclick="setRuleVerb('電話して')">📱 โทร</span><span class="tag" onclick="setRuleVerb('食べて')">🍙 กิน</span><span class="tag" onclick="setRuleVerb('走って')">🏃 วิ่ง</span>
+      </div>
+      <div class="pattern"><span class="block jp">V-てもいいです。</span><span class="plus">= ทำได้</span><span class="block jp">V-てはいけません。</span><span class="plus">= ห้ามทำ</span></div>
+      <div class="btn-row"><button class="green" onclick="generateRuleOK()">สร้าง “ทำได้”</button><button class="danger" onclick="generateRuleNo()">สร้าง “ห้ามทำ”</button></div>
+    </div>
+
+    <div class="card" id="duties">
+      <h2><span class="step">7</span> Duties Maker: ต้องทำ / ไม่ต้องทำก็ได้</h2>
+      <div class="grid3">
+        <div><label>V-ない</label><input id="dutyNai" class="jp" placeholder="掃除しない"></div>
+        <div><label>เวลา/เงื่อนไข</label><input id="dutyTime" class="jp" placeholder="毎日 / 10時までに"></div>
+        <div><label>บริบท</label><input id="dutyContext" class="jp" placeholder="寮で / 家で"></div>
+      </div>
+      <div class="tagrow">
+        <span class="tag" onclick="setDuty('掃除しない','毎日','寮で')">🧹 ทำความสะอาด</span><span class="tag" onclick="setDuty('宿題をしない','夜','家で')">📚 ทำการบ้าน</span><span class="tag" onclick="setDuty('ごみを捨てない','朝','寮で')">🗑️ ทิ้งขยะ</span><span class="tag" onclick="setDuty('洗濯しない','週に2回','寮で')">🧺 ซักผ้า</span>
+      </div>
+      <div class="pattern"><span class="block jp">V-ないといけません。</span><span class="plus">= ต้องทำ</span><span class="block jp">V-なくてもいいです。</span><span class="plus">= ไม่ต้องทำก็ได้</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateMust()">สร้าง “ต้องทำ”</button><button class="green" onclick="generateNotMust()">สร้าง “ไม่ต้องทำ”</button></div>
+    </div>
+
+    <div class="card" id="dorm">
+      <h2><span class="step">8</span> Dorm/Home Rules Planner</h2>
+      <div class="grid2">
+        <div><label>กฎกลับหอ/กลับบ้าน</label><input id="curfew" class="jp" placeholder="12時までに帰らないといけません"></div>
+        <div><label>กฎซักผ้า</label><input id="laundry" class="jp" placeholder="夜10時から洗濯してはいけません"></div>
+        <div><label>กฎทำความสะอาด</label><input id="cleaning" class="jp" placeholder="自分で部屋を掃除しないといけません"></div>
+        <div><label>กฎอื่น ๆ</label><input id="otherDorm" class="jp" placeholder="友だちを呼んでもいいです"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateDormRules()">สร้างกฎหอพัก/บ้าน</button></div>
+    </div>
+
+    <div class="card" id="signs">
+      <h2><span class="step">9</span> Signs Lab: ป้ายและสัญลักษณ์</h2>
+      <div class="grid3">
+        <div><label>ป้าย/สัญลักษณ์</label><select id="signName" class="jp"><option>禁煙</option><option>撮影禁止</option><option>飲食禁止</option><option>立入禁止</option><option>携帯電話禁止</option></select></div>
+        <div><label>ความหมายไทย</label><input id="signMeaning" placeholder="เช่น ห้ามสูบบุหรี่"></div>
+        <div><label>ประโยคอธิบาย</label><input id="signSentence" class="jp" placeholder="ここでたばこを吸ってはいけません"></div>
+      </div>
+      <div class="tagrow"><span class="tag" onclick="setSign('禁煙','ห้ามสูบบุหรี่','ここでたばこを吸ってはいけません')">禁煙</span><span class="tag" onclick="setSign('撮影禁止','ห้ามถ่ายรูป','ここで写真を撮ってはいけません')">撮影禁止</span><span class="tag" onclick="setSign('飲食禁止','ห้ามกินดื่ม','ここで食べたり飲んだりしてはいけません')">飲食禁止</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateSign()">สร้างคำอธิบายป้าย</button></div>
+    </div>
+
+    <div class="card" id="culture">
+      <h2><span class="step">10</span> Culture Compare: มารยาทไทย–ญี่ปุ่น</h2>
+      <div class="grid2">
+        <div><label>ประเทศ/บริบท A</label><input id="countryA" class="jp" value="タイ"></div>
+        <div><label>ประเทศ/บริบท B</label><input id="countryB" class="jp" value="日本"></div>
+        <div><label>หัวข้อมารยาท</label><input id="mannerTopic" class="jp" placeholder="電車の中で電話すること"></div>
+        <div><label>สรุปในญี่ปุ่น</label><select id="mannerResult" class="jp"><option>してはいけません</option><option>してもいいです</option><option>しないといけません</option><option>しなくてもいいです</option></select></div>
+      </div>
+      <label>Note ภาษาไทย</label><textarea id="mannerNote" placeholder="เช่น ในญี่ปุ่นควรระวังเสียงในรถไฟมากกว่าไทย"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateCulture()">สร้าง Culture Compare</button></div>
+    </div>
+
+    <div class="card" id="roleplay">
+      <h2><span class="step">11</span> Role-play Builder</h2>
+      <div class="grid2">
+        <div><label>บทบาท A</label><input id="roleA" placeholder="นักเรียน / ผู้มาเยือน"></div>
+        <div><label>บทบาท B</label><input id="roleB" placeholder="ครู / เจ้าหน้าที่ / เพื่อน"></div>
+        <div><label>A อยากขออนุญาต</label><input id="roleRequest" class="jp" placeholder="ここに座って"></div>
+        <div><label>B ตอบ</label><select id="roleAnswer" class="jp"><option>はい、いいですよ。</option><option>すみません。ちょっと・・・。</option><option>すみません。ここではできません。</option></select></div>
+      </div>
+      <label>เหตุผล/คำอธิบายเพิ่มเติม</label><input id="roleReason" class="jp" placeholder="ルールですから / 今、授業中ですから">
+      <div class="btn-row"><button class="primary" onclick="generateRoleplay()">สร้าง Role-play</button></div>
+    </div>
+
+    <div class="card" id="listening">
+      <h2><span class="step">12</span> Listening Notes</h2>
+      <div class="grid2">
+        <div><label>Permission ที่ได้ยิน</label><textarea id="heardPermission" class="jp" placeholder="เช่น 窓を開けてもいいですか"></textarea></div>
+        <div><label>Rules/Duties ที่ได้ยิน</label><textarea id="heardRules" class="jp" placeholder="เช่น 電話してはいけません / 掃除しないといけません"></textarea></div>
+      </div>
+      <label>คำที่ยังฟังไม่ชัด / จะถามครู</label><textarea id="listenQuestion"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateListeningNote()">สร้าง Listening Note</button></div>
+    </div>
+
+    <div class="card" id="quiz">
+      <h2><span class="step">13</span> Mini Quiz</h2>
+      <div class="quiz">
+        <div class="quiz-item"><strong>1) ขออนุญาต “เปิดหน้าต่าง” พูดอย่างไร</strong><input id="quiz1" class="jp" placeholder="窓を開けてもいいですか"></div>
+        <div class="quiz-item"><strong>2) “ห้ามถ่ายรูปที่นี่” พูดอย่างไร</strong><input id="quiz2" class="jp" placeholder="ここで写真を撮ってはいけません"></div>
+        <div class="quiz-item"><strong>3) “ต้องทำความสะอาดทุกวัน” พูดอย่างไร</strong><input id="quiz3" class="jp" placeholder="毎日掃除しないといけません"></div>
+        <div class="quiz-item"><strong>4) “ไม่ต้องซักผ้าวันนี้ก็ได้” พูดอย่างไร</strong><input id="quiz4" class="jp" placeholder="今日洗濯しなくてもいいです"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="checkQuiz()">ตรวจ Quiz แบบช่วยจำ</button></div>
+      <div id="quizResult" class="book-ref">กดตรวจเพื่อดู feedback ค่ะ</div>
+    </div>
+
+    <div class="card" id="error">
+      <h2><span class="step">14</span> Error Clinic: จุดที่คนไทยมักพลาด</h2>
+      <div class="rubric">
+        <label><input type="checkbox" class="err" value="ลืมเปลี่ยนกริยาเป็น て-form ก่อน もいいですか"> <span>ลืมเปลี่ยนกริยาเป็น て-form ก่อน もいいですか</span></label>
+        <label><input type="checkbox" class="err" value="ใช้ V-てはいけません กับสิ่งที่จริง ๆ แค่ไม่ควร ไม่ใช่ห้าม"> <span>ใช้ V-てはいけません กับสิ่งที่จริง ๆ แค่ไม่ควร ไม่ใช่ห้าม</span></label>
+        <label><input type="checkbox" class="err" value="สับสน V-ないといけません กับ V-なくてもいいです"> <span>สับสน ต้องทำ กับ ไม่ต้องทำ</span></label>
+        <label><input type="checkbox" class="err" value="ผัน ない-form ของกลุ่ม 1 ยังไม่คล่อง"> <span>ผัน ない-form ของกลุ่ม 1 ยังไม่คล่อง</span></label>
+      </div>
+      <label>สิ่งที่ฉันจะทวนก่อนขึ้น Lesson 18</label><textarea id="reviewNext"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateErrorClinic()">สร้าง Error Clinic Note</button></div>
+    </div>
+
+    <div class="card" id="kanji">
+      <h2><span class="step">15</span> Kanji Studio</h2>
+      <div class="kanji-list" id="kanjiList"></div>
+      <div class="btn-row"><button class="gold" onclick="generateKanjiNote()">บันทึก Kanji ที่ฝึกแล้ว</button></div>
+    </div>
+
+    <div class="card" id="rubric">
+      <h2><span class="step">16</span> Rubric ก่อนผ่าน Lesson 17</h2>
+      <div class="rubric">
+        <label><input type="checkbox" class="tick"> <span>ฉันขออนุญาตด้วย V-てもいいですか ได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันตอบรับ/ปฏิเสธคำขออนุญาตได้สุภาพ</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันอธิบาย “ทำได้/ห้ามทำ” ได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันบอก “ต้องทำ/ไม่ต้องทำก็ได้” ได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันอธิบายกฎหอพัก/บ้านได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันเปรียบเทียบมารยาทไทย–ญี่ปุ่นได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันทำ role-play สั้น ๆ ได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันทวนคันจิของบทนี้แล้ว</span></label>
+      </div>
+      <div class="progress-wrap"><div id="progress" class="progress-bar"></div></div>
+      <p id="progressText" class="hint">ความพร้อม: 0%</p>
+    </div>
+
+    <div class="card" id="outputCard">
+      <h2><span class="step">17</span> Output: My Lesson 17 Notebook</h2>
+      <div id="output" class="output">กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 17 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ</div>
+      <div class="btn-row"><button class="primary" onclick="generateAll()">สร้างสรุป Lesson 17 ทั้งหมด</button><button class="green" onclick="copyOutput()">คัดลอก</button><button class="blue" onclick="speakOutput()">อ่านออกเสียง</button><button class="danger" onclick="clearOutput()">ล้าง Output</button></div>
+    </div>
+    <p class="footer">JPE201 Lesson 17 Companion App Pro Plus · Created for Khun G by Pookpik</p>
+  </section>
+</main>
+<script>
+const $=id=>document.getElementById(id);const outputParts=[];
+const kanji=[['朝','あさ','เช้า'],['夜','よる','กลางคืน'],['自分','じぶん','ตัวเอง'],['開ける','あける','เปิด'],['閉める','しめる','ปิด'],['立つ','たつ','ยืน'],['座る','すわる','นั่ง'],['使う','つかう','ใช้'],['門限','もんげん','เวลาเคอร์ฟิว']];
+function go(id,btn){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+function addOutput(title,text){outputParts.push(`【${title}】\n${text}`);$('output').textContent=outputParts.join('\n\n')}
+function setTe(dict,te,nai){$('dictVerb').value=dict;$('teVerb').value=te;$('naiVerb').value=nai;$('permTe').value=te;$('dutyNai').value=nai}
+function generateWarmup(){addOutput('Warm-up Rules',`ห้องเรียน:\n${$('ruleClass').value||'-'}\n\nบ้าน/หอพัก:\n${$('ruleHome').value||'-'}\n\nที่สาธารณะ:\n${$('rulePublic').value||'-'}`)}
+function generateTeMemo(){addOutput('て-form / ない-form Memo',`Dictionary: ${$('dictVerb').value||'-'}\nて-form: ${$('teVerb').value||'-'}\nない-form: ${$('naiVerb').value||'-'}\n\nVerb ที่ต้องทวน:\n${$('teMemo').value||'-'}`)}
+function setPerm(te,place){$('permTe').value=te;$('permPlace').value=place}
+function generatePermission(){addOutput('Permission',`${$('permPlace').value||''}${$('permPlace').value?'、':''}${$('permTe').value||'エアコンをつけて'}もいいですか。`)}
+function generateOkResponse(){addOutput('Response: OK',$('okResponse').value)}
+function generateNoResponse(){const reason=$('denyReason').value?` ${$('denyReason').value}。`:'';addOutput('Response: No',`${$('noResponse').value}${reason}`)}
+function generateConversation(){addOutput('Permission Conversation',`A: ${$('permTe').value||'ここに座って'}もいいですか。\nB: ${$('okResponse').value}\n\nA: ${$('permTe').value||'ここに座って'}もいいですか。\nB: ${$('noResponse').value}${$('denyReason').value?' '+$('denyReason').value+'。':''}`)}
+function setRuleVerb(v){$('ruleTe').value=v}
+function generateRuleOK(){addOutput('Rule: Allowed',`${$('rulePlace').value}、${$('ruleTe').value||'質問して'}もいいです。`)}
+function generateRuleNo(){addOutput('Rule: Prohibited',`${$('rulePlace').value}、${$('ruleTe').value||'電話して'}はいけません。`)}
+function setDuty(nai,time,ctx){$('dutyNai').value=nai;$('dutyTime').value=time;$('dutyContext').value=ctx}
+function nakute(nai){return nai.endsWith('ない')?nai.slice(0,-2)+'なくて':nai+'で'}
+function generateMust(){addOutput('Duty: Have to',`${$('dutyContext').value||''}${$('dutyContext').value?'、':''}${$('dutyTime').value||''}${$('dutyTime').value?'、':''}${$('dutyNai').value||'掃除しない'}といけません。`)}
+function generateNotMust(){const nai=$('dutyNai').value||'掃除しない';addOutput('Duty: Don’t have to',`${$('dutyContext').value||''}${$('dutyContext').value?'、':''}${$('dutyTime').value||''}${$('dutyTime').value?'、':''}${nakute(nai)}もいいです。`)}
+function generateDormRules(){addOutput('Dorm/Home Rules',`${$('curfew').value||'12時までに帰らないといけません'}。\n${$('laundry').value||'夜10時から洗濯してはいけません'}。\n${$('cleaning').value||'自分で部屋を掃除しないといけません'}。\n${$('otherDorm').value||''}`)}
+function setSign(n,m,s){$('signName').value=n;$('signMeaning').value=m;$('signSentence').value=s}
+function generateSign(){addOutput('Signs Lab',`${$('signName').value} = ${$('signMeaning').value||'-'}\n${$('signSentence').value||'ここでしてはいけません'}。`)}
+function generateCulture(){addOutput('Culture Compare',`${$('countryA').value||'タイ'}と${$('countryB').value||'日本'}のルールやマナーについて調べました。\nテーマは、「${$('mannerTopic').value||'電車の中で電話すること'}」です。\n${$('countryB').value||'日本'}では、${$('mannerResult').value}。\n\nNote: ${$('mannerNote').value||'-'}`)}
+function generateRoleplay(){addOutput('Role-play',`${$('roleA').value||'A'}: すみません。${$('roleRequest').value||'ここに座って'}もいいですか。\n${$('roleB').value||'B'}: ${$('roleAnswer').value}${$('roleReason').value?' '+$('roleReason').value+'。':''}\n${$('roleA').value||'A'}: わかりました。ありがとうございます。`)}
+function generateListeningNote(){addOutput('Listening Notes',`Permission ที่ได้ยิน:\n${$('heardPermission').value||'-'}\n\nRules/Duties ที่ได้ยิน:\n${$('heardRules').value||'-'}\n\nคำถามที่จะถามครู:\n${$('listenQuestion').value||'-'}`)}
+function checkQuiz(){const ans=[['quiz1','窓を開けてもいいですか'],['quiz2','写真を撮ってはいけません'],['quiz3','掃除しないといけません'],['quiz4','洗濯しなくてもいいです']];let fb=ans.map(([id,key],i)=>`${i+1}) ${$(id).value.includes(key.slice(0,3))?'น่าจะถูกทิศทาง':'ลองดู pattern อีกครั้ง'} — ตัวอย่าง: ${key}`).join('<br>');$('quizResult').innerHTML=fb;addOutput('Mini Quiz',ans.map(([id,key],i)=>`${i+1}) คำตอบของฉัน: ${$(id).value||'-'}\nตัวอย่าง: ${key}`).join('\n\n'))}
+function generateErrorClinic(){const errs=[...document.querySelectorAll('.err:checked')].map(x=>x.value);addOutput('Error Clinic',`จุดที่ต้องระวัง:\n- ${(errs.length?errs:['ยังไม่ได้เลือก']).join('\n- ')}\n\nสิ่งที่จะทวนก่อนขึ้น Lesson 18:\n${$('reviewNext').value||'-'}`)}
+function generateKanjiNote(){const checked=[...document.querySelectorAll('.kanjiTick:checked')].map(x=>x.value);addOutput('Kanji Practice',`ฝึกคันจิแล้ว: ${checked.join(', ')||'ยังไม่ได้ติ๊ก'}\nคันจิบทนี้เกี่ยวกับเวลา การกระทำพื้นฐาน และกฎหอพักค่ะ`)}
+function generateAll(){outputParts.length=0;generateWarmup();generateTeMemo();generatePermission();generateConversation();generateRuleOK();generateRuleNo();generateMust();generateNotMust();generateDormRules();generateSign();generateCulture();generateRoleplay();generateListeningNote();generateErrorClinic();generateKanjiNote();addOutput('Next Step','หลังจบ Lesson 17 ให้ไป Lesson 18 เพื่อฝึกขอร้อง อธิบายเหตุผล และ SHORT-form ค่ะ')}
+function renderKanji(){ $('kanjiList').innerHTML=kanji.map(([c,r,m])=>`<label class="kanji-item"><span class="kanji-char jp">${c}</span><span><strong class="jp">${r}</strong><br><span class="hint">${m}</span></span><input class="kanjiTick" type="checkbox" value="${c}"></label>`).join('') }
+function saveData(){const data={};document.querySelectorAll('input,textarea,select').forEach(el=>{if(el.id)data[el.id]=el.type==='checkbox'?el.checked:el.value});data.kanji=[...document.querySelectorAll('.kanjiTick')].map(x=>x.checked);data.err=[...document.querySelectorAll('.err')].map(x=>x.checked);data.ticks=[...document.querySelectorAll('.tick')].map(x=>x.checked);data.output=outputParts;localStorage.setItem('jpe201_lesson17_pro_plus',JSON.stringify(data));alert('บันทึก Lesson 17 แล้วค่ะ ⛩️')}
+function loadData(){const raw=localStorage.getItem('jpe201_lesson17_pro_plus');if(!raw)return alert('ยังไม่มีข้อมูลที่บันทึกไว้ค่ะ');const data=JSON.parse(raw);Object.keys(data).forEach(k=>{const el=$(k);if(el){if(el.type==='checkbox')el.checked=data[k];else el.value=data[k]}});document.querySelectorAll('.kanjiTick').forEach((x,i)=>x.checked=(data.kanji||[])[i]||false);document.querySelectorAll('.err').forEach((x,i)=>x.checked=(data.err||[])[i]||false);document.querySelectorAll('.tick').forEach((x,i)=>x.checked=(data.ticks||[])[i]||false);outputParts.length=0;if(Array.isArray(data.output))outputParts.push(...data.output);$('output').textContent=outputParts.length?outputParts.join('\n\n'):'กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 17 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ';updateProgress()}
+function clearAll(){if(!confirm('ล้างข้อมูล Lesson 17 ทั้งหมดไหมคะ?'))return;document.querySelectorAll('input,textarea').forEach(el=>{if(el.type==='checkbox')el.checked=false;else el.value=''});document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);clearOutput();updateProgress()}
+function copyOutput(){navigator.clipboard.writeText($('output').textContent).then(()=>alert('คัดลอกแล้วค่ะ'))}
+function clearOutput(){outputParts.length=0;$('output').textContent='กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 17 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ'}
+function speak(text){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=.82;window.speechSynthesis.speak(u)}
+function speakOutput(){speak($('output').textContent.replace(/【.*?】/g,''))}
+function updateProgress(){const ticks=[...document.querySelectorAll('.tick')];const pct=Math.round(ticks.filter(t=>t.checked).length/ticks.length*100);$('progress').style.width=pct+'%';$('progressText').textContent='ความพร้อม: '+pct+'%'}
+document.addEventListener('change',e=>{if(e.target.classList.contains('tick'))updateProgress()});
+renderKanji();
+</script>
+</body>
+</html>
