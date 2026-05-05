@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JPE201 Lesson 19 Companion App Pro Plus</title>
+  <style>
+    :root{
+      --ink:#2c2638;--muted:#70677e;--card:rgba(255,255,255,.94);--primary:#8a5cf6;--primary-dark:#5b34bf;
+      --soft:#f1eaff;--pink:#ff75b7;--blue:#4f9fff;--green:#38a87c;--gold:#d6a640;--red:#df5d62;
+      --line:#d6c5fb;--shadow:0 18px 42px rgba(138,92,246,.16);--radius:26px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:"Noto Sans Thai","Noto Sans JP",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);background:radial-gradient(circle at 12% 9%,rgba(255,117,183,.20),transparent 27%),radial-gradient(circle at 82% 8%,rgba(79,159,255,.14),transparent 25%),radial-gradient(circle at 50% 100%,rgba(56,168,124,.12),transparent 35%),linear-gradient(135deg,#fbf7ff 0%,#fffdf5 52%,#f4fff9 100%)}
+    .jp{font-family:"Noto Sans JP","Yu Gothic",system-ui,sans-serif;letter-spacing:.02em}
+    header{text-align:center;padding:30px 16px 18px;position:relative;overflow:hidden}
+    header:before{content:"";position:absolute;inset:0;opacity:.24;background-image:radial-gradient(circle at 18px 18px,rgba(138,92,246,.55) 0 3px,transparent 4px),radial-gradient(circle at 54px 48px,rgba(255,117,183,.42) 0 4px,transparent 5px),radial-gradient(circle at 88px 22px,rgba(79,159,255,.40) 0 3px,transparent 4px);background-size:110px 76px}
+    header>*{position:relative}.badge{display:inline-flex;gap:8px;align-items:center;background:var(--soft);border:1px solid var(--line);color:var(--primary-dark);padding:8px 14px;border-radius:999px;font-weight:900}
+    h1{font-size:clamp(1.9rem,4.2vw,3.25rem);line-height:1.08;margin:14px 0 8px}.subtitle{max-width:1160px;margin:0 auto;color:var(--muted);line-height:1.75;font-size:1.04rem}
+    main{width:min(1300px,calc(100% - 28px));margin:0 auto 48px}.layout{display:grid;grid-template-columns:340px 1fr;gap:18px;align-items:start}@media(max-width:1020px){.layout{grid-template-columns:1fr}.side{position:static!important}}
+    .side,.card{background:var(--card);border:1px solid rgba(214,197,251,.95);box-shadow:var(--shadow);border-radius:var(--radius);backdrop-filter:blur(8px)}.side{position:sticky;top:14px;padding:16px}.side h2{font-size:1.06rem;margin:4px 0 12px}.nav{display:grid;gap:7px}.nav button{width:100%;text-align:left;background:transparent;border:1px solid transparent;color:var(--ink);border-radius:16px;padding:11px 12px;font:inherit;font-weight:850;cursor:pointer}.nav button:hover,.nav button.active{background:var(--soft);border-color:var(--line);color:var(--primary-dark);transform:translateX(2px)}
+    .card{padding:22px;margin-bottom:18px}.card h2{display:flex;gap:10px;align-items:center;margin:0 0 12px;font-size:1.28rem}.step{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:12px;background:var(--primary);color:#fff;font-weight:950;flex:0 0 auto}.hint{color:var(--muted);line-height:1.75;margin:8px 0}.book-ref{background:#fff8e7;border-left:5px solid var(--gold);border-radius:17px;padding:13px 15px;line-height:1.7;margin:12px 0;color:#5c4817}
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}@media(max-width:890px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
+    label{display:block;font-weight:900;margin:16px 0 8px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:18px;background:#fff;padding:13px 14px;color:var(--ink);font:inherit;outline:none;transition:.16s ease}textarea{min-height:88px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(138,92,246,.13)}
+    .mini-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;min-height:106px}.mini-card strong{color:var(--primary-dark)}.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}button{border:0;border-radius:16px;padding:12px 16px;cursor:pointer;font:inherit;font-weight:950;transition:.16s ease}button:hover{transform:translateY(-1px)}.primary{background:linear-gradient(135deg,var(--primary),#b38cff);color:#fff;box-shadow:0 12px 24px rgba(138,92,246,.24)}.blue{background:#eff7ff;color:#1f66ad;border:1px solid #c8dff7}.green{background:#ecfff7;color:#1d7a5a;border:1px solid #bce8d7}.pink{background:#fff0f7;color:#b02d67;border:1px solid #ffc5df}.gold{background:#fff8e6;color:#815f11;border:1px solid #efdba4}.ghost{background:#fff;color:var(--primary-dark);border:1px solid var(--line)}.danger{background:#fff1f1;color:#b73835;border:1px solid #ffc7c6}
+    .guide-steps{display:grid;gap:10px;margin-top:12px}.guide-step{display:grid;grid-template-columns:42px 1fr;gap:10px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px}.guide-no{display:grid;place-items:center;width:34px;height:34px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--pink));color:#fff;font-weight:950}.map-table{width:100%;border-collapse:separate;border-spacing:0 8px;margin-top:12px}.map-table td{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px;vertical-align:top}.map-table td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px;font-weight:950;color:var(--primary-dark);width:34%}.map-table td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0}.pattern{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:14px;background:#fdfbff;border:1px dashed #c7b1f5;border-radius:18px;margin-top:10px}.block{display:inline-flex;align-items:center;justify-content:center;padding:9px 12px;border-radius:13px;background:#fff;border:1px solid var(--line);font-weight:950;color:var(--primary-dark);min-height:40px}.plus{color:var(--muted);font-weight:950}
+    .rubric{display:grid;gap:8px;margin-top:12px}.rubric label{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;margin:0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px}.rubric input{width:auto;accent-color:var(--primary)}.progress-wrap{height:16px;border-radius:999px;background:#eee5ff;border:1px solid var(--line);overflow:hidden;margin-top:12px}.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--pink));transition:.3s ease}.output{background:#282236;color:#fbf8ff;border-radius:22px;padding:18px;white-space:pre-wrap;line-height:1.82;min-height:260px;overflow-wrap:anywhere}.footer{text-align:center;color:var(--muted);font-size:.92rem;margin:20px 0}
+    .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.tag{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:850}.tag:hover{background:var(--soft)}.counter-box{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:10px}@media(max-width:940px){.counter-box{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:560px){.counter-box{grid-template-columns:repeat(2,minmax(0,1fr))}}.counter{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;cursor:pointer;text-align:center}.counter strong{color:var(--primary-dark)}.rank-row{display:grid;grid-template-columns:90px 1fr;gap:10px;align-items:center;margin-top:10px}.rank-badge{display:grid;place-items:center;height:44px;border-radius:16px;color:#fff;font-weight:950;background:linear-gradient(135deg,var(--pink),var(--primary))}.quiz{display:grid;gap:10px}.quiz-item{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px}.quiz-item strong{color:var(--primary-dark)}.kanji-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}@media(max-width:720px){.kanji-list{grid-template-columns:1fr}}.kanji-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:17px;padding:11px 12px}.kanji-char{font-size:1.45rem;font-weight:950;color:var(--primary-dark);min-width:58px;text-align:center}.kanji-item input{width:auto;accent-color:var(--primary)}.script-row{display:grid;grid-template-columns:220px 1fr;gap:10px;align-items:center;margin-top:10px}.script-label{background:linear-gradient(135deg,var(--primary),var(--pink));color:#fff;border-radius:16px;padding:12px;font-weight:950;text-align:center}@media(max-width:700px){.script-row{grid-template-columns:1fr}}
+    @media print{.side,.btn-row,header:before{display:none}.layout{display:block}.card{box-shadow:none;border:1px solid #ddd}.output{background:#fff;color:#000;border:1px solid #ddd}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="badge">🎧 Lesson 19 Pro Plus · Hobby & Frequency Master</div>
+  <h1>Lesson 19: Explain How Much I Like</h1>
+  <p class="subtitle">App ฝึกเสริมบท 19 แบบเต็ม: ฝึกความถี่ จำนวนครั้ง ระยะเวลา ปริมาณ ลักษณนาม การสะสม Ranking ระดับความชอบ และ Hobby Speech เพื่อใช้พูดเรื่องตัวเองได้จริงค่ะ</p>
+</header>
+<main class="layout">
+  <aside class="side">
+    <h2>เมนู Lesson 19</h2>
+    <div class="nav">
+      <button class="active" onclick="go('guide',this)">📖 Textbook Guide</button>
+      <button onclick="go('warmup',this)">🎯 Warm-up</button>
+      <button onclick="go('activity',this)">🏃 Activity Bank</button>
+      <button onclick="go('frequency',this)">🔁 Frequency</button>
+      <button onclick="go('duration',this)">⏱️ Duration</button>
+      <button onclick="go('quantity',this)">📦 Quantity</button>
+      <button onclick="go('counter',this)">🧮 Counter Lab</button>
+      <button onclick="go('collection',this)">🧺 Collection</button>
+      <button onclick="go('ranking',this)">🏆 Ranking</button>
+      <button onclick="go('likelevel',this)">💜 Like Level</button>
+      <button onclick="go('speech',this)">🎤 Hobby Speech</button>
+      <button onclick="go('interview',this)">💬 Interview</button>
+      <button onclick="go('listening',this)">🎧 Listening Notes</button>
+      <button onclick="go('quiz',this)">🧪 Mini Quiz</button>
+      <button onclick="go('error',this)">🧯 Error Clinic</button>
+      <button onclick="go('kanji',this)">字 Kanji Studio</button>
+      <button onclick="go('rubric',this)">✅ Rubric</button>
+      <button onclick="go('outputCard',this)">📒 Output</button>
+    </div>
+    <div class="btn-row" style="display:grid">
+      <button class="green" onclick="saveData()">💾 Save</button>
+      <button class="ghost" onclick="loadData()">📂 Load</button>
+      <button class="gold" onclick="window.print()">🖨️ Print</button>
+      <button class="danger" onclick="clearAll()">🧽 Reset</button>
+    </div>
+  </aside>
+
+  <section>
+    <div class="card" id="guide">
+      <h2><span class="step">1</span> Textbook Guide: เปิดแบบเรียนคู่กัน</h2>
+      <div class="book-ref"><strong>เปิดไฟล์ 25-1JPE201 L19.pdf</strong><br>บทนี้เน้นการอธิบายความถี่ ปริมาณ ลำดับ/อันดับ และบอกได้ว่าชอบสิ่งนั้นมากแค่ไหน โดยใช้หัวข้อ “งานอดิเรกและสิ่งที่ชอบ” เป็นแกนค่ะ</div>
+      <table class="map-table">
+        <tr><td>Activity Mapping</td><td>• Target 1: Describe frequency → Frequency + Duration<br>• Target 2: Describe quantity → Quantity + Counter + Collection<br>• Target 3: Ranking and order → Ranking<br>• Target 4 / Task: How much I like + hobby intro → Like Level + Hobby Speech + Interview</td></tr>
+        <tr><td>Listening Placeholder</td><td>ฟัง Track ของ Lesson 19 แล้วจดความถี่ จำนวนครั้ง ระยะเวลา จำนวนสิ่งของ ลักษณนาม และอันดับความชอบ<br><textarea id="listenNote" placeholder="จดคำที่ได้ยิน เช่น よく / 週に2回 / 1時間ぐらい / 10冊 / 一番好き"></textarea></td></tr>
+        <tr><td>App Practice</td><td>เลือกกิจกรรม → บอกความถี่ → เพิ่มจำนวนครั้ง/ระยะเวลา → บอกของที่มี/สะสม → จัดอันดับ → ทำ Hobby Speech</td></tr>
+      </table>
+      <div class="guide-steps">
+        <div class="guide-step"><div class="guide-no">1</div><div><strong>เปิดหนังสือ</strong><br>ดูภาพกิจกรรมและตารางความถี่ก่อน</div></div>
+        <div class="guide-step"><div class="guide-no">2</div><div><strong>จดข้อมูลตัวเอง</strong><br>คิดว่ากิจกรรมไหนทำบ่อย นานแค่ไหน มีของสะสมอะไร</div></div>
+        <div class="guide-step"><div class="guide-no">3</div><div><strong>สร้างประโยคด้วย App</strong><br>เริ่มจากสั้น แล้วค่อยเพิ่ม duration, quantity, ranking</div></div>
+        <div class="guide-step"><div class="guide-no">4</div><div><strong>ซ้อมพูดเป็น speech</strong><br>พูดให้เหมือนเล่าให้เพื่อนฟัง ไม่ใช่อ่านรายงานหุ่นยนต์ค่ะ</div></div>
+      </div>
+    </div>
+
+    <div class="card" id="warmup">
+      <h2><span class="step">2</span> Warm-up: งานอดิเรกของฉัน</h2>
+      <div class="grid3">
+        <div><label>สิ่งที่ฉันทำบ่อย</label><textarea id="oftenDo" placeholder="เช่น ฟังเพลง ถ่ายรูป อ่านหนังสือ ไปคาเฟ่"></textarea></div>
+        <div><label>สิ่งที่ฉันสะสม/มีเยอะ</label><textarea id="collectThings" placeholder="เช่น หนังสือ รูปถ่าย ต้นไม้ แก้วกาแฟ"></textarea></div>
+        <div><label>สิ่งที่ฉันชอบมากที่สุด</label><textarea id="favoriteThings" placeholder="เช่น เพลง K-pop / คาเฟ่ / ถ่ายรูป / เดินทาง"></textarea></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateWarmup()">สร้าง Warm-up Note</button></div>
+    </div>
+
+    <div class="card" id="activity">
+      <h2><span class="step">3</span> Activity Bank</h2>
+      <div class="tagrow">
+        <span class="tag" onclick="setActivity('音楽を聞きます','音楽を聞くこと')">🎧 ฟังเพลง</span>
+        <span class="tag" onclick="setActivity('写真を撮ります','写真を撮ること')">📷 ถ่ายรูป</span>
+        <span class="tag" onclick="setActivity('本を読みます','本を読むこと')">📚 อ่านหนังสือ</span>
+        <span class="tag" onclick="setActivity('ドライブします','ドライブすること')">🚗 ขับรถเล่น</span>
+        <span class="tag" onclick="setActivity('泳ぎます','泳ぐこと')">🏊 ว่ายน้ำ</span>
+        <span class="tag" onclick="setActivity('旅行します','旅行すること')">✈️ ท่องเที่ยว</span>
+        <span class="tag" onclick="setActivity('カフェに行きます','カフェに行くこと')">☕ ไปคาเฟ่</span>
+      </div>
+      <div class="grid2">
+        <div><label>กิจกรรมรูป ます</label><input id="activityMasu" class="jp" placeholder="音楽を聞きます"></div>
+        <div><label>กิจกรรมรูป dictionary/こと</label><input id="activityKoto" class="jp" placeholder="音楽を聞くこと"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateActivityNote()">บันทึกกิจกรรมหลัก</button></div>
+    </div>
+
+    <div class="card" id="frequency">
+      <h2><span class="step">4</span> Frequency Maker</h2>
+      <div class="grid2">
+        <div><label>กิจกรรม</label><input id="freqActivity" class="jp" placeholder="音楽を聞きます"></div>
+        <div><label>ความถี่</label><select id="freqWord" class="jp"><option>毎日</option><option>よく</option><option>ときどき</option><option>あまり</option><option>ぜんぜん</option></select></div>
+      </div>
+      <div class="pattern"><span class="block jp">毎日 / よく / ときどき</span><span class="plus">ใช้บวก</span><span class="block jp">あまり / ぜんぜん</span><span class="plus">ใช้ลบ</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateFrequency()">สร้าง Frequency Sentence</button></div>
+    </div>
+
+    <div class="card" id="duration">
+      <h2><span class="step">5</span> Duration Maker: กี่ครั้ง / นานแค่ไหน</h2>
+      <div class="grid3">
+        <div><label>ช่วงเวลา</label><select id="period" class="jp"><option>日に</option><option>週に</option><option>月に</option><option>年に</option></select></div>
+        <div><label>จำนวนครั้ง</label><input id="times" class="jp" placeholder="2回"></div>
+        <div><label>ระยะเวลาต่อครั้ง</label><input id="length" class="jp" placeholder="1時間ぐらい"></div>
+      </div>
+      <div class="tagrow"><span class="tag" onclick="setDuration('週に','2回','1時間ぐらい')">สัปดาห์ละ 2 ครั้ง</span><span class="tag" onclick="setDuration('日に','1回','30分ぐらい')">วันละครั้ง</span><span class="tag" onclick="setDuration('月に','3回','2時間ぐらい')">เดือนละ 3 ครั้ง</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateDuration()">สร้าง Duration Sentence</button><button class="green" onclick="generateHabitDetail()">รวมกับกิจกรรม</button></div>
+    </div>
+
+    <div class="card" id="quantity">
+      <h2><span class="step">6</span> Quantity Maker: มาก/น้อย/ไม่ค่อย/ไม่เลย</h2>
+      <div class="grid3">
+        <div><label>สิ่งของ</label><input id="quantityItem" class="jp" placeholder="本"></div>
+        <div><label>ระดับปริมาณ</label><select id="quantityLevel" class="jp"><option>たくさん</option><option>少し</option><option>あまり</option><option>ぜんぜん</option></select></div>
+        <div><label>กริยา</label><select id="ownVerb" class="jp"><option>持っています</option><option>集めています</option></select></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateQuantityLevel()">สร้าง Quantity Sentence</button></div>
+    </div>
+
+    <div class="card" id="counter">
+      <h2><span class="step">7</span> Counter Lab: ลักษณนาม</h2>
+      <div class="counter-box">
+        <div class="counter" onclick="setCounter('本','10冊')"><strong>冊</strong><br>หนังสือ</div>
+        <div class="counter" onclick="setCounter('CD','15枚')"><strong>枚</strong><br>แผ่น/ของบาง</div>
+        <div class="counter" onclick="setCounter('カメラ','2台')"><strong>台</strong><br>เครื่อง</div>
+        <div class="counter" onclick="setCounter('ペン','5本')"><strong>本</strong><br>แท่ง/ยาว</div>
+        <div class="counter" onclick="setCounter('キーホルダー','4個')"><strong>個</strong><br>ชิ้นเล็ก</div>
+        <div class="counter" onclick="setCounter('かばん','3つ')"><strong>つ</strong><br>ทั่วไป</div>
+      </div>
+      <div class="grid2">
+        <div><label>สิ่งของ</label><input id="counterItem" class="jp" placeholder="本"></div>
+        <div><label>จำนวน + counter</label><input id="counterCount" class="jp" placeholder="10冊"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateCounterSentence()">สร้างจำนวนละเอียด</button><button class="blue" onclick="generateCounterNote()">สรุป Counter Note</button></div>
+    </div>
+
+    <div class="card" id="collection">
+      <h2><span class="step">8</span> Collection Story: สิ่งที่ฉันสะสม</h2>
+      <div class="grid2">
+        <div><label>ฉันสะสมอะไร</label><input id="collectionItem" class="jp" placeholder="写真"></div>
+        <div><label>เริ่มสะสมเมื่อไหร่</label><input id="collectionStart" class="jp" placeholder="子どものときから"></div>
+        <div><label>มีประมาณเท่าไร</label><input id="collectionAmount" class="jp" placeholder="100枚ぐらい"></div>
+        <div><label>ทำไมถึงสะสม</label><input id="collectionReason" class="jp" placeholder="思い出になるので"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateCollectionStory()">สร้าง Collection Story</button></div>
+    </div>
+
+    <div class="card" id="ranking">
+      <h2><span class="step">9</span> Ranking Maker</h2>
+      <div class="rank-row"><div class="rank-badge">1番</div><input id="rank1" class="jp" placeholder="音楽"></div>
+      <div class="rank-row"><div class="rank-badge">2番目</div><input id="rank2" class="jp" placeholder="写真"></div>
+      <div class="rank-row"><div class="rank-badge">3番目</div><input id="rank3" class="jp" placeholder="旅行"></div>
+      <div class="tagrow"><span class="tag" onclick="fillRanks('音楽','写真','旅行')">เพลง/ถ่ายรูป/เที่ยว</span><span class="tag" onclick="fillRanks('サッカー','ゲーム','アニメ')">กีฬา/เกม/อนิเมะ</span><span class="tag" onclick="fillRanks('カフェ','ドライブ','映画')">คาเฟ่/ขับรถ/หนัง</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateRanking()">สร้าง Ranking</button></div>
+    </div>
+
+    <div class="card" id="likelevel">
+      <h2><span class="step">10</span> Like Level: ชอบมากแค่ไหน</h2>
+      <div class="grid3">
+        <div><label>สิ่งที่ชอบ</label><input id="likeThing" class="jp" placeholder="音楽"></div>
+        <div><label>ระดับความชอบ</label><select id="likeLevel" class="jp"><option>大好きです</option><option>とても好きです</option><option>好きです</option><option>まあまあ好きです</option></select></div>
+        <div><label>เหตุผล</label><input id="likeReason" class="jp" placeholder="楽しいので"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateLikeLevel()">สร้าง Like Level</button></div>
+    </div>
+
+    <div class="card" id="speech">
+      <h2><span class="step">11</span> Hobby Speech Builder</h2>
+      <div class="script-row"><div class="script-label">Opening</div><textarea id="speechOpening" class="jp" placeholder="わたしの趣味は、音楽を聞くことです。"></textarea></div>
+      <div class="script-row"><div class="script-label">Frequency</div><textarea id="speechFrequency" class="jp"></textarea></div>
+      <div class="script-row"><div class="script-label">Quantity / Collection</div><textarea id="speechQuantity" class="jp"></textarea></div>
+      <div class="script-row"><div class="script-label">Ranking / Like</div><textarea id="speechRanking" class="jp"></textarea></div>
+      <div class="script-row"><div class="script-label">Closing</div><textarea id="speechClosing" class="jp" placeholder="以上です。ありがとうございました。"></textarea></div>
+      <div class="btn-row"><button class="green" onclick="pullSpeech()">ดึงข้อมูลจากด้านบน</button><button class="primary" onclick="generateSpeech()">สร้าง Hobby Speech</button><button class="blue" onclick="speakSpeech()">อ่าน Speech</button></div>
+    </div>
+
+    <div class="card" id="interview">
+      <h2><span class="step">12</span> Interview Practice: ถาม-ตอบกับเพื่อน</h2>
+      <div class="grid2">
+        <div class="quiz-item"><strong class="jp">Q: 趣味は何ですか。</strong><input id="int1" class="jp" placeholder="音楽を聞くことです。"></div>
+        <div class="quiz-item"><strong class="jp">Q: どのぐらいしますか。</strong><input id="int2" class="jp" placeholder="週に2回、1回1時間ぐらいします。"></div>
+        <div class="quiz-item"><strong class="jp">Q: 何をたくさん持っていますか。</strong><input id="int3" class="jp" placeholder="本を10冊持っています。"></div>
+        <div class="quiz-item"><strong class="jp">Q: 一番好きなのは何ですか。</strong><input id="int4" class="jp" placeholder="一番好きなのは音楽です。"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateInterview()">สร้าง Interview Sheet</button></div>
+    </div>
+
+    <div class="card" id="listening">
+      <h2><span class="step">13</span> Listening Notes</h2>
+      <div class="grid2">
+        <div><label>Frequency ที่ได้ยิน</label><textarea id="heardFreq" class="jp" placeholder="毎日 / よく / ときどき / あまり / ぜんぜん"></textarea></div>
+        <div><label>Duration ที่ได้ยิน</label><textarea id="heardDuration" class="jp" placeholder="週に2回 / 1回1時間ぐらい"></textarea></div>
+        <div><label>Quantity/Counter ที่ได้ยิน</label><textarea id="heardCounter" class="jp" placeholder="100冊 / 15枚 / 2台"></textarea></div>
+        <div><label>Ranking/Like ที่ได้ยิน</label><textarea id="heardRank" class="jp" placeholder="一番好き / 二番目 / 大好き"></textarea></div>
+      </div>
+      <label>คำที่ยังฟังไม่ชัด / จะถามครู</label><textarea id="listenQuestion"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateListeningNote()">สร้าง Listening Note</button></div>
+    </div>
+
+    <div class="card" id="quiz">
+      <h2><span class="step">14</span> Mini Quiz</h2>
+      <div class="quiz">
+        <div class="quiz-item"><strong>1) ฉันฟังเพลงบ่อย ๆ</strong><input id="quiz1" class="jp" placeholder="わたしは、よく音楽を聞きます"></div>
+        <div class="quiz-item"><strong>2) สัปดาห์ละ 2 ครั้ง ครั้งละประมาณ 1 ชั่วโมง</strong><input id="quiz2" class="jp" placeholder="週に2回、1回1時間ぐらいです"></div>
+        <div class="quiz-item"><strong>3) มีหนังสือ 10 เล่ม</strong><input id="quiz3" class="jp" placeholder="本を10冊持っています"></div>
+        <div class="quiz-item"><strong>4) สิ่งที่ชอบที่สุดคือเพลง</strong><input id="quiz4" class="jp" placeholder="一番好きなのは音楽です"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="checkQuiz()">ตรวจ Quiz แบบช่วยจำ</button></div>
+      <div id="quizResult" class="book-ref">กดตรวจเพื่อดู feedback ค่ะ</div>
+    </div>
+
+    <div class="card" id="error">
+      <h2><span class="step">15</span> Error Clinic: จุดที่คนไทยมักพลาด</h2>
+      <div class="rubric">
+        <label><input type="checkbox" class="err" value="ใช้ あまり/ぜんぜん แล้วลืมทำกริยาเป็นรูปปฏิเสธ"> <span>ใช้ あまり/ぜんぜん แล้วลืมรูปปฏิเสธ</span></label>
+        <label><input type="checkbox" class="err" value="สับสน counter เช่น 冊/枚/台/本/個/つ"> <span>สับสน counter</span></label>
+        <label><input type="checkbox" class="err" value="ลืมใส่ ぐらい เมื่อพูดประมาณ"> <span>ลืม ぐらい เมื่อพูดประมาณ</span></label>
+        <label><input type="checkbox" class="err" value="สับสน 一番 / 二番目 / 三番目"> <span>สับสน ranking</span></label>
+        <label><input type="checkbox" class="err" value="พูดกิจกรรมเป็น こと ยังไม่คล่อง"> <span>พูดกิจกรรมเป็น こと ยังไม่คล่อง</span></label>
+      </div>
+      <label>สิ่งที่จะทวนก่อนขึ้น Lesson 20</label><textarea id="reviewNext"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateErrorClinic()">สร้าง Error Clinic Note</button></div>
+    </div>
+
+    <div class="card" id="kanji">
+      <h2><span class="step">16</span> Kanji Studio</h2>
+      <div class="kanji-list" id="kanjiList"></div>
+      <div class="btn-row"><button class="gold" onclick="generateKanjiNote()">บันทึก Kanji ที่ฝึกแล้ว</button></div>
+    </div>
+
+    <div class="card" id="rubric">
+      <h2><span class="step">17</span> Rubric ก่อนผ่าน Lesson 19</h2>
+      <div class="rubric">
+        <label><input type="checkbox" class="tick"> <span>ฉันบอกความถี่ของกิจกรรมได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันใช้ あまり/ぜんぜん กับรูปปฏิเสธได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันบอกจำนวนครั้งและระยะเวลาได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันใช้ counter พื้นฐานได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันจัดอันดับสิ่งที่ชอบ 1–3 ได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันทำ Hobby Speech ได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันทวนคันจิของบทนี้แล้ว</span></label>
+      </div>
+      <div class="progress-wrap"><div id="progress" class="progress-bar"></div></div>
+      <p id="progressText" class="hint">ความพร้อม: 0%</p>
+    </div>
+
+    <div class="card" id="outputCard">
+      <h2><span class="step">18</span> Output: My Lesson 19 Notebook</h2>
+      <div id="output" class="output">กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 19 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ</div>
+      <div class="btn-row"><button class="primary" onclick="generateAll()">สร้างสรุป Lesson 19 ทั้งหมด</button><button class="green" onclick="copyOutput()">คัดลอก</button><button class="blue" onclick="speakOutput()">อ่านออกเสียง</button><button class="danger" onclick="clearOutput()">ล้าง Output</button></div>
+    </div>
+    <p class="footer">JPE201 Lesson 19 Companion App Pro Plus · Created for Khun G by Pookpik</p>
+  </section>
+</main>
+<script>
+const $=id=>document.getElementById(id);const outputParts=[];
+const kanji=[['毎日','まいにち','ทุกวัน'],['間','あいだ/かん','ระหว่าง/ช่วง'],['時間','じかん','เวลา'],['回','かい','ครั้ง'],['音','おと/おん','เสียง'],['音楽','おんがく','ดนตรี'],['旅行','りょこう','ท่องเที่ยว'],['持つ','もつ','ถือ/มี'],['時計','とけい','นาฬิกา'],['泳ぐ','およぐ','ว่ายน้ำ'],['水泳','すいえい','การว่ายน้ำ'],['写真','しゃしん','ภาพถ่าย']];
+function go(id,btn){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+function addOutput(title,text){outputParts.push(`【${title}】\n${text}`);$('output').textContent=outputParts.join('\n\n')}
+function generateWarmup(){addOutput('Warm-up',`ทำบ่อย:\n${$('oftenDo').value||'-'}\n\nสะสม/มีเยอะ:\n${$('collectThings').value||'-'}\n\nชอบมากที่สุด:\n${$('favoriteThings').value||'-'}`)}
+function setActivity(masu,koto){$('activityMasu').value=masu;$('activityKoto').value=koto;$('freqActivity').value=masu;$('speechOpening').value=`わたしの趣味は、${koto}です。`}
+function generateActivityNote(){addOutput('Activity Bank',`กิจกรรมรูป ます: ${$('activityMasu').value||'-'}\nกิจกรรมรูป こと: ${$('activityKoto').value||'-'}`)}
+function neg(a){if(a.endsWith('します'))return a.replace('します','しません');if(a.endsWith('ます'))return a.replace('ます','ません');return a+'しません'}
+function generateFrequency(){const a=$('freqActivity').value||$('activityMasu').value||'音楽を聞きます',f=$('freqWord').value;const s=(f==='あまり'||f==='ぜんぜん')?`わたしは、${f}${neg(a)}。`:`わたしは、${f}${a}。`;addOutput('Frequency',s);$('speechFrequency').value=s}
+function setDuration(p,t,l){$('period').value=p;$('times').value=t;$('length').value=l}
+function generateDuration(){const s=`${$('period').value}${$('times').value||'2回'}、1回${$('length').value||'1時間ぐらい'}です。`;addOutput('Duration',s)}
+function generateHabitDetail(){const a=$('freqActivity').value||$('activityMasu').value||'音楽を聞きます';const s=`${$('period').value}${$('times').value||'2回'}、1回${$('length').value||'1時間ぐらい'}${a}。`;addOutput('Habit Detail',s);$('speechFrequency').value=s}
+function generateQuantityLevel(){const item=$('quantityItem').value||'本',lv=$('quantityLevel').value,v=$('ownVerb').value;const s=(lv==='あまり'||lv==='ぜんぜん')?`${item}を${lv}${v.replace('ています','ていません')}。`:`${item}を${lv}${v}。`;addOutput('Quantity Level',s)}
+function setCounter(item,count){$('counterItem').value=item;$('counterCount').value=count;$('quantityItem').value=item}
+function generateCounterSentence(){const s=`${$('counterItem').value||'本'}を${$('counterCount').value||'10冊'}持っています。`;addOutput('Counter Sentence',s);$('speechQuantity').value=s}
+function generateCounterNote(){addOutput('Counter Note','冊=เล่ม / 枚=แผ่น / 台=เครื่อง / 本=แท่งหรือของยาว / 個=ชิ้นเล็ก / つ=ทั่วไปเมื่อยังไม่แน่ใจ')}
+function generateCollectionStory(){const s=`${$('collectionStart').value||'子どものときから'}、${$('collectionItem').value||'写真'}を集めています。\n今、${$('collectionAmount').value||'100枚ぐらい'}あります。\n${$('collectionReason').value||'思い出になるので'}、集めています。`;addOutput('Collection Story',s);$('speechQuantity').value=s}
+function fillRanks(a,b,c){$('rank1').value=a;$('rank2').value=b;$('rank3').value=c;$('likeThing').value=a}
+function generateRanking(){const s=`一番好きなのは、${$('rank1').value||'音楽'}です。\n二番目に好きなのは、${$('rank2').value||'写真'}です。\n三番目に好きなのは、${$('rank3').value||'旅行'}です。`;addOutput('Ranking',s);$('speechRanking').value=s}
+function generateLikeLevel(){const s=`わたしは、${$('likeThing').value||$('rank1').value||'音楽'}が${$('likeLevel').value}。\n${$('likeReason').value||'楽しいので'}、好きです。`;addOutput('Like Level',s);$('speechRanking').value=s}
+function pullSpeech(){if(!$('speechOpening').value)$('speechOpening').value=`わたしの趣味は、${$('activityKoto').value||'音楽を聞くこと'}です。`;if(!$('speechFrequency').value)generateHabitDetail();if(!$('speechQuantity').value)generateCounterSentence();if(!$('speechRanking').value)generateRanking();if(!$('speechClosing').value)$('speechClosing').value='以上です。ありがとうございました。'}
+function generateSpeech(){const text=`${$('speechOpening').value||'わたしの趣味は、音楽を聞くことです。'}\n${$('speechFrequency').value||''}\n${$('speechQuantity').value||''}\n${$('speechRanking').value||''}\n${$('speechClosing').value||'以上です。ありがとうございました。'}`;addOutput('Hobby Speech',text)}
+function generateInterview(){addOutput('Interview Practice',`Q: 趣味は何ですか。\nA: ${$('int1').value||'音楽を聞くことです。'}\n\nQ: どのぐらいしますか。\nA: ${$('int2').value||'週に2回、1回1時間ぐらいします。'}\n\nQ: 何をたくさん持っていますか。\nA: ${$('int3').value||'本を10冊持っています。'}\n\nQ: 一番好きなのは何ですか。\nA: ${$('int4').value||'一番好きなのは音楽です。'}`)}
+function generateListeningNote(){addOutput('Listening Notes',`Frequency:\n${$('heardFreq').value||'-'}\n\nDuration:\n${$('heardDuration').value||'-'}\n\nQuantity/Counter:\n${$('heardCounter').value||'-'}\n\nRanking/Like:\n${$('heardRank').value||'-'}\n\nคำถามที่จะถามครู:\n${$('listenQuestion').value||'-'}`)}
+function checkQuiz(){const ex=['わたしは、よく音楽を聞きます','週に2回、1回1時間ぐらいです','本を10冊持っています','一番好きなのは音楽です'];let fb=ex.map((e,i)=>`${i+1}) คำตอบของฉัน: ${$('quiz'+(i+1)).value||'-'}\nตัวอย่าง: ${e}`).join('\n\n');$('quizResult').innerHTML=fb.replaceAll('\n','<br>');addOutput('Mini Quiz',fb)}
+function generateErrorClinic(){const errs=[...document.querySelectorAll('.err:checked')].map(x=>x.value);addOutput('Error Clinic',`จุดที่ต้องระวัง:\n- ${(errs.length?errs:['ยังไม่ได้เลือก']).join('\n- ')}\n\nสิ่งที่จะทวนก่อนขึ้น Lesson 20:\n${$('reviewNext').value||'-'}`)}
+function generateKanjiNote(){const checked=[...document.querySelectorAll('.kanjiTick:checked')].map(x=>x.value);addOutput('Kanji Practice',`ฝึกคันจิแล้ว: ${checked.join(', ')||'ยังไม่ได้ติ๊ก'}\nคันจิบทนี้เกี่ยวกับเวลา ดนตรี ท่องเที่ยว การถือ/มี ว่ายน้ำ และภาพถ่ายค่ะ`)}
+function generateAll(){outputParts.length=0;generateWarmup();generateActivityNote();generateFrequency();generateHabitDetail();generateQuantityLevel();generateCounterSentence();generateCollectionStory();generateRanking();generateLikeLevel();pullSpeech();generateSpeech();generateInterview();generateListeningNote();generateErrorClinic();generateKanjiNote();addOutput('Next Step','หลังจบ Lesson 19 ให้ไป Lesson 20 เพื่อฝึกอธิบายสิ่งที่ชอบ ความรู้สึก และ presentation ค่ะ')}
+function renderKanji(){ $('kanjiList').innerHTML=kanji.map(([c,r,m])=>`<label class="kanji-item"><span class="kanji-char jp">${c}</span><span><strong class="jp">${r}</strong><br><span class="hint">${m}</span></span><input class="kanjiTick" type="checkbox" value="${c}"></label>`).join('') }
+function saveData(){const data={};document.querySelectorAll('input,textarea,select').forEach(el=>{if(el.id)data[el.id]=el.type==='checkbox'?el.checked:el.value});data.kanji=[...document.querySelectorAll('.kanjiTick')].map(x=>x.checked);data.err=[...document.querySelectorAll('.err')].map(x=>x.checked);data.ticks=[...document.querySelectorAll('.tick')].map(x=>x.checked);data.output=outputParts;localStorage.setItem('jpe201_lesson19_pro_plus',JSON.stringify(data));alert('บันทึก Lesson 19 แล้วค่ะ 🎧')}
+function loadData(){const raw=localStorage.getItem('jpe201_lesson19_pro_plus');if(!raw)return alert('ยังไม่มีข้อมูลที่บันทึกไว้ค่ะ');const data=JSON.parse(raw);Object.keys(data).forEach(k=>{const el=$(k);if(el){if(el.type==='checkbox')el.checked=data[k];else el.value=data[k]}});document.querySelectorAll('.kanjiTick').forEach((x,i)=>x.checked=(data.kanji||[])[i]||false);document.querySelectorAll('.err').forEach((x,i)=>x.checked=(data.err||[])[i]||false);document.querySelectorAll('.tick').forEach((x,i)=>x.checked=(data.ticks||[])[i]||false);outputParts.length=0;if(Array.isArray(data.output))outputParts.push(...data.output);$('output').textContent=outputParts.length?outputParts.join('\n\n'):'กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 19 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ';updateProgress()}
+function clearAll(){if(!confirm('ล้างข้อมูล Lesson 19 ทั้งหมดไหมคะ?'))return;document.querySelectorAll('input,textarea').forEach(el=>{if(el.type==='checkbox')el.checked=false;else el.value=''});document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);clearOutput();updateProgress()}
+function copyOutput(){navigator.clipboard.writeText($('output').textContent).then(()=>alert('คัดลอกแล้วค่ะ'))}
+function clearOutput(){outputParts.length=0;$('output').textContent='กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 19 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ'}
+function speak(text){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=.82;window.speechSynthesis.speak(u)}
+function speakSpeech(){speak([$('speechOpening').value,$('speechFrequency').value,$('speechQuantity').value,$('speechRanking').value,$('speechClosing').value].join('\n'))}
+function speakOutput(){speak($('output').textContent.replace(/【.*?】/g,''))}
+function updateProgress(){const ticks=[...document.querySelectorAll('.tick')];const pct=Math.round(ticks.filter(t=>t.checked).length/ticks.length*100);$('progress').style.width=pct+'%';$('progressText').textContent='ความพร้อม: '+pct+'%'}
+document.addEventListener('change',e=>{if(e.target.classList.contains('tick'))updateProgress()});
+renderKanji();
+</script>
+</body>
+</html>
