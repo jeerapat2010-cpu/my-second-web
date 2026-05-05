@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JPE201 Lesson 16 Companion App Pro Plus</title>
+  <style>
+    :root{
+      --ink:#22313f;--muted:#617386;--card:rgba(255,255,255,.94);--primary:#2f80ed;--primary-dark:#155cb5;
+      --sky:#e6f2ff;--green:#35a878;--mint:#eafff6;--gold:#d6a547;--pink:#ff7fa8;--red:#e65f62;
+      --line:#bfd8f4;--shadow:0 18px 42px rgba(47,128,237,.14);--radius:26px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:"Noto Sans Thai","Noto Sans JP",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);background:radial-gradient(circle at 12% 10%,rgba(255,127,168,.22),transparent 27%),radial-gradient(circle at 84% 6%,rgba(47,128,237,.14),transparent 28%),radial-gradient(circle at 50% 100%,rgba(53,168,120,.12),transparent 38%),linear-gradient(135deg,#f7fbff 0%,#fffdf4 55%,#f0fff9 100%)}
+    .jp{font-family:"Noto Sans JP","Yu Gothic",system-ui,sans-serif;letter-spacing:.02em}
+    header{text-align:center;padding:30px 16px 18px;position:relative;overflow:hidden}
+    header:before{content:"";position:absolute;inset:0;opacity:.25;background-image:radial-gradient(ellipse at 18% 34%,#fff 0 42px,transparent 43px),radial-gradient(ellipse at 26% 36%,#fff 0 52px,transparent 53px),radial-gradient(ellipse at 74% 22%,#fff 0 38px,transparent 39px),radial-gradient(ellipse at 81% 25%,#fff 0 48px,transparent 49px)}
+    header>*{position:relative}.badge{display:inline-flex;gap:8px;align-items:center;background:var(--sky);border:1px solid var(--line);color:var(--primary-dark);padding:8px 14px;border-radius:999px;font-weight:900}
+    h1{font-size:clamp(1.9rem,4.2vw,3.25rem);line-height:1.08;margin:14px 0 8px}.subtitle{max-width:1080px;margin:0 auto;color:var(--muted);line-height:1.75;font-size:1.04rem}
+    main{width:min(1240px,calc(100% - 28px));margin:0 auto 48px}.layout{display:grid;grid-template-columns:320px 1fr;gap:18px;align-items:start}@media(max-width:980px){.layout{grid-template-columns:1fr}.side{position:static!important}}
+    .side,.card{background:var(--card);border:1px solid rgba(191,216,244,.95);box-shadow:var(--shadow);border-radius:var(--radius);backdrop-filter:blur(8px)}.side{position:sticky;top:14px;padding:16px}.side h2{font-size:1.06rem;margin:4px 0 12px}.nav{display:grid;gap:7px}.nav button{width:100%;text-align:left;background:transparent;border:1px solid transparent;color:var(--ink);border-radius:16px;padding:11px 12px;font:inherit;font-weight:850;cursor:pointer}.nav button:hover,.nav button.active{background:var(--sky);border-color:var(--line);color:var(--primary-dark);transform:translateX(2px)}
+    .card{padding:22px;margin-bottom:18px}.card h2{display:flex;gap:10px;align-items:center;margin:0 0 12px;font-size:1.28rem}.step{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:12px;background:var(--primary);color:#fff;font-weight:950;flex:0 0 auto}.hint{color:var(--muted);line-height:1.75;margin:8px 0}.book-ref{background:#fff8e7;border-left:5px solid var(--gold);border-radius:17px;padding:13px 15px;line-height:1.7;margin:12px 0;color:#5b4719}
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}@media(max-width:840px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
+    label{display:block;font-weight:900;margin:16px 0 8px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:18px;background:#fff;padding:13px 14px;color:var(--ink);font:inherit;outline:none;transition:.16s ease}textarea{min-height:88px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(47,128,237,.12)}
+    .mini-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;min-height:106px}.mini-card strong{color:var(--primary-dark)}.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}button{border:0;border-radius:16px;padding:12px 16px;cursor:pointer;font:inherit;font-weight:950;transition:.16s ease}button:hover{transform:translateY(-1px)}.primary{background:linear-gradient(135deg,var(--primary),#62a8ff);color:#fff;box-shadow:0 12px 24px rgba(47,128,237,.24)}.green{background:var(--mint);color:#1b7e5c;border:1px solid #bcebd9}.pink{background:#fff0f5;color:#b2315d;border:1px solid #ffc5d8}.gold{background:#fff8e6;color:#815f11;border:1px solid #efdba4}.ghost{background:#fff;color:var(--primary-dark);border:1px solid var(--line)}.danger{background:#fff1f1;color:#b73835;border:1px solid #ffc7c6}
+    .guide-steps{display:grid;gap:10px;margin-top:12px}.guide-step{display:grid;grid-template-columns:42px 1fr;gap:10px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px}.guide-no{display:grid;place-items:center;width:34px;height:34px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--pink));color:#fff;font-weight:950}.map-table{width:100%;border-collapse:separate;border-spacing:0 8px;margin-top:12px}.map-table td{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px;vertical-align:top}.map-table td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px;font-weight:950;color:var(--primary-dark);width:34%}.map-table td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0}.pattern{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:14px;background:#f8fbff;border:1px dashed #9ec4ef;border-radius:18px;margin-top:10px}.block{display:inline-flex;align-items:center;justify-content:center;padding:9px 12px;border-radius:13px;background:#fff;border:1px solid var(--line);font-weight:950;color:var(--primary-dark);min-height:40px}.plus{color:var(--muted);font-weight:950}
+    .rubric{display:grid;gap:8px;margin-top:12px}.rubric label{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;margin:0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px}.rubric input{width:auto;accent-color:var(--primary)}.progress-wrap{height:16px;border-radius:999px;background:#dfefff;border:1px solid var(--line);overflow:hidden;margin-top:12px}.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--green));transition:.3s ease}.output{background:#1f2d3a;color:#f7fcff;border-radius:22px;padding:18px;white-space:pre-wrap;line-height:1.82;min-height:260px;overflow-wrap:anywhere}.footer{text-align:center;color:var(--muted);font-size:.92rem;margin:20px 0}
+    .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.tag{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:850}.tag:hover{background:var(--sky)}.mindmap{display:grid;grid-template-columns:1fr;gap:10px}.mind-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}@media(max-width:840px){.mind-row{grid-template-columns:1fr}}.kanji-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}@media(max-width:720px){.kanji-list{grid-template-columns:1fr}}.kanji-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:17px;padding:11px 12px}.kanji-char{font-size:1.45rem;font-weight:950;color:var(--primary-dark);min-width:58px;text-align:center}.kanji-item input{width:auto;accent-color:var(--primary)}.score-row{display:grid;grid-template-columns:170px 1fr 60px;gap:10px;align-items:center;margin:9px 0}.score-row input[type=range]{padding:0}.score-num{font-weight:950;color:var(--primary-dark);text-align:center}.qa-box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:10px}.script-row{display:grid;grid-template-columns:220px 1fr;gap:10px;align-items:center;margin-top:10px}.script-label{background:linear-gradient(135deg,var(--primary),var(--pink));color:#fff;border-radius:16px;padding:12px;font-weight:950;text-align:center}@media(max-width:700px){.script-row{grid-template-columns:1fr}}
+    @media print{.side,.btn-row,header:before{display:none}.layout{display:block}.card{box-shadow:none;border:1px solid #ddd}.output{background:#fff;color:#000;border:1px solid #ddd}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="badge">🗾 Lesson 16 Pro Plus · Country Presenter System</div>
+  <h1>Lesson 16: My Home Country, Japan and Countries Around the World</h1>
+  <p class="subtitle">App ฝึกเสริมบท 16 แบบเต็ม: เปิดหนังสือคู่กัน แนะนำประเทศ ทำ mind map จุดเด่น ฝึกอ่านตัวเลข เปรียบเทียบกับญี่ปุ่น เตรียม presentation และซ้อม Q&A ค่ะ</p>
+</header>
+<main class="layout">
+  <aside class="side">
+    <h2>เมนู Lesson 16</h2>
+    <div class="nav">
+      <button class="active" onclick="go('guide',this)">📖 Textbook Guide</button>
+      <button onclick="go('warmup',this)">🌏 Warm-up</button>
+      <button onclick="go('basic',this)">🏛️ Basic Info</button>
+      <button onclick="go('vocab',this)">🧩 Vocab Bank</button>
+      <button onclick="go('features',this)">🧠 Mind Map</button>
+      <button onclick="go('numbers',this)">🔢 Number Lab</button>
+      <button onclick="go('compare',this)">⚖️ Compare Lab</button>
+      <button onclick="go('listening',this)">🎧 Listening Notes</button>
+      <button onclick="go('presentation',this)">🎤 Presentation</button>
+      <button onclick="go('qa',this)">❓ Q&A Practice</button>
+      <button onclick="go('kanji',this)">字 Kanji Studio</button>
+      <button onclick="go('rubric',this)">✅ Rubric</button>
+      <button onclick="go('outputCard',this)">📒 Output</button>
+    </div>
+    <div class="btn-row" style="display:grid">
+      <button class="green" onclick="saveData()">💾 Save</button>
+      <button class="ghost" onclick="loadData()">📂 Load</button>
+      <button class="gold" onclick="window.print()">🖨️ Print</button>
+      <button class="danger" onclick="clearAll()">🧽 Reset</button>
+    </div>
+  </aside>
+
+  <section>
+    <div class="card" id="guide">
+      <h2><span class="step">1</span> Textbook Guide: เปิดแบบเรียนคู่กัน</h2>
+      <div class="book-ref"><strong>เปิดไฟล์ 25-1JPE201 L16.pdf</strong><br>บทนี้พาผู้เรียนแนะนำประเทศของตัวเอง บอกจุดเด่น เปรียบเทียบกับญี่ปุ่น และทำ presentation เกี่ยวกับประเทศที่สนใจ</div>
+      <table class="map-table">
+        <tr><td>Activity Mapping</td><td>• Target 1: Basic information about country → ใช้ Basic Info<br>• Target 2: Features / mind map → ใช้ Vocab Bank + Mind Map<br>• Target 3: Compare country with Japan → ใช้ Compare Lab<br>• Task: Talk about country you are interested in → ใช้ Presentation + Q&A</td></tr>
+        <tr><td>Listening Placeholder</td><td>ฟัง Track ของ Lesson 16 แล้วจดคำที่จับได้ เช่น ประเทศ เมืองหลวง ประชากร พื้นที่ จุดเด่น ตัวเลข<br><textarea id="listenNote" placeholder="จดคำที่ได้ยินจาก CD/Track เช่น タイ / 日本 / 人口 / 面積 / 広い"></textarea></td></tr>
+        <tr><td>App Practice</td><td>กรอกข้อมูลประเทศ → ทำ mind map → ฝึกตัวเลข → สร้างเปรียบเทียบ → สร้าง presentation → ซ้อม Q&A</td></tr>
+      </table>
+      <div class="guide-steps">
+        <div class="guide-step"><div class="guide-no">1</div><div><strong>เปิดหนังสือก่อน</strong><br>ดูตัวอย่างใน Lesson 16 และลองตอบในหนังสือ</div></div>
+        <div class="guide-step"><div class="guide-no">2</div><div><strong>ฟัง/อ่านตาม</strong><br>จดคำศัพท์และตัวเลขที่เจอใน Listening Notes</div></div>
+        <div class="guide-step"><div class="guide-no">3</div><div><strong>สร้างคำตอบของตัวเอง</strong><br>ใช้ App สร้างประโยคประเทศของตัวเอง ไม่ต้องคัดตัวอย่างเดิม</div></div>
+        <div class="guide-step"><div class="guide-no">4</div><div><strong>ซ้อมพูด</strong><br>กดอ่านออกเสียง แล้วฝึกพูดตามแบบช้า ๆ ชัด ๆ</div></div>
+      </div>
+    </div>
+
+    <div class="card" id="warmup">
+      <h2><span class="step">2</span> Warm-up: ประเทศที่อยากพูดถึง</h2>
+      <div class="grid2">
+        <div><label>ฉันอยากพูดถึงประเทศ</label><input id="countryTH" placeholder="เช่น ประเทศไทย / ญี่ปุ่น / ชิลี"></div>
+        <div><label>เหตุผลที่เลือกประเทศนี้</label><textarea id="countryWhy" placeholder="เช่น เป็นประเทศของฉัน / อยากไปเที่ยว / สนใจวัฒนธรรม / อาหารอร่อย"></textarea></div>
+      </div>
+      <div class="tagrow">
+        <span class="tag" onclick="quickCountry('ประเทศไทย','タイ','東南アジア','バンコク','約7,000万人','約51万平方キロメートル')">🇹🇭 ประเทศไทย</span>
+        <span class="tag" onclick="quickCountry('ญี่ปุ่น','日本','東アジア','東京','約1億2,000万人','約38万平方キロメートル')">🇯🇵 ญี่ปุ่น</span>
+        <span class="tag" onclick="quickCountry('ชิลี','チリ','南アメリカ','サンティアゴ','約1,900万人','約75万平方キロメートル')">🇨🇱 ชิลี</span>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateWarmup()">สร้าง Warm-up Note</button></div>
+    </div>
+
+    <div class="card" id="basic">
+      <h2><span class="step">3</span> Basic Info: ข้อมูลพื้นฐานประเทศ</h2>
+      <div class="grid2">
+        <div><label>ประเทศภาษาญี่ปุ่น</label><input id="countryJP" class="jp" placeholder="タイ"></div>
+        <div><label>ภูมิภาค/ที่ตั้ง</label><input id="regionJP" class="jp" placeholder="東南アジア"></div>
+        <div><label>เมืองหลวง</label><input id="capitalJP" class="jp" placeholder="バンコク"></div>
+        <div><label>ประชากร</label><input id="populationJP" class="jp" placeholder="約7,000万人"></div>
+        <div><label>พื้นที่</label><input id="areaJP" class="jp" placeholder="約51万平方キロメートル"></div>
+        <div><label>อุณหภูมิ/ฝน/อากาศ</label><input id="weatherJP" class="jp" placeholder="暑いです / 雨が多いです"></div>
+      </div>
+      <div class="pattern"><span class="block jp">国</span><span class="plus">は</span><span class="block jp">場所</span><span class="plus">にあります。</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateBasic()">สร้าง Basic Info</button><button class="green" onclick="speakBasic()">อ่านออกเสียงส่วนนี้</button></div>
+    </div>
+
+    <div class="card" id="vocab">
+      <h2><span class="step">4</span> Vocabulary Bank: คำช่วยทำ Mind Map</h2>
+      <div class="grid3">
+        <div class="mini-card"><strong>Topic</strong><br><span class="jp">食べ物・人・自然・町・天気・交通・海・山・寺・車</span></div>
+        <div class="mini-card"><strong>Adjective</strong><br><span class="jp">おいしい・多い・きれい・有名・便利・広い・暑い・安い</span></div>
+        <div class="mini-card"><strong>Connector</strong><br><span class="jp">そして・それから・でも・特に</span></div>
+      </div>
+      <div class="tagrow">
+        <span class="tag" onclick="fillTopic('食べ物','おいしい','トムヤムクンが有名です')">อาหาร</span>
+        <span class="tag" onclick="fillTopic('自然','きれい','海と山があります')">ธรรมชาติ</span>
+        <span class="tag" onclick="fillTopic('人','やさしい','人が親切です')">ผู้คน</span>
+        <span class="tag" onclick="fillTopic('町','にぎやか','バンコクが有名です')">เมือง</span>
+        <span class="tag" onclick="fillTopic('交通','便利','電車があります')">การเดินทาง</span>
+      </div>
+      <p class="hint">กด tag เพื่อเติมใน Mind Map แถวแรกอย่างรวดเร็วค่ะ</p>
+    </div>
+
+    <div class="card" id="features">
+      <h2><span class="step">5</span> Mind Map: จุดเด่นประเทศ</h2>
+      <div class="mindmap">
+        <div class="mind-row"><div><label>หัวข้อ 1</label><input id="topic1" class="jp" placeholder="食べ物"></div><div><label>คำอธิบาย 1</label><input id="adj1" class="jp" placeholder="おいしい"></div><div><label>ตัวอย่าง 1</label><input id="ex1" class="jp" placeholder="トムヤムクンが有名です"></div></div>
+        <div class="mind-row"><div><label>หัวข้อ 2</label><input id="topic2" class="jp" placeholder="自然"></div><div><label>คำอธิบาย 2</label><input id="adj2" class="jp" placeholder="きれい"></div><div><label>ตัวอย่าง 2</label><input id="ex2" class="jp" placeholder="海がきれいです"></div></div>
+        <div class="mind-row"><div><label>หัวข้อ 3</label><input id="topic3" class="jp" placeholder="人"></div><div><label>คำอธิบาย 3</label><input id="adj3" class="jp" placeholder="やさしい"></div><div><label>ตัวอย่าง 3</label><input id="ex3" class="jp" placeholder="人が親切です"></div></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateFeatures()">สร้าง Feature Sentences</button></div>
+    </div>
+
+    <div class="card" id="numbers">
+      <h2><span class="step">6</span> Number Lab: ประชากร/พื้นที่/ตัวเลขใหญ่</h2>
+      <p class="hint">บท 16 มีการพูดประชากรและพื้นที่ จึงเพิ่มตัวช่วยฝึกอ่านตัวเลขแบบญี่ปุ่น</p>
+      <div class="grid3">
+        <div><label>ตัวเลข</label><input id="numInput" placeholder="เช่น 70000000"></div>
+        <div><label>หน่วย</label><select id="numUnit"><option>人</option><option>平方キロメートル</option><option>℃</option><option>mm</option></select></div>
+        <div><label>คำประมาณ</label><select id="numAbout"><option>約</option><option></option><option>だいたい</option></select></div>
+      </div>
+      <div class="book-ref" id="numHint">หน่วยสำคัญ: 万 = หมื่น, 億 = ร้อยล้าน</div>
+      <div class="btn-row"><button class="primary" onclick="generateNumberLine()">สร้างประโยคตัวเลข</button></div>
+    </div>
+
+    <div class="card" id="compare">
+      <h2><span class="step">7</span> Compare Lab: เปรียบเทียบกับญี่ปุ่น</h2>
+      <div class="grid3">
+        <div><label>A ประเทศของฉัน</label><input id="compareA" class="jp" placeholder="タイ"></div>
+        <div><label>B ประเทศที่เทียบ</label><input id="compareB" class="jp" value="日本"></div>
+        <div><label>คำคุณศัพท์/วลี</label><input id="compareAdj" class="jp" placeholder="暑い / 広い / 人が多い"></div>
+      </div>
+      <div class="tagrow">
+        <span class="tag" onclick="setCompare('暑い')">暑い</span><span class="tag" onclick="setCompare('広い')">広い</span><span class="tag" onclick="setCompare('人が多い')">人が多い</span><span class="tag" onclick="setCompare('雨が多い')">雨が多い</span><span class="tag" onclick="setCompare('物価が安い')">物価が安い</span>
+      </div>
+      <div class="pattern"><span class="block jp">A</span><span class="plus">は</span><span class="block jp">B</span><span class="plus">より</span><span class="block jp">Adj.</span><span class="plus">です。</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateCompare()">สร้าง Compare Sentence</button><button class="ghost" onclick="generateAsAs()">สร้าง 〜と同じぐらい</button></div>
+    </div>
+
+    <div class="card" id="listening">
+      <h2><span class="step">8</span> Listening Notes: จดสิ่งที่ได้ยินจาก Track</h2>
+      <div class="grid2">
+        <div><label>คำศัพท์ที่ได้ยิน</label><textarea id="heardWords" class="jp" placeholder="เช่น 人口 / 面積 / 首都 / 有名"></textarea></div>
+        <div><label>ประโยคหรือ pattern ที่จับได้</label><textarea id="heardPatterns" class="jp" placeholder="เช่น タイは...にあります / 日本より...です"></textarea></div>
+      </div>
+      <label>สิ่งที่ยังฟังไม่ชัด / จะถามครู</label><textarea id="listenQuestion"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateListeningNote()">สร้าง Listening Note</button></div>
+    </div>
+
+    <div class="card" id="presentation">
+      <h2><span class="step">9</span> Presentation Builder</h2>
+      <div class="script-row"><div class="script-label">Opening</div><textarea id="pOpening" class="jp" placeholder="みなさん、こんにちは。今日は、タイについて話します。"></textarea></div>
+      <div class="script-row"><div class="script-label">Basic Info</div><textarea id="pBasic" class="jp"></textarea></div>
+      <div class="script-row"><div class="script-label">Features</div><textarea id="pFeatures" class="jp"></textarea></div>
+      <div class="script-row"><div class="script-label">Compare</div><textarea id="pCompare" class="jp"></textarea></div>
+      <div class="script-row"><div class="script-label">My Thought</div><textarea id="pThought" class="jp" placeholder="タイは、とてもおもしろい国です。もっと知ってほしいです。"></textarea></div>
+      <div class="script-row"><div class="script-label">Closing</div><textarea id="pClosing" class="jp" placeholder="これで、発表を終わります。ありがとうございました。"></textarea></div>
+      <div class="btn-row"><button class="green" onclick="pullPresentation()">ดึงข้อมูลจากด้านบน</button><button class="primary" onclick="generatePresentation()">สร้าง Presentation เต็ม</button><button class="blue" onclick="speakPresentation()">อ่าน Presentation</button></div>
+    </div>
+
+    <div class="card" id="qa">
+      <h2><span class="step">10</span> Q&A Practice: ซ้อมตอบคำถามหลัง Presentation</h2>
+      <div class="grid2">
+        <div class="qa-box"><strong class="jp">Q: その国で、何が有名ですか。</strong><br><input id="qa1" class="jp" placeholder="食べ物が有名です。"></div>
+        <div class="qa-box"><strong class="jp">Q: その国で、何がしたいですか。</strong><br><input id="qa2" class="jp" placeholder="おいしい料理を食べたいです。"></div>
+        <div class="qa-box"><strong class="jp">Q: 日本と何が違いますか。</strong><br><input id="qa3" class="jp" placeholder="タイは日本より暑いです。"></div>
+        <div class="qa-box"><strong class="jp">Q: どうしてその国に興味がありますか。</strong><br><input id="qa4" class="jp" placeholder="文化がおもしろいからです。"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateQA()">สร้าง Q&A Sheet</button></div>
+    </div>
+
+    <div class="card" id="kanji">
+      <h2><span class="step">11</span> Kanji Studio</h2>
+      <div class="kanji-list" id="kanjiList"></div>
+      <div class="btn-row"><button class="gold" onclick="generateKanjiNote()">บันทึก Kanji ที่ฝึกแล้ว</button></div>
+    </div>
+
+    <div class="card" id="rubric">
+      <h2><span class="step">12</span> Rubric ก่อนผ่าน Lesson 16</h2>
+      <div class="rubric">
+        <label><input type="checkbox" class="tick"> <span>ฉันบอกประเทศ ภูมิภาค และเมืองหลวงได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันบอกประชากรหรือพื้นที่โดยประมาณได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันบอกจุดเด่นประเทศได้อย่างน้อย 3 ประเด็น</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันใช้ より เปรียบเทียบกับญี่ปุ่นได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันทำ presentation สั้นได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันตอบ Q&A หลัง presentation ได้อย่างน้อย 2 ข้อ</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันทวนคันจิของบทนี้แล้ว</span></label>
+      </div>
+      <div class="progress-wrap"><div id="progress" class="progress-bar"></div></div>
+      <p id="progressText" class="hint">ความพร้อม: 0%</p>
+    </div>
+
+    <div class="card" id="outputCard">
+      <h2><span class="step">13</span> Output: My Lesson 16 Notebook</h2>
+      <div id="output" class="output">กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 16 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ</div>
+      <div class="btn-row"><button class="primary" onclick="generateAll()">สร้างสรุป Lesson 16 ทั้งหมด</button><button class="green" onclick="copyOutput()">คัดลอก</button><button class="blue" onclick="speakOutput()">อ่านออกเสียง</button><button class="danger" onclick="clearOutput()">ล้าง Output</button></div>
+    </div>
+    <p class="footer">JPE201 Lesson 16 Companion App Pro Plus · Created for Khun G by Pookpik</p>
+  </section>
+</main>
+<script>
+const $=id=>document.getElementById(id);const outputParts=[];
+const kanji=[['北','きた','เหนือ'],['南','みなみ','ใต้'],['西','にし','ตะวันตก'],['東','ひがし','ตะวันออก'],['人口','じんこう','ประชากร'],['雨','あめ','ฝน'],['町','まち','เมือง'],['物','もの','สิ่งของ'],['食べ物','たべもの','อาหาร'],['飲み物','のみもの','เครื่องดื่ม'],['魚','さかな','ปลา'],['広い','ひろい','กว้าง']];
+function go(id,btn){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+function addOutput(title,text){outputParts.push(`【${title}】\n${text}`);$('output').textContent=outputParts.join('\n\n')}
+function quickCountry(th,jp,region,capital,pop,area){$('countryTH').value=th;$('countryJP').value=jp;$('regionJP').value=region;$('capitalJP').value=capital;$('populationJP').value=pop;$('areaJP').value=area;$('compareA').value=jp;$('pOpening').value=`みなさん、こんにちは。今日は、${jp}について話します。`}
+function generateWarmup(){addOutput('Warm-up Note',`ฉันอยากพูดถึง: ${$('countryTH').value||'ยังไม่ได้ระบุ'}\nเหตุผล: ${$('countryWhy').value||'ยังไม่ได้ระบุ'}\nประเทศภาษาญี่ปุ่น: ${$('countryJP').value||'ยังไม่ได้ระบุ'}`)}
+function generateBasic(){const c=$('countryJP').value||'タイ';const text=`${c}は、${$('regionJP').value||'東南アジア'}にあります。\n${$('capitalJP').value||'バンコク'}は、${c}の首都です。\n人口は、${$('populationJP').value||'約7,000万人'}です。\n面積は、${$('areaJP').value||'約51万平方キロメートル'}です。${$('weatherJP').value?`\n天気は、${$('weatherJP').value}。`:''}`;addOutput('Basic Info',text);$('pBasic').value=text}
+function fillTopic(t,a,e){$('topic1').value=t;$('adj1').value=a;$('ex1').value=e}
+function generateFeatures(){const c=$('countryJP').value||'タイ';const lines=[1,2,3].map(i=>`${c}は、${$(`topic${i}`).value||['食べ物','自然','人'][i-1]}が${$(`adj${i}`).value||['おいしい','きれい','やさしい'][i-1]}です。${$(`ex${i}`).value?` ${$(`ex${i}`).value}。`:''}`);const text=lines.join('\n');addOutput('Features / Mind Map',text);$('pFeatures').value=text}
+function japaneseLargeNumber(n){const num=Number(String(n).replace(/,/g,''));if(!num)return 'ตัวเลขไม่ถูกต้อง';const oku=Math.floor(num/100000000);const man=Math.floor((num%100000000)/10000);const rest=num%10000;let parts=[];if(oku)parts.push(oku+'億');if(man)parts.push(man+'万');if(rest)parts.push(rest);return parts.join('')}
+function generateNumberLine(){const jp=japaneseLargeNumber($('numInput').value);const line=`${$('numAbout').value}${jp}${$('numUnit').value}`;addOutput('Number Lab',`ตัวเลขที่ฝึกอ่าน: ${$('numInput').value}\nรูปแบบญี่ปุ่นโดยประมาณ: ${line}`)}
+function setCompare(adj){$('compareAdj').value=adj}
+function generateCompare(){const a=$('compareA').value||$('countryJP').value||'タイ',b=$('compareB').value||'日本',adj=$('compareAdj').value||'暑い';const text=`${a}は、${b}より${adj}です。`;addOutput('Compare',text);$('pCompare').value=text}
+function generateAsAs(){const a=$('compareA').value||$('countryJP').value||'タイ',b=$('compareB').value||'日本',adj=$('compareAdj').value||'暑い';const text=`${a}は、${b}と同じぐらい${adj}です。`;addOutput('Compare: same degree',text);$('pCompare').value=text}
+function generateListeningNote(){addOutput('Listening Notes',`คำศัพท์ที่ได้ยิน:\n${$('heardWords').value||'-'}\n\nPattern ที่จับได้:\n${$('heardPatterns').value||'-'}\n\nคำถามที่จะถามครู:\n${$('listenQuestion').value||'-'}`)}
+function pullPresentation(){if(!$('pBasic').value)generateBasic();if(!$('pFeatures').value)generateFeatures();if(!$('pCompare').value)generateCompare();if(!$('pOpening').value)$('pOpening').value=`みなさん、こんにちは。今日は、${$('countryJP').value||'タイ'}について話します。`;if(!$('pThought').value)$('pThought').value=`${$('countryJP').value||'タイ'}は、とてもおもしろい国です。`;if(!$('pClosing').value)$('pClosing').value='これで、発表を終わります。ありがとうございました。'}
+function generatePresentation(){const text=`${$('pOpening').value||'みなさん、こんにちは。'}\n\n${$('pBasic').value}\n\n${$('pFeatures').value}\n\n${$('pCompare').value}\n\n${$('pThought').value||''}\n\n${$('pClosing').value||'これで、発表を終わります。ありがとうございました。'}`;addOutput('Presentation Script',text)}
+function generateQA(){addOutput('Q&A Practice',`Q: その国で、何が有名ですか。\nA: ${$('qa1').value||'食べ物が有名です。'}\n\nQ: その国で、何がしたいですか。\nA: ${$('qa2').value||'おいしい料理を食べたいです。'}\n\nQ: 日本と何が違いますか。\nA: ${$('qa3').value||'タイは日本より暑いです。'}\n\nQ: どうしてその国に興味がありますか。\nA: ${$('qa4').value||'文化がおもしろいからです。'}`)}
+function generateKanjiNote(){const checked=[...document.querySelectorAll('.kanjiTick:checked')].map(x=>x.value);addOutput('Kanji Practice',`ฝึกคันจิแล้ว: ${checked.join(', ')||'ยังไม่ได้ติ๊ก'}\nคันจิสำคัญของบทนี้เกี่ยวกับทิศทาง ประเทศ ฝน เมือง อาหาร และสิ่งของค่ะ`)}
+function generateAll(){outputParts.length=0;generateWarmup();generateBasic();generateFeatures();generateCompare();generateListeningNote();pullPresentation();generatePresentation();generateQA();generateKanjiNote();addOutput('Next Step','หลังจบบทนี้ ให้ไป Lesson 17 เพื่อฝึกขออนุญาตและกฎ/มารยาทค่ะ')}
+function renderKanji(){ $('kanjiList').innerHTML=kanji.map(([c,r,m])=>`<label class="kanji-item"><span class="kanji-char jp">${c}</span><span><strong class="jp">${r}</strong><br><span class="hint">${m}</span></span><input class="kanjiTick" type="checkbox" value="${c}"></label>`).join('') }
+function saveData(){const data={};document.querySelectorAll('input,textarea,select').forEach(el=>{if(el.id)data[el.id]=el.type==='checkbox'?el.checked:el.value});data.kanji=[...document.querySelectorAll('.kanjiTick')].map(x=>x.checked);data.ticks=[...document.querySelectorAll('.tick')].map(x=>x.checked);data.output=outputParts;localStorage.setItem('jpe201_lesson16_pro_plus',JSON.stringify(data));alert('บันทึก Lesson 16 แล้วค่ะ 🗾')}
+function loadData(){const raw=localStorage.getItem('jpe201_lesson16_pro_plus');if(!raw)return alert('ยังไม่มีข้อมูลที่บันทึกไว้ค่ะ');const data=JSON.parse(raw);Object.keys(data).forEach(k=>{const el=$(k);if(el){if(el.type==='checkbox')el.checked=data[k];else el.value=data[k]}});document.querySelectorAll('.kanjiTick').forEach((x,i)=>x.checked=(data.kanji||[])[i]||false);document.querySelectorAll('.tick').forEach((x,i)=>x.checked=(data.ticks||[])[i]||false);outputParts.length=0;if(Array.isArray(data.output))outputParts.push(...data.output);$('output').textContent=outputParts.length?outputParts.join('\n\n'):'กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 16 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ';updateProgress()}
+function clearAll(){if(!confirm('ล้างข้อมูล Lesson 16 ทั้งหมดไหมคะ?'))return;document.querySelectorAll('input,textarea').forEach(el=>{if(el.type==='checkbox')el.checked=false;else el.value=''});document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);clearOutput();updateProgress()}
+function copyOutput(){navigator.clipboard.writeText($('output').textContent).then(()=>alert('คัดลอกแล้วค่ะ'))}
+function clearOutput(){outputParts.length=0;$('output').textContent='กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 16 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ'}
+function speak(text){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=.82;window.speechSynthesis.speak(u)}
+function speakBasic(){speak(($('pBasic').value||$('output').textContent).replace(/【.*?】/g,''))}
+function speakPresentation(){speak([$('pOpening').value,$('pBasic').value,$('pFeatures').value,$('pCompare').value,$('pThought').value,$('pClosing').value].join('\n'))}
+function speakOutput(){speak($('output').textContent.replace(/【.*?】/g,''))}
+function updateProgress(){const ticks=[...document.querySelectorAll('.tick')];const pct=Math.round(ticks.filter(t=>t.checked).length/ticks.length*100);$('progress').style.width=pct+'%';$('progressText').textContent='ความพร้อม: '+pct+'%'}
+document.addEventListener('change',e=>{if(e.target.classList.contains('tick'))updateProgress()});
+renderKanji();
+</script>
+</body>
+</html>
