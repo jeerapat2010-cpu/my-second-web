@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JPE201 Lesson 18 Companion App Pro Plus</title>
+  <style>
+    :root{
+      --ink:#302821;--muted:#756a62;--card:rgba(255,255,255,.94);--primary:#f08a3c;--primary-dark:#b85a16;
+      --soft:#fff0df;--cream:#fff8e8;--green:#39a87d;--blue:#408ee8;--violet:#7b61d1;--red:#e15f5c;--gold:#d5a642;
+      --line:#f0c7a6;--shadow:0 18px 42px rgba(240,138,60,.16);--radius:26px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:"Noto Sans Thai","Noto Sans JP",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);background:radial-gradient(circle at 12% 9%,rgba(240,138,60,.20),transparent 27%),radial-gradient(circle at 82% 8%,rgba(123,97,209,.13),transparent 25%),radial-gradient(circle at 50% 100%,rgba(57,168,125,.12),transparent 35%),linear-gradient(135deg,#fff9f4 0%,#fffdf4 53%,#f8fffb 100%)}
+    .jp{font-family:"Noto Sans JP","Yu Gothic",system-ui,sans-serif;letter-spacing:.02em}
+    header{text-align:center;padding:30px 16px 18px;position:relative;overflow:hidden}
+    header:before{content:"";position:absolute;inset:0;opacity:.20;background-image:radial-gradient(circle at 20px 20px,rgba(240,138,60,.45) 0 4px,transparent 5px),radial-gradient(circle at 52px 52px,rgba(123,97,209,.35) 0 4px,transparent 5px);background-size:72px 72px}
+    header>*{position:relative}.badge{display:inline-flex;gap:8px;align-items:center;background:var(--soft);border:1px solid var(--line);color:var(--primary-dark);padding:8px 14px;border-radius:999px;font-weight:900}
+    h1{font-size:clamp(1.9rem,4.2vw,3.25rem);line-height:1.08;margin:14px 0 8px}.subtitle{max-width:1120px;margin:0 auto;color:var(--muted);line-height:1.75;font-size:1.04rem}
+    main{width:min(1280px,calc(100% - 28px));margin:0 auto 48px}.layout{display:grid;grid-template-columns:335px 1fr;gap:18px;align-items:start}@media(max-width:1000px){.layout{grid-template-columns:1fr}.side{position:static!important}}
+    .side,.card{background:var(--card);border:1px solid rgba(240,199,166,.95);box-shadow:var(--shadow);border-radius:var(--radius);backdrop-filter:blur(8px)}.side{position:sticky;top:14px;padding:16px}.side h2{font-size:1.06rem;margin:4px 0 12px}.nav{display:grid;gap:7px}.nav button{width:100%;text-align:left;background:transparent;border:1px solid transparent;color:var(--ink);border-radius:16px;padding:11px 12px;font:inherit;font-weight:850;cursor:pointer}.nav button:hover,.nav button.active{background:var(--soft);border-color:var(--line);color:var(--primary-dark);transform:translateX(2px)}
+    .card{padding:22px;margin-bottom:18px}.card h2{display:flex;gap:10px;align-items:center;margin:0 0 12px;font-size:1.28rem}.step{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:12px;background:var(--primary);color:#fff;font-weight:950;flex:0 0 auto}.hint{color:var(--muted);line-height:1.75;margin:8px 0}.book-ref{background:var(--cream);border-left:5px solid var(--gold);border-radius:17px;padding:13px 15px;line-height:1.7;margin:12px 0;color:#5c4817}
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}@media(max-width:870px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
+    label{display:block;font-weight:900;margin:16px 0 8px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:18px;background:#fff;padding:13px 14px;color:var(--ink);font:inherit;outline:none;transition:.16s ease}textarea{min-height:88px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(240,138,60,.13)}
+    .mini-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;min-height:106px}.mini-card strong{color:var(--primary-dark)}.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}button{border:0;border-radius:16px;padding:12px 16px;cursor:pointer;font:inherit;font-weight:950;transition:.16s ease}button:hover{transform:translateY(-1px)}.primary{background:linear-gradient(135deg,var(--primary),#ffb071);color:#fff;box-shadow:0 12px 24px rgba(240,138,60,.24)}.blue{background:#edf7ff;color:#1f66ad;border:1px solid #c8dff7}.green{background:#ecfff7;color:#1d7a5a;border:1px solid #bce8d7}.violet{background:#f4f0ff;color:#5d42b5;border:1px solid #d8cdfb}.gold{background:#fff8e6;color:#815f11;border:1px solid #efdba4}.ghost{background:#fff;color:var(--primary-dark);border:1px solid var(--line)}.danger{background:#fff1f1;color:#b73835;border:1px solid #ffc7c6}
+    .guide-steps{display:grid;gap:10px;margin-top:12px}.guide-step{display:grid;grid-template-columns:42px 1fr;gap:10px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px}.guide-no{display:grid;place-items:center;width:34px;height:34px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--violet));color:#fff;font-weight:950}.map-table{width:100%;border-collapse:separate;border-spacing:0 8px;margin-top:12px}.map-table td{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px;vertical-align:top}.map-table td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px;font-weight:950;color:var(--primary-dark);width:34%}.map-table td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0}.pattern{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:14px;background:#fffdf9;border:1px dashed #eabf9b;border-radius:18px;margin-top:10px}.block{display:inline-flex;align-items:center;justify-content:center;padding:9px 12px;border-radius:13px;background:#fff;border:1px solid var(--line);font-weight:950;color:var(--primary-dark);min-height:40px}.plus{color:var(--muted);font-weight:950}
+    .rubric{display:grid;gap:8px;margin-top:12px}.rubric label{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;margin:0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px}.rubric input{width:auto;accent-color:var(--primary)}.progress-wrap{height:16px;border-radius:999px;background:#ffe5ce;border:1px solid var(--line);overflow:hidden;margin-top:12px}.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--violet));transition:.3s ease}.output{background:#302821;color:#fffaf5;border-radius:22px;padding:18px;white-space:pre-wrap;line-height:1.82;min-height:260px;overflow-wrap:anywhere}.footer{text-align:center;color:var(--muted);font-size:.92rem;margin:20px 0}
+    .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.tag{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:850}.tag:hover{background:var(--soft)}.quiz{display:grid;gap:10px}.quiz-item{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px}.quiz-item strong{color:var(--primary-dark)}.kanji-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}@media(max-width:720px){.kanji-list{grid-template-columns:1fr}}.kanji-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:17px;padding:11px 12px}.kanji-char{font-size:1.45rem;font-weight:950;color:var(--primary-dark);min-width:58px;text-align:center}.kanji-item input{width:auto;accent-color:var(--primary)}.script-row{display:grid;grid-template-columns:220px 1fr;gap:10px;align-items:center;margin-top:10px}.script-label{background:linear-gradient(135deg,var(--primary),var(--violet));color:#fff;border-radius:16px;padding:12px;font-weight:950;text-align:center}@media(max-width:700px){.script-row{grid-template-columns:1fr}}
+    .short-table{width:100%;border-collapse:separate;border-spacing:0 8px;margin-top:10px}.short-table th,.short-table td{background:#fff;padding:10px 12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:top}.short-table th:first-child,.short-table td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px}.short-table th:last-child,.short-table td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0}.short-table th{color:var(--primary-dark);text-align:left}
+    @media print{.side,.btn-row,header:before{display:none}.layout{display:block}.card{box-shadow:none;border:1px solid #ddd}.output{background:#fff;color:#000;border:1px solid #ddd}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="badge">🍊 Lesson 18 Pro Plus · Reason & SHORT-form Master</div>
+  <h1>Lesson 18: Explain Reasons</h1>
+  <p class="subtitle">App ฝึกเสริมบท 18 แบบเต็ม: ขอร้องตามระดับความสุภาพ บอกสิ่งที่กำลังทำ ฝึก SHORT-form อธิบายเหตุผลด้วย ので ฝึกปฏิเสธอย่างสุภาพ โทรศัพท์ Role-play และ Error Clinic เพื่อเรียนให้ได้ผลสูงสุดค่ะ</p>
+</header>
+<main class="layout">
+  <aside class="side">
+    <h2>เมนู Lesson 18</h2>
+    <div class="nav">
+      <button class="active" onclick="go('guide',this)">📖 Textbook Guide</button>
+      <button onclick="go('warmup',this)">🧭 Warm-up</button>
+      <button onclick="go('favor',this)">🙏 Favor Request</button>
+      <button onclick="go('polite',this)">🎚️ Politeness Drill</button>
+      <button onclick="go('ongoing',this)">⏳ Ongoing Action</button>
+      <button onclick="go('shortform',this)">🔧 SHORT-form Lab</button>
+      <button onclick="go('reason',this)">🍊 Reason Maker</button>
+      <button onclick="go('refusal',this)">🙇 Refusal Builder</button>
+      <button onclick="go('phone',this)">☎️ Phone Call</button>
+      <button onclick="go('roleplay',this)">🎭 Role-play</button>
+      <button onclick="go('listening',this)">🎧 Listening Notes</button>
+      <button onclick="go('quiz',this)">🧪 Mini Quiz</button>
+      <button onclick="go('error',this)">🧯 Error Clinic</button>
+      <button onclick="go('kanji',this)">字 Kanji Studio</button>
+      <button onclick="go('rubric',this)">✅ Rubric</button>
+      <button onclick="go('outputCard',this)">📒 Output</button>
+    </div>
+    <div class="btn-row" style="display:grid">
+      <button class="green" onclick="saveData()">💾 Save</button>
+      <button class="ghost" onclick="loadData()">📂 Load</button>
+      <button class="gold" onclick="window.print()">🖨️ Print</button>
+      <button class="danger" onclick="clearAll()">🧽 Reset</button>
+    </div>
+  </aside>
+
+  <section>
+    <div class="card" id="guide">
+      <h2><span class="step">1</span> Textbook Guide: เปิดแบบเรียนคู่กัน</h2>
+      <div class="book-ref"><strong>เปิดไฟล์ 25-1JPE201 L18.pdf</strong><br>บทนี้มีเป้าหมายหลักคือ ขอให้ผู้อื่นทำบางอย่างให้เรา เข้าใจ/อธิบายการกระทำที่กำลังดำเนินอยู่ อธิบายเหตุผลพื้นฐาน และรู้จัก SHORT-form</div>
+      <table class="map-table">
+        <tr><td>Activity Mapping</td><td>• Target 1: Ask someone to do → Favor Request + Politeness Drill<br>• Target 2: Ongoing action → Ongoing Action + Phone Call<br>• Target 3: Understand reason → Listening Notes + Reason Maker<br>• Target 4: SHORT-form → SHORT-form Lab + Mini Quiz<br>• Target 5 / Task: Tell reason and ask/reply → Refusal Builder + Role-play</td></tr>
+        <tr><td>Listening Placeholder</td><td>ฟัง Track ของ Lesson 18 แล้วจด V-て request, V-ています, SHORT-form, เหตุผลก่อน ので และคำตอบปฏิเสธสุภาพ<br><textarea id="listenNote" placeholder="จดคำที่ได้ยิน เช่น チェックしていただけませんか / 今、書いています / 忙しいので"></textarea></td></tr>
+        <tr><td>App Practice</td><td>ฝึก V-て request → V-ています → SHORT-form → ので → ปฏิเสธ/ขอร้องแบบสุภาพ → Role-play</td></tr>
+      </table>
+      <div class="guide-steps">
+        <div class="guide-step"><div class="guide-no">1</div><div><strong>เปิดหนังสือ</strong><br>ดูสถานการณ์ในบทก่อน แล้วระบุว่าใครขอร้องใครและขออะไร</div></div>
+        <div class="guide-step"><div class="guide-no">2</div><div><strong>จับระดับสุภาพ</strong><br>เพื่อน ครู หัวหน้า ใช้สำนวนไม่เท่ากัน</div></div>
+        <div class="guide-step"><div class="guide-no">3</div><div><strong>จับเหตุผล</strong><br>หา SHORT-form ก่อน ので ให้เจอ</div></div>
+        <div class="guide-step"><div class="guide-no">4</div><div><strong>ซ้อมพูดจริง</strong><br>ใช้ Role-play สร้างสถานการณ์ขอร้องและตอบกลับ</div></div>
+      </div>
+    </div>
+
+    <div class="card" id="warmup">
+      <h2><span class="step">2</span> Warm-up: สถานการณ์ที่ต้องขอร้อง/ให้เหตุผล</h2>
+      <div class="grid3">
+        <div><label>สิ่งที่อยากขอให้คนอื่นช่วย</label><textarea id="needHelp" placeholder="เช่น ช่วยตรวจรายงาน / ขอยืมพจนานุกรม / ช่วยอธิบายไวยากรณ์"></textarea></div>
+        <div><label>สิ่งที่ฉันมักกำลังทำอยู่</label><textarea id="busyDoing" placeholder="เช่น กำลังเขียนรายงาน / กำลังโทรศัพท์ / กำลังรอเพื่อน"></textarea></div>
+        <div><label>เหตุผลที่มักต้องบอก</label><textarea id="commonReason" placeholder="เช่น ยุ่ง / ไม่มีเวลา / ไม่เข้าใจ / ป่วย / มีธุระ"></textarea></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateWarmup()">สร้าง Warm-up Note</button></div>
+    </div>
+
+    <div class="card" id="favor">
+      <h2><span class="step">3</span> Favor Request Maker</h2>
+      <div class="tagrow">
+        <span class="tag" onclick="setFavor('レポートをチェックする','レポートをチェックして')">📝 เช็กรายงาน</span>
+        <span class="tag" onclick="setFavor('辞書を貸す','辞書を貸して')">📚 ยืมพจนานุกรม</span>
+        <span class="tag" onclick="setFavor('住所を書く','住所を書いて')">🏠 เขียนที่อยู่</span>
+        <span class="tag" onclick="setFavor('写真を撮る','写真を撮って')">📷 ถ่ายรูป</span>
+        <span class="tag" onclick="setFavor('もう一度説明する','もう一度説明して')">🔁 อธิบายอีกครั้ง</span>
+      </div>
+      <div class="grid3">
+        <div><label>Dictionary form</label><input id="favorDict" class="jp" placeholder="レポートをチェックする"></div>
+        <div><label>V-て</label><input id="favorTe" class="jp" placeholder="レポートをチェックして"></div>
+        <div><label>คนที่พูดด้วย</label><select id="favorTo"><option>友だち</option><option>先生</option><option>先輩</option><option>会社の上司</option><option>知らない人</option></select></div>
+      </div>
+      <div class="pattern"><span class="block jp">V-て</span><span class="plus">+</span><span class="block jp">くれませんか / いただけませんか</span><span class="plus">= ช่วย...ให้หน่อยได้ไหม</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateFavor()">สร้างคำขอร้อง</button></div>
+    </div>
+
+    <div class="card" id="polite">
+      <h2><span class="step">4</span> Politeness Drill: ปรับระดับความสุภาพ</h2>
+      <div class="grid3">
+        <div><label>V-て</label><input id="politeTe" class="jp" placeholder="手伝って"></div>
+        <div><label>ระดับ</label><select id="politeLevel"><option value="casual">เพื่อน</option><option value="polite">สุภาพทั่วไป</option><option value="very">สุภาพมาก</option></select></div>
+        <div><label>เปิดด้วยคำเกริ่น</label><select id="preface"><option>すみません。</option><option>あのう、すみません。</option><option>恐れ入ります。</option><option></option></select></div>
+      </div>
+      <div class="btn-row"><button class="green" onclick="generatePoliteSet()">สร้าง 3 ระดับเปรียบเทียบ</button></div>
+    </div>
+
+    <div class="card" id="ongoing">
+      <h2><span class="step">5</span> Ongoing Action: V-ています</h2>
+      <div class="tagrow">
+        <span class="tag" onclick="setOngoing('今、レポートを書いています')">✍️ เขียนรายงาน</span><span class="tag" onclick="setOngoing('今、友だちを待っています')">⏳ รอเพื่อน</span><span class="tag" onclick="setOngoing('今、電話しています')">☎️ โทรศัพท์</span><span class="tag" onclick="setOngoing('今、昼ご飯を食べています')">🍱 กินข้าว</span><span class="tag" onclick="setOngoing('今、会議をしています')">💼 ประชุม</span>
+      </div>
+      <label>ประโยค V-ています</label><input id="ongoingSentence" class="jp" placeholder="今、レポートを書いています">
+      <div class="btn-row"><button class="primary" onclick="generateOngoing()">สร้าง Ongoing</button><button class="violet" onclick="generateBusyReply()">ตอบว่า “ตอนนี้ยังทำไม่ได้”</button></div>
+    </div>
+
+    <div class="card" id="shortform">
+      <h2><span class="step">6</span> SHORT-form Lab</h2>
+      <table class="short-table">
+        <thead><tr><th>ชนิด</th><th>สุภาพ</th><th>SHORT-form</th><th>จำแบบไทย ๆ</th></tr></thead>
+        <tbody>
+          <tr><td>Verb บวก</td><td class="jp">食べます</td><td class="jp">食べる</td><td>กลับไปรูปพจนานุกรม</td></tr>
+          <tr><td>Verb ลบ</td><td class="jp">食べません</td><td class="jp">食べない</td><td>รูป ない</td></tr>
+          <tr><td>Verb อดีต</td><td class="jp">食べました</td><td class="jp">食べた</td><td>รูป た</td></tr>
+          <tr><td>い-adj</td><td class="jp">忙しいです</td><td class="jp">忙しい</td><td>ตัด です</td></tr>
+          <tr><td>な-adj/Noun</td><td class="jp">元気です / 病気です</td><td class="jp">元気だ / 病気だ</td><td>เวลาใช้ ので มักเป็น なので</td></tr>
+        </tbody>
+      </table>
+      <div class="grid3">
+        <div><label>คำสุภาพ</label><input id="politeForm" class="jp" placeholder="忙しいです"></div>
+        <div><label>SHORT-form</label><input id="shortForm" class="jp" placeholder="忙しい"></div>
+        <div><label>ความหมาย</label><input id="shortMeaning" placeholder="ยุ่ง"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateShortNote()">บันทึก SHORT-form</button></div>
+    </div>
+
+    <div class="card" id="reason">
+      <h2><span class="step">7</span> Reason Maker: SHORT-form + ので</h2>
+      <div class="tagrow">
+        <span class="tag" onclick="setReason('忙しい','normal','今できません')">ยุ่ง</span>
+        <span class="tag" onclick="setReason('時間がない','normal','少し待ってください')">ไม่มีเวลา</span>
+        <span class="tag" onclick="setReason('病気','noun','今日は休みます')">ป่วย</span>
+        <span class="tag" onclick="setReason('よくわからない','normal','もう一度説明してください')">ไม่เข้าใจ</span>
+        <span class="tag" onclick="setReason('用事がある','normal','行けません')">มีธุระ</span>
+      </div>
+      <div class="grid3">
+        <div><label>เหตุผล</label><input id="reasonShort" class="jp" placeholder="忙しい"></div>
+        <div><label>ชนิด</label><select id="reasonType"><option value="normal">Verb / い-adj / negative</option><option value="na">な-adj</option><option value="noun">Noun</option></select></div>
+        <div><label>ผลลัพธ์</label><input id="resultSentence" class="jp" placeholder="今できません"></div>
+      </div>
+      <div class="pattern"><span class="block jp">SHORT-form</span><span class="plus">+</span><span class="block jp">ので、</span><span class="plus">+</span><span class="block jp">ผลลัพธ์</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateReason()">สร้างเหตุผล</button></div>
+    </div>
+
+    <div class="card" id="refusal">
+      <h2><span class="step">8</span> Refusal Builder: ปฏิเสธแบบไม่เสียมารยาท</h2>
+      <div class="grid2">
+        <div><label>คำขอโทษเปิดประโยค</label><select id="apology" class="jp"><option>すみません。</option><option>ごめんなさい。</option><option>申し訳ありません。</option></select></div>
+        <div><label>คำปิดท้าย</label><select id="softEnd" class="jp"><option>また今度お願いします。</option><option>少し待ってください。</option><option>本当にすみません。</option><option></option></select></div>
+      </div>
+      <label>เหตุผลแบบ ので</label><input id="refusalReason" class="jp" placeholder="忙しいので">
+      <label>สิ่งที่ทำไม่ได้</label><input id="cannotDo" class="jp" placeholder="今できません">
+      <div class="btn-row"><button class="danger" onclick="generateRefusal()">สร้างคำปฏิเสธสุภาพ</button></div>
+    </div>
+
+    <div class="card" id="phone">
+      <h2><span class="step">9</span> Phone Call Simulator</h2>
+      <div class="grid2">
+        <div><label>คนที่โทรหา</label><input id="callTo" class="jp" placeholder="ひろみさん"></div>
+        <div><label>ชวนทำอะไร</label><input id="invite" class="jp" placeholder="昼ご飯を食べに行きませんか"></div>
+        <div><label>อีกฝ่ายกำลังทำอะไร</label><input id="callOngoing" class="jp" placeholder="今、レポートを書いています"></div>
+        <div><label>อีกฝ่ายจะตอบอย่างไร</label><select id="callAnswer" class="jp"><option>あとで行きます</option><option>今日は行けません</option><option>少し待ってください</option></select></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generatePhoneCall()">สร้างบทโทรศัพท์</button></div>
+    </div>
+
+    <div class="card" id="roleplay">
+      <h2><span class="step">10</span> Role-play Builder</h2>
+      <div class="grid2">
+        <div><label>บทบาท A</label><input id="roleA" placeholder="นักเรียนต่างชาติ"></div>
+        <div><label>บทบาท B</label><input id="roleB" placeholder="นักเรียนญี่ปุ่น / ครู / รุ่นพี่"></div>
+        <div><label>A ต้องการขออะไร</label><input id="askLine" class="jp" placeholder="イベントを手伝って"></div>
+        <div><label>เหตุผลของ A</label><input id="roleReason" class="jp" placeholder="人が足りない"></div>
+        <div><label>ตอนจบ</label><select id="roleEnding"><option value="accept">ตอบรับช่วย</option><option value="refuse">ปฏิเสธสุภาพ</option></select></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateRoleplay()">สร้าง Role-play</button></div>
+    </div>
+
+    <div class="card" id="listening">
+      <h2><span class="step">11</span> Listening Notes</h2>
+      <div class="grid2">
+        <div><label>Request ที่ได้ยิน</label><textarea id="heardRequest" class="jp" placeholder="例: レポートをチェックしていただけませんか"></textarea></div>
+        <div><label>Ongoing action ที่ได้ยิน</label><textarea id="heardOngoing" class="jp" placeholder="例: 今、電話しています"></textarea></div>
+        <div><label>Reason ที่ได้ยิน</label><textarea id="heardReason" class="jp" placeholder="例: 忙しいので"></textarea></div>
+        <div><label>SHORT-form ที่ได้ยิน</label><textarea id="heardShort" class="jp" placeholder="例: 忙しい / 時間がない / 病気なので"></textarea></div>
+      </div>
+      <label>คำที่ยังฟังไม่ชัด / จะถามครู</label><textarea id="listenQuestion"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateListeningNote()">สร้าง Listening Note</button></div>
+    </div>
+
+    <div class="card" id="quiz">
+      <h2><span class="step">12</span> Mini Quiz</h2>
+      <div class="quiz">
+        <div class="quiz-item"><strong>1) ช่วยตรวจรายงานให้หน่อยได้ไหม แบบสุภาพ</strong><input id="quiz1" class="jp" placeholder="レポートをチェックしていただけませんか"></div>
+        <div class="quiz-item"><strong>2) ตอนนี้กำลังเขียนรายงาน</strong><input id="quiz2" class="jp" placeholder="今、レポートを書いています"></div>
+        <div class="quiz-item"><strong>3) เพราะยุ่ง ตอนนี้ทำไม่ได้</strong><input id="quiz3" class="jp" placeholder="忙しいので、今できません"></div>
+        <div class="quiz-item"><strong>4) เพราะป่วย วันนี้พัก</strong><input id="quiz4" class="jp" placeholder="病気なので、今日は休みます"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="checkQuiz()">ตรวจ Quiz แบบช่วยจำ</button></div>
+      <div id="quizResult" class="book-ref">กดตรวจเพื่อดู feedback ค่ะ</div>
+    </div>
+
+    <div class="card" id="error">
+      <h2><span class="step">13</span> Error Clinic: จุดที่คนไทยมักพลาด</h2>
+      <div class="rubric">
+        <label><input type="checkbox" class="err" value="ใช้ いただけませんか กับเพื่อนไม่สนิทเกินจำเป็น"> <span>ใช้สำนวนสุภาพมากเกินกับเพื่อน</span></label>
+        <label><input type="checkbox" class="err" value="ลืมเปลี่ยนกริยาเป็น て-form ก่อนขอร้อง"> <span>ลืมเปลี่ยนกริยาเป็น て-form ก่อนขอร้อง</span></label>
+        <label><input type="checkbox" class="err" value="สับสน V-ています ว่าหมายถึงกำลังทำหรือสถานะปัจจุบัน"> <span>สับสน V-ています</span></label>
+        <label><input type="checkbox" class="err" value="ใช้ ので กับ noun/な-adj แล้วลืม な"> <span>ลืม な ใน なので</span></label>
+        <label><input type="checkbox" class="err" value="SHORT-form ยังไม่คล่อง"> <span>SHORT-form ยังไม่คล่อง</span></label>
+      </div>
+      <label>สิ่งที่จะทวนก่อนขึ้น Lesson 19</label><textarea id="reviewNext"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateErrorClinic()">สร้าง Error Clinic Note</button></div>
+    </div>
+
+    <div class="card" id="kanji">
+      <h2><span class="step">14</span> Kanji Studio</h2>
+      <div class="kanji-list" id="kanjiList"></div>
+      <div class="btn-row"><button class="gold" onclick="generateKanjiNote()">บันทึก Kanji ที่ฝึกแล้ว</button></div>
+    </div>
+
+    <div class="card" id="rubric">
+      <h2><span class="step">15</span> Rubric ก่อนผ่าน Lesson 18</h2>
+      <div class="rubric">
+        <label><input type="checkbox" class="tick"> <span>ฉันขอร้อง/ไหว้วานคนอื่นตามระดับความสุภาพได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันบอกสิ่งที่กำลังทำอยู่ด้วย V-ています ได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันเข้าใจ SHORT-form พื้นฐาน</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันใช้ ので / なので อธิบายเหตุผลได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันปฏิเสธคำขออย่างสุภาพพร้อมเหตุผลได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันทำ role-play ขอร้องและตอบกลับได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันทวนคันจิของบทนี้แล้ว</span></label>
+      </div>
+      <div class="progress-wrap"><div id="progress" class="progress-bar"></div></div>
+      <p id="progressText" class="hint">ความพร้อม: 0%</p>
+    </div>
+
+    <div class="card" id="outputCard">
+      <h2><span class="step">16</span> Output: My Lesson 18 Notebook</h2>
+      <div id="output" class="output">กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 18 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ</div>
+      <div class="btn-row"><button class="primary" onclick="generateAll()">สร้างสรุป Lesson 18 ทั้งหมด</button><button class="green" onclick="copyOutput()">คัดลอก</button><button class="blue" onclick="speakOutput()">อ่านออกเสียง</button><button class="danger" onclick="clearOutput()">ล้าง Output</button></div>
+    </div>
+    <p class="footer">JPE201 Lesson 18 Companion App Pro Plus · Created for Khun G by Pookpik</p>
+  </section>
+</main>
+<script>
+const $=id=>document.getElementById(id);const outputParts=[];
+const kanji=[['病気','びょうき','เจ็บป่วย/โรค'],['貸す','かす','ให้ยืม'],['走る','はしる','วิ่ง'],['取る','とる','หยิบ/ถ่าย/เอา'],['手伝う','てつだう','ช่วยเหลือ'],['番号','ばんごう','หมายเลข'],['用事','ようじ','ธุระ'],['食事','しょくじ','มื้ออาหาร'],['使う','つかう','ใช้'],['物','もの','สิ่งของ']];
+function go(id,btn){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+function addOutput(title,text){outputParts.push(`【${title}】\n${text}`);$('output').textContent=outputParts.join('\n\n')}
+function generateWarmup(){addOutput('Warm-up',`สิ่งที่อยากขอให้ช่วย:\n${$('needHelp').value||'-'}\n\nสิ่งที่มักกำลังทำอยู่:\n${$('busyDoing').value||'-'}\n\nเหตุผลที่มักต้องบอก:\n${$('commonReason').value||'-'}`)}
+function setFavor(dict,te){$('favorDict').value=dict;$('favorTe').value=te;$('politeTe').value=te}
+function favorSentence(te,to){if(to==='友だち')return `${te}くれませんか。`;if(to==='先生'||to==='先輩')return `${te}いただけませんか。`;return `すみません。${te}いただけませんか。`}
+function generateFavor(){const te=$('favorTe').value||'レポートをチェックして';addOutput('Favor Request',favorSentence(te,$('favorTo').value))}
+function generatePoliteSet(){const te=$('politeTe').value||'手伝って';const pre=$('preface').value;addOutput('Politeness Drill',`เพื่อน: ${te}くれませんか。\nสุภาพทั่วไป: ${pre}${te}いただけませんか。\nสุภาพมาก: ${pre}${te}いただけないでしょうか。`)}
+function setOngoing(s){$('ongoingSentence').value=s;$('callOngoing').value=s}
+function generateOngoing(){addOutput('Ongoing Action',`${$('ongoingSentence').value||'今、レポートを書いています'}。`)}
+function generateBusyReply(){addOutput('Busy Reply',`すみません。${$('ongoingSentence').value||'今、レポートを書いています'}ので、今できません。`)}
+function generateShortNote(){addOutput('SHORT-form Note',`สุภาพ: ${$('politeForm').value||'-'}\nSHORT-form: ${$('shortForm').value||'-'}\nความหมาย: ${$('shortMeaning').value||'-'}`)}
+function setReason(r,t,res){$('reasonShort').value=r;$('reasonType').value=t;$('resultSentence').value=res;$('refusalReason').value=(t==='noun'||t==='na')?r+'なので':r+'ので';$('cannotDo').value=res}
+function connector(){return ($('reasonType').value==='noun'||$('reasonType').value==='na')?'なので':'ので'}
+function generateReason(){addOutput('Reason with ので',`${$('reasonShort').value||'忙しい'}${connector()}、${$('resultSentence').value||'今できません'}。`)}
+function generateRefusal(){addOutput('Refusal Builder',`${$('apology').value}${$('refusalReason').value||'忙しいので'}、${$('cannotDo').value||'今できません'}。${$('softEnd').value||''}`)}
+function generatePhoneCall(){addOutput('Phone Call',`A: もしもし、${$('callTo').value||'ひろみさん'}ですか。\nB: はい。\nA: ${$('invite').value||'昼ご飯を食べに行きませんか'}。\nB: すみません。${$('callOngoing').value||'今、レポートを書いています'}ので、${$('callAnswer').value}。`) }
+function generateRoleplay(){const a=$('roleA').value||'留学生',b=$('roleB').value||'日本人の学生',ask=$('askLine').value||'イベントを手伝って',reason=$('roleReason').value||'人が足りない';let text=`${a}: すみません。${reason}ので、${ask}いただけませんか。\n`;if($('roleEnding').value==='accept')text+=`${b}: はい、いいですよ。何をすればいいですか。\n${a}: ありがとうございます。とても助かります。`;else text+=`${b}: すみません。今、忙しいので、できません。\n${a}: そうですか。わかりました。ありがとうございます。`;addOutput('Role-play',text)}
+function generateListeningNote(){addOutput('Listening Notes',`Request ที่ได้ยิน:\n${$('heardRequest').value||'-'}\n\nOngoing action:\n${$('heardOngoing').value||'-'}\n\nReason:\n${$('heardReason').value||'-'}\n\nSHORT-form:\n${$('heardShort').value||'-'}\n\nคำถามที่จะถามครู:\n${$('listenQuestion').value||'-'}`)}
+function checkQuiz(){const ex=['レポートをチェックしていただけませんか','今、レポートを書いています','忙しいので、今できません','病気なので、今日は休みます'];let fb=ex.map((e,i)=>`${i+1}) คำตอบของฉัน: ${$('quiz'+(i+1)).value||'-'}\nตัวอย่าง: ${e}`).join('\n\n');$('quizResult').innerHTML=fb.replaceAll('\n','<br>');addOutput('Mini Quiz',fb)}
+function generateErrorClinic(){const errs=[...document.querySelectorAll('.err:checked')].map(x=>x.value);addOutput('Error Clinic',`จุดที่ต้องระวัง:\n- ${(errs.length?errs:['ยังไม่ได้เลือก']).join('\n- ')}\n\nสิ่งที่จะทวนก่อนขึ้น Lesson 19:\n${$('reviewNext').value||'-'}`)}
+function generateKanjiNote(){const checked=[...document.querySelectorAll('.kanjiTick:checked')].map(x=>x.value);addOutput('Kanji Practice',`ฝึกคันจิแล้ว: ${checked.join(', ')||'ยังไม่ได้ติ๊ก'}\nคันจิบทนี้เกี่ยวกับโรค การช่วยเหลือ ธุระ หมายเลข และสิ่งของค่ะ`)}
+function generateAll(){outputParts.length=0;generateWarmup();generateFavor();generatePoliteSet();generateOngoing();generateShortNote();generateReason();generateRefusal();generatePhoneCall();generateRoleplay();generateListeningNote();generateErrorClinic();generateKanjiNote();addOutput('Next Step','หลังจบ Lesson 18 ให้ไป Lesson 19 เพื่อฝึกความถี่ ปริมาณ และลำดับความชอบค่ะ')}
+function renderKanji(){ $('kanjiList').innerHTML=kanji.map(([c,r,m])=>`<label class="kanji-item"><span class="kanji-char jp">${c}</span><span><strong class="jp">${r}</strong><br><span class="hint">${m}</span></span><input class="kanjiTick" type="checkbox" value="${c}"></label>`).join('') }
+function saveData(){const data={};document.querySelectorAll('input,textarea,select').forEach(el=>{if(el.id)data[el.id]=el.type==='checkbox'?el.checked:el.value});data.kanji=[...document.querySelectorAll('.kanjiTick')].map(x=>x.checked);data.err=[...document.querySelectorAll('.err')].map(x=>x.checked);data.ticks=[...document.querySelectorAll('.tick')].map(x=>x.checked);data.output=outputParts;localStorage.setItem('jpe201_lesson18_pro_plus',JSON.stringify(data));alert('บันทึก Lesson 18 แล้วค่ะ 🍊')}
+function loadData(){const raw=localStorage.getItem('jpe201_lesson18_pro_plus');if(!raw)return alert('ยังไม่มีข้อมูลที่บันทึกไว้ค่ะ');const data=JSON.parse(raw);Object.keys(data).forEach(k=>{const el=$(k);if(el){if(el.type==='checkbox')el.checked=data[k];else el.value=data[k]}});document.querySelectorAll('.kanjiTick').forEach((x,i)=>x.checked=(data.kanji||[])[i]||false);document.querySelectorAll('.err').forEach((x,i)=>x.checked=(data.err||[])[i]||false);document.querySelectorAll('.tick').forEach((x,i)=>x.checked=(data.ticks||[])[i]||false);outputParts.length=0;if(Array.isArray(data.output))outputParts.push(...data.output);$('output').textContent=outputParts.length?outputParts.join('\n\n'):'กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 18 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ';updateProgress()}
+function clearAll(){if(!confirm('ล้างข้อมูล Lesson 18 ทั้งหมดไหมคะ?'))return;document.querySelectorAll('input,textarea').forEach(el=>{if(el.type==='checkbox')el.checked=false;else el.value=''});document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);clearOutput();updateProgress()}
+function copyOutput(){navigator.clipboard.writeText($('output').textContent).then(()=>alert('คัดลอกแล้วค่ะ'))}
+function clearOutput(){outputParts.length=0;$('output').textContent='กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 18 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ'}
+function speak(text){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=.82;window.speechSynthesis.speak(u)}
+function speakOutput(){speak($('output').textContent.replace(/【.*?】/g,''))}
+function updateProgress(){const ticks=[...document.querySelectorAll('.tick')];const pct=Math.round(ticks.filter(t=>t.checked).length/ticks.length*100);$('progress').style.width=pct+'%';$('progressText').textContent='ความพร้อม: '+pct+'%'}
+document.addEventListener('change',e=>{if(e.target.classList.contains('tick'))updateProgress()});
+renderKanji();
+</script>
+</body>
+</html>
