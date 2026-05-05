@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JPE201 Lesson 21 Companion App Pro Plus</title>
+  <style>
+    :root{
+      --ink:#26313d;--muted:#657384;--card:rgba(255,255,255,.94);--primary:#4d8df7;--primary-dark:#245fbf;
+      --pink:#ff79a8;--violet:#8b65f6;--green:#37a878;--gold:#d5a642;--red:#df5d62;--soft:#eaf3ff;--cream:#fff8e8;
+      --line:#bfd6fb;--shadow:0 18px 42px rgba(77,141,247,.16);--radius:26px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:"Noto Sans Thai","Noto Sans JP",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);background:radial-gradient(circle at 12% 8%,rgba(77,141,247,.22),transparent 27%),radial-gradient(circle at 84% 8%,rgba(255,121,168,.14),transparent 25%),radial-gradient(circle at 52% 100%,rgba(55,168,120,.12),transparent 35%),linear-gradient(135deg,#f7fbff 0%,#fffdf5 52%,#f5fffb 100%)}
+    .jp{font-family:"Noto Sans JP","Yu Gothic",system-ui,sans-serif;letter-spacing:.02em}
+    header{text-align:center;padding:30px 16px 18px;position:relative;overflow:hidden}
+    header:before{content:"";position:absolute;inset:0;opacity:.22;background-image:radial-gradient(circle at 18px 18px,rgba(77,141,247,.55) 0 4px,transparent 5px),radial-gradient(circle at 58px 46px,rgba(255,121,168,.38) 0 4px,transparent 5px),radial-gradient(circle at 92px 22px,rgba(55,168,120,.34) 0 3px,transparent 4px);background-size:116px 78px}
+    header>*{position:relative}.badge{display:inline-flex;gap:8px;align-items:center;background:var(--soft);border:1px solid var(--line);color:var(--primary-dark);padding:8px 14px;border-radius:999px;font-weight:900}
+    h1{font-size:clamp(1.9rem,4.2vw,3.25rem);line-height:1.08;margin:14px 0 8px}.subtitle{max-width:1180px;margin:0 auto;color:var(--muted);line-height:1.75;font-size:1.04rem}
+    main{width:min(1320px,calc(100% - 28px));margin:0 auto 48px}.layout{display:grid;grid-template-columns:350px 1fr;gap:18px;align-items:start}@media(max-width:1040px){.layout{grid-template-columns:1fr}.side{position:static!important}}
+    .side,.card{background:var(--card);border:1px solid rgba(191,214,251,.95);box-shadow:var(--shadow);border-radius:var(--radius);backdrop-filter:blur(8px)}.side{position:sticky;top:14px;padding:16px}.side h2{font-size:1.06rem;margin:4px 0 12px}.nav{display:grid;gap:7px}.nav button{width:100%;text-align:left;background:transparent;border:1px solid transparent;color:var(--ink);border-radius:16px;padding:11px 12px;font:inherit;font-weight:850;cursor:pointer}.nav button:hover,.nav button.active{background:var(--soft);border-color:var(--line);color:var(--primary-dark);transform:translateX(2px)}
+    .card{padding:22px;margin-bottom:18px}.card h2{display:flex;gap:10px;align-items:center;margin:0 0 12px;font-size:1.28rem}.step{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:12px;background:var(--primary);color:#fff;font-weight:950;flex:0 0 auto}.hint{color:var(--muted);line-height:1.75;margin:8px 0}.book-ref{background:var(--cream);border-left:5px solid var(--gold);border-radius:17px;padding:13px 15px;line-height:1.7;margin:12px 0;color:#5c4817}
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}@media(max-width:900px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
+    label{display:block;font-weight:900;margin:16px 0 8px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:18px;background:#fff;padding:13px 14px;color:var(--ink);font:inherit;outline:none;transition:.16s ease}textarea{min-height:88px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(77,141,247,.13)}
+    .mini-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;min-height:106px}.mini-card strong{color:var(--primary-dark)}.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}button{border:0;border-radius:16px;padding:12px 16px;cursor:pointer;font:inherit;font-weight:950;transition:.16s ease}button:hover{transform:translateY(-1px)}.primary{background:linear-gradient(135deg,var(--primary),#79b2ff);color:#fff;box-shadow:0 12px 24px rgba(77,141,247,.24)}.pink{background:#fff0f6;color:#b02d67;border:1px solid #ffc5df}.blue{background:#edf6ff;color:#1f66ad;border:1px solid #c8dff7}.green{background:#ecfff7;color:#1d7a5a;border:1px solid #bce8d7}.violet{background:#f4f0ff;color:#5b34bf;border:1px solid #d9ccfb}.gold{background:#fff8e6;color:#815f11;border:1px solid #efdba4}.ghost{background:#fff;color:var(--primary-dark);border:1px solid var(--line)}.danger{background:#fff1f1;color:#b73835;border:1px solid #ffc7c6}
+    .guide-steps{display:grid;gap:10px;margin-top:12px}.guide-step{display:grid;grid-template-columns:42px 1fr;gap:10px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px}.guide-no{display:grid;place-items:center;width:34px;height:34px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--pink));color:#fff;font-weight:950}.map-table{width:100%;border-collapse:separate;border-spacing:0 8px;margin-top:12px}.map-table td{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px;vertical-align:top}.map-table td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px;font-weight:950;color:var(--primary-dark);width:34%}.map-table td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0}.pattern{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:14px;background:#fbfdff;border:1px dashed #a9c4f4;border-radius:18px;margin-top:10px}.block{display:inline-flex;align-items:center;justify-content:center;padding:9px 12px;border-radius:13px;background:#fff;border:1px solid var(--line);font-weight:950;color:var(--primary-dark);min-height:40px}.plus{color:var(--muted);font-weight:950}
+    .rubric{display:grid;gap:8px;margin-top:12px}.rubric label{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;margin:0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px}.rubric input{width:auto;accent-color:var(--primary)}.progress-wrap{height:16px;border-radius:999px;background:#e4efff;border:1px solid var(--line);overflow:hidden;margin-top:12px}.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--pink));transition:.3s ease}.output{background:#222d3c;color:#f7fbff;border-radius:22px;padding:18px;white-space:pre-wrap;line-height:1.82;min-height:260px;overflow-wrap:anywhere}.footer{text-align:center;color:var(--muted);font-size:.92rem;margin:20px 0}
+    .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.tag{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:850}.tag:hover{background:var(--soft)}.quiz{display:grid;gap:10px}.quiz-item{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px}.quiz-item strong{color:var(--primary-dark)}.kanji-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}@media(max-width:720px){.kanji-list{grid-template-columns:1fr}}.kanji-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:17px;padding:11px 12px}.kanji-char{font-size:1.45rem;font-weight:950;color:var(--primary-dark);min-width:58px;text-align:center}.kanji-item input{width:auto;accent-color:var(--primary)}.script-row{display:grid;grid-template-columns:220px 1fr;gap:10px;align-items:center;margin-top:10px}.script-label{background:linear-gradient(135deg,var(--primary),var(--pink));color:#fff;border-radius:16px;padding:12px;font-weight:950;text-align:center}@media(max-width:700px){.script-row{grid-template-columns:1fr}}
+    @media print{.side,.btn-row,header:before{display:none}.layout{display:block}.card{box-shadow:none;border:1px solid #ddd}.output{background:#fff;color:#000;border:1px solid #ddd}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="badge">💌 Lesson 21 Pro Plus · Thank-you Video Letter Master</div>
+  <h1>Lesson 21: A Person Important to Me</h1>
+  <p class="subtitle">App ฝึกเสริมบท 21 แบบเต็ม: แนะนำบุคคล ลักษณะนิสัย คนเก่ง/คนที่น่าสนใจ ฝึก あげる・くれる・てくれる เขียนข้อความขอบคุณ และสร้าง Video Letter พร้อมซ้อม Q&A ค่ะ</p>
+</header>
+<main class="layout">
+  <aside class="side">
+    <h2>เมนู Lesson 21</h2>
+    <div class="nav">
+      <button class="active" onclick="go('guide',this)">📖 Textbook Guide</button>
+      <button onclick="go('warmup',this)">💌 Warm-up</button>
+      <button onclick="go('family',this)">👨‍👩‍👧 Family Vocab</button>
+      <button onclick="go('profile',this)">🪪 Person Profile</button>
+      <button onclick="go('personality',this)">😊 Personality</button>
+      <button onclick="go('adjte',this)">🔧 Adj.て Lab</button>
+      <button onclick="go('talent',this)">🌟 Talented Person</button>
+      <button onclick="go('shiru',this)">🧠 知っています</button>
+      <button onclick="go('giving',this)">🎁 Giving Verbs</button>
+      <button onclick="go('tekureru',this)">🤝 てくれる</button>
+      <button onclick="go('episode',this)">📖 Episode Story</button>
+      <button onclick="go('thanks',this)">🙏 Thank-you</button>
+      <button onclick="go('video',this)">🎥 Video Letter</button>
+      <button onclick="go('qa',this)">❓ Q&A Practice</button>
+      <button onclick="go('listening',this)">🎧 Listening Notes</button>
+      <button onclick="go('quiz',this)">🧪 Mini Quiz</button>
+      <button onclick="go('error',this)">🧯 Error Clinic</button>
+      <button onclick="go('kanji',this)">字 Kanji Studio</button>
+      <button onclick="go('rubric',this)">✅ Rubric</button>
+      <button onclick="go('outputCard',this)">📒 Output</button>
+    </div>
+    <div class="btn-row" style="display:grid">
+      <button class="green" onclick="saveData()">💾 Save</button>
+      <button class="ghost" onclick="loadData()">📂 Load</button>
+      <button class="gold" onclick="window.print()">🖨️ Print</button>
+      <button class="danger" onclick="clearAll()">🧽 Reset</button>
+    </div>
+  </aside>
+
+  <section>
+    <div class="card" id="guide">
+      <h2><span class="step">1</span> Textbook Guide: เปิดแบบเรียนคู่กัน</h2>
+      <div class="book-ref"><strong>เปิดไฟล์ 25-1JPE201 L21.pdf</strong><br>บทนี้เน้นการแนะนำคนใกล้ตัวหรือคนที่น่าสนใจ และการแสดงความขอบคุณต่อคนสำคัญ โดยมีภารกิจปลายบทเป็น Video Letter</div>
+      <table class="map-table">
+        <tr><td>Activity Mapping</td><td>• Target 1: Basic information about person → Person Profile<br>• Target 2: What kind of person → Personality + Adj.て Lab<br>• Target 3: Talented person → Talented Person + 知っています<br>• Target 4: What makes you happy → Giving Verbs + てくれる<br>• Task: Send a video letter → Thank-you + Video Letter</td></tr>
+        <tr><td>Listening Placeholder</td><td>ฟัง Track ของ Lesson 21 แล้วจดว่าใคร อยู่ที่ไหน ทำงานอะไร เป็นคนแบบไหน และเคยทำอะไรให้ผู้พูด<br><textarea id="listenNote" placeholder="จดคำที่ได้ยิน เช่น 住んでいます / 働いています / 明るくて / くれました"></textarea></td></tr>
+        <tr><td>App Practice</td><td>เลือกคนสำคัญ → สร้าง profile → บอกลักษณะนิสัย → เล่า episode → ขอบคุณ → สร้าง video letter</td></tr>
+      </table>
+      <div class="guide-steps">
+        <div class="guide-step"><div class="guide-no">1</div><div><strong>เปิดหนังสือ</strong><br>ดูตัวอย่างคนใกล้ตัว คนเก่ง และ video letter ในบทเรียน</div></div>
+        <div class="guide-step"><div class="guide-no">2</div><div><strong>เลือกคนจริง</strong><br>เลือกคนที่มีเรื่องเล่าและความรู้สึกจริง จะเขียนได้ลึกกว่า</div></div>
+        <div class="guide-step"><div class="guide-no">3</div><div><strong>แยกข้อมูล</strong><br>Profile → Personality → Episode → Feeling → Message</div></div>
+        <div class="guide-step"><div class="guide-no">4</div><div><strong>ซ้อมพูดแบบ Video Letter</strong><br>พูดช้า ออกเสียงชัด และใส่ความรู้สึก</div></div>
+      </div>
+    </div>
+
+    <div class="card" id="warmup">
+      <h2><span class="step">2</span> Warm-up: คนสำคัญของฉัน</h2>
+      <div class="grid3">
+        <div><label>คนสำคัญ/คนที่สนใจ</label><textarea id="importantPeople" placeholder="เช่น แม่ ครู เพื่อน รุ่นพี่ ศิลปิน คนเก่งในสายงาน"></textarea></div>
+        <div><label>เขาเป็นคนแบบไหน</label><textarea id="peopleTraits" placeholder="เช่น ใจดี สดใส จริงจัง เก่ง คุยง่าย"></textarea></div>
+        <div><label>เขาเคยทำอะไรให้ฉัน</label><textarea id="helpMemory" placeholder="เช่น ช่วยตอนป่วย สอนงาน ให้กำลังใจ"></textarea></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateWarmup()">สร้าง Warm-up Note</button></div>
+    </div>
+
+    <div class="card" id="family">
+      <h2><span class="step">3</span> Family & People Vocabulary</h2>
+      <div class="grid3">
+        <div class="mini-card"><strong>My family</strong><br><span class="jp">父・母・兄・姉・弟・妹・祖父・祖母</span></div>
+        <div class="mini-card"><strong>Polite / someone’s family</strong><br><span class="jp">お父さん・お母さん・お兄さん・お姉さん</span></div>
+        <div class="mini-card"><strong>Other people</strong><br><span class="jp">友だち・先生・先輩・後輩・同僚・有名人</span></div>
+      </div>
+      <div class="tagrow">
+        <span class="tag" onclick="setPerson('母','バンコク','家で','主婦')">แม่</span>
+        <span class="tag" onclick="setPerson('友だち','東京','会社で','エンジニア')">เพื่อน</span>
+        <span class="tag" onclick="setPerson('先生','大学','大学で','日本語の先生')">ครู</span>
+        <span class="tag" onclick="setPerson('兄','大阪','大学で','大学生')">พี่ชาย</span>
+      </div>
+      <p class="hint">กด tag เพื่อเติมข้อมูลใน Person Profile อย่างรวดเร็วค่ะ</p>
+    </div>
+
+    <div class="card" id="profile">
+      <h2><span class="step">4</span> Person Profile Maker</h2>
+      <div class="grid2">
+        <div><label>บุคคล</label><input id="personName" class="jp" placeholder="母"></div>
+        <div><label>อยู่ที่ไหน</label><input id="personPlace" class="jp" placeholder="バンコク"></div>
+        <div><label>ทำงาน/เรียนที่</label><input id="workPlace" class="jp" placeholder="家で / 会社で / 大学で"></div>
+        <div><label>อาชีพ/สถานะ</label><input id="jobName" class="jp" placeholder="主婦 / エンジニア / 日本語の先生"></div>
+      </div>
+      <div class="pattern"><span class="block jp">人 は 場所 に 住んでいます。</span><span class="plus">/</span><span class="block jp">N として働いています。</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateProfile()">สร้าง Profile</button></div>
+    </div>
+
+    <div class="card" id="personality">
+      <h2><span class="step">5</span> Personality Maker</h2>
+      <div class="grid3">
+        <div><label>ลักษณะที่ 1 รูป て</label><select id="adjA" class="jp"><option>明るくて</option><option>やさしくて</option><option>おもしろくて</option><option>まじめで</option><option>静かで</option><option>元気で</option></select></div>
+        <div><label>ลักษณะที่ 2</label><select id="adjB" class="jp"><option>やさしい</option><option>頭がいい</option><option>話しやすい</option><option>かわいい</option><option>かっこいい</option><option>背が高い</option></select></div>
+        <div><label>เพิ่มเติม</label><input id="adjExtra" class="jp" placeholder="料理が上手です"></div>
+      </div>
+      <div class="tagrow"><span class="tag" onclick="setPersonality('明るくて','やさしい')">สดใส+ใจดี</span><span class="tag" onclick="setPersonality('まじめで','頭がいい')">จริงจัง+ฉลาด</span><span class="tag" onclick="setPersonality('おもしろくて','話しやすい')">ตลก+คุยง่าย</span></div>
+      <div class="btn-row"><button class="primary" onclick="generatePersonality()">สร้าง Personality</button></div>
+    </div>
+
+    <div class="card" id="adjte">
+      <h2><span class="step">6</span> Adj.て Lab</h2>
+      <div class="grid3">
+        <div class="mini-card"><strong>い-adj</strong><br><span class="jp">明るい → 明るくて<br>おもしろい → おもしろくて</span></div>
+        <div class="mini-card"><strong>な-adj</strong><br><span class="jp">まじめ → まじめで<br>元気 → 元気で</span></div>
+        <div class="mini-card"><strong>Noun</strong><br><span class="jp">先生 → 先生で<br>学生 → 学生で</span></div>
+      </div>
+      <div class="grid2"><div><label>คำที่อยากผัน</label><input id="adjInput" class="jp" placeholder="明るい"></div><div><label>รูป て</label><input id="adjTe" class="jp" placeholder="明るくて"></div></div>
+      <div class="btn-row"><button class="gold" onclick="generateAdjTeNote()">บันทึก Adj.て</button></div>
+    </div>
+
+    <div class="card" id="talent">
+      <h2><span class="step">7</span> Talented / Interesting Person</h2>
+      <div class="grid2">
+        <div><label>ชื่อคนที่น่าสนใจ</label><input id="talentName" class="jp" placeholder="山田さん"></div>
+        <div><label>เก่งด้านอะไร</label><input id="talentField" class="jp" placeholder="日本語 / サッカー / 料理 / 研究"></div>
+        <div><label>รายละเอียดที่น่าสนใจ</label><input id="talentDetail" class="jp" placeholder="とても有名です / たくさん本を書きました"></div>
+        <div><label>เหตุผลที่อยากแนะนำ</label><input id="talentReason" class="jp" placeholder="すごい人なので"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateTalent()">สร้าง Talent Intro</button></div>
+    </div>
+
+    <div class="card" id="shiru">
+      <h2><span class="step">8</span> 知っています Lab</h2>
+      <div class="grid2">
+        <div><label>สิ่ง/คนที่ถามว่ารู้จักไหม</label><input id="knowThing" class="jp" placeholder="山田さん"></div>
+        <div><label>คำตอบ</label><select id="knowAnswer" class="jp"><option>知っています</option><option>知りません</option><option>名前だけ知っています</option></select></div>
+      </div>
+      <div class="book-ref">ระวัง: รูปลบพื้นฐานใช้ <span class="jp">知りません</span> ไม่ใช่ <span class="jp">知っていません</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateShiru()">สร้าง 知っています Q&A</button></div>
+    </div>
+
+    <div class="card" id="giving">
+      <h2><span class="step">9</span> Giving Verbs: あげる・くれる</h2>
+      <div class="grid3">
+        <div><label>คนให้/คนทำ</label><input id="giver" class="jp" placeholder="母"></div>
+        <div><label>คนรับ</label><input id="receiver" class="jp" placeholder="わたし / 友だち"></div>
+        <div><label>สิ่งของ</label><input id="giftItem" class="jp" placeholder="薬 / 本 / プレゼント"></div>
+      </div>
+      <div class="pattern"><span class="block jp">A は B に N を あげます。</span><span class="plus">= A ให้ B</span><span class="block jp">A は わたしに N を くれます。</span><span class="plus">= A ให้ฉัน</span></div>
+      <div class="btn-row"><button class="green" onclick="generateAgeru()">สร้าง あげる</button><button class="primary" onclick="generateKureru()">สร้าง くれる</button></div>
+    </div>
+
+    <div class="card" id="tekureru">
+      <h2><span class="step">10</span> てくれる Maker</h2>
+      <div class="tagrow"><span class="tag" onclick="setHelp('母','病院へ連れて行って')">แม่พาไปโรงพยาบาล</span><span class="tag" onclick="setHelp('友だち','日本語を教えて')">เพื่อนสอนญี่ปุ่น</span><span class="tag" onclick="setHelp('先生','レポートをチェックして')">ครูตรวจรายงาน</span><span class="tag" onclick="setHelp('兄','ピアノを教えて')">พี่ชายสอนเปียโน</span></div>
+      <div class="grid2"><div><label>คนที่ทำให้เรา</label><input id="helpGiver" class="jp" placeholder="母"></div><div><label>V-て</label><input id="helpAction" class="jp" placeholder="助けて"></div></div>
+      <div class="btn-row"><button class="primary" onclick="generateTekureru()">สร้าง てくれる</button></div>
+    </div>
+
+    <div class="card" id="episode">
+      <h2><span class="step">11</span> Episode Story</h2>
+      <div class="grid2">
+        <div><label>เหตุการณ์เกิดเมื่อไหร่</label><input id="episodeWhen" class="jp" placeholder="子どものとき / 病気のとき"></div>
+        <div><label>ใครช่วย</label><input id="episodeWho" class="jp" placeholder="母"></div>
+        <div><label>เขาทำอะไรให้</label><input id="episodeAction" class="jp" placeholder="病院へ連れて行ってくれました"></div>
+        <div><label>ความรู้สึก</label><select id="episodeFeeling" class="jp"><option>とてもうれしかったです</option><option>本当に助かりました</option><option>今でもよく覚えています</option><option>とても感謝しています</option></select></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateEpisode()">สร้าง Episode Story</button></div>
+    </div>
+
+    <div class="card" id="thanks">
+      <h2><span class="step">12</span> Thank-you Message Maker</h2>
+      <div class="grid2">
+        <div><label>คำเรียก</label><input id="callName" class="jp" placeholder="お母さん / 先生 / 〇〇さん"></div>
+        <div><label>ข้อความขอบคุณหลัก</label><input id="thanksMain" class="jp" placeholder="いつもありがとうございます"></div>
+        <div><label>สิ่งที่ขอบคุณ</label><input id="thanksEpisode" class="jp" placeholder="いつも助けてくれました"></div>
+        <div><label>คำอวยพร/ปิดท้าย</label><input id="wish" class="jp" placeholder="これからも元気でいてください"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateThanks()">สร้าง Thank-you Message</button></div>
+    </div>
+
+    <div class="card" id="video">
+      <h2><span class="step">13</span> Video Letter Builder</h2>
+      <div class="script-row"><div class="script-label">Greeting</div><textarea id="videoGreeting" class="jp" placeholder="お母さん、お元気ですか。"></textarea></div>
+      <div class="script-row"><div class="script-label">Body</div><textarea id="videoBody" class="jp" placeholder="子どものとき、いつも助けてくれました。"></textarea></div>
+      <div class="script-row"><div class="script-label">Message</div><textarea id="videoMessage" class="jp" placeholder="本当にありがとうございました。これからも元気でいてください。"></textarea></div>
+      <div class="btn-row"><button class="violet" onclick="pullVideo()">ดึงข้อมูลจากด้านบน</button><button class="primary" onclick="generateVideo()">สร้าง Video Letter</button><button class="blue" onclick="speakVideo()">อ่าน Video Letter</button></div>
+    </div>
+
+    <div class="card" id="qa">
+      <h2><span class="step">14</span> Q&A Practice</h2>
+      <div class="grid2">
+        <div class="quiz-item"><strong class="jp">Q: だれについて話しますか。</strong><input id="qa1" class="jp" placeholder="母について話します。"></div>
+        <div class="quiz-item"><strong class="jp">Q: どんな人ですか。</strong><input id="qa2" class="jp" placeholder="明るくてやさしい人です。"></div>
+        <div class="quiz-item"><strong class="jp">Q: 何をしてくれましたか。</strong><input id="qa3" class="jp" placeholder="病院へ連れて行ってくれました。"></div>
+        <div class="quiz-item"><strong class="jp">Q: どんな気持ちですか。</strong><input id="qa4" class="jp" placeholder="とても感謝しています。"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateQA()">สร้าง Q&A Sheet</button></div>
+    </div>
+
+    <div class="card" id="listening">
+      <h2><span class="step">15</span> Listening Notes</h2>
+      <div class="grid2">
+        <div><label>Person/Profile ที่ได้ยิน</label><textarea id="heardProfile" class="jp"></textarea></div>
+        <div><label>Personality ที่ได้ยิน</label><textarea id="heardPersonality" class="jp"></textarea></div>
+        <div><label>くれる / てくれる ที่ได้ยิน</label><textarea id="heardKureru" class="jp"></textarea></div>
+        <div><label>Thank-you message ที่ได้ยิน</label><textarea id="heardThanks" class="jp"></textarea></div>
+      </div>
+      <label>คำที่ยังฟังไม่ชัด / จะถามครู</label><textarea id="listenQuestion"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateListeningNote()">สร้าง Listening Note</button></div>
+    </div>
+
+    <div class="card" id="quiz">
+      <h2><span class="step">16</span> Mini Quiz</h2>
+      <div class="quiz">
+        <div class="quiz-item"><strong>1) แม่อาศัยอยู่ที่กรุงเทพ</strong><input id="quiz1" class="jp" placeholder="母はバンコクに住んでいます"></div>
+        <div class="quiz-item"><strong>2) เขาเป็นคนสดใสและใจดี</strong><input id="quiz2" class="jp" placeholder="明るくてやさしい人です"></div>
+        <div class="quiz-item"><strong>3) แม่ให้ยาแก่ฉัน</strong><input id="quiz3" class="jp" placeholder="母はわたしに薬をくれました"></div>
+        <div class="quiz-item"><strong>4) เพื่อนสอนภาษาญี่ปุ่นให้ฉัน</strong><input id="quiz4" class="jp" placeholder="友だちは日本語を教えてくれました"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="checkQuiz()">ตรวจ Quiz แบบช่วยจำ</button></div>
+      <div id="quizResult" class="book-ref">กดตรวจเพื่อดู feedback ค่ะ</div>
+    </div>
+
+    <div class="card" id="error">
+      <h2><span class="step">17</span> Error Clinic: จุดที่คนไทยมักพลาด</h2>
+      <div class="rubric">
+        <label><input type="checkbox" class="err" value="สับสน あげる กับ くれる"> <span>สับสน あげる กับ くれる</span></label>
+        <label><input type="checkbox" class="err" value="ลืมมุมมองว่า くれる คือประโยชน์ไหลเข้าหาฉัน"> <span>ลืมมุมมองของ くれる</span></label>
+        <label><input type="checkbox" class="err" value="ผัน Adj.て ไม่คล่อง"> <span>ผัน Adj.て ไม่คล่อง</span></label>
+        <label><input type="checkbox" class="err" value="ใช้ 知っていません แทน 知りません"> <span>ใช้ 知っていません แทน 知りません</span></label>
+        <label><input type="checkbox" class="err" value="Video Letter ขาด episode เฉพาะเจาะจง"> <span>Video Letter ขาด episode เฉพาะเจาะจง</span></label>
+      </div>
+      <label>สิ่งที่ฉันจะทวนหลังจบคอร์ส</label><textarea id="reviewNext"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateErrorClinic()">สร้าง Error Clinic Note</button></div>
+    </div>
+
+    <div class="card" id="kanji">
+      <h2><span class="step">18</span> Kanji Studio</h2>
+      <div class="kanji-list" id="kanjiList"></div>
+      <div class="btn-row"><button class="gold" onclick="generateKanjiNote()">บันทึก Kanji ที่ฝึกแล้ว</button></div>
+    </div>
+
+    <div class="card" id="rubric">
+      <h2><span class="step">19</span> Rubric ก่อนผ่าน Lesson 21</h2>
+      <div class="rubric">
+        <label><input type="checkbox" class="tick"> <span>ฉันแนะนำข้อมูลพื้นฐานของบุคคลได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันบอกลักษณะนิสัยโดยใช้ Adj.て ได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันแนะนำคนเก่ง/คนที่น่าสนใจได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันเข้าใจ あげる・くれる・てくれる</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันเล่า episode ที่คนอื่นทำให้ฉันได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันสร้าง Thank-you / Video Letter ได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันทวนคันจิของบทนี้แล้ว</span></label>
+      </div>
+      <div class="progress-wrap"><div id="progress" class="progress-bar"></div></div>
+      <p id="progressText" class="hint">ความพร้อม: 0%</p>
+    </div>
+
+    <div class="card" id="outputCard">
+      <h2><span class="step">20</span> Output: My Lesson 21 Notebook</h2>
+      <div id="output" class="output">กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 21 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ</div>
+      <div class="btn-row"><button class="primary" onclick="generateAll()">สร้างสรุป Lesson 21 ทั้งหมด</button><button class="green" onclick="copyOutput()">คัดลอก</button><button class="blue" onclick="speakOutput()">อ่านออกเสียง</button><button class="danger" onclick="clearOutput()">ล้าง Output</button></div>
+    </div>
+    <p class="footer">JPE201 Lesson 21 Companion App Pro Plus · Created for Khun G by Pookpik</p>
+  </section>
+</main>
+<script>
+const $=id=>document.getElementById(id);const outputParts=[];
+const kanji=[['会社','かいしゃ','บริษัท'],['仕事','しごと','งาน/อาชีพ'],['長い','ながい','ยาว'],['短い','みじかい','สั้น'],['低い','ひくい','ต่ำ'],['明るい','あかるい','ร่าเริง/สว่าง'],['元気','げんき','แข็งแรง/ร่าเริง'],['住む','すむ','อาศัยอยู่'],['作る','つくる','ทำ/สร้าง'],['知る','しる','รู้จัก/รู้']];
+function go(id,btn){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+function addOutput(title,text){outputParts.push(`【${title}】\n${text}`);$('output').textContent=outputParts.join('\n\n')}
+function generateWarmup(){addOutput('Warm-up',`คนสำคัญ/คนที่สนใจ:\n${$('importantPeople').value||'-'}\n\nลักษณะนิสัย:\n${$('peopleTraits').value||'-'}\n\nสิ่งที่เขาเคยทำให้ฉัน:\n${$('helpMemory').value||'-'}`)}
+function setPerson(p,place,work,job){$('personName').value=p;$('personPlace').value=place;$('workPlace').value=work;$('jobName').value=job;$('callName').value=p;$('episodeWho').value=p;$('giver').value=p;$('helpGiver').value=p}
+function generateProfile(){const p=$('personName').value||'母';addOutput('Person Profile',`${p}は、${$('personPlace').value||'バンコク'}に住んでいます。\n${p}は、${$('workPlace').value||'家で'}働いています。\n${$('jobName').value||'主婦'}です。`)}
+function setPersonality(a,b){$('adjA').value=a;$('adjB').value=b}
+function generatePersonality(){const p=$('personName').value||'母';addOutput('Personality',`${p}は、${$('adjA').value}${$('adjB').value}です。\n${$('adjExtra').value||''}`)}
+function generateAdjTeNote(){addOutput('Adj.て Note',`คำที่อยากผัน: ${$('adjInput').value||'-'}\nรูป て: ${$('adjTe').value||'-'}`)}
+function generateTalent(){addOutput('Talented Person',`${$('talentName').value||'山田さん'}を知っていますか。\n${$('talentName').value||'山田さん'}は、${$('talentField').value||'日本語'}がとても上手です。\n${$('talentDetail').value||'とても有名です'}。\n${$('talentReason').value||'すごい人なので'}、紹介したいです。`)}
+function generateShiru(){addOutput('知っています Q&A',`Q: ${$('knowThing').value||'山田さん'}を知っていますか。\nA: ${$('knowAnswer').value}。`)}
+function generateAgeru(){addOutput('あげる',`${$('giver').value||'わたし'}は、${$('receiver').value||'友だち'}に${$('giftItem').value||'プレゼント'}をあげました。`)}
+function generateKureru(){addOutput('くれる',`${$('giver').value||'母'}は、わたしに${$('giftItem').value||'薬'}をくれました。`)}
+function setHelp(g,a){$('helpGiver').value=g;$('helpAction').value=a;$('episodeWho').value=g;$('episodeAction').value=a+'くれました'}
+function generateTekureru(){addOutput('てくれる',`${$('helpGiver').value||'母'}は、${$('helpAction').value||'助けて'}くれました。`)}
+function generateEpisode(){addOutput('Episode Story',`${$('episodeWhen').value||'病気のとき'}、${$('episodeWho').value||'母'}は、${$('episodeAction').value||'病院へ連れて行ってくれました'}。\n${$('episodeFeeling').value}。`)}
+function generateThanks(){addOutput('Thank-you Message',`${$('callName').value||'お母さん'}、${$('thanksMain').value||'いつもありがとうございます'}。\n${$('thanksEpisode').value||'いつも助けてくれました'}。\n本当にありがとうございました。\n${$('wish').value||'これからも元気でいてください'}。`)}
+function pullVideo(){const call=$('callName').value||$('personName').value||'お母さん';$('videoGreeting').value=`${call}、お元気ですか。`;$('videoBody').value=`${$('personName').value||'母'}は、${$('adjA').value||'明るくて'}${$('adjB').value||'やさしい'}人です。\n${$('episodeWhen').value||'病気のとき'}、${$('episodeAction').value||'いつも助けてくれました'}。\n${$('episodeFeeling').value||'とても感謝しています'}。`;$('videoMessage').value=`本当にありがとうございました。\n${$('wish').value||'これからも元気でいてください'}。`}
+function generateVideo(){addOutput('Video Letter',`【Greeting】\n${$('videoGreeting').value||'お母さん、お元気ですか。'}\n\n【Body】\n${$('videoBody').value||'いつも助けてくれました。'}\n\n【Message】\n${$('videoMessage').value||'本当にありがとうございました。'}`)}
+function generateQA(){addOutput('Q&A Practice',`Q: だれについて話しますか。\nA: ${$('qa1').value||'母について話します。'}\n\nQ: どんな人ですか。\nA: ${$('qa2').value||'明るくてやさしい人です。'}\n\nQ: 何をしてくれましたか。\nA: ${$('qa3').value||'病院へ連れて行ってくれました。'}\n\nQ: どんな気持ちですか。\nA: ${$('qa4').value||'とても感謝しています。'}`)}
+function generateListeningNote(){addOutput('Listening Notes',`Person/Profile:\n${$('heardProfile').value||'-'}\n\nPersonality:\n${$('heardPersonality').value||'-'}\n\nくれる / てくれる:\n${$('heardKureru').value||'-'}\n\nThank-you message:\n${$('heardThanks').value||'-'}\n\nคำถามที่จะถามครู:\n${$('listenQuestion').value||'-'}`)}
+function checkQuiz(){const ex=['母はバンコクに住んでいます','明るくてやさしい人です','母はわたしに薬をくれました','友だちは日本語を教えてくれました'];let fb=ex.map((e,i)=>`${i+1}) คำตอบของฉัน: ${$('quiz'+(i+1)).value||'-'}\nตัวอย่าง: ${e}`).join('\n\n');$('quizResult').innerHTML=fb.replaceAll('\n','<br>');addOutput('Mini Quiz',fb)}
+function generateErrorClinic(){const errs=[...document.querySelectorAll('.err:checked')].map(x=>x.value);addOutput('Error Clinic',`จุดที่ต้องระวัง:\n- ${(errs.length?errs:['ยังไม่ได้เลือก']).join('\n- ')}\n\nสิ่งที่จะทวนหลังจบคอร์ส:\n${$('reviewNext').value||'-'}`)}
+function generateKanjiNote(){const checked=[...document.querySelectorAll('.kanjiTick:checked')].map(x=>x.value);addOutput('Kanji Practice',`ฝึกคันจิแล้ว: ${checked.join(', ')||'ยังไม่ได้ติ๊ก'}\nคันจิบทนี้เกี่ยวกับบริษัท งาน ความยาว ความสว่าง สุขภาพ การอาศัยอยู่ การสร้าง และการรู้จักค่ะ`)}
+function generateAll(){outputParts.length=0;generateWarmup();generateProfile();generatePersonality();generateAdjTeNote();generateTalent();generateShiru();generateAgeru();generateKureru();generateTekureru();generateEpisode();generateThanks();pullVideo();generateVideo();generateQA();generateListeningNote();generateErrorClinic();generateKanjiNote();addOutput('Course Closing','จบบทนี้แล้ว คุณสามารถใช้ภาษาญี่ปุ่นแนะนำคนสำคัญและสื่อความรู้สึกขอบคุณได้แล้วค่ะ')}
+function renderKanji(){ $('kanjiList').innerHTML=kanji.map(([c,r,m])=>`<label class="kanji-item"><span class="kanji-char jp">${c}</span><span><strong class="jp">${r}</strong><br><span class="hint">${m}</span></span><input class="kanjiTick" type="checkbox" value="${c}"></label>`).join('') }
+function saveData(){const data={};document.querySelectorAll('input,textarea,select').forEach(el=>{if(el.id)data[el.id]=el.type==='checkbox'?el.checked:el.value});data.kanji=[...document.querySelectorAll('.kanjiTick')].map(x=>x.checked);data.err=[...document.querySelectorAll('.err')].map(x=>x.checked);data.ticks=[...document.querySelectorAll('.tick')].map(x=>x.checked);data.output=outputParts;localStorage.setItem('jpe201_lesson21_pro_plus',JSON.stringify(data));alert('บันทึก Lesson 21 แล้วค่ะ 💌')}
+function loadData(){const raw=localStorage.getItem('jpe201_lesson21_pro_plus');if(!raw)return alert('ยังไม่มีข้อมูลที่บันทึกไว้ค่ะ');const data=JSON.parse(raw);Object.keys(data).forEach(k=>{const el=$(k);if(el){if(el.type==='checkbox')el.checked=data[k];else el.value=data[k]}});document.querySelectorAll('.kanjiTick').forEach((x,i)=>x.checked=(data.kanji||[])[i]||false);document.querySelectorAll('.err').forEach((x,i)=>x.checked=(data.err||[])[i]||false);document.querySelectorAll('.tick').forEach((x,i)=>x.checked=(data.ticks||[])[i]||false);outputParts.length=0;if(Array.isArray(data.output))outputParts.push(...data.output);$('output').textContent=outputParts.length?outputParts.join('\n\n'):'กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 21 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ';updateProgress()}
+function clearAll(){if(!confirm('ล้างข้อมูล Lesson 21 ทั้งหมดไหมคะ?'))return;document.querySelectorAll('input,textarea').forEach(el=>{if(el.type==='checkbox')el.checked=false;else el.value=''});document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);clearOutput();updateProgress()}
+function copyOutput(){navigator.clipboard.writeText($('output').textContent).then(()=>alert('คัดลอกแล้วค่ะ'))}
+function clearOutput(){outputParts.length=0;$('output').textContent='กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 21 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ'}
+function speak(text){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=.82;window.speechSynthesis.speak(u)}
+function speakVideo(){speak([$('videoGreeting').value,$('videoBody').value,$('videoMessage').value].join('\n'))}
+function speakOutput(){speak($('output').textContent.replace(/【.*?】/g,''))}
+function updateProgress(){const ticks=[...document.querySelectorAll('.tick')];const pct=Math.round(ticks.filter(t=>t.checked).length/ticks.length*100);$('progress').style.width=pct+'%';$('progressText').textContent='ความพร้อม: '+pct+'%'}
+document.addEventListener('change',e=>{if(e.target.classList.contains('tick'))updateProgress()});
+renderKanji();
+</script>
+</body>
+</html>
