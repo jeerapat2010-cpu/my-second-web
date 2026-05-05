@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JPE201 Lesson 00 Companion App Pro Plus</title>
+  <style>
+    :root{
+      --ink:#263238;--muted:#607d8b;--bg:#fff8fb;--card:rgba(255,255,255,.94);
+      --primary:#e85d8f;--primary-dark:#b83267;--blue:#4f8cff;--green:#42b883;--gold:#d6a642;--red:#e65f62;--violet:#8b64f6;
+      --soft:#ffe4ef;--soft-blue:#edf5ff;--line:#f2bfd0;--shadow:0 16px 38px rgba(232,93,143,.16);--radius:26px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:"Noto Sans Thai","Noto Sans JP",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);background:radial-gradient(circle at 10% 8%,rgba(232,93,143,.18),transparent 28%),radial-gradient(circle at 86% 7%,rgba(79,140,255,.13),transparent 25%),radial-gradient(circle at 50% 100%,rgba(66,184,131,.10),transparent 34%),linear-gradient(135deg,#fff8fb 0%,#fffdf4 55%,#f6fffb 100%)}
+    header{text-align:center;padding:30px 16px 18px;position:relative;overflow:hidden}
+    header:before{content:"";position:absolute;inset:0;opacity:.25;background-image:radial-gradient(circle at 18px 18px,rgba(232,93,143,.55) 0 4px,transparent 5px),radial-gradient(circle at 58px 46px,rgba(79,140,255,.38) 0 4px,transparent 5px);background-size:112px 76px}
+    header>*{position:relative}.badge{display:inline-flex;gap:8px;align-items:center;background:var(--soft);border:1px solid var(--line);color:var(--primary-dark);padding:8px 14px;border-radius:999px;font-weight:900}
+    h1{font-size:clamp(1.9rem,4.2vw,3.2rem);line-height:1.08;margin:14px 0 8px}.subtitle{max-width:1040px;margin:0 auto;color:var(--muted);line-height:1.75;font-size:1.04rem}
+    main{width:min(1220px,calc(100% - 28px));margin:0 auto 48px}.layout{display:grid;grid-template-columns:315px 1fr;gap:18px;align-items:start}@media(max-width:960px){.layout{grid-template-columns:1fr}.side{position:static!important}}
+    .side,.card{background:var(--card);border:1px solid rgba(242,191,208,.9);box-shadow:var(--shadow);border-radius:var(--radius);backdrop-filter:blur(8px)}.side{position:sticky;top:14px;padding:16px}.side h2{font-size:1.06rem;margin:4px 0 12px}.nav{display:grid;gap:7px}.nav button{width:100%;text-align:left;background:transparent;border:1px solid transparent;color:var(--ink);border-radius:16px;padding:11px 12px;font:inherit;font-weight:850;cursor:pointer}.nav button:hover,.nav button.active{background:var(--soft);border-color:var(--line);color:var(--primary-dark);transform:translateX(2px)}
+    .card{padding:22px;margin-bottom:18px}.card h2{display:flex;gap:10px;align-items:center;margin:0 0 12px;font-size:1.28rem}.step{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:12px;background:var(--primary);color:#fff;font-weight:950;flex:0 0 auto}.hint{color:var(--muted);line-height:1.75;margin:8px 0}.book-ref{background:#fff8e7;border-left:5px solid var(--gold);border-radius:17px;padding:13px 15px;line-height:1.7;margin:12px 0;color:#5c4817}
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}@media(max-width:800px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
+    label{display:block;font-weight:900;margin:16px 0 8px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:18px;background:#fff;padding:13px 14px;color:var(--ink);font:inherit;outline:none;transition:.16s ease}textarea{min-height:98px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(232,93,143,.13)}
+    .mini-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;min-height:105px}.mini-card strong{color:var(--primary-dark)}.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}button{border:0;border-radius:16px;padding:12px 16px;cursor:pointer;font:inherit;font-weight:950;transition:.16s ease}button:hover{transform:translateY(-1px)}.primary{background:linear-gradient(135deg,var(--primary),#ff8bb1);color:#fff;box-shadow:0 12px 24px rgba(232,93,143,.24)}.blue{background:#edf5ff;color:#245fbf;border:1px solid #c8dcff}.green{background:#ecfff7;color:#1d7a5a;border:1px solid #bce8d7}.gold{background:#fff8e6;color:#815f11;border:1px solid #efdba4}.violet{background:#f4f0ff;color:#5b34bf;border:1px solid #d9ccfb}.ghost{background:#fff;color:var(--primary-dark);border:1px solid var(--line)}.danger{background:#fff1f1;color:#b73835;border:1px solid #ffc7c6}
+    .guide-steps{display:grid;gap:10px;margin-top:12px}.guide-step{display:grid;grid-template-columns:42px 1fr;gap:10px;align-items:start;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px}.guide-no{display:grid;place-items:center;width:34px;height:34px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--blue));color:#fff;font-weight:950}.map-table{width:100%;border-collapse:separate;border-spacing:0 8px;margin-top:12px}.map-table td{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px;vertical-align:top}.map-table td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px;font-weight:950;color:var(--primary-dark);width:34%}.map-table td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0}
+    .rubric{display:grid;gap:8px;margin-top:12px}.rubric label,.checkline{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;margin:0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px}.rubric input,.checkline input{width:auto;accent-color:var(--primary)}.progress-wrap{height:16px;border-radius:999px;background:#ffe4ef;border:1px solid var(--line);overflow:hidden;margin-top:12px}.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--blue));transition:.3s ease}.output{background:#263238;color:#f9fffd;border-radius:22px;padding:18px;white-space:pre-wrap;line-height:1.82;min-height:260px;overflow-wrap:anywhere}.jp{font-family:"Noto Sans JP","Yu Gothic",system-ui,sans-serif;letter-spacing:.02em}.footer{text-align:center;color:var(--muted);font-size:.92rem;margin:20px 0}
+    .score-row{display:grid;grid-template-columns:170px 1fr 62px;gap:10px;align-items:center;margin:10px 0}.score-row input[type=range]{padding:0}.score-num{font-weight:950;color:var(--primary-dark);text-align:center}.bar-wrap{height:14px;border-radius:999px;background:#f0f3f6;overflow:hidden;border:1px solid #dde7ef}.bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--green));width:0%}.schedule-table{width:100%;border-collapse:separate;border-spacing:0 8px}.schedule-table td,.schedule-table th{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px;text-align:left}.schedule-table th:first-child,.schedule-table td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px}.schedule-table th:last-child,.schedule-table td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0}.quote{background:linear-gradient(135deg,#fff0f7,#edf5ff);border:1px solid var(--line);border-radius:22px;padding:18px;font-size:1.08rem;line-height:1.8}.tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.tag{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:850}.tag:hover{background:var(--soft)}
+    @media print{.side,.btn-row,header:before{display:none}.layout{display:block}.card{box-shadow:none;border:1px solid #ddd}.output{background:#fff;color:#000;border:1px solid #ddd}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="badge">🎯 Lesson 00 Pro Plus · Complete Starter System</div>
+  <h1>Lesson 00: Look Back & Goal Setting</h1>
+  <p class="subtitle">App ฝึกเสริมบทนำแบบเต็ม: ทบทวนตัวเอง ตั้งเป้าหมาย วัด baseline ทำ skill radar หา learning style วางตารางเรียน บันทึก error log สร้าง motivation card และสรุปเป็นแผนเรียน 1 หน้า ก่อนเริ่ม Lesson 16 ค่ะ</p>
+</header>
+<main class="layout">
+  <aside class="side">
+    <h2>เมนู Lesson 00</h2>
+    <div class="nav">
+      <button class="active" onclick="go('guide',this)">📖 Textbook Guide</button>
+      <button onclick="go('baseline',this)">📊 Baseline Check</button>
+      <button onclick="go('radar',this)">🎯 Skill Radar</button>
+      <button onclick="go('style',this)">🧠 Study Style</button>
+      <button onclick="go('reflect',this)">🪞 Reflection</button>
+      <button onclick="go('plan',this)">🗓️ Study Plan</button>
+      <button onclick="go('schedule',this)">📅 Weekly Schedule</button>
+      <button onclick="go('identity',this)">🪪 Japanese Identity</button>
+      <button onclick="go('errors',this)">🧯 Error Log</button>
+      <button onclick="go('motivation',this)">💖 Motivation</button>
+      <button onclick="go('contract',this)">📝 Study Contract</button>
+      <button onclick="go('preview',this)">🗺️ Course Preview</button>
+      <button onclick="go('rubric',this)">✅ Rubric</button>
+      <button onclick="go('outputCard',this)">📒 Final Output</button>
+    </div>
+    <div class="btn-row" style="display:grid">
+      <button class="green" onclick="saveData()">💾 Save</button>
+      <button class="blue" onclick="loadData()">📂 Load</button>
+      <button class="gold" onclick="window.print()">🖨️ Print</button>
+      <button class="danger" onclick="clearAll()">🧽 Reset</button>
+    </div>
+  </aside>
+
+  <section>
+    <div class="card" id="guide">
+      <h2><span class="step">1</span> Textbook Guide: เปิดแบบเรียนคู่กัน</h2>
+      <div class="book-ref"><strong>เปิดไฟล์ 25-1JPE201 L00 振り返り.pdf</strong><br>บทนำให้ผู้เรียนทบทวน JPE-102 หรือพื้นฐานเดิมว่ารู้สึกอย่างไร สะท้อนว่าควรปรับปรุงอะไร และตั้งเป้าหมาย/แผนของ JPE-201</div>
+      <table class="map-table">
+        <tr><td>Activity Mapping</td><td>• Question 1: ความรู้สึกต่อพื้นฐานเดิม<br>• Question 2: สิ่งที่สะท้อนว่าควรทำให้ดีขึ้น<br>• Question 3: วิธีปรับปรุงใน JPE-201<br>• Final: This is your JPE-201 goal</td></tr>
+        <tr><td>Listening Placeholder</td><td>บทนี้ไม่มี listening track หลัก ให้ใช้เป็นช่อง “อ่านคำตอบตัวเองออกเสียง” แทน<br><textarea id="listenNote" placeholder="จดคำ/ประโยคญี่ปุ่นสั้น ๆ ที่อยากอ่านออกเสียง เช่น 目標 / 勉強 / 日本語"></textarea></td></tr>
+        <tr><td>App Practice</td><td>ทำ Baseline → Reflection → Plan → Schedule → Contract → Generate Final Output</td></tr>
+      </table>
+      <div class="guide-steps">
+        <div class="guide-step"><div class="guide-no">1</div><div><strong>เปิดหนังสือ</strong><br>ตอบคำถามในไฟล์ L00 ก่อน อย่าเพิ่งใช้ App แทนทั้งหมดค่ะ</div></div>
+        <div class="guide-step"><div class="guide-no">2</div><div><strong>เช็ก baseline</strong><br>ประเมินตัวเองก่อนเรียน เพื่อกลับมาเทียบตอนจบ Lesson 21</div></div>
+        <div class="guide-step"><div class="guide-no">3</div><div><strong>ตั้งแผนที่ทำได้จริง</strong><br>เลือกเวลา วิธีฝึก และตัวชี้วัดที่เหมาะกับตัวเอง</div></div>
+        <div class="guide-step"><div class="guide-no">4</div><div><strong>พิมพ์แผน 1 หน้า</strong><br>เก็บไว้เปิดก่อนเรียนทุกบท เป็นเหมือนใบสั่งยาการเรียนญี่ปุ่นค่ะ</div></div>
+      </div>
+    </div>
+
+    <div class="card" id="baseline">
+      <h2><span class="step">2</span> Pre-test / Baseline Check</h2>
+      <p class="hint">ให้คะแนนตัวเอง 1–5 ก่อนเริ่ม JPE201 ใช้เป็นค่าตั้งต้นสำหรับเทียบหลังเรียนจบบท 21</p>
+      <div id="baselineRows"></div>
+      <div class="btn-row"><button class="primary" onclick="generateBaseline()">สร้าง Baseline Summary</button></div>
+    </div>
+
+    <div class="card" id="radar">
+      <h2><span class="step">3</span> Skill Radar</h2>
+      <p class="hint">ภาพรวมทักษะตอนเริ่มเรียน แสดงเป็นแถบคะแนน 6 ด้าน</p>
+      <div id="radarBars"></div>
+      <div class="btn-row"><button class="blue" onclick="updateRadar();generateRadarSummary()">อัปเดต Radar + สรุป</button></div>
+    </div>
+
+    <div class="card" id="style">
+      <h2><span class="step">4</span> Study Style Finder</h2>
+      <p class="hint">เลือกวิธีเรียนที่เข้ากับตัวเอง App จะสรุปแนวทางที่เหมาะกับคุณ</p>
+      <div class="rubric">
+        <label><input type="checkbox" class="style" value="ฟังซ้ำและพูดตาม"> <span>ชอบฟังซ้ำและพูดตาม</span></label>
+        <label><input type="checkbox" class="style" value="เขียนและคัดประโยค"> <span>ชอบเขียนและคัดประโยค</span></label>
+        <label><input type="checkbox" class="style" value="ทำ flashcard"> <span>ชอบทำ flashcard</span></label>
+        <label><input type="checkbox" class="style" value="เรียนจาก pattern"> <span>ชอบเรียนจาก pattern ประโยค</span></label>
+        <label><input type="checkbox" class="style" value="ใช้ตัวอย่างชีวิตจริง"> <span>ชอบใช้ตัวอย่างชีวิตจริง</span></label>
+        <label><input type="checkbox" class="style" value="สรุปเป็นตาราง"> <span>ชอบสรุปเป็นตาราง</span></label>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateStyle()">วิเคราะห์ Study Style</button></div>
+    </div>
+
+    <div class="card" id="reflect">
+      <h2><span class="step">5</span> Reflection: ทบทวนตัวเอง</h2>
+      <div class="grid2">
+        <div><label>1) พื้นฐานเดิมของฉันเป็นอย่างไร</label><select id="pastFeeling"><option>ง่ายและสนุก</option><option>ง่ายแต่ยังไม่มั่นใจ</option><option>ยากแต่สนุก</option><option>ยากและต้องการตัวช่วย</option></select></div>
+        <div><label>2) ทักษะที่อยากพัฒนาที่สุด</label><select id="mainSkill"><option>การฟัง</option><option>การพูด</option><option>คำศัพท์</option><option>ไวยากรณ์</option><option>คันจิ</option><option>ความมั่นใจ</option></select></div>
+      </div>
+      <label>3) สิ่งที่ฉันคิดว่าควรทำให้ดีขึ้น</label><textarea id="weakness" placeholder="เช่น ฟังเสียงญี่ปุ่นไม่ทัน / ผันกริยาไม่คล่อง / จำคำศัพท์แล้วลืม / อ่านคันจิช้า"></textarea>
+      <label>4) เหตุผลที่อยากเรียน JPE-201 ให้ดีขึ้น</label><textarea id="whyStudy" placeholder="เช่น อยากสื่อสารได้จริง / อยากพรีเซนต์ได้ / อยากเข้าใจญี่ปุ่นเวลาไปเที่ยว"></textarea>
+      <div class="btn-row"><button class="primary" onclick="quickReflect()">เติมตัวอย่างเร็ว</button><button class="blue" onclick="generateReflection()">สร้าง Reflection Summary</button></div>
+    </div>
+
+    <div class="card" id="plan">
+      <h2><span class="step">6</span> Study Plan: แผนเรียนส่วนตัว</h2>
+      <div class="grid3">
+        <div><label>เวลาฝึกต่อวัน</label><select id="minutes"><option>10 นาที</option><option>15 นาที</option><option>20 นาที</option><option>30 นาที</option></select></div>
+        <div><label>จำนวนวันต่อสัปดาห์</label><select id="days"><option>3 วัน</option><option>4 วัน</option><option>5 วัน</option><option>6 วัน</option><option>ทุกวัน</option></select></div>
+        <div><label>เวลาที่เหมาะกับฉัน</label><select id="studyTime"><option>ตอนเช้า</option><option>พักกลางวัน</option><option>ตอนเย็น</option><option>ก่อนนอน</option></select></div>
+      </div>
+      <label>วิธีฝึกที่ฉันจะทำจริง</label><textarea id="method" placeholder="เช่น ฟังเสียง 1 รอบ อ่านตาม 2 รอบ เขียนประโยคของตัวเอง 3 ประโยค แล้วบันทึกลง Notebook"></textarea>
+      <label>สิ่งที่จะใช้วัดว่าดีขึ้น</label><textarea id="measure" placeholder="เช่น พูด presentation สั้น ๆ ได้โดยไม่ดูสคริปต์ทั้งหมด / จำ pattern หลักได้ / ทำ self-check ได้ครบ"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generatePlan()">สร้าง Study Plan</button></div>
+    </div>
+
+    <div class="card" id="schedule">
+      <h2><span class="step">7</span> Weekly Schedule Builder</h2>
+      <p class="hint">เลือกแผนเร็ว หรือแก้ตารางเองได้</p>
+      <div class="btn-row"><button class="green" onclick="fillSchedule('light')">แผนเบา</button><button class="blue" onclick="fillSchedule('medium')">แผนกลาง</button><button class="violet" onclick="fillSchedule('intense')">แผนเข้ม</button></div>
+      <table class="schedule-table"><thead><tr><th>วัน</th><th>เวลา</th><th>สิ่งที่จะฝึก</th></tr></thead><tbody id="scheduleBody"></tbody></table>
+      <div class="btn-row"><button class="primary" onclick="generateSchedule()">สร้าง Weekly Schedule Summary</button></div>
+    </div>
+
+    <div class="card" id="identity">
+      <h2><span class="step">8</span> My Japanese Identity</h2>
+      <p class="hint">เลือกตัวตน/เป้าหมายการใช้ภาษาญี่ปุ่น เพื่อกำหนดโทนตัวอย่างในบทถัดไป</p>
+      <div class="tagrow">
+        <span class="tag" onclick="setIdentity('เที่ยวญี่ปุ่นและสื่อสารระหว่างเดินทาง')">✈️ เที่ยวญี่ปุ่น</span>
+        <span class="tag" onclick="setIdentity('คุยกับเพื่อนหรือคนญี่ปุ่น')">🙂 คุยกับเพื่อน</span>
+        <span class="tag" onclick="setIdentity('ใช้ในงานหรือ presentation')">💼 งาน/พรีเซนต์</span>
+        <span class="tag" onclick="setIdentity('เข้าใจเพลง อนิเมะ ซีรีส์ และวัฒนธรรม')">🎧 เพลง/อนิเมะ</span>
+        <span class="tag" onclick="setIdentity('อ่านข้อมูลสุขภาพ สมุนไพร หรือความรู้ญี่ปุ่น')">🌿 อ่านความรู้</span>
+      </div>
+      <label>ตัวตนภาษาญี่ปุ่นของฉัน</label><textarea id="identityText"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateIdentity()">สร้าง Identity Summary</button></div>
+    </div>
+
+    <div class="card" id="errors">
+      <h2><span class="step">9</span> Error Pattern Log</h2>
+      <p class="hint">บันทึกสิ่งที่มักผิด เพื่อกลับมาทวนก่อนทำบทถัดไป</p>
+      <div class="rubric">
+        <label><input type="checkbox" class="err" value="ลืม particle は/が/を/に/で"> <span>ลืม particle は/が/を/に/で</span></label>
+        <label><input type="checkbox" class="err" value="ลืมเอากริยาไว้ท้ายประโยค"> <span>ลืมเอากริยาไว้ท้ายประโยค</span></label>
+        <label><input type="checkbox" class="err" value="ผัน て-form ผิด"> <span>ผัน て-form ผิด</span></label>
+        <label><input type="checkbox" class="err" value="แยก SHORT-form ยังไม่คล่อง"> <span>แยก SHORT-form ยังไม่คล่อง</span></label>
+        <label><input type="checkbox" class="err" value="ออกเสียง つ/し/じ/り ไม่ชัด"> <span>ออกเสียง つ/し/じ/り ไม่ชัด</span></label>
+        <label><input type="checkbox" class="err" value="อ่านคันจิช้า"> <span>อ่านคันจิช้า</span></label>
+      </div>
+      <label>ข้อผิดพลาดอื่น ๆ</label><textarea id="errorOther"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateErrors()">สร้าง Error Log</button></div>
+    </div>
+
+    <div class="card" id="motivation">
+      <h2><span class="step">10</span> Motivation Card</h2>
+      <div id="quoteBox" class="quote">วันนี้ไม่ต้องเก่ง แค่กลับมาเปิด App ก็ชนะแล้วค่ะ 🌸<br><span class="jp">今日は少しだけ勉強します。</span></div>
+      <div class="btn-row"><button class="primary" onclick="newQuote()">สุ่มกำลังใจ</button><button class="green" onclick="generateMotivation()">เพิ่มลง Output</button></div>
+    </div>
+
+    <div class="card" id="contract">
+      <h2><span class="step">11</span> Study Contract + Goal Quality Checker</h2>
+      <div class="grid2">
+        <div><label>เป้าหมาย JPE-201 ของฉัน</label><textarea id="goal" placeholder="เช่น ฉันอยากพูดเรื่องประเทศ งานอดิเรก สิ่งที่ชอบ และคนสำคัญเป็นภาษาญี่ปุ่นได้"></textarea></div>
+        <div><label>รางวัลเล็ก ๆ เมื่อทำสำเร็จ</label><textarea id="reward" placeholder="เช่น ดูซีรีส์ญี่ปุ่น 1 ตอน / ไปคาเฟ่ / ซื้อสมุดคำศัพท์เล่มใหม่"></textarea></div>
+      </div>
+      <label>ประโยคเป้าหมายภาษาญี่ปุ่น</label><input id="jpGoal" class="jp" value="わたしの JPE201 の目標は、日本語でかんたんに話すことです。" />
+      <div id="goalCheck" class="book-ref">กด “ตรวจเป้าหมาย” เพื่อดูว่าเป้าหมายชัดพอหรือยังค่ะ</div>
+      <div class="btn-row"><button class="blue" onclick="checkGoal()">ตรวจเป้าหมาย</button><button class="primary" onclick="generateContract()">สร้าง Study Contract</button><button class="blue" onclick="speakGoal()">อ่านประโยคญี่ปุ่น</button></div>
+    </div>
+
+    <div class="card" id="preview">
+      <h2><span class="step">12</span> End-of-course Target Preview</h2>
+      <div class="grid2">
+        <div class="mini-card"><strong>Lesson 16</strong><br>แนะนำประเทศและเปรียบเทียบกับญี่ปุ่น</div>
+        <div class="mini-card"><strong>Lesson 17</strong><br>ขออนุญาตและเข้าใจกฎ/มารยาท</div>
+        <div class="mini-card"><strong>Lesson 18</strong><br>ขอร้อง บอกเหตุผล และใช้ SHORT-form</div>
+        <div class="mini-card"><strong>Lesson 19</strong><br>เล่างานอดิเรก ความถี่ ปริมาณ และอันดับความชอบ</div>
+        <div class="mini-card"><strong>Lesson 20</strong><br>พูด presentation สิ่งที่ชอบ</div>
+        <div class="mini-card"><strong>Lesson 21</strong><br>ทำ video letter ขอบคุณคนสำคัญ</div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generatePreview()">เพิ่มเป้าหมายปลายทางลง Output</button></div>
+    </div>
+
+    <div class="card" id="rubric">
+      <h2><span class="step">13</span> Rubric ก่อนผ่าน Lesson 00</h2>
+      <div class="rubric">
+        <label><input type="checkbox" class="tick"> <span>ฉันรู้แล้วว่าตัวเองติดปัญหาอะไร</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันมี baseline 6 ทักษะก่อนเริ่มเรียน</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันรู้ study style ของตัวเอง</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันมีแผนรายสัปดาห์ที่ทำได้จริง</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันมี error log สำหรับทวนก่อนบทถัดไป</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันตั้งเป้าหมาย JPE-201 ชัดเจน</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันพร้อมเริ่ม Lesson 16</span></label>
+      </div>
+      <div class="progress-wrap"><div id="progress" class="progress-bar"></div></div>
+      <p id="progressText" class="hint">ความพร้อม: 0%</p>
+    </div>
+
+    <div class="card" id="outputCard">
+      <h2><span class="step">14</span> Final Output: ใบสรุปแผนการเรียน JPE201 ของฉัน</h2>
+      <div id="output" class="output">กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป 1 หน้า” แล้วข้อความจะมารวมตรงนี้ค่ะ</div>
+      <div class="btn-row"><button class="primary" onclick="generateAll()">สร้างสรุป 1 หน้า</button><button class="green" onclick="copyOutput()">คัดลอก</button><button class="blue" onclick="speakOutput()">อ่านออกเสียง</button><button class="danger" onclick="clearOutput()">ล้าง Output</button></div>
+    </div>
+    <p class="footer">JPE201 Lesson 00 Companion App Pro Plus · Created for Khun G by Pookpik</p>
+  </section>
+</main>
+<script>
+  const $ = id => document.getElementById(id);
+  const outputParts = [];
+  const skills = ['Listening','Speaking','Vocabulary','Grammar','Kanji','Confidence'];
+  const quotes = [
+    'วันนี้ไม่ต้องเก่ง แค่กลับมาเปิด App ก็ชนะแล้วค่ะ 🌸\n今日は少しだけ勉強します。',
+    'จำช้าไม่เป็นไร ขอแค่ไม่หยุดจำก็พอค่ะ\nゆっくりでも大丈夫です。',
+    'ภาษาญี่ปุ่นไม่ใช่ภูเขาไฟฟูจิที่ต้องปีนวันเดียวค่ะ ค่อย ๆ เดินก็ถึง\n一歩ずつ進みます。',
+    'ผิดได้ แปลว่ากำลังฝึก ไม่ผิดเลยแปลว่ายังไม่ได้ลองค่ะ\n間違えてもいいです。',
+    'วันนี้ 10 นาที ดีกว่ารอวันที่พร้อม 2 ชั่วโมงค่ะ\n今日、10分だけ勉強します。'
+  ];
+  function init(){
+    $('baselineRows').innerHTML = skills.map(s=>`<div class="score-row"><strong>${s}</strong><input id="base_${s}" type="range" min="1" max="5" value="3" oninput="syncScores()"><span id="num_${s}" class="score-num">3/5</span></div>`).join('');
+    $('radarBars').innerHTML = skills.map(s=>`<div class="score-row"><strong>${s}</strong><div class="bar-wrap"><div id="bar_${s}" class="bar"></div></div><span id="rad_${s}" class="score-num">3/5</span></div>`).join('');
+    const days=['จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','อาทิตย์'];
+    $('scheduleBody').innerHTML=days.map(d=>`<tr><td>${d}</td><td><input id="time_${d}" placeholder="เช่น 20:30"></td><td><input id="task_${d}" placeholder="เช่น ฟัง 10 นาที + อ่านตาม"></td></tr>`).join('');
+    syncScores();
+  }
+  function go(id, btn){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+  function addOutput(title,text){outputParts.push(`【${title}】\n${text}`);$('output').textContent=outputParts.join('\n\n')}
+  function syncScores(){skills.forEach(s=>{const v=$('base_'+s).value;$('num_'+s).textContent=v+'/5';if($('bar_'+s)){$('bar_'+s).style.width=(v*20)+'%';$('rad_'+s).textContent=v+'/5'}})}
+  function updateRadar(){syncScores()}
+  function avgScore(){return Math.round(skills.reduce((sum,s)=>sum+Number($('base_'+s).value),0)/skills.length*10)/10}
+  function generateBaseline(){addOutput('Baseline Check',skills.map(s=>`${s}: ${$('base_'+s).value}/5`).join('\n')+`\nค่าเฉลี่ยเริ่มต้น: ${avgScore()}/5`)}
+  function generateRadarSummary(){const low=skills.filter(s=>Number($('base_'+s).value)<=2);const high=skills.filter(s=>Number($('base_'+s).value)>=4);addOutput('Skill Radar Summary',`จุดแข็งตอนเริ่ม: ${high.join(', ')||'ยังไม่เด่นชัด'}\nจุดที่ควรเน้น: ${low.join(', ')||'อยู่ระดับกลางขึ้นไปทุกด้าน'}\nคำแนะนำ: ฝึกด้านที่คะแนนต่ำก่อน แล้วใช้ด้านที่ถนัดเป็นตัวช่วย เช่น ถ้าชอบเขียน ให้เขียน pattern ก่อนพูดค่ะ`)}
+  function generateStyle(){const selected=[...document.querySelectorAll('.style:checked')].map(x=>x.value);addOutput('Study Style Finder',`วิธีเรียนที่เหมาะกับฉัน:\n- ${(selected.length?selected:['เรียนจาก pattern','พูดตาม','เขียนประโยคของตัวเอง']).join('\n- ')}\n\nคำแนะนำ: ใช้วิธีเหล่านี้เป็น routine ประจำทุกบท เช่น ฟัง → พูดตาม → สร้างประโยคของตัวเอง → บันทึก`) }
+  function quickReflect(){ $('weakness').value='ฟังเสียงญี่ปุ่นจริงแล้วยังจับใจความไม่ทัน\nผันกริยาและเรียงประโยคยังไม่คล่อง\nพูดได้ช้า เพราะกลัวผิด'; $('whyStudy').value='อยากใช้ภาษาญี่ปุ่นสื่อสารเรื่องใกล้ตัวได้จริง และอยากพรีเซนต์สั้น ๆ ได้อย่างมั่นใจ'; }
+  function generateReflection(){addOutput('Reflection Summary',`พื้นฐานเดิม: ${$('pastFeeling').value}\nทักษะที่อยากพัฒนา: ${$('mainSkill').value}\nสิ่งที่ควรปรับปรุง:\n- ${($('weakness').value||'ยังไม่ได้ระบุ').replaceAll('\n','\n- ')}\nเหตุผลที่อยากเรียนให้ดีขึ้น:\n- ${($('whyStudy').value||'ยังไม่ได้ระบุ').replaceAll('\n','\n- ')}`)}
+  function generatePlan(){addOutput('Study Plan',`ฉันจะฝึกวันละ ${$('minutes').value} / ${$('days').value} โดยเหมาะกับช่วง ${$('studyTime').value}\nวิธีฝึก:\n- ${($('method').value||'ฟัง อ่านตาม เขียนประโยคของตัวเอง และทบทวน').replaceAll('\n','\n- ')}\nตัวชี้วัดความก้าวหน้า:\n- ${($('measure').value||'ทำ self-check ได้ครบ และพูดประโยคหลักได้').replaceAll('\n','\n- ')}`)}
+  function fillSchedule(type){
+    const data={
+      light:[['จันทร์','20:30','ฟัง 10 นาที'],['พุธ','20:30','อ่านตาม 10 นาที'],['ศุกร์','20:30','สร้างประโยค 3 ประโยค']],
+      medium:[['จันทร์','20:30','คำศัพท์ + ฟัง'],['อังคาร','20:30','พูดตาม'],['พฤหัสบดี','20:30','Grammar pattern'],['เสาร์','10:00','สร้าง script สั้น']],
+      intense:[['จันทร์','20:30','ฟัง + พูดตาม'],['อังคาร','20:30','คำศัพท์/คันจิ'],['พุธ','20:30','Grammar pattern'],['พฤหัสบดี','20:30','เขียนประโยค'],['ศุกร์','20:30','ทวน Output'],['เสาร์','10:00','Mini presentation']]
+    };
+    document.querySelectorAll('[id^="time_"],[id^="task_"]').forEach(i=>i.value='');
+    data[type].forEach(([d,t,task])=>{$('time_'+d).value=t;$('task_'+d).value=task});
+  }
+  function generateSchedule(){const days=['จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์','อาทิตย์'];const rows=days.map(d=>({d,t:$('time_'+d).value,task:$('task_'+d).value})).filter(x=>x.t||x.task);addOutput('Weekly Schedule',rows.length?rows.map(x=>`${x.d}: ${x.t||'-'} — ${x.task||'-'}`).join('\n'):'ยังไม่ได้กำหนดตาราง')}
+  function setIdentity(t){$('identityText').value=t}
+  function generateIdentity(){addOutput('My Japanese Identity',`ฉันอยากใช้ภาษาญี่ปุ่นเพื่อ: ${$('identityText').value||'สื่อสารเรื่องใกล้ตัวและเข้าใจวัฒนธรรมญี่ปุ่น'}\nผลต่อการเรียน: เวลาเรียนบทถัดไป จะพยายามสร้างตัวอย่างที่เกี่ยวกับเป้าหมายนี้`) }
+  function generateErrors(){const selected=[...document.querySelectorAll('.err:checked')].map(x=>x.value);const other=$('errorOther').value;addOutput('Error Pattern Log',`สิ่งที่ฉันมักผิด:\n- ${(selected.length?selected:['ยังไม่ได้เลือก']).join('\n- ')}${other?'\nอื่น ๆ:\n- '+other.replaceAll('\n','\n- '):''}\n\nวิธีใช้: ก่อนเริ่มแต่ละบท ให้กลับมาอ่าน error log นี้ 1 รอบค่ะ`) }
+  function newQuote(){ $('quoteBox').innerHTML=quotes[Math.floor(Math.random()*quotes.length)].replace('\n','<br><span class="jp">')+'</span>' }
+  function generateMotivation(){addOutput('Motivation Card',$('quoteBox').innerText)}
+  function checkGoal(){const g=$('goal').value.trim();let msg='';let score=0;if(g.length>=20)score++;if(/พูด|ฟัง|อ่าน|เขียน|presentation|พรีเซนต์|บท|นาที|ภายใน|จบ/.test(g))score++;if(/Lesson|16|17|18|19|20|21|JPE/.test(g))score++;if(score>=3)msg='เป้าหมายค่อนข้างชัดและวัดผลได้ดีค่ะ';else if(score===2)msg='เป้าหมายพอใช้ แต่ควรเพิ่มเวลา/บทเรียน/ผลลัพธ์ที่วัดได้';else msg='เป้าหมายยังกว้างไป ลองเขียนว่า “ภายในจบ Lesson 21 ฉันจะพูดแนะนำประเทศ งานอดิเรก และสิ่งที่ชอบได้อย่างน้อย 1 นาที”';$('goalCheck').innerHTML='<strong>ผลตรวจเป้าหมาย:</strong><br>'+msg}
+  function generateContract(){addOutput('Study Contract',`เป้าหมายของฉัน:\n${$('goal').value||'พูดภาษาญี่ปุ่นเรื่องใกล้ตัวได้อย่างมั่นใจ'}\n\nประโยคเป้าหมายภาษาญี่ปุ่น:\n${$('jpGoal').value}\n\nรางวัลเมื่อทำสำเร็จ:\n${$('reward').value||'ให้รางวัลตัวเองเล็ก ๆ หลังทำตามแผนได้'}`)}
+  function generatePreview(){addOutput('End-of-course Target Preview','เมื่อจบชุดนี้ ฉันจะสามารถ:\n- แนะนำประเทศและเปรียบเทียบกับญี่ปุ่นได้\n- ขออนุญาตและเข้าใจกฎ/มารยาทได้\n- ขอร้องและบอกเหตุผลได้\n- เล่างานอดิเรก ความถี่ ปริมาณ และ ranking ได้\n- พูด presentation สิ่งที่ชอบได้\n- ทำ video letter ขอบคุณคนสำคัญได้')}
+  function generateAll(){outputParts.length=0;generateBaseline();generateRadarSummary();generateStyle();generateReflection();generatePlan();generateSchedule();generateIdentity();generateErrors();generateContract();generatePreview();addOutput('Next Step','ต่อไปให้เริ่ม Lesson 16 โดยเปิดแบบเรียนคู่กับ App บทถัดไปค่ะ')}
+  function saveData(){const data={};document.querySelectorAll('input,textarea,select').forEach(el=>{if(el.id)data[el.id]=el.type==='checkbox'?el.checked:el.value});data.styles=[...document.querySelectorAll('.style:checked')].map(x=>x.value);data.errs=[...document.querySelectorAll('.err:checked')].map(x=>x.value);data.ticks=[...document.querySelectorAll('.tick')].map(x=>x.checked);data.output=outputParts;localStorage.setItem('jpe201_lesson00_pro_plus',JSON.stringify(data));alert('บันทึก Lesson 00 แล้วค่ะ 🌸')}
+  function loadData(){const raw=localStorage.getItem('jpe201_lesson00_pro_plus');if(!raw)return alert('ยังไม่มีข้อมูลที่บันทึกไว้ค่ะ');const data=JSON.parse(raw);Object.keys(data).forEach(k=>{const el=$(k);if(el){if(el.type==='checkbox')el.checked=data[k];else el.value=data[k]}});document.querySelectorAll('.style').forEach(x=>x.checked=(data.styles||[]).includes(x.value));document.querySelectorAll('.err').forEach(x=>x.checked=(data.errs||[]).includes(x.value));document.querySelectorAll('.tick').forEach((x,i)=>x.checked=(data.ticks||[])[i]||false);outputParts.length=0;if(Array.isArray(data.output))outputParts.push(...data.output);$('output').textContent=outputParts.length?outputParts.join('\n\n'):'กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป 1 หน้า” แล้วข้อความจะมารวมตรงนี้ค่ะ';syncScores();updateProgress()}
+  function clearAll(){if(!confirm('ล้างข้อมูล Lesson 00 ทั้งหมดไหมคะ?'))return;document.querySelectorAll('textarea,input').forEach(el=>{if(el.type==='checkbox')el.checked=false;else if(el.id!=='jpGoal')el.value=''});document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);$('jpGoal').value='わたしの JPE201 の目標は、日本語でかんたんに話すことです。';skills.forEach(s=>$('base_'+s).value=3);clearOutput();syncScores();updateProgress()}
+  function copyOutput(){navigator.clipboard.writeText($('output').textContent).then(()=>alert('คัดลอกแล้วค่ะ'))}
+  function clearOutput(){outputParts.length=0;$('output').textContent='กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป 1 หน้า” แล้วข้อความจะมารวมตรงนี้ค่ะ'}
+  function speak(text){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=.82;window.speechSynthesis.speak(u)}
+  function speakGoal(){speak($('jpGoal').value)}
+  function speakOutput(){speak($('output').textContent.replace(/【.*?】/g,''))}
+  function updateProgress(){const ticks=[...document.querySelectorAll('.tick')];const pct=Math.round(ticks.filter(t=>t.checked).length/ticks.length*100);$('progress').style.width=pct+'%';$('progressText').textContent='ความพร้อม: '+pct+'%'}
+  document.addEventListener('change',e=>{if(e.target.classList.contains('tick'))updateProgress();if(e.target.type==='range')syncScores()});
+  init();
+</script>
+</body>
+</html>
