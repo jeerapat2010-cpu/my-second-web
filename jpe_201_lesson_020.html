@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JPE201 Lesson 20 Companion App Pro Plus</title>
+  <style>
+    :root{
+      --ink:#302634;--muted:#75677b;--card:rgba(255,255,255,.94);--primary:#ff6fae;--primary-dark:#ba2e68;
+      --violet:#8b65f6;--blue:#4e9ff6;--green:#36a77a;--gold:#d6a342;--red:#df5d62;
+      --soft:#fff0f7;--line:#ffc4df;--shadow:0 18px 42px rgba(255,111,174,.16);--radius:26px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:"Noto Sans Thai","Noto Sans JP",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);background:radial-gradient(circle at 12% 8%,rgba(255,111,174,.22),transparent 27%),radial-gradient(circle at 84% 8%,rgba(139,101,246,.14),transparent 25%),radial-gradient(circle at 52% 100%,rgba(78,159,246,.12),transparent 35%),linear-gradient(135deg,#fff7fb 0%,#fffdf5 52%,#f5fbff 100%)}
+    .jp{font-family:"Noto Sans JP","Yu Gothic",system-ui,sans-serif;letter-spacing:.02em}
+    header{text-align:center;padding:30px 16px 18px;position:relative;overflow:hidden}
+    header:before{content:"";position:absolute;inset:0;opacity:.20;background-image:radial-gradient(circle at 18px 18px,rgba(255,111,174,.55) 0 4px,transparent 5px),radial-gradient(circle at 54px 44px,rgba(139,101,246,.38) 0 4px,transparent 5px),radial-gradient(circle at 88px 20px,rgba(78,159,246,.38) 0 3px,transparent 4px);background-size:112px 76px}
+    header>*{position:relative}.badge{display:inline-flex;gap:8px;align-items:center;background:var(--soft);border:1px solid var(--line);color:var(--primary-dark);padding:8px 14px;border-radius:999px;font-weight:900}
+    h1{font-size:clamp(1.9rem,4.2vw,3.25rem);line-height:1.08;margin:14px 0 8px}.subtitle{max-width:1160px;margin:0 auto;color:var(--muted);line-height:1.75;font-size:1.04rem}
+    main{width:min(1300px,calc(100% - 28px));margin:0 auto 48px}.layout{display:grid;grid-template-columns:345px 1fr;gap:18px;align-items:start}@media(max-width:1020px){.layout{grid-template-columns:1fr}.side{position:static!important}}
+    .side,.card{background:var(--card);border:1px solid rgba(255,196,223,.95);box-shadow:var(--shadow);border-radius:var(--radius);backdrop-filter:blur(8px)}.side{position:sticky;top:14px;padding:16px}.side h2{font-size:1.06rem;margin:4px 0 12px}.nav{display:grid;gap:7px}.nav button{width:100%;text-align:left;background:transparent;border:1px solid transparent;color:var(--ink);border-radius:16px;padding:11px 12px;font:inherit;font-weight:850;cursor:pointer}.nav button:hover,.nav button.active{background:var(--soft);border-color:var(--line);color:var(--primary-dark);transform:translateX(2px)}
+    .card{padding:22px;margin-bottom:18px}.card h2{display:flex;gap:10px;align-items:center;margin:0 0 12px;font-size:1.28rem}.step{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:12px;background:var(--primary);color:#fff;font-weight:950;flex:0 0 auto}.hint{color:var(--muted);line-height:1.75;margin:8px 0}.book-ref{background:#fff8e7;border-left:5px solid var(--gold);border-radius:17px;padding:13px 15px;line-height:1.7;margin:12px 0;color:#5c4817}
+    .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}@media(max-width:900px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
+    label{display:block;font-weight:900;margin:16px 0 8px}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:18px;background:#fff;padding:13px 14px;color:var(--ink);font:inherit;outline:none;transition:.16s ease}textarea{min-height:88px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(255,111,174,.13)}
+    .mini-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;min-height:106px}.mini-card strong{color:var(--primary-dark)}.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}button{border:0;border-radius:16px;padding:12px 16px;cursor:pointer;font:inherit;font-weight:950;transition:.16s ease}button:hover{transform:translateY(-1px)}.primary{background:linear-gradient(135deg,var(--primary),#ff9bc8);color:#fff;box-shadow:0 12px 24px rgba(255,111,174,.24)}.blue{background:#eff7ff;color:#1f66ad;border:1px solid #c8dff7}.green{background:#ecfff7;color:#1d7a5a;border:1px solid #bce8d7}.violet{background:#f4f0ff;color:#5b34bf;border:1px solid #d9ccfb}.gold{background:#fff8e6;color:#815f11;border:1px solid #efdba4}.ghost{background:#fff;color:var(--primary-dark);border:1px solid var(--line)}.danger{background:#fff1f1;color:#b73835;border:1px solid #ffc7c6}
+    .guide-steps{display:grid;gap:10px;margin-top:12px}.guide-step{display:grid;grid-template-columns:42px 1fr;gap:10px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px}.guide-no{display:grid;place-items:center;width:34px;height:34px;border-radius:13px;background:linear-gradient(135deg,var(--primary),var(--violet));color:#fff;font-weight:950}.map-table{width:100%;border-collapse:separate;border-spacing:0 8px;margin-top:12px}.map-table td{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px;vertical-align:top}.map-table td:first-child{border-left:1px solid var(--line);border-radius:14px 0 0 14px;font-weight:950;color:var(--primary-dark);width:34%}.map-table td:last-child{border-right:1px solid var(--line);border-radius:0 14px 14px 0}.pattern{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:14px;background:#fffafd;border:1px dashed #f5a9cb;border-radius:18px;margin-top:10px}.block{display:inline-flex;align-items:center;justify-content:center;padding:9px 12px;border-radius:13px;background:#fff;border:1px solid var(--line);font-weight:950;color:var(--primary-dark);min-height:40px}.plus{color:var(--muted);font-weight:950}
+    .rubric{display:grid;gap:8px;margin-top:12px}.rubric label{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center;margin:0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px}.rubric input{width:auto;accent-color:var(--primary)}.progress-wrap{height:16px;border-radius:999px;background:#ffe3f0;border:1px solid var(--line);overflow:hidden;margin-top:12px}.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--primary),var(--violet));transition:.3s ease}.output{background:#352230;color:#fff8fb;border-radius:22px;padding:18px;white-space:pre-wrap;line-height:1.82;min-height:260px;overflow-wrap:anywhere}.footer{text-align:center;color:var(--muted);font-size:.92rem;margin:20px 0}
+    .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.tag{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:850}.tag:hover{background:var(--soft)}.quiz{display:grid;gap:10px}.quiz-item{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px}.quiz-item strong{color:var(--primary-dark)}.kanji-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}@media(max-width:720px){.kanji-list{grid-template-columns:1fr}}.kanji-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:17px;padding:11px 12px}.kanji-char{font-size:1.45rem;font-weight:950;color:var(--primary-dark);min-width:58px;text-align:center}.kanji-item input{width:auto;accent-color:var(--primary)}.script-row{display:grid;grid-template-columns:220px 1fr;gap:10px;align-items:center;margin-top:10px}.script-label{background:linear-gradient(135deg,var(--primary),var(--violet));color:#fff;border-radius:16px;padding:12px;font-weight:950;text-align:center}@media(max-width:700px){.script-row{grid-template-columns:1fr}}
+    @media print{.side,.btn-row,header:before{display:none}.layout{display:block}.card{box-shadow:none;border:1px solid #ddd}.output{background:#fff;color:#000;border:1px solid #ddd}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="badge">💖 Lesson 20 Pro Plus · Favorite Presentation Master</div>
+  <h1>Lesson 20: My Favorite Thing</h1>
+  <p class="subtitle">App ฝึกเสริมบท 20 แบบเต็ม: อธิบายสิ่งที่ชอบ บอกความรู้สึก ความประทับใจครั้งแรก ใช้ とき / のは / ので ทำ presentation สั้น ซ้อม Q&A และตรวจ script เพื่อเพิ่มประสิทธิภาพการเรียนสูงสุดค่ะ</p>
+</header>
+<main class="layout">
+  <aside class="side">
+    <h2>เมนู Lesson 20</h2>
+    <div class="nav">
+      <button class="active" onclick="go('guide',this)">📖 Textbook Guide</button>
+      <button onclick="go('warmup',this)">💡 Warm-up</button>
+      <button onclick="go('topic',this)">🎯 Topic Finder</button>
+      <button onclick="go('describe',this)">🧾 Describe</button>
+      <button onclick="go('vocab',this)">🧩 Vocab Bank</button>
+      <button onclick="go('feeling',this)">😊 Feeling</button>
+      <button onclick="go('firsttime',this)">✨ First-time</button>
+      <button onclick="go('reason',this)">🍊 Reason</button>
+      <button onclick="go('structure',this)">🧱 Sentence Builder</button>
+      <button onclick="go('presentation',this)">🎤 Presentation</button>
+      <button onclick="go('qa',this)">❓ Q&A Practice</button>
+      <button onclick="go('listening',this)">🎧 Listening Notes</button>
+      <button onclick="go('quiz',this)">🧪 Mini Quiz</button>
+      <button onclick="go('error',this)">🧯 Error Clinic</button>
+      <button onclick="go('kanji',this)">字 Kanji Studio</button>
+      <button onclick="go('rubric',this)">✅ Rubric</button>
+      <button onclick="go('outputCard',this)">📒 Output</button>
+    </div>
+    <div class="btn-row" style="display:grid">
+      <button class="green" onclick="saveData()">💾 Save</button>
+      <button class="ghost" onclick="loadData()">📂 Load</button>
+      <button class="gold" onclick="window.print()">🖨️ Print</button>
+      <button class="danger" onclick="clearAll()">🧽 Reset</button>
+    </div>
+  </aside>
+
+  <section>
+    <div class="card" id="guide">
+      <h2><span class="step">1</span> Textbook Guide: เปิดแบบเรียนคู่กัน</h2>
+      <div class="book-ref"><strong>เปิดไฟล์ 25-1JPE201 L20.pdf</strong><br>บทนี้เน้นการอธิบายสิ่งที่ชอบ ความรู้สึก/ความประทับใจ การบอก “เมื่อไหร่” และ “ทำไม” และการทำ short presentation เกี่ยวกับสิ่งที่ชอบหรือกิจกรรมที่ชอบ</div>
+      <table class="map-table">
+        <tr><td>Activity Mapping</td><td>• Target 1: Describing what kind of thing it is → Topic Finder + Describe<br>• Target 2: Express feelings → Feeling<br>• Target 3: Express impression / when → First-time + Sentence Builder<br>• Target 4: Tell reason why I like it → Reason<br>• Task: Introduce favorite thing/activity → Presentation + Q&A</td></tr>
+        <tr><td>Listening Placeholder</td><td>ฟัง Track ของ Lesson 20 แล้วจด favorite thing, feeling, first-time, reason และ presentation structure<br><textarea id="listenNote" placeholder="จดคำที่ได้ยิน เช่น 好き / 楽しい / 初めて / 感動しました / ので"></textarea></td></tr>
+        <tr><td>App Practice</td><td>เลือกหัวข้อ → อธิบายว่าคืออะไร → บอก feeling → เล่าครั้งแรก → บอกเหตุผล → รวมเป็น presentation → ซ้อมถามตอบ</td></tr>
+      </table>
+      <div class="guide-steps">
+        <div class="guide-step"><div class="guide-no">1</div><div><strong>เปิดหนังสือ</strong><br>ดูตัวอย่างสิ่งที่ชอบและ script ในบทเรียน</div></div>
+        <div class="guide-step"><div class="guide-no">2</div><div><strong>เลือกเรื่องที่ชอบจริง</strong><br>ยิ่งชอบจริง ยิ่งพูดได้เป็นธรรมชาติ</div></div>
+        <div class="guide-step"><div class="guide-no">3</div><div><strong>สร้างประโยคย่อยก่อน</strong><br>Describe → Feeling → First-time → Reason</div></div>
+        <div class="guide-step"><div class="guide-no">4</div><div><strong>รวมเป็น Presentation</strong><br>ตรวจ rubric ก่อนพูดจริงค่ะ</div></div>
+      </div>
+    </div>
+
+    <div class="card" id="warmup">
+      <h2><span class="step">2</span> Warm-up: สิ่งที่ฉันชอบ</h2>
+      <div class="grid3">
+        <div><label>สิ่งที่ฉันชอบมาก</label><textarea id="favList" placeholder="เช่น เพลง / หนัง / อนิเมะ / คาเฟ่ / ฟุตบอล / กาแฟ"></textarea></div>
+        <div><label>ความรู้สึกเมื่อทำ/ดู/ฟัง</label><textarea id="feelingList" placeholder="เช่น สนุก / ประทับใจ / สดชื่น / ตื่นเต้น"></textarea></div>
+        <div><label>เหตุผลที่ชอบ</label><textarea id="reasonList" placeholder="เช่น เพลงดี / เรื่องน่าสนใจ / ทำให้ผ่อนคลาย"></textarea></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateWarmup()">สร้าง Warm-up Note</button></div>
+    </div>
+
+    <div class="card" id="topic">
+      <h2><span class="step">3</span> Topic Finder</h2>
+      <div class="tagrow">
+        <span class="tag" onclick="setTopic('BTS','韓国の歌手グループ','歌とダンス')">🎤 ศิลปิน</span>
+        <span class="tag" onclick="setTopic('鬼滅の刃','日本のアニメ','ストーリーとキャラクター')">🎬 อนิเมะ</span>
+        <span class="tag" onclick="setTopic('サッカー','世界で人気があるスポーツ','試合')">⚽ กีฬา</span>
+        <span class="tag" onclick="setTopic('コーヒー','世界でよく飲まれている飲み物','香り')">☕ กาแฟ</span>
+        <span class="tag" onclick="setTopic('写真','わたしの趣味','思い出')">📷 ถ่ายรูป</span>
+        <span class="tag" onclick="setTopic('旅行','楽しい活動','新しい場所')">✈️ ท่องเที่ยว</span>
+      </div>
+      <div class="grid3">
+        <div><label>Favorite thing/activity</label><input id="favName" class="jp" placeholder="BTS"></div>
+        <div><label>Type / Category</label><input id="favType" class="jp" placeholder="韓国の歌手グループ"></div>
+        <div><label>Main point</label><input id="favPoint" class="jp" placeholder="歌とダンス"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateTopicNote()">บันทึก Topic</button></div>
+    </div>
+
+    <div class="card" id="describe">
+      <h2><span class="step">4</span> Describe Maker: อธิบายว่าสิ่งนี้คืออะไร</h2>
+      <div class="grid2">
+        <div><label>ชื่อสิ่งที่ชอบ</label><input id="descName" class="jp" placeholder="BTS"></div>
+        <div><label>เป็นอะไร</label><input id="descType" class="jp" placeholder="韓国の歌手グループ"></div>
+        <div><label>จุดเด่น</label><input id="descPoint" class="jp" placeholder="歌とダンスが有名です"></div>
+        <div><label>ความสัมพันธ์กับฉัน</label><input id="descRelation" class="jp" placeholder="毎日聞きます / よく見ます"></div>
+      </div>
+      <div class="pattern"><span class="block jp">A は B です。</span><span class="plus">= A คือ B</span><span class="block jp">A は B という C です。</span><span class="plus">= A เป็น C ที่เรียกว่า B</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateDescribe()">สร้าง Describe</button></div>
+    </div>
+
+    <div class="card" id="vocab">
+      <h2><span class="step">5</span> Vocabulary Bank</h2>
+      <div class="grid3">
+        <div class="mini-card"><strong>Feeling</strong><br><span class="jp">楽しい・おもしろい・うれしい・気持ちいい・こわい・さびしい・感動します</span></div>
+        <div class="mini-card"><strong>Impression</strong><br><span class="jp">びっくりしました・わくわくしました・がっかりしました・感動しました</span></div>
+        <div class="mini-card"><strong>Presentation</strong><br><span class="jp">今日は〜について発表します・これで発表を終わります・質問がありますか</span></div>
+      </div>
+      <p class="hint">ใช้คลังคำนี้ประกอบ Feeling, First-time และ Presentation ค่ะ</p>
+    </div>
+
+    <div class="card" id="feeling">
+      <h2><span class="step">6</span> Feeling Maker: Verb + のは + Adj.</h2>
+      <div class="grid2">
+        <div><label>กิจกรรมรูป SHORT-form</label><input id="actionShort" class="jp" placeholder="音楽を聞く"></div>
+        <div><label>ความรู้สึก</label><select id="feelingAdj" class="jp"><option>楽しい</option><option>おもしろい</option><option>うれしい</option><option>気持ちいい</option><option>感動します</option><option>こわい</option><option>さびしい</option><option>つまらない</option></select></div>
+      </div>
+      <div class="tagrow"><span class="tag" onclick="setFeeling('音楽を聞く','楽しい')">ฟังเพลง → สนุก</span><span class="tag" onclick="setFeeling('映画を見る','感動します')">ดูหนัง → ประทับใจ</span><span class="tag" onclick="setFeeling('旅行する','気持ちいい')">เที่ยว → สดชื่น</span><span class="tag" onclick="setFeeling('人の前で話す','はずかしい')">พูดต่อหน้า → เขิน</span></div>
+      <div class="pattern"><span class="block jp">Verb SHORT-form</span><span class="plus">+</span><span class="block jp">のは</span><span class="plus">+</span><span class="block jp">Adj.です。</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateFeeling()">สร้าง Feeling Sentence</button></div>
+    </div>
+
+    <div class="card" id="firsttime">
+      <h2><span class="step">7</span> First-time Impression: 初めて〜たのは</h2>
+      <div class="grid3">
+        <div><label>สิ่งที่ทำครั้งแรก</label><input id="firstAction" class="jp" placeholder="この映画を見た"></div>
+        <div><label>ช่วงเวลา</label><input id="firstWhen" class="jp" placeholder="高校生のとき"></div>
+        <div><label>ความประทับใจ</label><select id="firstImpression" class="jp"><option>びっくりしました</option><option>感動しました</option><option>わくわくしました</option><option>がっかりしました</option><option>とても楽しかったです</option></select></div>
+      </div>
+      <div class="tagrow"><span class="tag" onclick="setFirst('この映画を見た','高校生のとき','感動しました')">หนัง → ประทับใจ</span><span class="tag" onclick="setFirst('飛行機に乗った','20歳のとき','びっくりしました')">เครื่องบิน → ตกใจ</span><span class="tag" onclick="setFirst('日本へ行った','大学生のとき','わくわくしました')">ไปญี่ปุ่น → ตื่นเต้น</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateFirst()">สร้าง First-time Sentence</button></div>
+    </div>
+
+    <div class="card" id="reason">
+      <h2><span class="step">8</span> Reason Maker: ので</h2>
+      <div class="grid3">
+        <div><label>เหตุผล</label><input id="reasonShort" class="jp" placeholder="歌がいい"></div>
+        <div><label>ชนิดเหตุผล</label><select id="reasonType"><option value="normal">Verb / い-adj / negative</option><option value="na">な-adj</option><option value="noun">Noun</option></select></div>
+        <div><label>สิ่งที่ชอบ</label><input id="reasonFav" class="jp" placeholder="BTS"></div>
+      </div>
+      <div class="tagrow"><span class="tag" onclick="setReason('歌がいい','normal')">เพลงดี</span><span class="tag" onclick="setReason('おもしろい','normal')">น่าสนุก</span><span class="tag" onclick="setReason('有名','na')">มีชื่อเสียง</span><span class="tag" onclick="setReason('大好き','na')">ชอบมาก</span></div>
+      <div class="btn-row"><button class="primary" onclick="generateReason()">สร้าง Reason Sentence</button></div>
+    </div>
+
+    <div class="card" id="structure">
+      <h2><span class="step">9</span> Sentence Builder: とき / のは / ので</h2>
+      <div class="grid3">
+        <div><label>とき sentence</label><input id="tokiSentence" class="jp" placeholder="初めて見たとき、感動しました"></div>
+        <div><label>のは sentence</label><input id="nowaSentence" class="jp" placeholder="映画を見るのは楽しいです"></div>
+        <div><label>ので sentence</label><input id="nodeSentence" class="jp" placeholder="おもしろいので、好きです"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateStructure()">รวม 3 โครงสร้าง</button></div>
+    </div>
+
+    <div class="card" id="presentation">
+      <h2><span class="step">10</span> Presentation Builder</h2>
+      <div class="script-row"><div class="script-label">1) Favorite thing</div><input id="scriptFav" class="jp" placeholder="BTS"></div>
+      <div class="script-row"><div class="script-label">2) Brief explanation</div><textarea id="scriptExplain" class="jp" placeholder="BTSは韓国の歌手グループです。"></textarea></div>
+      <div class="script-row"><div class="script-label">3) Reason why I like</div><textarea id="scriptReason" class="jp" placeholder="歌がいいので、好きです。"></textarea></div>
+      <div class="script-row"><div class="script-label">4) Add information</div><textarea id="scriptExtra" class="jp" placeholder="初めて聞いたとき、感動しました。毎日聞きます。"></textarea></div>
+      <div class="script-row"><div class="script-label">Opening/Closing</div><textarea id="scriptOC" class="jp" placeholder="みなさん、こんにちは。今日は、わたしの好きなものについて発表します。\nこれで、発表を終わります。ありがとうございました。"></textarea></div>
+      <div class="btn-row"><button class="green" onclick="pullPresentation()">ดึงข้อมูลจากด้านบน</button><button class="primary" onclick="generatePresentation()">สร้าง Presentation เต็ม</button><button class="blue" onclick="speakPresentation()">อ่าน Presentation</button></div>
+    </div>
+
+    <div class="card" id="qa">
+      <h2><span class="step">11</span> Q&A Practice</h2>
+      <div class="grid2">
+        <div class="quiz-item"><strong class="jp">Q: 何が好きですか。</strong><input id="qa1" class="jp" placeholder="BTSが好きです。"></div>
+        <div class="quiz-item"><strong class="jp">Q: それは何ですか。</strong><input id="qa2" class="jp" placeholder="韓国の歌手グループです。"></div>
+        <div class="quiz-item"><strong class="jp">Q: どうして好きですか。</strong><input id="qa3" class="jp" placeholder="歌がいいので、好きです。"></div>
+        <div class="quiz-item"><strong class="jp">Q: 初めて〜たのはいつですか。</strong><input id="qa4" class="jp" placeholder="高校生のときです。"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="generateQA()">สร้าง Q&A Sheet</button></div>
+    </div>
+
+    <div class="card" id="listening">
+      <h2><span class="step">12</span> Listening Notes</h2>
+      <div class="grid2">
+        <div><label>Favorite thing ที่ได้ยิน</label><textarea id="heardFav" class="jp"></textarea></div>
+        <div><label>Feeling/Impression ที่ได้ยิน</label><textarea id="heardFeeling" class="jp"></textarea></div>
+        <div><label>First-time / とき ที่ได้ยิน</label><textarea id="heardFirst" class="jp"></textarea></div>
+        <div><label>Reason / ので ที่ได้ยิน</label><textarea id="heardReason" class="jp"></textarea></div>
+      </div>
+      <label>คำที่ยังฟังไม่ชัด / จะถามครู</label><textarea id="listenQuestion"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateListeningNote()">สร้าง Listening Note</button></div>
+    </div>
+
+    <div class="card" id="quiz">
+      <h2><span class="step">13</span> Mini Quiz</h2>
+      <div class="quiz">
+        <div class="quiz-item"><strong>1) การฟังเพลงสนุก</strong><input id="quiz1" class="jp" placeholder="音楽を聞くのは楽しいです"></div>
+        <div class="quiz-item"><strong>2) ครั้งแรกที่ดูหนังเรื่องนี้คือตอนมัธยม</strong><input id="quiz2" class="jp" placeholder="初めてこの映画を見たのは、高校生のときです"></div>
+        <div class="quiz-item"><strong>3) เพราะเพลงดี จึงชอบ BTS</strong><input id="quiz3" class="jp" placeholder="歌がいいので、BTSが好きです"></div>
+        <div class="quiz-item"><strong>4) สิ่งที่ฉันชอบคือกาแฟ</strong><input id="quiz4" class="jp" placeholder="わたしが好きなのは、コーヒーです"></div>
+      </div>
+      <div class="btn-row"><button class="primary" onclick="checkQuiz()">ตรวจ Quiz แบบช่วยจำ</button></div>
+      <div id="quizResult" class="book-ref">กดตรวจเพื่อดู feedback ค่ะ</div>
+    </div>
+
+    <div class="card" id="error">
+      <h2><span class="step">14</span> Error Clinic: จุดที่คนไทยมักพลาด</h2>
+      <div class="rubric">
+        <label><input type="checkbox" class="err" value="ลืมใช้ SHORT-form ก่อน のは"> <span>ลืมใช้ SHORT-form ก่อน のは</span></label>
+        <label><input type="checkbox" class="err" value="สับสน とき กับ のは"> <span>สับสน とき กับ のは</span></label>
+        <label><input type="checkbox" class="err" value="ใช้ ので กับ な-adj/noun แล้วลืม な"> <span>ลืม な ใน なので</span></label>
+        <label><input type="checkbox" class="err" value="Presentation ไม่มีเหตุผลว่าทำไมชอบ"> <span>Presentation ไม่มีเหตุผลว่าทำไมชอบ</span></label>
+        <label><input type="checkbox" class="err" value="พูดเร็วเกินไปจนเลข/ชื่อเฉพาะฟังไม่ชัด"> <span>พูดเร็วเกินไป ชื่อเฉพาะไม่ชัด</span></label>
+      </div>
+      <label>สิ่งที่จะทวนก่อนขึ้น Lesson 21</label><textarea id="reviewNext"></textarea>
+      <div class="btn-row"><button class="primary" onclick="generateErrorClinic()">สร้าง Error Clinic Note</button></div>
+    </div>
+
+    <div class="card" id="kanji">
+      <h2><span class="step">15</span> Kanji Studio</h2>
+      <div class="kanji-list" id="kanjiList"></div>
+      <div class="btn-row"><button class="gold" onclick="generateKanjiNote()">บันทึก Kanji ที่ฝึกแล้ว</button></div>
+    </div>
+
+    <div class="card" id="rubric">
+      <h2><span class="step">16</span> Rubric ก่อนผ่าน Lesson 20</h2>
+      <div class="rubric">
+        <label><input type="checkbox" class="tick"> <span>ฉันอธิบายสิ่งที่ชอบว่าเป็นอะไรได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันใช้ Verb SHORT-form + のは + Adj. ได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันเล่าครั้งแรกและความประทับใจด้วย とき ได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันบอกเหตุผลที่ชอบด้วย ので ได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>Presentation มี 4 ส่วนหลักครบ</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันตอบ Q&A หลัง presentation ได้</span></label>
+        <label><input type="checkbox" class="tick"> <span>ฉันทวนคันจิของบทนี้แล้ว</span></label>
+      </div>
+      <div class="progress-wrap"><div id="progress" class="progress-bar"></div></div>
+      <p id="progressText" class="hint">ความพร้อม: 0%</p>
+    </div>
+
+    <div class="card" id="outputCard">
+      <h2><span class="step">17</span> Output: My Lesson 20 Notebook</h2>
+      <div id="output" class="output">กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 20 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ</div>
+      <div class="btn-row"><button class="primary" onclick="generateAll()">สร้างสรุป Lesson 20 ทั้งหมด</button><button class="green" onclick="copyOutput()">คัดลอก</button><button class="blue" onclick="speakOutput()">อ่านออกเสียง</button><button class="danger" onclick="clearOutput()">ล้าง Output</button></div>
+    </div>
+    <p class="footer">JPE201 Lesson 20 Companion App Pro Plus · Created for Khun G by Pookpik</p>
+  </section>
+</main>
+<script>
+const $=id=>document.getElementById(id);const outputParts=[];
+const kanji=[['映画','えいが','ภาพยนตร์'],['気持ち','きもち','ความรู้สึก'],['運転','うんてん','การขับรถ'],['自転車','じてんしゃ','จักรยาน'],['歌','うた','เพลง'],['歌手','かしゅ','นักร้อง'],['上手','じょうず','เก่ง/ชำนาญ'],['下手','へた','ไม่ถนัด'],['世界','せかい','โลก'],['読者','どくしゃ','ผู้อ่าน'],['歩く','あるく','เดิน']];
+function go(id,btn){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+function addOutput(title,text){outputParts.push(`【${title}】\n${text}`);$('output').textContent=outputParts.join('\n\n')}
+function generateWarmup(){addOutput('Warm-up',`สิ่งที่ชอบ:\n${$('favList').value||'-'}\n\nความรู้สึก:\n${$('feelingList').value||'-'}\n\nเหตุผล:\n${$('reasonList').value||'-'}`)}
+function setTopic(name,type,point){$('favName').value=name;$('favType').value=type;$('favPoint').value=point;$('descName').value=name;$('descType').value=type;$('descPoint').value=point+'が有名です';$('reasonFav').value=name;$('scriptFav').value=name}
+function generateTopicNote(){addOutput('Topic Finder',`Favorite: ${$('favName').value||'-'}\nType: ${$('favType').value||'-'}\nMain point: ${$('favPoint').value||'-'}`)}
+function generateDescribe(){const name=$('descName').value||$('favName').value||'BTS';const text=`${name}は、${$('descType').value||$('favType').value||'韓国の歌手グループ'}です。\n${$('descPoint').value||'歌とダンスが有名です'}。\nわたしは、${$('descRelation').value||'よく見ます'}。`;addOutput('Describe',text);$('scriptExplain').value=text}
+function setFeeling(a,f){$('actionShort').value=a;$('feelingAdj').value=f}
+function generateFeeling(){const f=$('feelingAdj').value;const s=`${$('actionShort').value||'音楽を聞く'}のは、${f}${f.endsWith('します')?'':'です'}。`;addOutput('Feeling',s);$('nowaSentence').value=s}
+function setFirst(a,w,i){$('firstAction').value=a;$('firstWhen').value=w;$('firstImpression').value=i}
+function generateFirst(){const s=`初めて${$('firstAction').value||'この映画を見た'}のは、${$('firstWhen').value||'高校生のとき'}です。\nそのとき、${$('firstImpression').value}。`;addOutput('First-time Impression',s);$('tokiSentence').value=s}
+function setReason(r,t){$('reasonShort').value=r;$('reasonType').value=t}
+function conn(){return ($('reasonType').value==='na'||$('reasonType').value==='noun')?'なので':'ので'}
+function generateReason(){const fav=$('reasonFav').value||$('favName').value||'BTS';const s=`${$('reasonShort').value||'歌がいい'}${conn()}、${fav}が好きです。`;addOutput('Reason Why I Like It',s);$('nodeSentence').value=s;$('scriptReason').value=s}
+function generateStructure(){addOutput('Sentence Builder',`${$('tokiSentence').value||'初めて見たとき、感動しました。'}\n${$('nowaSentence').value||'映画を見るのは楽しいです。'}\n${$('nodeSentence').value||'おもしろいので、好きです。'}`)}
+function pullPresentation(){if(!$('scriptFav').value)$('scriptFav').value=$('favName').value||'BTS';if(!$('scriptExplain').value)generateDescribe();if(!$('scriptReason').value)generateReason();if(!$('scriptExtra').value)$('scriptExtra').value=[ $('tokiSentence').value, $('nowaSentence').value ].filter(Boolean).join('\n');if(!$('scriptOC').value)$('scriptOC').value='みなさん、こんにちは。今日は、わたしの好きなものについて発表します。\nこれで、発表を終わります。ありがとうございました。'}
+function generatePresentation(){const fav=$('scriptFav').value||$('favName').value||'BTS';const oc=$('scriptOC').value||'みなさん、こんにちは。今日は、わたしの好きなものについて発表します。\nこれで、発表を終わります。ありがとうございました。';const parts=oc.split('\n');const open=parts[0]||'みなさん、こんにちは。';const close=parts.slice(1).join('\n')||'これで、発表を終わります。ありがとうございました。';const text=`${open}\n\nわたしが好きなのは、${fav}です。\n${$('scriptExplain').value||''}\n\n${$('scriptReason').value||''}\n\n${$('scriptExtra').value||''}\n\n${close}`;addOutput('Presentation',text)}
+function generateQA(){addOutput('Q&A Practice',`Q: 何が好きですか。\nA: ${$('qa1').value||'BTSが好きです。'}\n\nQ: それは何ですか。\nA: ${$('qa2').value||'韓国の歌手グループです。'}\n\nQ: どうして好きですか。\nA: ${$('qa3').value||'歌がいいので、好きです。'}\n\nQ: 初めて〜たのはいつですか。\nA: ${$('qa4').value||'高校生のときです。'}`)}
+function generateListeningNote(){addOutput('Listening Notes',`Favorite thing:\n${$('heardFav').value||'-'}\n\nFeeling/Impression:\n${$('heardFeeling').value||'-'}\n\nFirst-time/とき:\n${$('heardFirst').value||'-'}\n\nReason/ので:\n${$('heardReason').value||'-'}\n\nคำถามที่จะถามครู:\n${$('listenQuestion').value||'-'}`)}
+function checkQuiz(){const ex=['音楽を聞くのは楽しいです','初めてこの映画を見たのは、高校生のときです','歌がいいので、BTSが好きです','わたしが好きなのは、コーヒーです'];let fb=ex.map((e,i)=>`${i+1}) คำตอบของฉัน: ${$('quiz'+(i+1)).value||'-'}\nตัวอย่าง: ${e}`).join('\n\n');$('quizResult').innerHTML=fb.replaceAll('\n','<br>');addOutput('Mini Quiz',fb)}
+function generateErrorClinic(){const errs=[...document.querySelectorAll('.err:checked')].map(x=>x.value);addOutput('Error Clinic',`จุดที่ต้องระวัง:\n- ${(errs.length?errs:['ยังไม่ได้เลือก']).join('\n- ')}\n\nสิ่งที่จะทวนก่อนขึ้น Lesson 21:\n${$('reviewNext').value||'-'}`)}
+function generateKanjiNote(){const checked=[...document.querySelectorAll('.kanjiTick:checked')].map(x=>x.value);addOutput('Kanji Practice',`ฝึกคันจิแล้ว: ${checked.join(', ')||'ยังไม่ได้ติ๊ก'}\nคันจิบทนี้เกี่ยวกับภาพยนตร์ ความรู้สึก การเดินทาง เพลง นักร้อง และโลกค่ะ`)}
+function generateAll(){outputParts.length=0;generateWarmup();generateTopicNote();generateDescribe();generateFeeling();generateFirst();generateReason();generateStructure();pullPresentation();generatePresentation();generateQA();generateListeningNote();generateErrorClinic();generateKanjiNote();addOutput('Next Step','หลังจบ Lesson 20 ให้ไป Lesson 21 เพื่อฝึกแนะนำคนสำคัญและทำ Video Letter ค่ะ')}
+function renderKanji(){ $('kanjiList').innerHTML=kanji.map(([c,r,m])=>`<label class="kanji-item"><span class="kanji-char jp">${c}</span><span><strong class="jp">${r}</strong><br><span class="hint">${m}</span></span><input class="kanjiTick" type="checkbox" value="${c}"></label>`).join('') }
+function saveData(){const data={};document.querySelectorAll('input,textarea,select').forEach(el=>{if(el.id)data[el.id]=el.type==='checkbox'?el.checked:el.value});data.kanji=[...document.querySelectorAll('.kanjiTick')].map(x=>x.checked);data.err=[...document.querySelectorAll('.err')].map(x=>x.checked);data.ticks=[...document.querySelectorAll('.tick')].map(x=>x.checked);data.output=outputParts;localStorage.setItem('jpe201_lesson20_pro_plus',JSON.stringify(data));alert('บันทึก Lesson 20 แล้วค่ะ 💖')}
+function loadData(){const raw=localStorage.getItem('jpe201_lesson20_pro_plus');if(!raw)return alert('ยังไม่มีข้อมูลที่บันทึกไว้ค่ะ');const data=JSON.parse(raw);Object.keys(data).forEach(k=>{const el=$(k);if(el){if(el.type==='checkbox')el.checked=data[k];else el.value=data[k]}});document.querySelectorAll('.kanjiTick').forEach((x,i)=>x.checked=(data.kanji||[])[i]||false);document.querySelectorAll('.err').forEach((x,i)=>x.checked=(data.err||[])[i]||false);document.querySelectorAll('.tick').forEach((x,i)=>x.checked=(data.ticks||[])[i]||false);outputParts.length=0;if(Array.isArray(data.output))outputParts.push(...data.output);$('output').textContent=outputParts.length?outputParts.join('\n\n'):'กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 20 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ';updateProgress()}
+function clearAll(){if(!confirm('ล้างข้อมูล Lesson 20 ทั้งหมดไหมคะ?'))return;document.querySelectorAll('input,textarea').forEach(el=>{if(el.type==='checkbox')el.checked=false;else el.value=''});document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);clearOutput();updateProgress()}
+function copyOutput(){navigator.clipboard.writeText($('output').textContent).then(()=>alert('คัดลอกแล้วค่ะ'))}
+function clearOutput(){outputParts.length=0;$('output').textContent='กดปุ่มสร้างแต่ละส่วน หรือกด “สร้างสรุป Lesson 20 ทั้งหมด” แล้วข้อความจะมารวมตรงนี้ค่ะ'}
+function speak(text){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='ja-JP';u.rate=.82;window.speechSynthesis.speak(u)}
+function speakPresentation(){speak([$('scriptFav').value,$('scriptExplain').value,$('scriptReason').value,$('scriptExtra').value].join('\n'))}
+function speakOutput(){speak($('output').textContent.replace(/【.*?】/g,''))}
+function updateProgress(){const ticks=[...document.querySelectorAll('.tick')];const pct=Math.round(ticks.filter(t=>t.checked).length/ticks.length*100);$('progress').style.width=pct+'%';$('progressText').textContent='ความพร้อม: '+pct+'%'}
+document.addEventListener('change',e=>{if(e.target.classList.contains('tick'))updateProgress()});
+renderKanji();
+</script>
+</body>
+</html>
