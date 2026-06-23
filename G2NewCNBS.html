@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ระบบประเมินความพร้อมเปลี่ยนผ่านร้านจำหน่ายช่อดอกกัญชา | V2.9.1 Flow Step 8</title>
+<title>ระบบประเมินความพร้อมเปลี่ยนผ่านร้านจำหน่ายช่อดอกกัญชา | V3.5.1 Visual Guide</title>
 <style>
 :root{
   --green:#0f766e;--green2:#14b8a6;--mint:#ecfdf5;--gold:#99f6e4;--amber:#ccfbf1;--red:#dc2626;--blue:#0f766e;--violet:#0ea5a4;
@@ -64,6 +64,13 @@ body[data-theme="start"] .submenu-card{border-left:7px solid #14b8a6;background:
 .info-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:12px 0}.info-tile{border-radius:18px;padding:14px 16px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 22px rgba(12,50,30,.06)}.info-tile b{display:block;font-size:24px;color:#115e59;line-height:1}.info-tile span{display:block;color:#5f6f66;font-size:13px;margin-top:3px}.roadmap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.road-phase{border-radius:20px;border:1px solid var(--line);background:#fff;padding:16px;box-shadow:0 8px 20px rgba(12,50,30,.06)}.road-phase h3{display:flex;align-items:center;gap:8px;margin-bottom:8px}.road-phase .phase-badge{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#c69224;color:#fff;font-weight:1000}.road-phase ul{margin:8px 0 0;padding-left:22px}.road-phase li{margin:5px 0}.road-output{border-left:5px solid #168653;background:#f0fbf5;border-radius:14px;padding:10px 12px;margin-top:10px}.online-card{border:1px solid #d7e8ff;background:#f1f7ff;border-radius:16px;padding:12px;margin:10px 0}.online-card a{display:inline-flex;gap:5px;align-items:center;margin:3px 8px 3px 0}.time-pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:#fff3cd;color:#7a5500;padding:5px 10px;font-weight:900;font-size:13px}.mini-flow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.mini-flow span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-weight:900;font-size:13px}.mini-flow span:after{content:" →";color:#aaa}.mini-flow span:last-child:after{content:""}
 @media(max-width:980px){.info-strip,.roadmap-grid{grid-template-columns:1fr}.info-tile b{font-size:20px}}
 
+
+.v35-modal{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px}
+.v35-modal .box{background:#fff;border-radius:22px;max-width:680px;width:100%;max-height:90vh;overflow:auto;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.gloss{border-bottom:2px dotted var(--green);cursor:pointer;color:var(--green);font-weight:800}
+.hintbox{margin-top:8px;border-left:4px solid var(--gold);background:#fffaf0;border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.5}
+.ringwrap{display:flex;justify-content:center}
+@media print{.v35-modal{display:none!important}}
 </style>
 </head>
 <body data-theme="overview" data-section="overview">
@@ -71,7 +78,7 @@ body[data-theme="start"] .submenu-card{border-left:7px solid #14b8a6;background:
   <header class="hero">
     <h1>ระบบประเมินความพร้อมเปลี่ยนผ่านร้านจำหน่ายช่อดอกกัญชา</h1>
     
-    <div class="meta"><span class="chip">Version 2.9.1 Flow Step 8</span><span class="chip">ปรับปรุงวันที่ 23 มิถุนายน 2569</span><span class="chip">เครดิต: กลุ่มงานการแพทย์แผนไทยและการแพทย์ทางเลือก สสจ.สมุทรปราการ</span></div>
+    <div class="meta"><span class="chip">Version 3.5.1 Visual Guide</span><span class="chip">ปรับปรุงวันที่ 23 มิถุนายน 2569</span><span class="chip">เครดิต: กลุ่มงานการแพทย์แผนไทยและการแพทย์ทางเลือก สสจ.สมุทรปราการ</span></div>
     <div class="pillbar"><span class="pill">⚖️ Legal</span><span class="pill">🏥 Business</span><span class="pill">👥 Workforce</span><span class="pill">💰 Economics</span><span class="pill">🧭 Roadmap</span><span class="pill">📋 SOP</span></div>
     <div class="ticker no-print"><span>⚠️ คำเตือน: เป็นการแนะนำเบื้องต้นเท่านั้น รายละเอียดโปรดรับการแนะนำจากผู้อนุญาตโดยตรง และเกณฑ์ข้อบังคับการอนุญาตอื่น ๆ ให้ดำเนินการตามที่กฎหมายกำหนด ข้อมูลในที่นี้เป็นเพียงคำแนะนำในเบื้องต้น ผู้เขียนโปรแกรมขอสงวนสิทธิ์ในการรับผิดชอบใด ๆ หากเกิดการเปลี่ยนแปลงจากผู้อนุญาตหรือกฎหมายที่เกี่ยวข้อง ⚠️</span></div>
   </header>
@@ -86,7 +93,7 @@ body[data-theme="start"] .submenu-card{border-left:7px solid #14b8a6;background:
     <div class="card span-7"><h3>คะแนนความพร้อม 4 ทางเลือก</h3><div class="chart" id="scoreChart"></div></div>
     <div class="card span-5"><h3>Executive Insight</h3><div id="execSummary" class="muted">กรอกข้อมูลและแบบประเมินก่อนค่ะ</div><div class="btns"><button class="btn primary" onclick="showSection('group-start')">เริ่มประเมิน</button><button class="btn secondary" onclick="showSection('group-results')">ดูผลประเมิน</button><button class="btn gold" onclick="fillDemo()">เติมข้อมูลตัวอย่าง</button></div></div>
 
-    <div class="card span-12"><h3>เลือกโหมดใช้งาน</h3><div class="mode-grid">
+    <div class="card span-12" id="smartPanelCard"><h3>🤖 ผู้ช่วยอัจฉริยะ (Smart Layer v3.0)</h3><div class="compact-note" style="margin-top:0">เพิ่มความฉลาดให้ของเดิม: คะแนนปรับตามความเป็นไปได้จริง • แผนปฏิบัติจัดลำดับ • ด่านพร้อมยื่น • งบพอไหม • ค้นหาทั้งแอป (เมนู/ข้อมูล/ฟังก์ชันเดิมอยู่ครบทุกตัวค่ะ)</div><div id="smartReadiness" style="margin-top:12px"></div><div id="smartCompleteness" style="margin-top:10px"></div><div class="faq-search" style="margin-top:12px"><input id="globalSearch" placeholder="🔍 ค้นหาทั้งแอป เช่น กลิ่น ควัน ภ.ท.33 ROI เภสัชกร GACP..." oninput="globalSearch()"></div><div id="globalSearchResults"></div></div><div class="card span-12" id="v35ToolsCard"><h3>🧭 เครื่องมือช่วยเข้าใจ (V3.5)</h3><div class="grid"><div class="span-5"><div id="readyGauge"></div></div><div class="span-7"><div id="narrativeBox" class="muted">กรอกข้อมูลแล้วระบบจะเล่าผลให้ฟังค่ะ</div><div class="btns"><button class="btn primary" onclick="openWizard()">📝 โหมดถามทีละข้อ</button><button class="btn secondary" onclick="openGlossary()">📖 คลังศัพท์</button><button class="btn gold" onclick="speakNarrative()">🔊 อ่านผลให้ฟัง</button></div><div class="btns"><span class="small" style="align-self:center">ขนาดตัวอักษร:</span><button class="btn secondary" onclick="setFont(-1)">ก-</button><button class="btn secondary" onclick="setFont(0)">ก</button><button class="btn secondary" onclick="setFont(1)">ก+</button></div></div></div></div><div class="card span-12"><h3>เลือกโหมดใช้งาน</h3><div class="mode-grid">
       <div class="mode-card"><h3>⚡ ประเมินด่วน 5 นาที</h3><p>กรอกข้อมูลหลัก แล้วไปตอบแบบประเมินเฉพาะประเด็นสำคัญก่อน เหมาะกับผู้ประกอบการที่เพิ่งเริ่มคิด</p><button class="btn primary" onclick="showSection('group-start')">เริ่มแบบด่วน</button></div>
       <div class="mode-card"><h3>🔎 ประเมินละเอียด</h3><p>ใช้ทุกมิติ กฎหมาย สถานที่ บุคลากร ระบบ ต้นทุน เอกสาร และ Roadmap สำหรับคนจะยื่นจริง</p><button class="btn secondary" onclick="showSection('assessment')">เปิดแบบประเมินละเอียด</button></div>
       <div class="mode-card"><h3>🛡️ เจ้าหน้าที่ให้คำปรึกษา</h3><p>ใช้บันทึกผลให้คำปรึกษา จุดที่ต้องแก้ และนัดติดตาม ไม่ใช่ผลอนุญาตแทนผู้อนุญาต</p><button class="btn gold" onclick="showSection('inspection')">เปิดโหมดเจ้าหน้าที่</button></div>
@@ -151,17 +158,17 @@ body[data-theme="start"] .submenu-card{border-left:7px solid #14b8a6;background:
     </div>
   </div></section>
 
-  <section id="profile" class="section"><div class="grid"><div class="card span-12"><h2>2) ข้อมูลผู้ประกอบการ</h2><div class="form-grid" id="profileForm"></div><div class="btns"><button class="btn primary" onclick="saveAll();calc()">บันทึก/คำนวณ</button><button class="btn secondary" onclick="fillDemo()">ข้อมูลตัวอย่าง</button><button class="btn red" onclick="resetAll()">ล้างข้อมูลในเครื่องนี้</button></div></div></div></section>
+  <section id="profile" class="section"><div class="grid"><div class="card span-12"><h2>2) ข้อมูลผู้ประกอบการ</h2><div class="form-grid" id="profileForm"></div><div class="btns"><button class="btn primary" onclick="saveAll();calc()">บันทึก/คำนวณ</button><button class="btn gold" onclick="smartPrefill()">⚡ เติมแบบประเมินจากโปรไฟล์</button><button class="btn secondary" onclick="fillDemo()">ข้อมูลตัวอย่าง</button><button class="btn red" onclick="resetAll()">ล้างข้อมูลในเครื่องนี้</button></div></div><div class="card span-12" id="photoCard"><h3>📷 แนบรูปสถานที่ (เก็บในเครื่อง ออฟไลน์)</h3><div id="photoZone"></div></div></div></section>
 
-  <section id="assessment" class="section"><div class="grid"><div class="card span-12"><h2>3) แบบประเมินความพร้อม 7 มิติ</h2><div class="notice">เลือกสถานะของแต่ละข้อใน 4 เส้นทาง ระบบจะคำนวณคะแนนและข้อเสนอแนะอัตโนมัติ รอบนี้เน้นกฎกระทรวงสมุนไพรควบคุม (กัญชา) ฉบับที่ 2 พ.ศ. 2569 โดยเฉพาะ <b>สิทธิใช้สถานที่ โซนจัดเก็บช่อดอกไม่ปะปน/ไม่สัมผัสพื้น/คงคุณภาพ และระบบกำจัดกลิ่นและควันที่มีประสิทธิภาพ</b></div><div class="tablewrap"><div id="assessmentRows"></div></div><div class="btns"><button class="btn primary" onclick="calc()">คำนวณคะแนน</button></div></div></div></section>
+  <section id="assessment" class="section"><div class="grid"><div class="card span-12"><h2>3) แบบประเมินความพร้อม 7 มิติ</h2><div class="notice">เลือกสถานะของแต่ละข้อใน 4 เส้นทาง ระบบจะคำนวณคะแนนและข้อเสนอแนะอัตโนมัติ รอบนี้เน้นกฎกระทรวงสมุนไพรควบคุม (กัญชา) ฉบับที่ 2 พ.ศ. 2569 โดยเฉพาะ <b>สิทธิใช้สถานที่ โซนจัดเก็บช่อดอกไม่ปะปน/ไม่สัมผัสพื้น/คงคุณภาพ และระบบกำจัดกลิ่นและควันที่มีประสิทธิภาพ</b></div><div class="tablewrap"><div id="assessmentRows"></div></div><div class="btns"><button class="btn primary" onclick="calc()">คำนวณคะแนน</button><button class="btn gold" onclick="openWizard()">📝 โหมดถามทีละข้อ</button><button class="btn secondary" onclick="toggleHints()">💡 ตัวอย่างผ่าน/ไม่ผ่าน</button></div></div></div></section>
 
   <section id="scorecard" class="section"><div class="grid"><div class="card span-12"><h2>4) Compliance Scorecard 100 คะแนน</h2><div id="scorecardContent"></div></div></div></section>
 
-  <section id="ai" class="section"><div class="grid"><div class="card span-12"><h2>5) AI Recommendation Engine</h2><div id="aiContent"></div></div></div></section>
+  <section id="ai" class="section"><div class="grid"><div class="card span-12"><h2>5) AI Recommendation Engine</h2><div id="aiContent"></div></div><div class="card span-12"><h3>🔮 ลองสมมติ (What-if): ถ้าทำสิ่งนี้ คะแนนขึ้นเท่าไร</h3><div id="whatIfBox"></div></div></div></section>
 
-  <section id="risk" class="section"><div class="grid"><div class="card span-12"><h2>6) Legal Risk Radar</h2><div class="grid"><div class="card span-4"><div class="radar"><div><div class="small">Risk Index</div><div class="big" id="riskIndex">0</div><div id="riskText" class="small">-</div></div></div></div><div class="card span-8"><h3>Heatmap ความเสี่ยง</h3><div id="riskHeatmap"></div></div></div></div></div></section>
+  <section id="risk" class="section"><div class="grid"><div class="card span-12"><h2>6) Legal Risk Radar</h2><div class="grid"><div class="card span-4"><div class="radar"><div><div class="small">Risk Index</div><div class="big" id="riskIndex">0</div><div id="riskText" class="small">-</div></div></div></div><div class="card span-8"><h3>Heatmap ความเสี่ยง</h3><div id="riskHeatmap"></div></div><div class="card span-12"><h3>🕸️ เรดาร์ความพร้อม 7 มิติ (ปัจจุบัน vs เป้าพร้อมยื่น)</h3><div id="radar7"></div></div></div></div></div></section>
 
-  <section id="roadmap" class="section"><div class="grid"><div class="card span-12"><h2>7) Roadmap เปลี่ยนผ่านรายบุคคล</h2><div id="roadmapContent"></div></div></div></section>
+  <section id="roadmap" class="section"><div class="grid"><div class="card span-12"><h2>7) Roadmap เปลี่ยนผ่านรายบุคคล</h2><div id="roadmapTimeline"></div><div id="roadmapContent"></div></div></div></section>
 
   <section id="business" class="section"><div class="grid"><div class="card span-12"><h2>8) เปรียบเทียบ 4 โมเดลธุรกิจ + Business Canvas</h2><div class="tablewrap"><table id="compareTable"></table></div></div><div class="card span-12"><h3>Business Model Canvas รายทางเลือก</h3><select id="canvasPath" onchange="renderCanvas()"></select><div id="canvasContent" style="margin-top:12px"></div></div></div></section>
 
@@ -169,13 +176,13 @@ body[data-theme="start"] .submenu-card{border-left:7px solid #14b8a6;background:
 
   <section id="flow" class="section"><div class="grid"><div class="card span-12"><h2>10) Flow ขออนุญาตจนถึงใบอนุญาตกัญชา</h2><div class="notice">ข้อ 8 ปรับช่องทางการยื่นเป็น 2 รูปแบบ: <b>ยื่นผ่านระบบ Online</b> หรือ <b>ยื่นโดยตรงที่ สสจ. พื้นที่ในส่วนภูมิภาค</b> ตามที่ผู้อนุญาตกำหนด</div><div id="flowContent"></div></div></div></section>
 
-  <section id="checklists" class="section"><div class="grid"><div class="card span-12"><h2>11) Checklist เอกสาร สถานที่ บุคลากร ระบบ</h2><div class="notice">เพิ่มชุดลิงก์เอกสารคำขอ/แบบฟอร์มราชการตามฐานกฎหมายแต่ละประเภท และเพิ่มข้อความกำกับว่า <b>ต้องเตรียมเอกสารอื่น ๆ ตามข้อกำหนด/เกณฑ์ตามที่ พ.ร.บ.นั้น ๆ กำหนด</b> ก่อนยื่นจริงทุกครั้ง</div></div><div class="span-12 grid" id="checklistCards"></div></div></section>
+  <section id="checklists" class="section"><div class="grid"><div class="card span-12"><h2>11) Checklist เอกสาร สถานที่ บุคลากร ระบบ</h2><div class="notice">เพิ่มชุดลิงก์เอกสารคำขอ/แบบฟอร์มราชการตามฐานกฎหมายแต่ละประเภท และเพิ่มข้อความกำกับว่า <b>ต้องเตรียมเอกสารอื่น ๆ ตามข้อกำหนด/เกณฑ์ตามที่ พ.ร.บ.นั้น ๆ กำหนด</b> ก่อนยื่นจริงทุกครั้ง</div></div><div class="card span-12"><h3>🌬️ ระบบระบายอากาศ + 📦 ชั้นเก็บช่อดอก (ตามกฎกระทรวงฯ ฉบับที่ 2/2569)</h3><div id="blueprint"></div></div><div class="span-12 grid" id="checklistCards"></div></div></section>
 
   <section id="sop" class="section"><div class="grid"><div class="card span-12"><h2>12) SOP / ระบบงานที่ต้องมี</h2><div id="sopContent"></div></div></div></section>
 
   <section id="inspection" class="section"><div class="grid"><div class="card span-12"><h2>13) Inspection Mode สำหรับเจ้าหน้าที่</h2><div class="notice">ใช้เป็นแบบบันทึกการให้คำปรึกษา/ตรวจความพร้อมเบื้องต้น ไม่ใช่แบบตรวจราชการอย่างเป็นทางการ</div><div class="form-grid" id="inspectionForm"></div><div class="btns"><button class="btn primary" onclick="saveAll();renderInspectionSummary()">บันทึกผลตรวจ</button></div></div><div class="card span-12" id="inspectionSummary"></div></div></section>
 
-  <section id="export" class="section"><div class="grid"><div class="card span-12"><h2>14) Export รายงาน</h2><div class="btns"><button class="btn primary" onclick="renderReport();window.print()">พิมพ์/บันทึก PDF</button><button class="btn secondary" onclick="downloadJSON()">ส่งออก JSON</button><button class="btn blue" onclick="downloadCSV()">ส่งออก CSV คะแนน</button><button class="btn gold" onclick="copyReportText()">คัดลอกรายงานย่อ</button></div><div class="notice">เหมาะสำหรับ 3 กลุ่ม: ผู้ประกอบการ / ผู้บริหาร สสจ. / เอกสารประกอบการให้คำปรึกษา</div></div><div class="card span-12" id="printReport"></div></div></section>
+  <section id="export" class="section"><div class="grid"><div class="card span-12"><h2>14) Export รายงาน</h2><div class="btns"><button class="btn primary" onclick="renderReport();window.print()">พิมพ์/บันทึก PDF</button><button class="btn blue" onclick="downloadWord()">📄 ส่งออก Word (.doc)</button><button class="btn secondary" onclick="downloadExcel()">📊 ส่งออก Excel (.xls)</button><button class="btn secondary" onclick="downloadJSON()">ส่งออก JSON</button><button class="btn blue" onclick="downloadCSV()">ส่งออก CSV คะแนน</button><button class="btn gold" onclick="copyReportText()">คัดลอกรายงานย่อ</button></div><div class="notice">เหมาะสำหรับ 3 กลุ่ม: ผู้ประกอบการ / ผู้บริหาร สสจ. / เอกสารประกอบการให้คำปรึกษา</div></div><div class="card span-12" id="execBrief"></div><div class="card span-12" id="printReport"></div></div></section>
 
   <section id="lawplain" class="section"><div class="grid"><div class="card span-12"><h2>15) กฎหมายแปลไทยเป็นไทย</h2><div id="lawPlainContent"></div></div></div></section>
 
@@ -185,10 +192,10 @@ body[data-theme="start"] .submenu-card{border-left:7px solid #14b8a6;background:
 
   <section id="about" class="section"><div class="grid"><div class="card span-12"><h2>17) Version / Disclaimer / Credit</h2><div id="aboutContent"></div></div></div></section>
 
-  <div class="footer">Version 2.9.1 Flow Step 8 • ปรับปรุงวันที่ 23 มิถุนายน 2569 • เครดิต: กลุ่มงานการแพทย์แผนไทยและการแพทย์ทางเลือก สำนักงานสาธารณสุขจังหวัดสมุทรปราการ</div>
+  <div id="wizardModal" class="v35-modal no-print" style="display:none"><div class="box"></div></div><div id="glossModal" class="v35-modal no-print" style="display:none"><div class="box"></div></div><div class="footer">Version 3.5.1 Visual Guide • ปรับปรุงวันที่ 23 มิถุนายน 2569 • เครดิต: กลุ่มงานการแพทย์แผนไทยและการแพทย์ทางเลือก สำนักงานสาธารณสุขจังหวัดสมุทรปราการ</div>
 </div>
 <script>
-const APP_VERSION='2.9.1 Flow Step 8';
+const APP_VERSION='3.5.1 Visual Guide';
 const APP_DATE='23 มิถุนายน 2569';
 const CREDIT='กลุ่มงานการแพทย์แผนไทยและการแพทย์ทางเลือก สำนักงานสาธารณสุขจังหวัดสมุทรปราการ';
 const DISCLAIMER='เป็นการแนะนำเบื้องต้นเท่านั้น รายละเอียดโปรดรับการแนะนำจากผู้อนุญาตโดยตรง และเกณฑ์ข้อบังคับการอนุญาตอื่น ๆ ให้ดำเนินการตามที่กฎหมายกำหนด ข้อมูลในที่นี้เป็นเพียงคำแนะนำในเบื้องต้น ผู้เขียนโปรแกรมขอสงวนสิทธิ์ในการรับผิดชอบใด ๆ หากเกิดการเปลี่ยนแปลงจากผู้อนุญาตหรือกฎหมายที่เกี่ยวข้อง';
@@ -420,7 +427,7 @@ function filterFAQ(){
 
 function renderLawRefs(){const refs=[['Biz Portal ศูนย์กลางบริการภาครัฐเพื่อภาคธุรกิจ','ช่องทางออนไลน์สำหรับขออนุญาตคลินิก/สถานพยาบาลและบริการภาครัฐบางรายการ','https://bizportal.go.th/'],['สบส. e-service: การขออนุญาตสถานพยาบาลผ่าน Biz Portal','อธิบายเอกสารประกอบ เช่น บัตรประชาชน ทะเบียนบ้านสถานที่ ใบรับรองแพทย์ แผนที่ เอกสารสิทธิ์ และหนังสือแสดงความจำนง','https://hss.moph.go.th/e-service/biz-mrd'],['FDA Skynet / Privus','ระบบออนไลน์สำหรับงานอนุญาตด้านยาและผู้ประกอบการ/เจ้าหน้าที่','https://privus.fda.moph.go.th/'],['กองยา: แบบฟอร์ม/คำแนะนำการขออนุญาตสถานที่ประกอบการด้านยา','รวมตัวอย่าง ข.ย.1 ข.ย.14 แผนผัง แผนที่ รูปถ่าย และเอกสารร้านขายยา','https://drug.fda.moph.go.th/information-licensing-lic/'],['กองยา: แนวทางตรวจประเมิน GPP Online','ใช้ประกอบการประเมินตนเองและแนบหลักฐานสำหรับร้านขายยา','https://drug.fda.moph.go.th/gpp-audit/'],['กองผลิตภัณฑ์สมุนไพร: คู่มือระบบ E-submission','คู่มือระบบสารสนเทศสำหรับงานผลิตภัณฑ์สมุนไพร','https://herbal.fda.moph.go.th/location-permission/pocket-guide'],['กองผลิตภัณฑ์สมุนไพร: แบบฟอร์มสถานที่ขายผลิตภัณฑ์สมุนไพร','รวม สมพ.1 สมพ.4 สัญญาผู้มีหน้าที่ปฏิบัติการ แผนที่ แผนผัง รูปถ่าย','https://herbal.fda.moph.go.th/location-permission/category/place-form-3'],['ระบบบริการยื่นคำขออนุญาตสมุนไพรควบคุม (กัญชา)','ช่องทางยื่นคำขอจำหน่าย/แปรรูปสมุนไพรควบคุมกัญชา หลังฐานกิจการพร้อม','https://herbctrl.dtam.moph.go.th/'],['ประกาศกระทรวงสาธารณสุข เรื่อง สมุนไพรควบคุม (กัญชา) พ.ศ. 2568','กรอบช่อดอกกัญชาเป็นสมุนไพรควบคุมและเงื่อนไขสำคัญ','https://www.dtam.moph.go.th/sub-law/42864/'],['กฎกระทรวงการอนุญาตสมุนไพรควบคุมเพื่อการค้า (ฉบับที่ 2) พ.ศ. 2569','เงื่อนไขสถานที่ บุคลากร ระบบกำจัดกลิ่น/ควัน และฐานกิจการสำหรับขออนุญาตใหม่','https://ratchakitcha.soc.go.th/documents/114061.pdf'],['กองกัญชาทางการแพทย์: กฎกระทรวงฉบับที่ 2 พ.ศ. 2569','หน้าเผยแพร่กฎกระทรวงโดยกองกัญชาทางการแพทย์','https://med-cannabis.dtam.moph.go.th/mr/3219/'],['ประกาศกรมฯ กำหนดแบบตามประกาศสมุนไพรควบคุม (กัญชา) พ.ศ. 2568','ข้อมูลแบบ ภ.ท.33/แบบที่เกี่ยวข้อง','https://med-cannabis.dtam.moph.go.th/law/2511/'],['ระบบบริการยื่นคำขออนุญาตสมุนไพรควบคุม (กัญชา)','ช่องทางระบบบริการคำขอ','https://herbctrl.dtam.moph.go.th/'],['พระราชบัญญัติสถานพยาบาล พ.ศ. 2541 และที่แก้ไขเพิ่มเติม','ฐานคลินิกเวชกรรม/คลินิกแพทย์แผนไทย','https://www.hss.moph.go.th/fileupload_doc/2023-10-09-1-23-124335868.pdf'],['แบบคำของานคลินิก สบส.','รวมแบบ ส.พ.5 ส.พ.18 และแบบที่เกี่ยวข้อง','https://mrd.hss.moph.go.th/mrd1_hss/?p=1333'],['ดาวน์โหลด ส.พ.5','คำขออนุญาตให้ประกอบกิจการสถานพยาบาล','https://mrd.hss.moph.go.th/sp/sp5.pdf'],['ดาวน์โหลด ส.พ.18','คำขอรับใบอนุญาตให้ดำเนินการสถานพยาบาล','https://mrd.hss.moph.go.th/sp/sp18.pdf'],['พระราชบัญญัติยา พ.ศ. 2510 และกฎหมายยา','ฐานร้านขายยาแผนปัจจุบัน','https://drug.fda.moph.go.th/drug-act'],['แบบฟอร์ม/คำแนะนำการขออนุญาตสถานที่ประกอบการด้านยา','รวม ข.ย.1 ข.ย.14 และเอกสารเกี่ยวข้อง','https://drug.fda.moph.go.th/information-licensing-lic/'],['แนวทางการตรวจประเมิน GPP ร้านขายยา','แนวทางประเมินตนเองและตรวจร้านยา','https://drug.fda.moph.go.th/gpp-audit/'],['พระราชบัญญัติผลิตภัณฑ์สมุนไพร พ.ศ. 2562','ฐานสถานที่ขายผลิตภัณฑ์สมุนไพร','https://laws.fda.moph.go.th/laws/herbal-product-act-be-2562'],['แบบฟอร์มการขอใบอนุญาตสถานประกอบการผลิตภัณฑ์สมุนไพร','รวม สมพ.1 สมพ.4 สัญญา แผนที่/ผัง/รูปถ่าย','https://herbal.fda.moph.go.th/location-permission/'],['แบบฟอร์มขอใบอนุญาตสถานที่นำเข้า/ขายผลิตภัณฑ์สมุนไพร (ขอใหม่)','ชุดเอกสารสำหรับร้านขายผลิตภัณฑ์สมุนไพร','https://herbal.fda.moph.go.th/location-permission/category/place-form-3'],['คู่มือประชาชน: สถานที่ผลิต นำเข้า หรือขายผลิตภัณฑ์สมุนไพร','ขั้นตอนบริการและข้อมูลประชาชน','https://herbal.fda.moph.go.th/manual/handbook1']];document.getElementById('lawRefs').innerHTML=`<div class="tablewrap"><table><thead><tr><th>กฎหมาย/แหล่งอ้างอิง</th><th>ใช้ทำอะไรในระบบ</th><th>ลิงก์</th></tr></thead><tbody>${refs.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td><a href="${r[2]}" target="_blank" rel="noopener">เปิดลิงก์</a></td></tr>`).join('')}</tbody></table></div>`}
 
-function renderAbout(){document.getElementById('aboutContent').innerHTML=`<div class="ok"><h3>Version ${APP_VERSION}</h3><p><b>วันที่ปรับปรุง:</b> ${APP_DATE}</p><p><b>เครดิต:</b> ${CREDIT}</p></div><div class="warn"><h3>ข้อสงวนสิทธิ์</h3><p>${DISCLAIMER}</p></div><div class="notice"><h3>แนวทางการพัฒนาต่อ</h3><ul class="clean"><li>เพิ่มการแนบรูปสถานที่และผังร้าน</li><li>เพิ่มฐานข้อมูลผู้ประกอบการหลายรายระดับจังหวัด</li><li>เพิ่มตัวเลือกส่งออกรายงานเป็น Excel/Word เมื่อเชื่อมระบบภายนอก</li><li>ปรับปรุงลิงก์กฎหมายเมื่อมีประกาศ/แบบฟอร์มใหม่</li><li>V2.3 เพิ่มลิงก์เอกสารต้นแบบ/คู่มือราชการในเมนู SOP</li><li>V2.4 ปรับ FAQ เป็นกลุ่มคำถาม 9 กลุ่ม รวมคำตอบละเอียดและลิงก์อ้างอิงราชการ</li><li>V2.5 Compact Menu ยุบหน้าใช้งานเหลือ 5 เมนูหลัก พร้อมซ่อนรายละเอียด 17 เมนูเป็นเมนูย่อย</li><li>V2.6 ปรับ Roadmap เป็นแผนเตรียม 3-4 เดือน + ยื่นใบอนุญาตสมุนไพรควบคุมกัญชาไม่เกิน 30 วันทำการหลังเอกสารครบ พร้อมเพิ่มช่องทาง Online และธีมสีเมนูสดใส</li></ul></div>`}
+function renderAbout(){document.getElementById('aboutContent').innerHTML=`<div class="ok"><h3>Version ${APP_VERSION}</h3><p><b>วันที่ปรับปรุง:</b> ${APP_DATE}</p><p><b>เครดิต:</b> ${CREDIT}</p></div><div class="warn"><h3>ข้อสงวนสิทธิ์</h3><p>${DISCLAIMER}</p></div><div class="notice"><h3>แนวทางการพัฒนาต่อ</h3><ul class="clean"><li>เพิ่มการแนบรูปสถานที่และผังร้าน</li><li>เพิ่มฐานข้อมูลผู้ประกอบการหลายรายระดับจังหวัด</li><li>เพิ่มตัวเลือกส่งออกรายงานเป็น Excel/Word เมื่อเชื่อมระบบภายนอก</li><li>ปรับปรุงลิงก์กฎหมายเมื่อมีประกาศ/แบบฟอร์มใหม่</li><li>V2.3 เพิ่มลิงก์เอกสารต้นแบบ/คู่มือราชการในเมนู SOP</li><li>V2.4 ปรับ FAQ เป็นกลุ่มคำถาม 9 กลุ่ม รวมคำตอบละเอียดและลิงก์อ้างอิงราชการ</li><li>V2.5 Compact Menu ยุบหน้าใช้งานเหลือ 5 เมนูหลัก พร้อมซ่อนรายละเอียด 17 เมนูเป็นเมนูย่อย</li><li>V2.6 ปรับ Roadmap เป็นแผนเตรียม 3-4 เดือน + ยื่นใบอนุญาตสมุนไพรควบคุมกัญชาไม่เกิน 30 วันทำการหลังเอกสารครบ พร้อมเพิ่มช่องทาง Online และธีมสีเมนูสดใส</li><li><b>V3.0 Smart Assist</b> เพิ่มชั้นความฉลาดสำหรับผู้ประกอบการ: คะแนนปรับตามความเป็นไปได้จริง (Feasibility-adjusted) + ตรวจข้อมูลขัดแย้ง + แผนปฏิบัติจัดลำดับ (Action Plan) + ด่านพร้อมยื่น (Readiness Gate) + แถบความครบข้อมูล + งบพอไหม/จุดคุ้มทุนรายวัน + ส่งออก Word/Excel + Executive Brief 1 หน้า + ค้นหาทั้งแอป + ลิงก์ลึก (#section) สำหรับแชร์ทาง LINE — ของเดิมอยู่ครบทุกเมนู</li><li><b>V3.5 Visual Guide</b> เน้นให้ ผปก. เข้าใจ+เห็นภาพ: เรดาร์ 7 มิติ (ปัจจุบัน vs เป้า) + ภาพระบบระบายอากาศ+ชั้นเก็บช่อดอก (ตามกฎกระทรวง) + เกจวงแหวน + Roadmap timeline + โหมดถามทีละข้อ (Wizard) + ตัวอย่างผ่าน/ไม่ผ่านรายข้อ + คลังศัพท์ + What-if จำลองคะแนน + เล่าผลเป็นภาษาพูด/อ่านออกเสียง/ปรับขนาดอักษร + แนบรูปสถานที่ในเครื่อง — ของเดิมอยู่ครบทุกเมนู</li></ul></div>`}
 function renderReport(){const {scores}=calcScores();const sorted=Object.keys(scores).sort((a,b)=>scores[b]-scores[a]);const best=sorted[0];const p=getProfile();const f=getFinance();const capex=f.renovation+f.equipment+f.it+f.stock+f.license+f.contingency;const opex=f.rent+f.professional+f.staff+f.utility;const revenue=f.customers*f.avgTicket*f.openDays;const gp=revenue*(f.grossMargin/100);const net=gp-opex;const pay=net>0?(capex/net).toFixed(1)+' เดือน':'ยังไม่คุ้มทุน';document.getElementById('printReport').innerHTML=`<h3>รายงานสรุปการประเมินความพร้อม</h3><p><b>สถานประกอบการ:</b> ${p.businessName||'-'} | <b>ผู้ให้ข้อมูล:</b> ${p.owner||'-'} | <b>จังหวัด:</b> ${p.province||'-'} | <b>วันที่ประเมิน:</b> ${new Date().toLocaleDateString('th-TH')}</p><div class="ok"><b>เส้นทางแนะนำ:</b> ${paths[best].icon} ${paths[best].name} คะแนน ${pct(scores[best])} — ${level(scores[best])[0]}</div><div class="tablewrap"><table><thead><tr><th>เส้นทาง</th><th>คะแนน</th><th>ระดับ</th><th>Gap หลัก</th></tr></thead><tbody>${Object.keys(paths).map(k=>`<tr><td>${paths[k].icon} ${paths[k].name}</td><td>${pct(scores[k])}</td><td>${level(scores[k])[0]}</td><td>${getTopGaps(k).slice(0,2).join('<br>')}</td></tr>`).join('')}</tbody></table></div><h4>สรุปเศรษฐศาสตร์</h4><p>CAPEX ${money(capex)} บาท | OPEX ${money(opex)} บาท/เดือน | รายได้ ${money(revenue)} บาท/เดือน | กำไรสุทธิประมาณ ${money(net)} บาท/เดือน | คืนทุน ${pay}</p><h4>คำแนะนำหลัก</h4><ol><li>ปิด Red Flag ก่อนยื่นคำขอ โดยเฉพาะบุคลากร สถานที่ ภ.ท.33 ระบบรายงาน และแหล่งช่อดอก GACP</li><li>ขอใบอนุญาตฐานกิจการหลักให้ถูกต้องก่อน แล้วจึงยื่นใบอนุญาตสมุนไพรควบคุม (กัญชา)</li><li>เก็บหลักฐานการให้คำปรึกษา รับเข้า-จ่ายออก แหล่งที่มา รายงานรายเดือน และพร้อมรับตรวจ</li></ol><div class="warn"><b>ข้อสงวนสิทธิ์:</b> ${DISCLAIMER}</div><p class="small">Version ${APP_VERSION} | ปรับปรุงวันที่ ${APP_DATE} | เครดิต: ${CREDIT}</p>`}
 function downloadJSON(){saveAll();const blob=new Blob([localStorage.getItem('cannabisTransitionV21')||'{}'],{type:'application/json'});dl(blob,'cannabis_transition_assessment_v2_5_compact.json')}
 function downloadCSV(){const {scores}=calcScores();let csv='path,score,level\n'+Object.keys(paths).map(k=>`"${paths[k].name}",${Math.round(scores[k])},"${level(scores[k])[0]}"`).join('\n');dl(new Blob([csv],{type:'text/csv;charset=utf-8'}),'cannabis_transition_scores_v2_5_compact.csv')}
@@ -437,6 +444,543 @@ function addDetailBackButtons(){
 }
 function startup(){initNav();addDetailBackButtons();initForms();initAssessment();loadAll();renderCompare();renderLawRefs();calc();document.querySelectorAll('input,select,textarea').forEach(el=>el.addEventListener('change',()=>{saveAll();calc()}))}
 startup();
+/* ===== SMART LAYER v3.0 (กลุ่ม 1+2+4) — เพิ่มทับของเดิม ไม่แตะข้อมูล/ฟังก์ชัน/เมนูเดิม ===== */
+const SMART_PROF_FIELD={medClinic:'hasDoctor',thaiClinic:'hasTTM',pharmacy:'hasPharmacist',herbalShop:'hasHerbalPerson'};
+const SMART_PROF_Q_INDEX=10; /* people: มีผู้ประกอบวิชาชีพหลักประจำ */
+const SMART_LOC_Q_INDEX=1;   /* legal: สิทธิใช้สถานที่ */
+
+/* ---------- กลุ่ม 1: Feasibility-adjusted + Explainability + Contradiction ---------- */
+function proFactor(path){
+  const v=getProfile()[SMART_PROF_FIELD[path]];
+  if(path==='herbalShop') return v==='มีแล้ว'?1:v==='กำลังหา'?0.82:0.6;
+  return v==='มีประจำ/เป็นหุ้นส่วน'?1:v==='มีแบบ part-time'?0.82:0.55;
+}
+function locFactor(){const v=getProfile().locationRight;return v==='เป็นเจ้าของ/มีเอกสารครบ'?1:v==='เช่า/มีหนังสือยินยอม'?0.95:0.72;}
+function riskFactor(){const v=getProfile().riskHistory;return v==='ไม่มี'?1:v==='เคยมีข้อร้องเรียนเล็กน้อย'?0.94:0.8;}
+function budgetFactor(path){const b=Number(getProfile().budget||0);const req=paths[path].capex;if(!b)return 1;if(b>=req)return 1;if(b>=req*0.6)return 0.9;return 0.78;}
+function feasibilityScores(){
+  const {scores}=calcScores();const feas={},reasons={};
+  Object.keys(paths).forEach(k=>{
+    const pf=proFactor(k),lf=locFactor(),rf=riskFactor(),bf=budgetFactor(k);
+    feas[k]=Math.max(0,Math.min(100,scores[k]*pf*lf*rf*bf));
+    const r=[];
+    if(pf<1)r.push(`บุคลากรวิชาชีพหลักยังไม่พร้อมเต็มที่ (×${pf})`);
+    if(lf<1)r.push(`สิทธิใช้สถานที่ยังไม่ครบ (×${lf})`);
+    if(rf<1)r.push(`มีประวัติความเสี่ยงเดิม (×${rf})`);
+    if(bf<1)r.push(`งบลงทุนอาจไม่พอ CAPEX (×${bf})`);
+    reasons[k]=r;
+  });
+  return {raw:scores,feas,reasons};
+}
+function detectContradictions(){
+  const out=[],p=getProfile();
+  Object.keys(paths).forEach(k=>{
+    const profVal=p[SMART_PROF_FIELD[k]];
+    const ans=document.querySelector(`.assess[data-q="${SMART_PROF_Q_INDEX}"][data-path="${k}"]`)?.value;
+    if(profVal==='ไม่มี'&&['ready','partial'].includes(ans))
+      out.push(`${paths[k].name}: ตอบว่ามีผู้ประกอบวิชาชีพหลัก “${ans==='ready'?'พร้อม':'มีบางส่วน'}” แต่โปรไฟล์ระบุ “${profVal}”`);
+  });
+  if(p.locationRight==='ไม่มีเอกสาร'){
+    Object.keys(paths).forEach(k=>{
+      const ans=document.querySelector(`.assess[data-q="${SMART_LOC_Q_INDEX}"][data-path="${k}"]`)?.value;
+      if(ans==='ready')out.push(`${paths[k].name}: ตอบว่าสิทธิใช้สถานที่ “พร้อม” แต่โปรไฟล์ระบุ “ไม่มีเอกสาร”`);
+    });
+  }
+  return out;
+}
+
+/* ---------- กลุ่ม 2: Action Plan + Readiness Gate + Completeness ---------- */
+const SMART_DIM_LINK={
+  legal:['ตรวจฟอร์มคำขอฐานกิจการ','#checklists'],
+  place:['กฎกระทรวงสมุนไพรควบคุม ฉบับที่ 2','https://ratchakitcha.soc.go.th/documents/114061.pdf'],
+  people:['อบรมกัญชาทางการแพทย์ (DTAM MOOC)','https://mooc.dtam.moph.go.th'],
+  system:['ระบบรายงาน ภ.ท. / herbctrl','https://herbctrl.dtam.moph.go.th/'],
+  cannabis:['ระบบยื่นคำขอสมุนไพรควบคุม (กัญชา)','https://herbctrl.dtam.moph.go.th/'],
+  finance:['คำนวณต้นทุน/ROI','#finance'],
+  governance:['กองกัญชาทางการแพทย์','https://med-cannabis.dtam.moph.go.th/']
+};
+function buildActionPlan(path){
+  const items=[];
+  questions.forEach((q,i)=>{
+    const s=document.querySelector(`.assess[data-q="${i}"][data-path="${path}"]`)?.value||'none';
+    let pr=null;
+    if(q.red&&s==='none')pr={t:'ด่วนมาก',rank:0,cls:'redtext'};
+    else if(q.red&&s==='doing')pr={t:'ด่วน',rank:1,cls:'ambertext'};
+    else if(q.red&&s==='partial')pr={t:'ใกล้เสร็จ',rank:2,cls:'ambertext'};
+    else if(!q.red&&['none','doing'].includes(s))pr={t:'ควรทำ',rank:3,cls:'muted'};
+    if(pr){const d=dimensions.find(x=>x.id===q.dim);items.push({pr,dim:d.name,dimId:q.dim,q:q.q,w:q.w});}
+  });
+  items.sort((a,b)=>a.pr.rank-b.pr.rank||b.w-a.w);
+  return items;
+}
+function renderActionPlanHTML(path){
+  const items=buildActionPlan(path);
+  if(!items.length)return `<div class="ok" style="margin-top:12px"><b>✅ ไม่พบงานค้างหลักของเส้นทาง ${paths[path].name}</b> — ยังต้องตรวจเอกสารจริงกับผู้อนุญาตก่อนยื่นค่ะ</div>`;
+  const link=id=>{const L=SMART_DIM_LINK[id]||['',''];const href=L[1];if(!href)return '';const isIn=href.charAt(0)==='#';return isIn?`<button class="btn secondary" style="padding:6px 10px" onclick="showSection('${href.slice(1)}')">${L[0]}</button>`:`<a class="btn secondary" style="padding:6px 10px" href="${href}" target="_blank" rel="noopener">${L[0]}</a>`;};
+  const rows=items.map(x=>`<tr><td><span class="${x.pr.cls}"><b>${x.pr.t}</b></span></td><td>${x.dim}</td><td>${x.q}</td><td>${link(x.dimId)}</td></tr>`).join('');
+  const urgent=items.filter(x=>x.pr.rank<=1).length;
+  return `<div class="notice" style="margin-top:14px"><h3>🧩 แผนปฏิบัติจัดลำดับให้ (Action Plan) — ${paths[path].icon} ${paths[path].name}</h3><p>มีงานต้องปิดทั้งหมด <b>${items.length}</b> รายการ • ด่วน/ด่วนมาก <b class="redtext">${urgent}</b> รายการ ทำไล่จากบนลงล่างได้เลยค่ะ</p><div class="tablewrap"><table><thead><tr><th>ลำดับงาน</th><th>มิติ</th><th>สิ่งที่ต้องทำ</th><th>ลิงก์/ไปต่อ</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+}
+function readinessGate(path){
+  let blockers=[],red=0,passed=0;
+  questions.forEach((q,i)=>{if(!q.red)return;red++;const s=document.querySelector(`.assess[data-q="${i}"][data-path="${path}"]`)?.value||'none';if(['none','doing'].includes(s))blockers.push(q.q);else passed++;});
+  return {pass:blockers.length===0,blockers,red,passed};
+}
+function completeness(){
+  const textFields=profileFields.filter(f=>['text','number','textarea'].includes(f[2]));
+  let pf=0;textFields.forEach(f=>{if((val(f[0])||'').toString().trim())pf++;});
+  const profilePct=textFields.length?Math.round(pf/textFields.length*100):0;
+  const cells=document.querySelectorAll('.assess');let spec=0;
+  cells.forEach(s=>{if(s.value!=='none')spec++;});
+  const assessPct=cells.length?Math.round(spec/cells.length*100):0;
+  return {profilePct,assessPct,overall:Math.round((profilePct+assessPct)/2)};
+}
+
+/* ---------- กลุ่ม 4: Finance verdict / Prefill / Exec brief / Word+Excel / Search ---------- */
+function renderFinanceVerdict(){
+  const el=document.getElementById('financeSummary');if(!el)return;
+  const f=getFinance();const capex=f.renovation+f.equipment+f.it+f.stock+f.license+f.contingency;
+  const opex=f.rent+f.professional+f.staff+f.utility;
+  const budget=Number(getProfile().budget||0);const margin=(f.grossMargin||0)/100;
+  const revNeed=margin>0?opex/margin:0;
+  const custNeed=(f.avgTicket>0&&f.openDays>0&&margin>0)?Math.ceil(revNeed/(f.avgTicket*f.openDays)):null;
+  const gap=budget-capex;
+  let verdict;
+  if(!budget)verdict=`<div class="info"><b>งบลงทุน:</b> ยังไม่ได้กรอกงบใน “ข้อมูลผู้ประกอบการ” — กรอกแล้วระบบจะบอกว่างบพอกับ CAPEX ไหมค่ะ</div>`;
+  else if(gap>=0)verdict=`<div class="ok"><b>✅ งบเพียงพอ:</b> งบ ${money(budget)} − CAPEX ${money(capex)} = เหลือ <b>${money(gap)}</b> บาท เป็นกันชนได้</div>`;
+  else verdict=`<div class="warn"><b>⚠️ งบอาจไม่พอ:</b> งบ ${money(budget)} ต่ำกว่า CAPEX ${money(capex)} อยู่ <b class="redtext">${money(Math.abs(gap))}</b> บาท ควรลดสเปกหรือหาเงินทุนเพิ่ม</div>`;
+  const be=custNeed!=null?`<div class="notice"><b>จุดคุ้มทุนรายเดือน:</b> ต้องมีลูกค้าประมาณ <b>${custNeed}</b> คน/วัน (สมมติฐานปัจจุบัน ${f.customers} คน/วัน) ${f.customers>=custNeed?'<span class="greentext">— สมมติฐานถึงจุดคุ้มแล้ว</span>':'<span class="redtext">— สมมติฐานยังไม่ถึงจุดคุ้ม</span>'}</div>`:'';
+  el.insertAdjacentHTML('beforeend',`<div style="margin-top:10px">${verdict}${be}</div>`);
+}
+function smartPrefill(){
+  if(!confirm('ระบบจะเติมสถานะบางข้อในแบบประเมินจากข้อมูลโปรไฟล์ (บุคลากรวิชาชีพ + สิทธิใช้สถานที่) ให้อัตโนมัติ ยังแก้ทับได้ ต้องการดำเนินการไหมคะ?'))return;
+  const p=getProfile();
+  Object.keys(paths).forEach(k=>{
+    const v=p[SMART_PROF_FIELD[k]];
+    const st=(k==='herbalShop')?(v==='มีแล้ว'?'ready':v==='กำลังหา'?'partial':'none'):(v==='มีประจำ/เป็นหุ้นส่วน'?'ready':v==='มีแบบ part-time'?'partial':'none');
+    const cell=document.querySelector(`.assess[data-q="${SMART_PROF_Q_INDEX}"][data-path="${k}"]`);if(cell)cell.value=st;
+    const lv=p.locationRight;const ls=lv==='เป็นเจ้าของ/มีเอกสารครบ'?'ready':lv==='เช่า/มีหนังสือยินยอม'?'partial':'none';
+    const lcell=document.querySelector(`.assess[data-q="${SMART_LOC_Q_INDEX}"][data-path="${k}"]`);if(lcell)lcell.value=ls;
+  });
+  saveAll();calc();
+  alert('เติมสถานะจากโปรไฟล์ให้แล้วค่ะ ตรวจทาน/แก้ทับได้ตามจริงนะคะ');
+}
+function buildExecBriefHTML(){
+  const {feas,raw}=feasibilityScores();const order=Object.keys(paths).sort((a,b)=>feas[b]-feas[a]);const best=order[0];
+  const g=readinessGate(best);const p=getProfile();
+  const f=getFinance();const capex=f.renovation+f.equipment+f.it+f.stock+f.license+f.contingency;const budget=Number(p.budget||0);
+  const actions=buildActionPlan(best).slice(0,3);
+  let bad=0,redt=0;questions.forEach((q,i)=>{if(!q.red)return;redt++;const s=document.querySelector(`.assess[data-q="${i}"][data-path="${best}"]`)?.value||'none';if(['none','doing'].includes(s))bad++;});
+  const risk=redt?Math.round(bad/redt*100):0;
+  return `<h3>📄 สรุปผู้บริหาร 1 หน้า (Executive Brief)</h3>
+  <div class="ok"><b>เส้นทางที่ทำได้จริงที่สุด:</b> ${paths[best].icon} ${paths[best].name} | คะแนนปรับจริง ${pct(feas[best])} (จากคะแนนประเมิน ${pct(raw[best])})</div>
+  <p><b>ร้าน:</b> ${p.businessName||'-'} • <b>จังหวัด:</b> ${p.province||'-'} • <b>วันที่:</b> ${new Date().toLocaleDateString('th-TH')}</p>
+  <div class="${g.pass?'ok':'warn'}"><b>สถานะพร้อมยื่น:</b> ${g.pass?'ผ่านด่าน Red Flag หลักครบ':'ยังไม่ผ่าน เหลือ '+g.blockers.length+' ข้อ'} (ปิดแล้ว ${g.passed}/${g.red})</div>
+  <div class="${budget&&budget>=capex?'ok':budget?'warn':'info'}"><b>งบลงทุน:</b> ${budget?(budget>=capex?`พอ (เหลือ ${money(budget-capex)} บาท)`:`ขาด ${money(capex-budget)} บาท`):'ยังไม่ได้กรอกงบ'} • CAPEX โดยประมาณ ${money(capex)} บาท</div>
+  <div class="notice"><b>Risk Index เส้นทางนี้:</b> ${risk}% (${risk>70?'เสี่ยงสูง':risk>35?'ปานกลาง':'ต่ำ'})</div>
+  <h4>3 งานที่ต้องทำก่อน</h4><ol>${actions.length?actions.map(a=>`<li><b>[${a.pr.t}]</b> ${a.q}</li>`).join(''):'<li>ไม่พบงานค้างหลัก ตรวจเอกสารจริงกับผู้อนุญาต</li>'}</ol>
+  <p class="small">${DISCLAIMER}</p>`;
+}
+function renderExecBrief(){const el=document.getElementById('execBrief');if(el)el.innerHTML=buildExecBriefHTML();}
+function downloadWord(){
+  renderReport();renderExecBrief();
+  const body=document.getElementById('execBrief').innerHTML+'<hr>'+document.getElementById('printReport').innerHTML;
+  const html=`<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word'><head><meta charset="utf-8"><title>รายงานประเมินความพร้อม</title></head><body style="font-family:Sarabun,Tahoma,sans-serif">${body}</body></html>`;
+  dl(new Blob(['\ufeff'+html],{type:'application/msword'}),'cannabis_transition_report.doc');
+}
+function downloadExcel(){
+  const {scores,dimScores}=calcScores();
+  let rows='<tr><th>เส้นทาง</th><th>คะแนนประเมิน</th>'+dimensions.map(d=>`<th>${d.name}</th>`).join('')+'<th>ระดับ</th></tr>';
+  Object.keys(paths).forEach(k=>{rows+=`<tr><td>${paths[k].name}</td><td>${Math.round(scores[k])}</td>`+dimensions.map(d=>{const ds=dimScores[k][d.id];return `<td>${ds.max?Math.round(ds.got/ds.max*100):0}</td>`}).join('')+`<td>${level(scores[k])[0]}</td></tr>`;});
+  const html=`<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel'><head><meta charset="utf-8"></head><body><table border="1">${rows}</table></body></html>`;
+  dl(new Blob(['\ufeff'+html],{type:'application/vnd.ms-excel'}),'cannabis_scores.xls');
+}
+const SMART_SEARCH_INDEX=[
+  {id:'profile',label:'ข้อมูลผู้ประกอบการ',terms:'โปรไฟล์ ชื่อร้าน งบ พื้นที่ บุคลากร'},
+  {id:'assessment',label:'แบบประเมิน 7 มิติ',terms:'ประเมิน คะแนน สถานะ red flag'},
+  {id:'scorecard',label:'Scorecard 100 คะแนน',terms:'คะแนน ระดับ พร้อมยื่น'},
+  {id:'ai',label:'AI แนะนำเส้นทาง',terms:'แนะนำ feasibility action plan แผนปฏิบัติ ฉลาด'},
+  {id:'risk',label:'Legal Risk Radar',terms:'ความเสี่ยง heatmap'},
+  {id:'roadmap',label:'Roadmap',terms:'แผน 30 วัน เดือน เตรียม'},
+  {id:'business',label:'เปรียบเทียบ 4 โมเดล + Canvas',terms:'เปรียบเทียบ business canvas'},
+  {id:'finance',label:'ต้นทุน ROI จุดคุ้มทุน',terms:'roi npv payback capex opex งบ คุ้มทุน การเงิน'},
+  {id:'flow',label:'Flow ขออนุญาต',terms:'ขั้นตอน ยื่น herbctrl flow'},
+  {id:'checklists',label:'Checklist เอกสาร',terms:'เอกสาร ฟอร์ม สพ ขย สมพ checklist'},
+  {id:'sop',label:'SOP ระบบงาน',terms:'sop ภ.ท.33 stock รายงาน ae กลิ่น ควัน'},
+  {id:'inspection',label:'Inspection Mode',terms:'เจ้าหน้าที่ ตรวจ ติดตาม'},
+  {id:'export',label:'Export รายงาน',terms:'พิมพ์ pdf word excel json csv'},
+  {id:'lawplain',label:'กฎหมายแปลไทยเป็นไทย',terms:'กฎหมาย แปล กลิ่น ควัน'},
+  {id:'faq',label:'FAQ',terms:'คำถาม faq'},
+  {id:'law',label:'คลังกฎหมาย/ลิงก์',terms:'พรบ กฎกระทรวง ลิงก์'},
+  {id:'about',label:'Version/Credit',terms:'version credit disclaimer'}
+];
+function globalSearch(){
+  const t=(document.getElementById('globalSearch')?.value||'').toLowerCase().trim();
+  const box=document.getElementById('globalSearchResults');if(!box)return;
+  if(!t){box.innerHTML='';return;}
+  const hits=SMART_SEARCH_INDEX.filter(x=>(x.label+' '+x.terms).toLowerCase().includes(t));
+  box.innerHTML=hits.length?`<div class="mini-flow" style="margin-top:10px">${hits.map(h=>`<span style="cursor:pointer" onclick="showSection('${h.id}')">${h.label}</span>`).join('')}</div>`:'<p class="small muted" style="margin-top:8px">ไม่พบหัวข้อที่ตรง ลองคำอื่นค่ะ</p>';
+}
+
+/* ---------- รวมการ render ของ Smart Layer ---------- */
+function renderSmartAI(){
+  const el=document.getElementById('aiContent');if(!el)return;
+  const {raw,feas,reasons}=feasibilityScores();
+  const order=Object.keys(paths).sort((a,b)=>feas[b]-feas[a]);const best=order[0];
+  const con=detectContradictions();
+  let html=`<div class="info" style="margin-top:16px"><h3>🤖 ผลแบบฉลาด: คะแนนปรับตามความเป็นไปได้จริง (Feasibility-adjusted)</h3><p class="small">นำข้อมูลโปรไฟล์ (บุคลากร สิทธิสถานที่ ประวัติความเสี่ยง งบลงทุน) มาถ่วงคะแนนแบบประเมิน เพื่อชี้เส้นทางที่ “ทำได้จริง” ไม่ใช่แค่คะแนนสูงค่ะ</p>`;
+  html+=`<div class="tablewrap"><table><thead><tr><th>อันดับ</th><th>เส้นทาง</th><th>คะแนนประเมิน</th><th>คะแนนปรับจริง</th><th>เหตุที่ถูกหัก</th></tr></thead><tbody>`;
+  order.forEach((k,i)=>{html+=`<tr><td>${i+1}</td><td>${paths[k].icon} <b>${paths[k].name}</b></td><td>${pct(raw[k])}</td><td><b>${pct(feas[k])}</b></td><td>${reasons[k].length?reasons[k].join('<br>'):'<span class="greentext">ไม่มีปัจจัยฉุด</span>'}</td></tr>`;});
+  html+=`</tbody></table></div>`;
+  html+=`<div class="ok" style="margin-top:10px"><b>เส้นทางที่ทำได้จริงที่สุด:</b> ${paths[best].icon} ${paths[best].name} (${pct(feas[best])}) — ${feas[best]>=raw[best]-1?'สอดคล้องกับคะแนนประเมิน':'คะแนนถูกปรับลงจากข้อจำกัดจริง โปรดดูเหตุผลในตาราง'}</div>`;
+  if(con.length)html+=`<div class="warn"><b>⚠️ พบข้อมูลไม่สอดคล้องกัน:</b><ul class="clean">${con.map(c=>`<li>${c}</li>`).join('')}</ul><p class="small">ควรตรวจให้แบบประเมินตรงกับโปรไฟล์จริงก่อนยื่นนะคะ</p></div>`;
+  html+=`</div>`;
+  html+=renderActionPlanHTML(best);
+  el.insertAdjacentHTML('beforeend',html);
+}
+function renderReadiness(){
+  const el=document.getElementById('smartReadiness');if(!el)return;
+  const {feas}=feasibilityScores();const best=Object.keys(paths).sort((a,b)=>feas[b]-feas[a])[0];
+  const g=readinessGate(best);
+  el.innerHTML=`<div class="${g.pass?'ok':'warn'}"><b>${g.pass?'🟢 ผ่านด่านพร้อมยื่น (Readiness Gate)':'🔴 ยังไม่ผ่านด่านพร้อมยื่น'}</b> สำหรับเส้นทางแนะนำ ${paths[best].icon} ${paths[best].name} — ปิด Red Flag แล้ว ${g.passed}/${g.red} ข้อ${g.pass?' ตรวจเอกสารจริงกับผู้อนุญาตได้เลยค่ะ':` เหลืออีก ${g.blockers.length} ข้อที่เป็นตัวบล็อก`}</div>`;
+}
+function renderCompleteness(){
+  const el=document.getElementById('smartCompleteness');if(!el)return;
+  const c=completeness();
+  el.innerHTML=`<b>ความครบของข้อมูล: ${c.overall}%</b><div class="scorebar" style="margin:6px 0"><i style="width:${c.overall}%"></i></div><div class="small">โปรไฟล์ ${c.profilePct}% • แบบประเมินที่ระบุสถานะแล้ว ${c.assessPct}% <span class="muted">(ยิ่งระบุครบ คำแนะนำยิ่งแม่น)</span></div>`;
+}
+function smartRenderAll(){
+  try{renderSmartAI();}catch(e){console.warn('smartAI',e);}
+  try{renderReadiness();}catch(e){console.warn('readiness',e);}
+  try{renderCompleteness();}catch(e){console.warn('complete',e);}
+  try{renderFinanceVerdict();}catch(e){console.warn('finVerdict',e);}
+  try{renderExecBrief();}catch(e){console.warn('execBrief',e);}
+}
+
+/* ---------- Monkey-patch ของเดิม (ไม่แก้ฟังก์ชันต้นฉบับ) ---------- */
+(function(){
+  const _calc=window.calc;
+  window.calc=function(){_calc.apply(this,arguments);try{smartRenderAll();}catch(e){console.warn(e);}};
+  const _show=window.showSection;
+  window.showSection=function(id){_show.apply(this,arguments);try{if(history.replaceState)history.replaceState(null,'','#'+id);}catch(e){}};
+  smartRenderAll();
+  const h=(location.hash||'').replace('#','');
+  if(h&&document.getElementById(h))showSection(h);
+})();
+
+
+/* ============ V3.5 LAYER — เข้าใจง่าย เห็นภาพชัด (A1-A3,B4-B6,C7-C9) ============ */
+function v35BestPath(){try{const {feas}=feasibilityScores();return Object.keys(paths).sort((a,b)=>feas[b]-feas[a])[0];}catch(e){return 'medClinic';}}
+
+/* ---- B5: ตัวอย่าง "พร้อม" หน้าตาเป็นยังไง (รายข้อ 0-26) ---- */
+const questionHints=[
+ {r:'มีใบอนุญาตฐานกิจการ (คลินิก/ร้านยา/ร้านสมุนไพร) ที่ยังไม่หมดอายุ หรือยื่นขอแล้ว',f:'ยังไม่มีฐานกิจการใด ๆ คิดจะขายช่อดอกเลย'},
+ {r:'มีเอกสารสิทธิ์สถานที่ (โฉนด/สัญญาเช่า/หนังสือยินยอม) และไม่มีลักษณะต้องห้าม',f:'ใช้สถานที่ลอย ๆ ไม่มีเอกสารยืนยันสิทธิ'},
+ {r:'เข้าใจชัดว่าใบฐานกิจการ ≠ ใบกัญชา ต้องขอสมุนไพรควบคุมอีกชั้น',f:'คิดว่ามีใบคลินิก/ร้านยาแล้วขายช่อดอกได้เลย'},
+ {r:'รู้รอบต่ออายุ ค่าธรรมเนียม และมีแผนยื่นตามกำหนด',f:'ไม่รู้ว่าต้องต่ออายุเมื่อไร เสียค่าธรรมเนียมเท่าไร'},
+ {r:'พื้นที่พอกับปริมาณขาย และแยกโซนบริการ-จำหน่าย-เก็บชัดเจน',f:'ห้องเดียวรวมทุกอย่าง เก็บปนกับของขายอื่น'},
+ {r:'มีชั้น/ตู้เก็บช่อดอกเฉพาะ ยกพ้นพื้น ไม่ปะปนของอื่น',f:'วางช่อดอกกับพื้น หรือปนในตู้สินค้าทั่วไป'},
+ {r:'มีภาชนะปิดสนิท คุมอุณหภูมิ/ความชื้น ป้องกันเชื้อรา',f:'ใส่ถุงเปิดทิ้งไว้ ไม่มีอะไรคุมคุณภาพ'},
+ {r:'มีระบบกำจัดกลิ่น/ควัน + แผนบำรุงรักษา + บันทึกตรวจ',f:'ไม่มีระบบเลย หรือมีแค่พัดลม/เครื่องฟอกตั้งเฉย ๆ'},
+ {r:'มีป้ายห้ามสูบ/ใช้ในร้าน + ช่องทางรับเรื่องร้องเรียนกลิ่น',f:'ปล่อยให้ลูกค้าทดลองในร้าน ไม่มีมาตรการกลิ่น'},
+ {r:'มีป้าย ผัง พื้นที่รอ จุดให้คำปรึกษา CCTV จุดแสดงใบอนุญาต',f:'ไม่มีป้าย ไม่มีผัง ไม่มีจุดแสดงใบอนุญาต'},
+ {r:'มีแพทย์/เภสัช/แผนไทย/ผู้ปฏิบัติการประจำจริงตามเส้นทาง',f:'ไม่มีวิชาชีพ หรือมีแค่ชื่อแต่ไม่อยู่ปฏิบัติงาน'},
+ {r:'มีผู้ผ่านอบรมกัญชาทางการแพทย์ฯ ประจำตลอดเวลาเปิด',f:'ยังไม่มีใครผ่านอบรม คิดว่าไปอบรมทีหลังได้'},
+ {r:'แบ่งบทบาทผู้รับอนุญาต/ผู้ดำเนินการ/ผู้ปฏิบัติการ/ผู้บันทึกชัด',f:'ไม่รู้ว่าใครรับผิดชอบอะไร ทำมั่ว ๆ'},
+ {r:'มีแผนสำรองคนกรณีลา/ขาด ไม่เปิดเกินเงื่อนไขใบอนุญาต',f:'คนเดียวทำทุกอย่าง ลาแล้วร้านรวน'},
+ {r:'มีระบบคัดกรอง ประเมินข้อบ่งใช้-ข้อห้ามใช้ก่อนจ่าย',f:'จ่ายให้ทุกคนที่มาขอ ไม่ซักประวัติ'},
+ {r:'มีใบสั่งจ่าย ภ.ท.33 และเก็บหลักฐานอย่างน้อย 1 ปี',f:'จ่ายปากเปล่า ไม่มีเอกสาร ไม่เก็บหลักฐาน'},
+ {r:'มี Stock card เลขล็อต แหล่งที่มา รับเข้า-จ่ายออก-คงเหลือ',f:'ไม่รู้ของเข้า-ออกเท่าไร ยอดไม่ตรง'},
+ {r:'มีระบบรายงานรายเดือน ภ.ท.27/28/29 ตามแบบราชการ',f:'ไม่เคยทำรายงาน ไม่รู้ว่าต้องส่งอะไร'},
+ {r:'ใช้ช่อดอกจากแหล่งที่ได้รับรอง GACP ตรวจย้อนกลับได้',f:'รับช่อดอกจากแหล่งที่พิสูจน์ที่มาไม่ได้'},
+ {r:'มีนโยบายห้ามขายสันทนาการ/ออนไลน์/โฆษณา/โปรโมชัน',f:'ขายออนไลน์ ทำโปรลดราคา โฆษณาชวนใช้'},
+ {r:'มีแนวทางจัดการอาการไม่พึงประสงค์ การส่งต่อ ให้ข้อมูลเสี่ยง',f:'ไม่มีแผนรับมือถ้าลูกค้าแพ้/มีอาการ'},
+ {r:'พร้อมรับตรวจ เอกสารและสถานที่แสดงได้ในเวลาทำการ',f:'เอกสารกระจัดกระจาย หาไม่เจอตอนตรวจ'},
+ {r:'เข้าใจว่าถ้าเคยถูกพักใช้/ผิดเงื่อนไข อาจถูกระงับทันที',f:'ไม่รู้ว่าทำผิดแล้วเสี่ยงเสียสิทธิทำธุรกิจ'},
+ {r:'มีงบพอสำหรับสถานที่ ระบบจัดเก็บ กลิ่น/ควัน เอกสาร และค่าวิชาชีพ',f:'งบไม่พอ ลงทุนครึ่งทางแล้วค้าง'},
+ {r:'มีแบบจำลองรายได้-ต้นทุน-จุดคุ้มทุน และแผนเงินสด 6 เดือน',f:'ไม่เคยคำนวณว่าคุ้มไหม ต้องมีลูกค้ากี่คน'},
+ {r:'มี SOP/PDPA/ระบบร้องเรียน/คุมโฆษณา/อบรมพนักงาน',f:'ไม่มีระเบียบปฏิบัติ ทำตามอารมณ์'},
+ {r:'เจ้าของยอมรับเงื่อนไข ฝ่าฝืนอาจถูกพักใช้/เพิกถอน',f:'ไม่สนใจเงื่อนไข คิดว่าทำไปก่อน'}
+];
+
+/* ---- B6: คลังศัพท์ ---- */
+const GLOSSARY={
+ 'ภ.ท.33':'ใบสั่งจ่าย/หลักฐานการสั่งใช้สมุนไพรควบคุม (กัญชา) ต้องระบุผู้รับบริการ อาการ ปริมาณ และเก็บไว้อย่างน้อย 1 ปี',
+ 'ภ.ท.27':'แบบรายงานเกี่ยวกับการรับเข้า/จ่ายออก/คงเหลือสมุนไพรควบคุม ส่งตามรอบที่กำหนด (กลุ่ม ภ.ท.27-32)',
+ 'GACP':'Good Agricultural and Collection Practices มาตรฐานการเพาะปลูกและเก็บเกี่ยวที่ดี ช่อดอกที่ใช้ต้องมาจากแหล่งที่ได้รับรอง',
+ 'GPP':'Good Pharmacy Practice วิธีปฏิบัติทางเภสัชกรรมที่ดีสำหรับร้านขายยา ต้องผ่านเกณฑ์นี้',
+ 'สมพ.1':'คำขอรับใบอนุญาตผลิต นำเข้า หรือขายผลิตภัณฑ์สมุนไพร (เส้นทางร้านสมุนไพร)',
+ 'สมพ.4':'คำรับรองของผู้มีหน้าที่ปฏิบัติการด้านผลิตภัณฑ์สมุนไพร',
+ 'ส.พ.5':'คำขออนุญาตให้ประกอบกิจการสถานพยาบาล (เส้นทางคลินิก)',
+ 'ส.พ.18':'คำขอรับใบอนุญาตให้ดำเนินการสถานพยาบาล',
+ 'ข.ย.1':'คำขออนุญาตขายยาแผนปัจจุบัน (เส้นทางร้านยา)',
+ 'ข.ย.14':'คำรับรองของเภสัชกรผู้มีหน้าที่ปฏิบัติการในร้านขายยา',
+ 'สมุนไพรควบคุม':'สมุนไพรที่รัฐกำกับเป็นพิเศษ ช่อดอกกัญชาจัดอยู่กลุ่มนี้ ต้องมีใบอนุญาต ที่เก็บเหมาะสม และรายงานได้',
+ 'CAPEX':'เงินลงทุนเริ่มต้นครั้งเดียว เช่น ปรับสถานที่ ระบบจัดเก็บ ระบบกลิ่น/ควัน อุปกรณ์ ป้าย สต็อกตั้งต้น',
+ 'OPEX':'ค่าใช้จ่ายประจำรายเดือน เช่น ค่าเช่า ค่าวิชาชีพ พนักงาน น้ำไฟ ค่าบำรุงรักษาระบบ',
+ 'ROI':'อัตราผลตอบแทนต่อเงินลงทุนต่อปี (%) ยิ่งสูงยิ่งคุ้ม',
+ 'NPV':'มูลค่าปัจจุบันสุทธิของกระแสเงินสดในอนาคต ถ้าเป็นบวกแปลว่าโครงการคุ้มค่า',
+ 'Payback':'ระยะเวลาคืนทุน นับเป็นเดือนกว่าจะได้เงินลงทุนคืน',
+ 'Red Flag':'จุดเสี่ยงสำคัญที่ต้องปิดก่อนยื่น เช่น ไม่มีบุคลากร ไม่มีระบบกลิ่น/ควัน ไม่มีสิทธิสถานที่',
+ 'Feasibility':'ความเป็นไปได้จริง ระบบนำโปรไฟล์มาถ่วงคะแนนเพื่อชี้เส้นทางที่ทำได้จริง ไม่ใช่แค่คะแนนสูง',
+ 'herbctrl':'ระบบออนไลน์ยื่นคำขออนุญาตสมุนไพรควบคุม (กัญชา) ของกรมการแพทย์แผนไทยฯ',
+ 'AE':'Adverse Event อาการไม่พึงประสงค์ เช่น เวียนหัว ใจสั่น ต้องมีระบบติดตามและส่งต่อ'
+};
+function gloss(t){return `<span class="gloss" onclick="showGloss('${t}')">${t}</span>`;}
+function showGloss(t){
+  const d=GLOSSARY[t]||'ยังไม่มีคำอธิบายคำนี้ค่ะ';
+  const m=document.getElementById('glossModal');
+  m.querySelector('.box').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">📖 ${t}</h3><button class="btn red" onclick="document.getElementById('glossModal').style.display='none'">ปิด</button></div><p style="margin-top:12px">${d}</p>`;
+  m.style.display='flex';
+}
+function openGlossary(){
+  const m=document.getElementById('glossModal');
+  const rows=Object.keys(GLOSSARY).map(k=>`<tr><td><b>${k}</b></td><td>${GLOSSARY[k]}</td></tr>`).join('');
+  m.querySelector('.box').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">📖 คลังศัพท์ ผปก.</h3><button class="btn red" onclick="document.getElementById('glossModal').style.display='none'">ปิด</button></div><div class="tablewrap" style="margin-top:12px"><table><thead><tr><th>คำ</th><th>คำอธิบาย</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  m.style.display='flex';
+}
+
+/* ---- B4: Wizard ถามทีละข้อ ---- */
+let wizState={path:'medClinic',idx:0};
+function openWizard(p){wizState.path=p||v35BestPath();wizState.idx=0;document.getElementById('wizardModal').style.display='flex';renderWizard();}
+function closeWizard(){document.getElementById('wizardModal').style.display='none';saveAll();calc();}
+function wizSet(v){const c=document.querySelector(`.assess[data-q="${wizState.idx}"][data-path="${wizState.path}"]`);if(c)c.value=v;if(wizState.idx<questions.length-1){wizState.idx++;renderWizard();}else{closeWizard();showSection('scorecard');}}
+function wizNav(d){wizState.idx=Math.max(0,Math.min(questions.length-1,wizState.idx+d));renderWizard();}
+function wizPath(p){wizState.path=p;renderWizard();}
+function renderWizard(){
+  const q=questions[wizState.idx],d=dimensions.find(x=>x.id===q.dim);
+  const cur=document.querySelector(`.assess[data-q="${wizState.idx}"][data-path="${wizState.path}"]`)?.value||'none';
+  const h=questionHints[wizState.idx]||{};
+  const total=questions.length,prog=Math.round((wizState.idx+1)/total*100);
+  const opts=[['ready','✅ พร้อมแล้ว'],['partial','🟡 มีบางส่วน'],['doing','🔧 กำลังทำ'],['none','⛔ ยังไม่มี'],['na','➖ ไม่เกี่ยวข้อง']];
+  const pathBtns=Object.keys(paths).map(k=>`<button class="btn ${k===wizState.path?'primary':'secondary'}" style="padding:6px 10px" onclick="wizPath('${k}')">${paths[k].icon} ${paths[k].short}</button>`).join('');
+  document.getElementById('wizardModal').querySelector('.box').innerHTML=`
+   <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+     <h3 style="margin:0">📝 ถามทีละข้อ — ${paths[wizState.path].icon} ${paths[wizState.path].name}</h3>
+     <button class="btn red" onclick="closeWizard()">ปิด/บันทึก</button>
+   </div>
+   <div class="btns" style="margin-top:8px">${pathBtns}</div>
+   <div class="small" style="margin-top:8px">ข้อ ${wizState.idx+1}/${total} • มิติ ${d.name}</div>
+   <div class="scorebar" style="margin:6px 0 14px"><i style="width:${prog}%"></i></div>
+   <div class="${q.red?'warn':'notice'}"><b>${q.red?'🔴 ข้อสำคัญ (Red Flag): ':''}${q.q}</b></div>
+   <div class="ok" style="margin-top:8px"><b>แบบนี้ถือว่า “พร้อม”:</b> ${h.r||'-'}</div>
+   <div class="warn" style="margin-top:6px"><b>แบบนี้ยัง “ไม่ผ่าน”:</b> ${h.f||'-'}</div>
+   <div class="btns" style="margin-top:14px">${opts.map(o=>`<button class="btn ${cur===o[0]?'primary':'secondary'}" onclick="wizSet('${o[0]}')">${o[1]}</button>`).join('')}</div>
+   <div class="btns" style="margin-top:10px;justify-content:space-between">
+     <button class="btn secondary" onclick="wizNav(-1)" ${wizState.idx===0?'disabled':''}>← ก่อนหน้า</button>
+     <button class="btn gold" onclick="wizNav(1)" ${wizState.idx===total-1?'disabled':''}>ข้าม →</button>
+   </div>
+   <p class="small muted" style="margin-top:10px">เลือกคำตอบแล้วระบบจะพาไปข้อถัดไปอัตโนมัติ • คำตอบบันทึกลงแบบประเมินเดิมทันที</p>`;
+}
+
+/* ---- B5: inject ตัวอย่างผ่าน/ไม่ผ่าน ลงตารางประเมิน ---- */
+function injectHints(){
+  const rows=document.querySelectorAll('#assessmentRows tbody tr');
+  rows.forEach((tr,i)=>{
+    const td=tr.querySelector('td');if(!td||td.querySelector('.hintbox'))return;
+    const h=questionHints[i]||{};
+    td.insertAdjacentHTML('beforeend',`<div class="hintbox" style="display:none"><b class="greentext">พร้อม:</b> ${h.r||'-'}<br><b class="redtext">ไม่ผ่าน:</b> ${h.f||'-'}</div>`);
+  });
+}
+let hintsOn=false;
+function toggleHints(){hintsOn=!hintsOn;document.querySelectorAll('#assessmentRows .hintbox').forEach(e=>e.style.display=hintsOn?'block':'none');}
+
+/* ---- A1: Radar 7 มิติ (ปัจจุบัน vs เป้า) ---- */
+function renderRadar7(){
+  const el=document.getElementById('radar7');if(!el)return;
+  const best=v35BestPath();const {dimScores}=calcScores();const ds=dimScores[best];
+  const labels=['กฎหมาย','สถานที่','บุคลากร','ระบบ','กัญชา','การเงิน','ธรรมาภิบาล'];
+  const cur=dimensions.map(d=>ds[d.id].max?Math.round(ds[d.id].got/ds[d.id].max*100):0);
+  const tgt=dimensions.map(()=>85);
+  const N=7,cx=190,cy=185,R=130;
+  const pt=(i,v)=>{const a=-Math.PI/2+i*2*Math.PI/N;const r=R*v/100;return [cx+r*Math.cos(a),cy+r*Math.sin(a)];};
+  let grid='';[25,50,75,100].forEach(g=>{const p=[...Array(N)].map((_,i)=>pt(i,g).join(',')).join(' ');grid+=`<polygon points="${p}" fill="none" stroke="#d7e4dc" stroke-width="1"/>`;});
+  let axes='',lab='';
+  for(let i=0;i<N;i++){const e=pt(i,100);axes+=`<line x1="${cx}" y1="${cy}" x2="${e[0]}" y2="${e[1]}" stroke="#d7e4dc"/>`;const l=pt(i,118);lab+=`<text x="${l[0]}" y="${l[1]}" font-size="12" font-weight="800" fill="#115e59" text-anchor="middle">${labels[i]}</text><text x="${l[0]}" y="${l[1]+14}" font-size="11" fill="#0f766e" text-anchor="middle">${cur[i]}%</text>`;}
+  const tp=cur.map((v,i)=>pt(i,v).join(',')).join(' ');
+  const gp=tgt.map((v,i)=>pt(i,v).join(',')).join(' ');
+  el.innerHTML=`<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center">
+   <svg viewBox="0 0 380 380" width="340" height="340" xmlns="http://www.w3.org/2000/svg">
+    ${grid}${axes}
+    <polygon points="${gp}" fill="rgba(199,146,36,.10)" stroke="#c69224" stroke-width="2" stroke-dasharray="5 4"/>
+    <polygon points="${tp}" fill="rgba(20,184,166,.28)" stroke="#0f766e" stroke-width="2.5"/>
+    ${lab}
+   </svg>
+   <div><div class="badge">เส้นทาง: ${paths[best].icon} ${paths[best].short}</div>
+   <p class="small" style="margin-top:10px"><span style="display:inline-block;width:14px;height:14px;background:rgba(20,184,166,.6);border:2px solid #0f766e;border-radius:3px;vertical-align:middle"></span> สถานะปัจจุบัน<br><span style="display:inline-block;width:14px;height:14px;border:2px dashed #c69224;border-radius:3px;vertical-align:middle"></span> เป้าพร้อมยื่น (85%)</p>
+   <p class="small muted">แกนที่เว้าเข้าด้านในคือมิติที่ต้องเร่งแก้ก่อนค่ะ</p></div>
+  </div>`;
+}
+
+/* ---- A3: เกจวงแหวน ---- */
+function renderGauge(){
+  const el=document.getElementById('readyGauge');if(!el)return;
+  const best=v35BestPath();const {feas}=feasibilityScores();const sc=Math.round(feas[best]);
+  const r=58,c=2*Math.PI*r,off=c*(1-sc/100);
+  const col=sc>=85?'#198754':sc>=70?'#0ea5a4':sc>=50?'#c69224':'#dc2626';
+  const lvl=sc>=85?'พร้อมยื่น':sc>=70?'พร้อมมีเงื่อนไข':sc>=50?'ต้องปรับปรุง':'ยังไม่ควรยื่น';
+  el.innerHTML=`<div class="ringwrap"><svg viewBox="0 0 160 160" width="170" height="170">
+   <circle cx="80" cy="80" r="${r}" fill="none" stroke="#e6eee9" stroke-width="14"/>
+   <circle cx="80" cy="80" r="${r}" fill="none" stroke="${col}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 80 80)"/>
+   <text x="80" y="74" font-size="34" font-weight="1000" fill="${col}" text-anchor="middle">${sc}%</text>
+   <text x="80" y="98" font-size="12" fill="#475569" text-anchor="middle">คะแนนปรับจริง</text>
+  </svg></div><div style="text-align:center"><span class="badge" style="background:${col}1a;color:${col}">${paths[best].icon} ${paths[best].short} • ${lvl}</span></div>`;
+}
+
+/* ---- A3: Roadmap timeline ---- */
+function renderTimeline(){
+  const el=document.getElementById('roadmapTimeline');if(!el)return;
+  const steps=[['ด.1','เลือกเส้นทาง + Gap','#14b8a6'],['ด.2','ปิด Red Flag สถานที่/คน','#0ea5a4'],['ด.3','ยื่นฐานกิจการ + รับตรวจ','#0f766e'],['ด.4','วาง SOP + ยื่น herbctrl','#115e59'],['≤30 วัน','ได้ใบอนุญาตช่อดอก','#c69224']];
+  el.innerHTML=`<div style="display:flex;gap:8px;overflow:auto;padding:6px 2px 10px;margin-bottom:8px">${steps.map((s,i)=>`<div style="flex:1;min-width:150px;border-radius:14px;padding:12px;background:${s[2]};color:#fff;position:relative"><div style="font-weight:1000;font-size:13px;opacity:.9">${s[0]}</div><div style="font-weight:800;margin-top:4px;font-size:14px">${s[1]}</div>${i<steps.length-1?'<span style="position:absolute;right:-7px;top:50%;transform:translateY(-50%);color:'+s[2]+';font-weight:1000">▶</span>':''}</div>`).join('')}</div>`;
+}
+
+/* ---- A2 (V3.5.1): ภาพระบบระบายอากาศ + ชั้นเก็บช่อดอก ตามกฎกระทรวงฯ ฉบับที่ 2/2569 ---- */
+function renderBlueprint(){
+  const el=document.getElementById('blueprint');if(!el)return;
+  const ventReq=[
+   'มีระบบกำจัดกลิ่นและควันที่มีประสิทธิภาพในสถานประกอบการ',
+   'ดักกลิ่นที่จุดเกิด (จุดเก็บ/แบ่งบรรจุ) แล้วผ่านตัวกรอง เช่น คาร์บอน/HEPA ก่อนระบายออก',
+   'มีแผน/ตารางบำรุงรักษา เปลี่ยนไส้กรอง และบันทึกผลการตรวจ',
+   'มีช่องทางรับและจัดการข้อร้องเรียนกลิ่น/ควันจากชุมชน',
+   'มีมาตรการห้ามใช้/สูบ/ทดลองในร้าน'
+  ];
+  const storeReq=[
+   'แยกเป็นสัดส่วนเฉพาะ ไม่ปะปนกับสิ่งอื่น',
+   'ไม่วางสัมผัสพื้นโดยตรง (ยกพ้นพื้น/ใช้ชั้นวาง)',
+   'ภาชนะปิดสนิท คงคุณภาพ ป้องกันการปนเปื้อน',
+   'ควบคุมอุณหภูมิ/ความชื้นตามจำเป็น พร้อมบันทึก',
+   'จำกัดผู้เข้าถึง (ล็อก/กุญแจ) และมีป้ายแสดงพื้นที่จัดเก็บ'
+  ];
+  const ventSVG=`<svg viewBox="0 0 300 230" width="100%" style="max-width:340px;border:1px solid var(--line);border-radius:14px;background:#fff" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="18" width="280" height="184" rx="8" fill="#f1f7ff" stroke="#94a3b8"/>
+    <text x="150" y="34" font-size="12" font-weight="900" fill="#084298" text-anchor="middle">ระบบระบายอากาศ / กำจัดกลิ่น-ควัน</text>
+    <rect x="28" y="150" width="78" height="44" rx="6" fill="#fff4cf" stroke="#c69224"/>
+    <text x="67" y="170" font-size="10" font-weight="800" fill="#7a5500" text-anchor="middle">จุดเก็บ/</text>
+    <text x="67" y="183" font-size="10" font-weight="800" fill="#7a5500" text-anchor="middle">แบ่งบรรจุ</text>
+    <path d="M52 150 q-4 -10 4 -18 q4 -8 -2 -16" fill="none" stroke="#c69224" stroke-width="2"/>
+    <path d="M70 150 q-4 -10 4 -18 q4 -8 -2 -16" fill="none" stroke="#c69224" stroke-width="2"/>
+    <path d="M88 150 q-4 -10 4 -18 q4 -8 -2 -16" fill="none" stroke="#c69224" stroke-width="2"/>
+    <polygon points="24,112 110,112 92,96 42,96" fill="#cbd5e1" stroke="#64748b"/>
+    <text x="67" y="108" font-size="9" font-weight="800" fill="#334155" text-anchor="middle">ฮูดดักกลิ่น</text>
+    <line x1="67" y1="96" x2="67" y2="62" stroke="#0d6efd" stroke-width="3"/>
+    <line x1="67" y1="62" x2="176" y2="62" stroke="#0d6efd" stroke-width="3"/>
+    <polygon points="100,58 100,66 110,62" fill="#0d6efd"/>
+    <rect x="176" y="44" width="52" height="40" rx="5" fill="#edf9f1" stroke="#198754"/>
+    <text x="202" y="60" font-size="9" font-weight="800" fill="#198754" text-anchor="middle">ตัวกรอง</text>
+    <text x="202" y="73" font-size="9" font-weight="800" fill="#198754" text-anchor="middle">คาร์บอน/HEPA</text>
+    <circle cx="252" cy="64" r="15" fill="#e7f0ff" stroke="#0d6efd"/>
+    <path d="M252 56 l6 8 -12 0 z M252 72 l-6 -8 12 0 z" fill="#0d6efd"/>
+    <text x="252" y="92" font-size="8.5" font-weight="800" fill="#0d6efd" text-anchor="middle">พัดลมดูด</text>
+    <line x1="228" y1="64" x2="240" y2="64" stroke="#0d6efd" stroke-width="3"/>
+    <line x1="264" y1="64" x2="286" y2="64" stroke="#0d6efd" stroke-width="3"/>
+    <polygon points="280,60 280,68 290,64" fill="#0d6efd"/>
+    <text x="262" y="120" font-size="8.5" fill="#475569" text-anchor="middle">ระบายออก</text>
+    <text x="262" y="131" font-size="8.5" fill="#475569" text-anchor="middle">นอกอาคาร</text>
+  </svg>`;
+  const storeSVG=`<svg viewBox="0 0 300 230" width="100%" style="max-width:340px;border:1px solid var(--line);border-radius:14px;background:#fff" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="18" width="280" height="184" rx="8" fill="#fff7f7" stroke="#94a3b8"/>
+    <text x="150" y="34" font-size="12" font-weight="900" fill="#dc2626" text-anchor="middle">ที่เก็บ/ชั้นเก็บช่อดอก</text>
+    <rect x="40" y="44" width="200" height="150" rx="6" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="140" y="58" font-size="9" font-weight="800" fill="#dc2626" text-anchor="middle">พื้นที่จัดเก็บสมุนไพรควบคุม (จำกัดการเข้าถึง)</text>
+    <rect x="62" y="70" width="120" height="100" rx="4" fill="#fdedeD" stroke="#b32634"/>
+    <line x1="62" y1="104" x2="182" y2="104" stroke="#b32634" stroke-width="2"/>
+    <line x1="62" y1="138" x2="182" y2="138" stroke="#b32634" stroke-width="2"/>
+    <rect x="72" y="80" width="20" height="18" rx="3" fill="#20c997"/><rect x="98" y="80" width="20" height="18" rx="3" fill="#20c997"/><rect x="124" y="80" width="20" height="18" rx="3" fill="#20c997"/><rect x="150" y="80" width="20" height="18" rx="3" fill="#20c997"/>
+    <rect x="72" y="114" width="20" height="18" rx="3" fill="#20c997"/><rect x="98" y="114" width="20" height="18" rx="3" fill="#20c997"/><rect x="124" y="114" width="20" height="18" rx="3" fill="#20c997"/><rect x="150" y="114" width="20" height="18" rx="3" fill="#20c997"/>
+    <text x="122" y="160" font-size="8.5" font-weight="800" fill="#155e4f" text-anchor="middle">ภาชนะปิดสนิท บนชั้นวาง</text>
+    <line x1="74" y1="170" x2="74" y2="186" stroke="#7a5500" stroke-width="4"/>
+    <line x1="170" y1="170" x2="170" y2="186" stroke="#7a5500" stroke-width="4"/>
+    <line x1="40" y1="186" x2="240" y2="186" stroke="#64748b" stroke-width="3"/>
+    <text x="140" y="199" font-size="9" font-weight="800" fill="#7a5500" text-anchor="middle">ยกพ้นพื้น ไม่สัมผัสพื้นโดยตรง</text>
+    <rect x="206" y="66" width="26" height="22" rx="4" fill="#fff" stroke="#334155"/><path d="M213 66 v-4 a6 6 0 0 1 12 0 v4" fill="none" stroke="#334155" stroke-width="2"/><circle cx="219" cy="77" r="3" fill="#334155"/>
+    <text x="219" y="98" font-size="8" font-weight="800" fill="#334155" text-anchor="middle">ล็อก</text>
+    <rect x="46" y="120" width="12" height="40" rx="6" fill="#e7f0ff" stroke="#0d6efd"/><circle cx="52" cy="156" r="7" fill="#0d6efd"/>
+    <text x="52" y="178" font-size="7.5" fill="#0d6efd" text-anchor="middle">อุณหภูมิ/</text>
+    <text x="52" y="187" font-size="7.5" fill="#0d6efd" text-anchor="middle">ความชื้น</text>
+  </svg>`;
+  el.innerHTML=`
+  <p class="small">กฎกระทรวงฯ ฉบับที่ 2 พ.ศ. 2569 เป็น "ตัวบทกฎหมาย" จึงไม่มีรูปถ่ายแนบ ภาพด้านล่างเป็นไดอะแกรมอธิบาย ${gloss('Red Flag')} 2 จุดสำคัญตามข้อกำหนดในกฎกระทรวง — <a href="https://ratchakitcha.soc.go.th/documents/114061.pdf" target="_blank" rel="noopener">เปิดตัวกฎกระทรวง (PDF)</a></p>
+  <div class="grid">
+    <div class="span-6"><div style="display:flex;justify-content:center">${ventSVG}</div>
+      <h4 style="margin:10px 0 4px;color:#084298">🌬️ ระบบระบายอากาศ/กำจัดกลิ่น-ควัน ต้องมี</h4>
+      <ul class="clean">${ventReq.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+    <div class="span-6"><div style="display:flex;justify-content:center">${storeSVG}</div>
+      <h4 style="margin:10px 0 4px;color:#b32634">📦 ที่เก็บ/ชั้นเก็บช่อดอก ต้องมี</h4>
+      <ul class="clean">${storeReq.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+  </div>
+  <div class="info" style="margin-top:8px"><b>หมายเหตุ:</b> ภาพเป็นแนวคิดประกอบความเข้าใจ ${gloss('Red Flag')} ของกฎกระทรวง รายละเอียดที่ต้องทำจริงให้ยึดตัวกฎกระทรวงและคำแนะนำของผู้อนุญาตในพื้นที่เป็นหลักค่ะ</div>`;
+}
+/* ---- C7: What-if simulator ---- */
+function fPro(path,v){if(path==='herbalShop')return v==='มีแล้ว'?1:v==='กำลังหา'?0.82:0.6;return v==='มีประจำ/เป็นหุ้นส่วน'?1:v==='มีแบบ part-time'?0.82:0.55;}
+function fLoc(v){return v==='เป็นเจ้าของ/มีเอกสารครบ'?1:v==='เช่า/มีหนังสือยินยอม'?0.95:0.72;}
+function fRisk(v){return v==='ไม่มี'?1:v==='เคยมีข้อร้องเรียนเล็กน้อย'?0.94:0.8;}
+function fBud(path,b){const req=paths[path].capex;if(!b)return 1;if(b>=req)return 1;if(b>=req*0.6)return 0.9;return 0.78;}
+function computeFeas(path,o){const {scores}=calcScores();const p=getProfile();const pv=('prof'in o)?o.prof:p[SMART_PROF_FIELD[path]];const lv=('loc'in o)?o.loc:p.locationRight;const rv=p.riskHistory;const bv=('budget'in o)?o.budget:Number(p.budget||0);return Math.max(0,Math.min(100,scores[path]*fPro(path,pv)*fLoc(lv)*fRisk(rv)*fBud(path,bv)));}
+function renderWhatIf(){
+  const el=document.getElementById('whatIfBox');if(!el)return;
+  const best=v35BestPath();const p=getProfile();const base=computeFeas(best,{});
+  const profLabel={medClinic:'แพทย์เวชกรรม',thaiClinic:'แพทย์แผนไทย',pharmacy:'เภสัชกร',herbalShop:'ผู้ปฏิบัติการสมุนไพร'}[best];
+  const sc=[];
+  const profReady=best==='herbalShop'?'มีแล้ว':'มีประจำ/เป็นหุ้นส่วน';
+  if(p[SMART_PROF_FIELD[best]]!==profReady)sc.push([`ถ้าหา${profLabel}ประจำได้`,computeFeas(best,{prof:profReady})]);
+  if(p.locationRight!=='เป็นเจ้าของ/มีเอกสารครบ')sc.push(['ถ้ามีสิทธิใช้สถานที่ครบ',computeFeas(best,{loc:'เป็นเจ้าของ/มีเอกสารครบ'})]);
+  const req=paths[best].capex;if(Number(p.budget||0)<req)sc.push([`ถ้ามีงบถึง CAPEX (${money(req)} บาท)`,computeFeas(best,{budget:req})]);
+  if(p.riskHistory!=='ไม่มี')sc.push(['ถ้าไม่มีประวัติความเสี่ยงเดิม',computeFeas(best,{})*0+computeFeasRisk(best)]);
+  const rows=sc.map(s=>{const dl=Math.round(s[1]-base);return `<tr><td>${s[0]}</td><td>${pct(base)}</td><td><b>${pct(s[1])}</b></td><td><span class="${dl>0?'greentext':'muted'}">${dl>0?'+':''}${dl}%</span></td></tr>`;}).join('');
+  el.innerHTML=`<div class="info"><b>เส้นทางแนะนำ:</b> ${paths[best].icon} ${paths[best].name} • คะแนนปรับจริงตอนนี้ <b>${pct(base)}</b></div>${sc.length?`<div class="tablewrap" style="margin-top:10px"><table><thead><tr><th>ถ้าทำสิ่งนี้</th><th>ตอนนี้</th><th>จะเป็น</th><th>เปลี่ยน</th></tr></thead><tbody>${rows}</tbody></table></div><p class="small muted" style="margin-top:8px">ตัวเลขช่วยให้เห็นว่า “ลงมือเรื่องไหนคุ้มที่สุด” ค่ะ (เป็นการจำลอง ไม่แก้ข้อมูลจริง)</p>`:'<div class="ok" style="margin-top:10px">โปรไฟล์พร้อมในปัจจัยหลักแล้ว ไม่มีสิ่งที่ต้องจำลองเพิ่มค่ะ</div>'}`;
+}
+function computeFeasRisk(path){const {scores}=calcScores();const p=getProfile();return Math.max(0,Math.min(100,scores[path]*fPro(path,p[SMART_PROF_FIELD[path]])*fLoc(p.locationRight)*1*fBud(path,Number(p.budget||0))));}
+
+/* ---- C8: Narrative + voice + font ---- */
+function renderNarrative(){
+  const el=document.getElementById('narrativeBox');if(!el)return;
+  const best=v35BestPath();const {feas,raw}=feasibilityScores();const g=readinessGate(best);const p=getProfile();
+  const sc=Math.round(feas[best]);const lvl=sc>=85?'พร้อมยื่นเชิงระบบ':sc>=70?'พร้อมแบบมีเงื่อนไข':sc>=50?'ยังต้องปรับปรุงก่อน':'ยังไม่ควรยื่น';
+  const tl={medClinic:'4 เดือนเตรียมตัว',thaiClinic:'3-4 เดือน',pharmacy:'3-4 เดือน',herbalShop:'2-3 เดือน'}[best];
+  el.innerHTML=`<p>ตอนนี้ร้าน <b>${p.businessName||'ของคุณ'}</b> เหมาะกับเส้นทาง <b>${paths[best].name}</b> มากที่สุด คะแนนความพร้อมปรับตามจริงอยู่ที่ <b>${sc}%</b> (${lvl}) ${g.pass?'ผ่านด่าน Red Flag หลักครบแล้ว เตรียมตรวจเอกสารจริงกับผู้อนุญาตได้เลย':`ยังเหลือ Red Flag ที่ต้องปิดอีก ${g.blockers.length} ข้อ`} โดยทั่วไปใช้เวลาเตรียมประมาณ <b>${tl}</b> ก่อนยื่นจริง แนะนำให้ดู “แผนปฏิบัติจัดลำดับ” ในหน้า AI เพื่อรู้ว่าต้องทำอะไรก่อนค่ะ</p>`;
+}
+function speakNarrative(){
+  const t=(document.getElementById('narrativeBox')?.innerText||'').trim();
+  if(!('speechSynthesis'in window)){alert('อุปกรณ์นี้ไม่รองรับการอ่านออกเสียงค่ะ');return;}
+  if(!t){alert('ยังไม่มีผลให้อ่าน กรอกข้อมูลก่อนนะคะ');return;}
+  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='th-TH';u.rate=0.98;speechSynthesis.speak(u);
+}
+function setFont(d){let lv=Number(localStorage.getItem('v35font')||'0');lv=d===0?0:Math.max(-1,Math.min(4,lv+d));localStorage.setItem('v35font',lv);applyFont(lv);}
+function applyFont(lv){document.documentElement.style.fontSize=(100+lv*12)+'%';}
+function loadFontPref(){applyFont(Number(localStorage.getItem('v35font')||'0'));}
+
+/* ---- C9: แนบรูป (base64, ย่อขนาด, เก็บ localStorage) ---- */
+const PHOTO_SLOTS=[['store','โซนเก็บช่อดอก'],['odor','ระบบกลิ่น/ควัน'],['plan','ผังร้าน'],['front','หน้าร้าน/ป้าย']];
+function getPhotos(){try{return JSON.parse(localStorage.getItem('v35photos')||'{}');}catch(e){return {};}}
+function renderPhotoZone(){
+  const el=document.getElementById('photoZone');if(!el)return;const ph=getPhotos();
+  el.innerHTML=`<p class="small muted">ถ่าย/เลือกรูปเพื่อประเมินตัวเองและให้เจ้าหน้าที่ดูตอนปรึกษา (เก็บในเครื่องนี้เท่านั้น ไม่อัปโหลดออก)</p><div class="grid">${PHOTO_SLOTS.map(s=>`<div class="span-3"><div class="submenu-card"><h4 style="margin:0 0 6px">${s[1]}</h4>${ph[s[0]]?`<img src="${ph[s[0]]}" style="width:100%;border-radius:12px;border:1px solid var(--line)"><button class="btn red" style="margin-top:6px;padding:6px 10px" onclick="delPhoto('${s[0]}')">ลบ</button>`:`<label class="btn secondary" style="display:block;text-align:center;cursor:pointer">เลือกรูป<input type="file" accept="image/*" style="display:none" onchange="onPhoto(this,'${s[0]}')"></label>`}</div></div>`).join('')}</div>`;
+}
+function onPhoto(input,key){
+  const f=input.files&&input.files[0];if(!f)return;const rd=new FileReader();
+  rd.onload=e=>{const img=new Image();img.onload=()=>{const max=800;let{width:w,height:h}=img;if(w>max||h>max){const r=Math.min(max/w,max/h);w=Math.round(w*r);h=Math.round(h*r);}const cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);const data=cv.toDataURL('image/jpeg',0.7);const ph=getPhotos();ph[key]=data;try{localStorage.setItem('v35photos',JSON.stringify(ph));renderPhotoZone();}catch(err){alert('พื้นที่จัดเก็บเต็ม ลองลบรูปเก่าก่อนค่ะ');}};img.src=e.target.result;};
+  rd.readAsDataURL(f);
+}
+function delPhoto(key){const ph=getPhotos();delete ph[key];localStorage.setItem('v35photos',JSON.stringify(ph));renderPhotoZone();}
+
+/* ---- รวม render V3.5 + patch calc ---- */
+function renderV35All(){
+  try{renderRadar7();}catch(e){console.warn('radar',e);}
+  try{renderGauge();}catch(e){console.warn('gauge',e);}
+  try{renderTimeline();}catch(e){console.warn('timeline',e);}
+  try{renderBlueprint();}catch(e){console.warn('blueprint',e);}
+  try{renderWhatIf();}catch(e){console.warn('whatif',e);}
+  try{renderNarrative();}catch(e){console.warn('narrative',e);}
+}
+(function(){
+  const _calc=window.calc;
+  window.calc=function(){_calc.apply(this,arguments);try{renderV35All();}catch(e){console.warn(e);}};
+  try{injectHints();}catch(e){console.warn('hints',e);}
+  try{loadFontPref();}catch(e){}
+  try{renderPhotoZone();}catch(e){}
+  try{renderV35All();}catch(e){console.warn(e);}
+})();
+
 </script>
 </body>
 </html>
