@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>เครื่องมือประเมินความพร้อมเปลี่ยนผ่านร้านช่อดอกกัญชา | Cannabis Transition Readiness App</title>
+<style>
+:root{
+  --green:#0f5132; --green2:#198754; --mint:#e8f6ef; --gold:#c79b2b; --amber:#fff3cd; --red:#b02a37; --blue:#0d6efd;
+  --ink:#17221d; --muted:#617068; --paper:#ffffff; --bg:#f3f7f4; --line:#d8e4dc; --shadow:0 16px 40px rgba(12,50,30,.12);
+  --radius:22px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(135deg,#f7fbf7 0%,#edf7ef 45%,#fffaf0 100%);color:var(--ink);font-family:"Sarabun","Noto Sans Thai",Tahoma,sans-serif;line-height:1.58}
+a{color:#075c35;text-decoration:none;font-weight:700} a:hover{text-decoration:underline}
+.container{max-width:1280px;margin:0 auto;padding:22px}
+.hero{background:radial-gradient(circle at 10% 0%,rgba(255,255,255,.9),transparent 28%),linear-gradient(135deg,#0b3d27 0%,#11764a 58%,#c79b2b 140%);color:white;border-radius:30px;padding:30px 32px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"☘";font-size:250px;position:absolute;right:-25px;top:-65px;color:rgba(255,255,255,.10);transform:rotate(-18deg)}
+.hero h1{margin:0 0 8px;font-size:clamp(28px,4vw,48px);line-height:1.12;letter-spacing:-.4px}
+.hero .subtitle{font-size:18px;opacity:.96;max-width:900px}.hero .pillbar{margin-top:18px;display:flex;flex-wrap:wrap;gap:10px}.pill{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:999px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(4px);font-weight:700}
+.nav{position:sticky;top:0;z-index:8;background:rgba(243,247,244,.88);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;margin:18px 0;padding:10px;display:flex;gap:8px;overflow:auto;box-shadow:0 10px 26px rgba(12,50,30,.08)}
+.nav button{border:0;border-radius:999px;padding:9px 13px;white-space:nowrap;background:white;color:#16452d;font-weight:800;cursor:pointer;border:1px solid #dce8df}.nav button.active,.nav button:hover{background:#0f5132;color:white;border-color:#0f5132}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}.card{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 10px 28px rgba(12,50,30,.08)}
+.card h2,.card h3{margin:0 0 12px;line-height:1.25}.card h2{font-size:28px;color:#0f5132}.card h3{font-size:22px;color:#16452d}.small{font-size:13px;color:var(--muted)}.muted{color:var(--muted)}.section{display:none;margin:18px 0 40px}.section.active{display:block}.span-12{grid-column:span 12}.span-8{grid-column:span 8}.span-7{grid-column:span 7}.span-6{grid-column:span 6}.span-5{grid-column:span 5}.span-4{grid-column:span 4}.span-3{grid-column:span 3}.span-2{grid-column:span 2}
+@media(max-width:900px){.span-8,.span-7,.span-6,.span-5,.span-4,.span-3,.span-2{grid-column:span 12}.hero{padding:24px 20px}.container{padding:12px}.nav{top:0;border-radius:14px}}
+.kpi{display:flex;align-items:center;justify-content:space-between;gap:12px}.kpi .num{font-size:34px;font-weight:900;color:#0f5132}.badge{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border-radius:999px;background:var(--mint);color:#0f5132;font-weight:800;font-size:13px}.badge.red{background:#fde8e7;color:#9f1d2a}.badge.amber{background:#fff1c4;color:#7a5500}.badge.blue{background:#e7f0ff;color:#084298}.badge.gold{background:#fff4cf;color:#765100}.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 9px;margin:2px;background:white;font-weight:700;font-size:12px;color:#365546}
+.scorebar{height:15px;border-radius:999px;background:#e6eee9;overflow:hidden;border:1px solid #d7e4dc}.scorebar>i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#dc3545,#ffc107,#20c997,#198754);transition:.4s ease}
+.path-card{border:1px solid var(--line);border-radius:20px;padding:16px;background:linear-gradient(180deg,#fff,#f9fcfa);position:relative;overflow:hidden}.path-card:before{content:"";position:absolute;right:-35px;top:-35px;width:110px;height:110px;border-radius:50%;background:rgba(25,135,84,.08)}.path-card.best{border:2px solid var(--gold);box-shadow:0 0 0 5px rgba(199,155,43,.12)}
+.path-title{display:flex;align-items:center;justify-content:space-between;gap:8px}.path-title h3{margin:0;font-size:20px}.path-title .icon{font-size:28px}.risk-list,.checklist,.todo{padding-left:20px;margin:8px 0}.risk-list li,.checklist li,.todo li{margin:6px 0}.redtext{color:var(--red);font-weight:800}.greentext{color:var(--green2);font-weight:800}.ambertext{color:#9a6500;font-weight:800}
+.form-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}.field{grid-column:span 4}.field.w6{grid-column:span 6}.field.w12{grid-column:span 12}.field label{display:block;font-weight:800;margin:0 0 6px;color:#244c36}input,select,textarea{width:100%;border:1px solid #ccdcd2;border-radius:13px;padding:10px 12px;font-family:inherit;font-size:15px;background:white}textarea{min-height:86px;resize:vertical}input:focus,select:focus,textarea:focus{outline:3px solid rgba(25,135,84,.15);border-color:#198754}.switchrow{display:grid;grid-template-columns:1.2fr repeat(4,110px);gap:8px;align-items:center;border-bottom:1px dashed #dfe9e2;padding:10px 0}.switchrow .q{font-weight:700}.choice{display:flex;justify-content:center}.choice select{font-size:13px;padding:7px 8px;border-radius:10px}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:16px}table{width:100%;border-collapse:collapse;background:white}th,td{border-bottom:1px solid #e6eee9;padding:10px 11px;text-align:left;vertical-align:top}th{background:#eef8f1;color:#0f5132;font-size:14px}tr:last-child td{border-bottom:0}.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.btn{border:0;border-radius:13px;padding:10px 14px;font-weight:900;cursor:pointer;font-family:inherit}.btn.primary{background:#0f5132;color:white}.btn.secondary{background:#e8f6ef;color:#0f5132}.btn.gold{background:#c79b2b;color:white}.btn.red{background:#b02a37;color:white}.btn:hover{filter:brightness(.97);transform:translateY(-1px)}
+.notice{border-left:5px solid var(--gold);background:#fff9e8;border-radius:14px;padding:12px 14px;margin:10px 0}.warn{border-left:5px solid #b02a37;background:#fff1f1;border-radius:14px;padding:12px 14px;margin:10px 0}.ok{border-left:5px solid #198754;background:#edf9f1;border-radius:14px;padding:12px 14px;margin:10px 0}.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.step{background:white;border:1px solid var(--line);border-radius:18px;padding:14px;position:relative;box-shadow:0 8px 20px rgba(12,50,30,.06)}.step .n{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#0f5132;color:white;font-weight:900;margin-bottom:8px}.step h4{margin:0 0 6px;color:#16452d}.step:after{content:"→";position:absolute;right:-13px;top:35%;font-weight:900;color:#4b7e5f}.step:last-child:after{content:""}
+@media(max-width:1000px){.flow{grid-template-columns:repeat(2,1fr)}.step:after{content:""}.field,.field.w6{grid-column:span 12}.switchrow{grid-template-columns:1fr}.choice{justify-content:stretch}.choice select{width:100%}}
+.chart{display:flex;align-items:end;height:210px;gap:12px;padding:10px 5px;border-bottom:1px solid #dfe8e1}.bar{flex:1;border-radius:15px 15px 4px 4px;background:linear-gradient(180deg,#198754,#b6e1c7);min-height:8px;position:relative;display:flex;align-items:flex-end;justify-content:center;color:#103b27;font-weight:900;padding-bottom:8px}.bar span{position:absolute;bottom:-34px;font-size:12px;text-align:center;width:100%;line-height:1.15;color:#2d4d3d}.bar b{position:absolute;top:-26px;font-size:13px;color:#0f5132}.footer{font-size:12px;color:#5d6b63;margin:25px 0 10px;text-align:center}.print-only{display:none}
+@media print{body{background:white}.nav,.btns,.no-print{display:none!important}.section{display:block!important;break-inside:avoid}.card{box-shadow:none;border:1px solid #ddd}.hero{box-shadow:none}.print-only{display:block}.container{max-width:100%;padding:0}.hero{border-radius:0}.section{margin:12px 0}.card{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header class="hero">
+    <h1>เครื่องมือประเมินความพร้อมเปลี่ยนผ่านร้านจำหน่ายช่อดอกกัญชา</h1>
+    <div class="subtitle">ประเมินครบ 4 ทางเลือก: คลินิกเวชกรรม • คลินิกแพทย์แผนไทย • ร้านขายยาแผนปัจจุบัน • สถานที่ขายผลิตภัณฑ์สมุนไพร พร้อมคะแนนความพร้อม แผนลงทุน ความเสี่ยงทางกฎหมาย และ Flow ขออนุญาตจนถึงใบอนุญาตสมุนไพรควบคุม (กัญชา)</div>
+    <div class="pillbar">
+      <span class="pill">⚖️ Legal Readiness</span><span class="pill">🏥 Business Model</span><span class="pill">👥 Workforce</span><span class="pill">💰 Economics</span><span class="pill">📋 Action Plan</span>
+    </div>
+  </header>
+
+  <nav class="nav no-print" id="nav"></nav>
+
+  <section id="overview" class="section active">
+    <div class="grid">
+      <div class="card span-12">
+        <h2>Executive Dashboard</h2>
+        <div class="notice"><b>หลักคิดสำคัญ:</b> แอปนี้ไม่ได้ประเมินว่า “ขายช่อดอกได้เลย” แต่ประเมินว่า <b>ควรเปลี่ยนผ่านไปเป็นฐานสถานประกอบการใด</b> แล้วค่อยเข้าสู่การขอใบอนุญาตจำหน่าย/แปรรูปสมุนไพรควบคุม (กัญชา) ตามกฎหมายใหม่</div>
+      </div>
+      <div class="card span-3"><div class="kpi"><div><div class="small">ทางเลือกที่เหมาะสุด</div><div class="num" id="bestPathShort">-</div></div><span class="badge gold">AI Score</span></div></div>
+      <div class="card span-3"><div class="kpi"><div><div class="small">คะแนนสูงสุด</div><div class="num" id="bestScore">0%</div></div><span class="badge">Ready</span></div></div>
+      <div class="card span-3"><div class="kpi"><div><div class="small">งบลงทุนตั้งต้น</div><div class="num" id="capexShow">0</div></div><span class="badge amber">CAPEX</span></div></div>
+      <div class="card span-3"><div class="kpi"><div><div class="small">คืนทุนประมาณ</div><div class="num" id="paybackShow">-</div></div><span class="badge blue">BE</span></div></div>
+      <div class="card span-8">
+        <h3>คะแนนเทียบ 4 เส้นทาง</h3>
+        <div class="chart" id="scoreChart"></div>
+      </div>
+      <div class="card span-4">
+        <h3>ผลสรุปผู้บริหาร</h3>
+        <div id="execSummary" class="muted">กรอกข้อมูลในเมนู “ตั้งค่าผู้ประกอบการ” และ “แบบประเมินตนเอง” ก่อนค่ะ</div>
+      </div>
+      <div class="card span-12">
+        <h3>Roadmap แบบย่อ</h3>
+        <div class="flow">
+          <div class="step"><div class="n">1</div><h4>คัดกรองฐานเดิม</h4><p>มีใบอนุญาตเดิมหรือไม่ มีผู้ประกอบวิชาชีพหรือไม่ สถานที่พร้อมไหม</p></div>
+          <div class="step"><div class="n">2</div><h4>เลือก 1 ใน 4 เส้นทาง</h4><p>คลินิกเวชกรรม / แผนไทย / ร้านยา / ผลิตภัณฑ์สมุนไพร</p></div>
+          <div class="step"><div class="n">3</div><h4>ขอฐานใบอนุญาตหลัก</h4><p>สถานพยาบาล หรือ อย. แล้วแต่ประเภทกิจการ</p></div>
+          <div class="step"><div class="n">4</div><h4>วางระบบ Medical Cannabis</h4><p>ภ.ท.33, Stock, GACP, รายงาน, การเก็บรักษา, กลิ่น/ควัน</p></div>
+          <div class="step"><div class="n">5</div><h4>ขออนุญาตสมุนไพรควบคุม</h4><p>ยื่นกรมการแพทย์แผนไทยฯ หรือ สสจ. ตามพื้นที่</p></div>
+          <div class="step"><div class="n">6</div><h4>เปิดดำเนินการแบบตรวจสอบได้</h4><p>ขาย/จ่ายตามใบสั่งจ่าย ส่งรายงาน ควบคุมความเสี่ยง</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="profile" class="section">
+    <div class="grid">
+      <div class="card span-12"><h2>1) ตั้งค่าผู้ประกอบการ</h2><p class="muted">ข้อมูลนี้ใช้คำนวณความเหมาะสม ความเสี่ยง และประมาณการลงทุน/คืนทุน สามารถบันทึกในเครื่องและส่งออกได้</p></div>
+      <div class="card span-12">
+        <div class="form-grid" id="profileForm"></div>
+        <div class="btns"><button class="btn primary" onclick="saveAll();calc();showSection('assessment')">บันทึกและไปประเมิน</button><button class="btn secondary" onclick="resetAll()">ล้างข้อมูล</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="assessment" class="section">
+    <div class="grid">
+      <div class="card span-12"><h2>2) แบบประเมินตนเอง 7 มิติ</h2><p class="muted">เลือกสถานะของแต่ละข้อ: ไม่มี / กำลังทำ / มีบางส่วน / พร้อม / ไม่เกี่ยวข้อง ระบบจะคิดคะแนนให้ 4 เส้นทางพร้อมกัน</p></div>
+      <div class="card span-12">
+        <div class="tablewrap"><div id="assessmentRows"></div></div>
+        <div class="btns"><button class="btn primary" onclick="saveAll();calc();showSection('results')">คำนวณผลลัพธ์</button><button class="btn secondary" onclick="fillDemo()">ใส่ตัวอย่างจำลอง</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="results" class="section">
+    <div class="grid">
+      <div class="card span-12"><h2>3) ผลลัพธ์และคำแนะนำ</h2><p class="muted">ระบบแปลคะแนนเป็นระดับความพร้อมและแผนปฏิบัติการรายเส้นทาง</p></div>
+      <div class="span-12 grid" id="pathResults"></div>
+      <div class="card span-6"><h3>Red Flags ที่ต้องปิดก่อนยื่น</h3><ul id="redFlags" class="risk-list"></ul></div>
+      <div class="card span-6"><h3>Action Plan 30-60-90 วัน</h3><div id="actionPlan"></div></div>
+    </div>
+  </section>
+
+  <section id="compare" class="section">
+    <div class="grid">
+      <div class="card span-12"><h2>4) เปรียบเทียบ 4 ทางเลือกเชิงกฎหมาย-บริหาร-เศรษฐศาสตร์</h2></div>
+      <div class="card span-12"><div class="tablewrap"><table id="compareTable"></table></div></div>
+      <div class="card span-12"><h3>Matrix การตัดสินใจแบบนักบริหาร</h3><div class="tablewrap"><table id="decisionMatrix"></table></div></div>
+    </div>
+  </section>
+
+  <section id="finance" class="section">
+    <div class="grid">
+      <div class="card span-12"><h2>5) โมเดลลงทุน ต้นทุน และจุดคุ้มทุน</h2><div class="warn"><b>หมายเหตุ:</b> ตัวเลขในระบบเป็น “ค่าตั้งต้นเพื่อวางแผนธุรกิจ” ไม่ใช่ค่าธรรมเนียมราชการและไม่ใช่ใบเสนอราคา ผู้ใช้ต้องปรับให้ตรงพื้นที่จริง ขนาดกิจการจริง และค่าจ้างวิชาชีพจริง</div></div>
+      <div class="card span-4"><h3>เลือกเส้นทางคำนวณ</h3><select id="financePath" onchange="loadFinanceDefaults();calcFinance()"></select><div class="btns"><button class="btn secondary" onclick="loadFinanceDefaults(true);calcFinance()">โหลดค่าตั้งต้นเส้นทางนี้</button></div></div>
+      <div class="card span-8"><h3>ประมาณการเร็ว</h3><div id="financeSummary"></div></div>
+      <div class="card span-12"><div class="form-grid" id="financeForm"></div><div class="btns"><button class="btn primary" onclick="saveAll();calcFinance();calc()">คำนวณต้นทุน</button></div></div>
+    </div>
+  </section>
+
+  <section id="flow" class="section">
+    <div class="grid">
+      <div class="card span-12"><h2>6) Flow ขั้นตอนตั้งแต่ร้านเดิม → ขอใบอนุญาตจำหน่ายช่อดอกกัญชา</h2></div>
+      <div class="card span-12" id="flowContent"></div>
+    </div>
+  </section>
+
+  <section id="checklists" class="section">
+    <div class="grid">
+      <div class="card span-12"><h2>7) Checklist เอกสารและระบบที่ต้องมี</h2></div>
+      <div class="span-12 grid" id="checklistCards"></div>
+    </div>
+  </section>
+
+  <section id="law" class="section">
+    <div class="grid">
+      <div class="card span-12"><h2>8) คลังอ้างอิงกฎหมาย/เกณฑ์/ระบบยื่นคำขอ</h2><p class="muted">รวมลิงก์หลักที่ผู้ประกอบการควรอ่านก่อนตัดสินใจและก่อนยื่นจริง</p></div>
+      <div class="card span-12" id="lawRefs"></div>
+    </div>
+  </section>
+
+  <section id="report" class="section">
+    <div class="grid">
+      <div class="card span-12"><h2>9) รายงานสรุปสำหรับพิมพ์/ส่งให้ผู้ประกอบการ</h2><p class="muted">กดพิมพ์เป็น PDF หรือส่งออก JSON/CSV เพื่อเก็บเป็นหลักฐานการให้คำแนะนำ</p><div class="btns"><button class="btn primary" onclick="window.print()">พิมพ์/บันทึก PDF</button><button class="btn secondary" onclick="downloadJSON()">ส่งออก JSON</button><button class="btn secondary" onclick="downloadCSV()">ส่งออก CSV</button></div></div>
+      <div class="card span-12" id="printReport"></div>
+    </div>
+  </section>
+
+  <div class="footer">จัดทำเป็นเครื่องมือช่วยประเมินเบื้องต้นสำหรับการให้คำปรึกษาผู้ประกอบการ • ควรตรวจสอบข้อกฎหมาย/ประกาศ/แบบคำขอล่าสุดกับหน่วยงานอนุญาตก่อนดำเนินการจริงทุกครั้ง</div>
+</div>
+<script>
+const paths = {
+  medClinic:{name:'คลินิกเวชกรรม', short:'เวชกรรม', icon:'🏥', base:'สถานพยาบาลตาม พ.ร.บ.สถานพยาบาล', pro:'แพทย์เวชกรรม/ผู้ดำเนินการสถานพยาบาล', regulator:'สบส./สสจ. แล้วจึงขอสมุนไพรควบคุม', fit:'เหมาะกับผู้มีแพทย์ประจำ/ต้องการสร้างโมเดลบริการรักษาเต็มรูปแบบ', capex:1200000, opex:210000, complexity:5, revenue:90000},
+  thaiClinic:{name:'คลินิกแพทย์แผนไทย', short:'แผนไทย', icon:'🌿', base:'สถานพยาบาลคลินิกการแพทย์แผนไทย', pro:'ผู้ประกอบวิชาชีพแพทย์แผนไทย/แผนไทยประยุกต์', regulator:'สบส./สสจ. แล้วจึงขอสมุนไพรควบคุม', fit:'เหมาะกับผู้เน้นการดูแลตามศาสตร์แผนไทยและระบบผู้ป่วยต่อเนื่อง', capex:650000, opex:115000, complexity:4, revenue:60000},
+  pharmacy:{name:'ร้านขายยาแผนปัจจุบัน', short:'ร้านยา', icon:'💊', base:'ใบอนุญาตขายยาแผนปัจจุบัน + GPP', pro:'เภสัชกรผู้มีหน้าที่ปฏิบัติการ', regulator:'อย./สสจ. แล้วจึงขอสมุนไพรควบคุม', fit:'เหมาะกับผู้มีเภสัชกรและต้องการระบบยา/เวชภัณฑ์ที่ตรวจสอบชัด', capex:950000, opex:165000, complexity:4, revenue:75000},
+  herbalShop:{name:'สถานที่ขายผลิตภัณฑ์สมุนไพร', short:'สมุนไพร', icon:'🍃', base:'ใบอนุญาตขายผลิตภัณฑ์สมุนไพร', pro:'ผู้มีหน้าที่ปฏิบัติการตามกฎหมายผลิตภัณฑ์สมุนไพร', regulator:'อย./สสจ. แล้วจึงขอสมุนไพรควบคุม', fit:'เหมาะกับผู้ต้องการลงทุนต่ำกว่า แต่ต้องแยกให้ชัดว่าเป็นผลิตภัณฑ์สมุนไพร/สมุนไพรควบคุม ไม่ใช่ขายสันทนาการ', capex:420000, opex:76000, complexity:3, revenue:42000}
+};
+const navs=[['overview','ภาพรวม'],['profile','ตั้งค่าผู้ประกอบการ'],['assessment','แบบประเมิน'],['results','ผลลัพธ์'],['compare','เปรียบเทียบ'],['finance','ต้นทุน/คุ้มทุน'],['flow','Flow ขออนุญาต'],['checklists','Checklist'],['law','กฎหมายอ้างอิง'],['report','รายงาน']];
+const statusScore={none:0, doing:0.35, partial:0.65, ready:1, na:0.8};
+const statusText={none:'ไม่มี',doing:'กำลังทำ',partial:'มีบางส่วน',ready:'พร้อม',na:'ไม่เกี่ยวข้อง'};
+const dimensions=[
+ {id:'legal',name:'กฎหมายฐานกิจการ',weight:22}, {id:'place',name:'สถานที่/สิ่งแวดล้อม',weight:17}, {id:'people',name:'บุคลากรวิชาชีพ',weight:18}, {id:'system',name:'ระบบบริการและเอกสาร',weight:16}, {id:'cannabis',name:'ระบบสมุนไพรควบคุมกัญชา',weight:15}, {id:'finance',name:'เงินลงทุน/ธุรกิจ',weight:8}, {id:'governance',name:'ธรรมาภิบาล/ความเสี่ยง',weight:4}
+];
+const questions=[
+ {dim:'legal',q:'มี/กำลังขอใบอนุญาตฐานกิจการหลักที่ถูกต้องตามเส้นทางนั้น',w:5,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'legal',q:'ผู้ขออนุญาตมีคุณสมบัติทั่วไป ไม่มีลักษณะต้องห้าม และมีสิทธิใช้สถานที่',w:4,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'legal',q:'มีความเข้าใจว่าใบอนุญาตฐานกิจการ ≠ ใบอนุญาตช่อดอกกัญชา ต้องขอสมุนไพรควบคุมอีกชั้น',w:3,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'legal',q:'มีแผนขอ/ต่ออายุใบอนุญาตและชำระค่าธรรมเนียมตามรอบเวลา',w:2,keys:['medClinic','thaiClinic','pharmacy','herbalShop']},
+ {dim:'place',q:'สถานที่แยกโซนบริการ/จำหน่าย/เก็บรักษาช่อดอก เป็นสัดส่วน ไม่ปะปนสินค้าอื่น',w:4,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'place',q:'มีที่เก็บช่อดอกไม่สัมผัสพื้น ควบคุมคุณภาพ อุณหภูมิ ความชื้น ความปลอดภัย และตรวจสอบย้อนกลับได้',w:4,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'place',q:'มีระบบกำจัด/ควบคุมกลิ่นและควันไม่ให้รบกวนสาธารณะ',w:4,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'place',q:'มีป้าย/ผัง/พื้นที่รอรับบริการ/พื้นที่ให้คำปรึกษา/ความปลอดภัยเหมาะกับรูปแบบกิจการ',w:3,keys:['medClinic','thaiClinic','pharmacy','herbalShop']},
+ {dim:'people',q:'มีผู้ประกอบวิชาชีพหลักประจำตามกฎหมายของเส้นทางนั้น',w:5,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'people',q:'มีผู้ผ่านอบรมหลักสูตรความรู้กัญชาทางการแพทย์เบื้องต้นประจำตลอดเวลาทำการ',w:5,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'people',q:'มีการกำหนดบทบาทผู้รับอนุญาต ผู้ดำเนินการ ผู้มีหน้าที่ปฏิบัติการ และผู้บันทึกข้อมูลชัดเจน',w:3,keys:['medClinic','thaiClinic','pharmacy','herbalShop']},
+ {dim:'people',q:'มีแผนสำรองบุคลากรกรณีลา/ขาดงาน ไม่เปิดให้บริการเกินเงื่อนไขใบอนุญาต',w:2,keys:['medClinic','thaiClinic','pharmacy','herbalShop']},
+ {dim:'system',q:'มีระบบคัดกรอง ประเมินข้อบ่งใช้ ข้อห้ามใช้ และให้คำแนะนำผู้รับบริการก่อนจ่าย',w:4,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'system',q:'มีระบบใบสั่งจ่ายสมุนไพรควบคุม ภ.ท.33 และเก็บหลักฐานอย่างน้อย 1 ปี',w:5,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'system',q:'มีทะเบียนรับเข้า-จ่ายออก Stock card/บัญชีคุม/เลขล็อต/แหล่งที่มา',w:4,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'system',q:'มีระบบรายงานประจำเดือน ภ.ท.27/28/29 หรือแบบที่ราชการกำหนด',w:3,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'cannabis',q:'ใช้ช่อดอกจากแหล่งที่ได้รับรองมาตรฐานการเพาะปลูกและเก็บเกี่ยวที่ดี (GACP) ตามที่กำหนด',w:5,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'cannabis',q:'มีนโยบายห้ามขายสันทนาการ ห้ามขายออนไลน์/โฆษณา/โปรโมชันช่อดอก',w:4,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true},
+ {dim:'cannabis',q:'มีแนวทางจัดการเหตุไม่พึงประสงค์ การส่งต่อ และการให้ข้อมูลความเสี่ยงแก่ผู้รับบริการ',w:3,keys:['medClinic','thaiClinic','pharmacy','herbalShop']},
+ {dim:'cannabis',q:'มีแผนรองรับการตรวจจากพนักงานเจ้าหน้าที่ เอกสารพร้อมแสดงภายในเวลาทำการ',w:3,keys:['medClinic','thaiClinic','pharmacy','herbalShop']},
+ {dim:'finance',q:'มีงบลงทุนเพียงพอสำหรับปรับสถานที่ ระบบเอกสาร ระบบไอที และค่าจ้างวิชาชีพ',w:4,keys:['medClinic','thaiClinic','pharmacy','herbalShop']},
+ {dim:'finance',q:'มีแบบจำลองรายได้-ต้นทุน-จุดคุ้มทุน และแผนเงินสดอย่างน้อย 6 เดือน',w:3,keys:['medClinic','thaiClinic','pharmacy','herbalShop']},
+ {dim:'governance',q:'มี SOP/นโยบาย PDPA/ข้อร้องเรียน/การควบคุมโฆษณา/การอบรมพนักงาน',w:3,keys:['medClinic','thaiClinic','pharmacy','herbalShop']},
+ {dim:'governance',q:'เจ้าของยอมรับว่าหากฝ่าฝืนอาจถูกพักใช้/ไม่ต่ออายุ/เพิกถอนใบอนุญาต',w:2,keys:['medClinic','thaiClinic','pharmacy','herbalShop'],red:true}
+];
+const profileFields=[
+ ['businessName','ชื่อสถานประกอบการ/ผู้ประกอบการ','text','ร้านตัวอย่าง'],['province','จังหวัด','text','สมุทรปราการ'],['currentLicense','ใบอนุญาตเดิมที่มี','select',['ไม่มี','ใบอนุญาตจำหน่ายสมุนไพรควบคุมเดิม','สถานพยาบาล','ร้านขายยา','ผลิตภัณฑ์สมุนไพร','อื่น ๆ']],
+ ['area','พื้นที่ใช้สอยประมาณ (ตร.ม.)','number','60'],['budget','งบลงทุนที่พร้อมใช้ (บาท)','number','500000'],['timeline','อยากเปิดภายใน','select',['1-2 เดือน','3-6 เดือน','6-12 เดือน','มากกว่า 12 เดือน']],
+ ['hasDoctor','เข้าถึงแพทย์เวชกรรมได้','select',['ไม่มี','มีแบบ part-time','มีประจำ/เป็นหุ้นส่วน']],['hasTTM','เข้าถึงแพทย์แผนไทย/แผนไทยประยุกต์ได้','select',['ไม่มี','มีแบบ part-time','มีประจำ/เป็นหุ้นส่วน']],['hasPharmacist','เข้าถึงเภสัชกรได้','select',['ไม่มี','มีแบบ part-time','มีประจำ/เป็นหุ้นส่วน']],
+ ['hasHerbalPerson','มีผู้มีหน้าที่ปฏิบัติการด้านผลิตภัณฑ์สมุนไพร','select',['ไม่มี','กำลังหา','มีแล้ว']],['locationRight','สิทธิใช้สถานที่','select',['ไม่มีเอกสาร','เช่า/มีหนังสือยินยอม','เป็นเจ้าของ/มีเอกสารครบ']],['riskHistory','เคยถูกพักใช้/เพิกถอน/ร้องเรียน','select',['ไม่มี','เคยมีข้อร้องเรียนเล็กน้อย','เคยถูกดำเนินการ/พักใช้/เพิกถอน']],
+ ['targetModel','โมเดลธุรกิจที่สนใจ','select',['ยังไม่แน่ใจ','คลินิกเวชกรรม','คลินิกแพทย์แผนไทย','ร้านขายยาแผนปัจจุบัน','สถานที่ขายผลิตภัณฑ์สมุนไพร']],['note','หมายเหตุ/บริบทเพิ่มเติม','textarea','']
+];
+const financeFields=[
+ ['renovation','ปรับปรุงสถานที่/ป้าย/ระบบโซน',0],['equipment','อุปกรณ์บริการ/เก็บรักษา/ความปลอดภัย',0],['it','ระบบ IT/เอกสาร/บัญชีคุม/เครื่องพิมพ์/QR',0],['stock','สินค้า/วัตถุดิบ/เวชภัณฑ์/สต็อกตั้งต้น',0],['license','ค่าธรรมเนียม/ปรึกษา/อบรม/เอกสาร',0],['contingency','สำรองฉุกเฉิน/ปรับแก้หลังตรวจ',0],
+ ['rent','ค่าเช่าต่อเดือน',0],['professional','ค่าจ้างวิชาชีพต่อเดือน',0],['staff','ค่าจ้างพนักงาน/บัญชี/แอดมินต่อเดือน',0],['utility','ค่าน้ำไฟ/ระบบกลิ่น/ประกัน/อื่น ๆ ต่อเดือน',0],
+ ['customers','ผู้รับบริการ/ลูกค้าเฉลี่ยต่อวัน',10],['avgTicket','รายได้เฉลี่ยต่อราย (บาท)',600],['openDays','จำนวนวันเปิดต่อเดือน',26],['grossMargin','อัตรากำไรขั้นต้น (%)',45]
+];
+const financeDefaults={
+ medClinic:{renovation:420000,equipment:330000,it:80000,stock:180000,license:70000,contingency:120000,rent:45000,professional:105000,staff:45000,utility:15000,customers:8,avgTicket:900,openDays:26,grossMargin:48},
+ thaiClinic:{renovation:260000,equipment:160000,it:55000,stock:100000,license:45000,contingency:80000,rent:30000,professional:55000,staff:25000,utility:10000,customers:9,avgTicket:650,openDays:26,grossMargin:52},
+ pharmacy:{renovation:300000,equipment:180000,it:65000,stock:300000,license:55000,contingency:90000,rent:38000,professional:75000,staff:32000,utility:12000,customers:14,avgTicket:520,openDays:28,grossMargin:38},
+ herbalShop:{renovation:160000,equipment:85000,it:40000,stock:80000,license:35000,contingency:45000,rent:22000,professional:25000,staff:18000,utility:7000,customers:10,avgTicket:380,openDays:28,grossMargin:45}
+};
+function money(n){return Number(n||0).toLocaleString('th-TH',{maximumFractionDigits:0})}
+function pct(n){return Math.round(n)+'%'}
+function val(id){return document.getElementById(id)?.value||''}
+function setVal(id,v){const el=document.getElementById(id); if(el) el.value=v}
+function showSection(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.id===id)); if(id==='report') renderReport(); window.scrollTo({top:0,behavior:'smooth'});}
+function initNav(){const n=document.getElementById('nav');navs.forEach(([id,t])=>{const b=document.createElement('button');b.textContent=t;b.dataset.id=id;b.onclick=()=>showSection(id);n.appendChild(b)});n.querySelector('button').classList.add('active')}
+function initProfile(){const wrap=document.getElementById('profileForm'); profileFields.forEach(f=>{const [id,label,type,opts]=f;const div=document.createElement('div');div.className='field '+(type==='textarea'?'w12':'');let html=`<label for="${id}">${label}</label>`; if(type==='select'){html+=`<select id="${id}">${opts.map(o=>`<option>${o}</option>`).join('')}</select>`} else if(type==='textarea'){html+=`<textarea id="${id}" placeholder="กรอกข้อมูลเพิ่มเติม"></textarea>`} else {html+=`<input id="${id}" type="${type}" placeholder="${opts||''}" />`} div.innerHTML=html;wrap.appendChild(div)});}
+function initAssessment(){const wrap=document.getElementById('assessmentRows'); let html='<table><thead><tr><th style="min-width:280px">มิติ/คำถาม</th>'; Object.values(paths).forEach(p=>html+=`<th>${p.icon} ${p.short}</th>`); html+='</tr></thead><tbody>'; questions.forEach((q,i)=>{html+=`<tr><td><b>${dimensions.find(d=>d.id===q.dim).name}</b><br>${q.red?'🔴 ':''}${q.q}<div class="small">น้ำหนัก ${q.w}</div></td>`; Object.keys(paths).forEach(k=>{html+=`<td><select data-q="${i}" data-path="${k}" class="assess"><option value="none">ไม่มี</option><option value="doing">กำลังทำ</option><option value="partial">มีบางส่วน</option><option value="ready">พร้อม</option><option value="na">ไม่เกี่ยวข้อง</option></select></td>`}); html+='</tr>'}); html+='</tbody></table>'; wrap.innerHTML=html;}
+function initFinance(){const sel=document.getElementById('financePath'); Object.keys(paths).forEach(k=>sel.innerHTML+=`<option value="${k}">${paths[k].icon} ${paths[k].name}</option>`); const wrap=document.getElementById('financeForm'); financeFields.forEach(([id,label,def])=>{const div=document.createElement('div');div.className='field w6';div.innerHTML=`<label>${label}</label><input type="number" id="fin_${id}" value="${def}">`;wrap.appendChild(div)});loadFinanceDefaults(true);}
+function loadFinanceDefaults(force=false){const k=val('financePath')||'medClinic';const d=financeDefaults[k];Object.entries(d).forEach(([id,v])=>{if(force||!val('fin_'+id)) setVal('fin_'+id,v)});calcFinance();}
+function getProfile(){const p={}; profileFields.forEach(([id])=>p[id]=val(id)); return p}
+function getFinance(){const f={}; financeFields.forEach(([id])=>f[id]=Number(val('fin_'+id)||0)); return f}
+function saveAll(){const data={profile:getProfile(), financePath:val('financePath'), finance:getFinance(), assess:{}}; document.querySelectorAll('.assess').forEach(s=>data.assess[`${s.dataset.q}_${s.dataset.path}`]=s.value); localStorage.setItem('cannabisTransitionApp',JSON.stringify(data));}
+function loadAll(){try{const data=JSON.parse(localStorage.getItem('cannabisTransitionApp')||'{}'); if(data.profile) Object.entries(data.profile).forEach(([k,v])=>setVal(k,v)); if(data.financePath) setVal('financePath',data.financePath); if(data.finance) Object.entries(data.finance).forEach(([k,v])=>setVal('fin_'+k,v)); if(data.assess) document.querySelectorAll('.assess').forEach(s=>{const key=`${s.dataset.q}_${s.dataset.path}`; if(data.assess[key]) s.value=data.assess[key]});}catch(e){} }
+function resetAll(){if(confirm('ล้างข้อมูลทั้งหมดในเครื่องนี้?')){localStorage.removeItem('cannabisTransitionApp');location.reload();}}
+function fillDemo(){const demo={medClinic:'doing',thaiClinic:'partial',pharmacy:'none',herbalShop:'partial'}; document.querySelectorAll('.assess').forEach(s=>{s.value=demo[s.dataset.path]||'none'}); setVal('businessName','ร้านกัญชาเดิม ตัวอย่าง'); setVal('province','สมุทรปราการ'); setVal('currentLicense','ใบอนุญาตจำหน่ายสมุนไพรควบคุมเดิม'); setVal('budget','650000'); setVal('area','75'); setVal('hasTTM','มีแบบ part-time'); setVal('hasPharmacist','ไม่มี'); setVal('hasDoctor','ไม่มี'); setVal('hasHerbalPerson','กำลังหา'); setVal('locationRight','เช่า/มีหนังสือยินยอม'); saveAll();calc();}
+function calcScores(){const scores={}; const dimScores={}; Object.keys(paths).forEach(k=>{scores[k]=0; dimScores[k]={}; dimensions.forEach(d=>dimScores[k][d.id]={got:0,max:0})}); questions.forEach((q,i)=>{Object.keys(paths).forEach(k=>{if(!q.keys.includes(k)) return; const s=document.querySelector(`.assess[data-q="${i}"][data-path="${k}"]`)?.value||'none'; const got=statusScore[s]*q.w; const d=q.dim; dimScores[k][d].got+=got; dimScores[k][d].max+=q.w;});}); Object.keys(paths).forEach(k=>{let total=0; dimensions.forEach(d=>{const ds=dimScores[k][d.id]; const part=ds.max? (ds.got/ds.max)*d.weight : 0; total+=part}); scores[k]=Math.max(0,Math.min(100,total));});
+ // profile modifiers
+ const p=getProfile(); const budget=Number(p.budget||0), area=Number(p.area||0);
+ if(p.hasDoctor==='มีประจำ/เป็นหุ้นส่วน') scores.medClinic+=8; else if(p.hasDoctor==='มีแบบ part-time') scores.medClinic+=4; else scores.medClinic-=8;
+ if(p.hasTTM==='มีประจำ/เป็นหุ้นส่วน') scores.thaiClinic+=8; else if(p.hasTTM==='มีแบบ part-time') scores.thaiClinic+=4; else scores.thaiClinic-=8;
+ if(p.hasPharmacist==='มีประจำ/เป็นหุ้นส่วน') scores.pharmacy+=8; else if(p.hasPharmacist==='มีแบบ part-time') scores.pharmacy+=3; else scores.pharmacy-=8;
+ if(p.hasHerbalPerson==='มีแล้ว') scores.herbalShop+=6; else if(p.hasHerbalPerson==='กำลังหา') scores.herbalShop+=2; else scores.herbalShop-=5;
+ Object.keys(paths).forEach(k=>{ if(budget && budget < paths[k].capex*.55) scores[k]-=8; if(area && area < (k==='medClinic'?80:k==='thaiClinic'?55:k==='pharmacy'?45:35)) scores[k]-=4; if(p.riskHistory==='เคยถูกดำเนินการ/พักใช้/เพิกถอน') scores[k]-=10; scores[k]=Math.max(0,Math.min(100,scores[k]));}); return {scores,dimScores};}
+function level(score){if(score>=80)return ['พร้อมสูง','badge','เดินหน้าได้หลังตรวจเอกสาร']; if(score>=60)return ['พร้อมปานกลาง','badge amber','ต้องปิด Gap สำคัญ']; if(score>=40)return ['เริ่มต้นได้','badge blue','ควรทำ Phase เตรียมฐาน']; return ['ยังเสี่ยงสูง','badge red','ยังไม่ควรยื่น'];}
+function calc(){saveAll(); const {scores,dimScores}=calcScores(); const sorted=Object.keys(scores).sort((a,b)=>scores[b]-scores[a]); const best=sorted[0]; document.getElementById('bestPathShort').textContent=paths[best].short; document.getElementById('bestScore').textContent=pct(scores[best]); document.getElementById('scoreChart').innerHTML=Object.keys(paths).map(k=>`<div class="bar" style="height:${Math.max(8,scores[k]*1.8)}px"><b>${pct(scores[k])}</b>${paths[k].icon}<span>${paths[k].short}</span></div>`).join('');
+ const p=getProfile(); document.getElementById('execSummary').innerHTML=`<b>ข้อเสนอหลัก:</b> เลือก <span class="greentext">${paths[best].name}</span> เป็นเส้นทางหลัก เพราะคะแนนรวมสูงสุด ${pct(scores[best])}. ${level(scores[best])[2]}<br><br><b>ข้อควรระวัง:</b> หากยังไม่มีบุคลากรวิชาชีพประจำ/หลักฐานสถานที่/ระบบ ภ.ท.33/ระบบเก็บช่อดอกและกลิ่นควัน ให้ถือเป็น Gate ก่อนยื่น ไม่ใช่งานตกแต่งร้านธรรมดาค่ะ`;
+ renderPathResults(scores,dimScores,best); renderRedFlags(); renderActionPlan(best,scores[best]); renderReport(); calcFinance(); document.getElementById('capexShow').textContent=money(Object.values(getFinance()).slice(0,6).reduce((a,b)=>a+b,0));}
+function renderPathResults(scores,dimScores,best){const wrap=document.getElementById('pathResults'); wrap.innerHTML=''; Object.keys(paths).forEach(k=>{const p=paths[k], [lv,cls,msg]=level(scores[k]); const div=document.createElement('div'); div.className='card span-6 path-card '+(k===best?'best':''); const dims=dimensions.map(d=>{const ds=dimScores[k][d.id]; const sc=ds.max?Math.round(ds.got/ds.max*100):0; return `<div style="margin:8px 0"><div style="display:flex;justify-content:space-between"><b>${d.name}</b><span>${sc}%</span></div><div class="scorebar"><i style="width:${sc}%"></i></div></div>`}).join(''); div.innerHTML=`<div class="path-title"><h3>${p.icon} ${p.name}</h3><span class="${cls}">${lv}</span></div><div class="kpi"><div class="num">${pct(scores[k])}</div><span class="small">${msg}</span></div>${dims}<div class="notice"><b>เหมาะเมื่อ:</b> ${p.fit}</div><div class="small"><b>ฐานกฎหมาย:</b> ${p.base}<br><b>บุคลากรหลัก:</b> ${p.pro}<br><b>หน่วยงานกำกับ:</b> ${p.regulator}</div>`; wrap.appendChild(div);});}
+function renderRedFlags(){const ul=document.getElementById('redFlags'); const lis=[]; questions.forEach((q,i)=>{if(!q.red)return; const bad=Object.keys(paths).filter(k=>['none','doing'].includes(document.querySelector(`.assess[data-q="${i}"][data-path="${k}"]`)?.value||'none')); if(bad.length) lis.push(`<li>${q.q}<br><span class="small">ยังไม่พร้อมใน: ${bad.map(k=>paths[k].short).join(', ')}</span></li>`)}); ul.innerHTML=lis.length?lis.join(''):'<li class="greentext">ไม่พบ Red Flag หลักจากข้อมูลที่กรอก</li>';}
+function renderActionPlan(best,score){const items30=['เลือกเส้นทางหลักและแต่งตั้งผู้รับผิดชอบโครงการ','ตรวจสิทธิใช้สถานที่/ผังพื้นที่/ใบอนุญาตฐานกิจการเดิม','ปิด Red Flag เรื่องบุคลากรวิชาชีพและผู้ผ่านอบรมกัญชาทางการแพทย์','ทำ Gap Analysis กับข้อกำหนดสถานที่ เก็บช่อดอก กลิ่นควัน และเอกสาร'];
+const items60=['ยื่น/เตรียมคำขอฐานกิจการหลักตามเส้นทางที่เลือก','ทำ SOP: คัดกรอง-สั่งจ่าย-รับเข้า-จ่ายออก-รายงาน-จัดการ AE','จัดระบบ Stock/GACP/เลขล็อต/แบบ ภ.ท.33 และรายงานรายเดือน','จัดทำงบลงทุนจริง Cash Flow 6 เดือน และสัญญาบุคลากร'];
+const items90=['ตรวจความพร้อมก่อนยื่นขออนุญาตสมุนไพรควบคุม','ยื่นคำขอต่อกรมการแพทย์แผนไทยฯ หรือ สสจ. ตามพื้นที่','ซ้อมรับการตรวจเอกสารและสถานที่','เริ่มดำเนินงานเฉพาะเมื่อได้รับอนุญาตและเปิดระบบรายงานครบถ้วน'];
+document.getElementById('actionPlan').innerHTML=`<h4>เส้นทางแนะนำ: ${paths[best].icon} ${paths[best].name}</h4><div class="tablewrap"><table><tr><th>ช่วงเวลา</th><th>งานหลัก</th></tr><tr><td><b>30 วัน</b></td><td><ul>${items30.map(x=>`<li>${x}</li>`).join('')}</ul></td></tr><tr><td><b>60 วัน</b></td><td><ul>${items60.map(x=>`<li>${x}</li>`).join('')}</ul></td></tr><tr><td><b>90 วัน</b></td><td><ul>${items90.map(x=>`<li>${x}</li>`).join('')}</ul></td></tr></table></div>`;}
+function renderCompare(){const rows=[['กฎหมายฐาน','พ.ร.บ.สถานพยาบาล','พ.ร.บ.สถานพยาบาล','พ.ร.บ.ยา + GPP','พ.ร.บ.ผลิตภัณฑ์สมุนไพร'],['บุคลากรหลัก','แพทย์เวชกรรม','แพทย์แผนไทย/แผนไทยประยุกต์','เภสัชกร','ผู้มีหน้าที่ปฏิบัติการด้านสมุนไพร'],['ความซับซ้อน','สูงมาก','สูง','สูง','ปานกลาง'],['CAPEX โดยประมาณ','สูง','กลาง-สูง','สูง','ต่ำ-กลาง'],['OPEX รายเดือน','สูงมาก','กลาง','สูง','ต่ำ-กลาง'],['ภาพลักษณ์ต่อผู้รับบริการ','การแพทย์ชัดเจนที่สุด','สอดคล้องสมุนไพร/ภูมิปัญญา','ระบบยาและความปลอดภัยเด่น','เข้าถึงง่าย ต้นทุนต่ำกว่า'],['ข้อจำกัด','ต้องมีแพทย์/มาตรฐานคลินิกสูง','ต้องทำเป็นระบบรักษา ไม่ใช่ร้านขายทั่วไป','ต้องปฏิบัติตาม GPP และมีเภสัชกร','ต้องคุมขอบเขตการกล่าวอ้าง/ผลิตภัณฑ์ให้ถูกต้อง'],['เหมาะกับ','ผู้มีทุนและแพทย์','ร้านเดิมที่มีเครือข่ายแผนไทย','ผู้มีเภสัชกร/ร้านยาเดิม','ผู้เริ่มจัดระบบด้วยทุนจำกัด']];
+ document.getElementById('compareTable').innerHTML='<thead><tr><th>มิติ</th>'+Object.values(paths).map(p=>`<th>${p.icon} ${p.short}</th>`).join('')+'</tr></thead><tbody>'+rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')+'</tbody>';
+ const dm=[['เกณฑ์ผู้บริหาร','เวชกรรม','แผนไทย','ร้านยา','สมุนไพร'],['ความเร็วในการเปลี่ยนผ่าน','2','3','3','4'],['ความน่าเชื่อถือทางการแพทย์','5','4','4','3'],['ต้นทุนต่ำ','1','3','2','4'],['ควบคุมความเสี่ยงกฎหมาย','5','4','4','3'],['ต่อยอดบริการสุขภาพ','5','5','4','3'],['ความพร้อมหาบุคลากรทั่วไป','2','3','3','4']];
+ document.getElementById('decisionMatrix').innerHTML='<tbody>'+dm.map((r,i)=>`<tr>${r.map(c=>i===0?`<th>${c}</th>`:`<td>${c}</td>`).join('')}</tr>`).join('')+'</tbody><caption class="small">คะแนน 1-5 เป็นมุมมองเชิงกลยุทธ์เบื้องต้น ปรับได้ตามบริบทจังหวัดและตลาดจริง</caption>';
+}
+function calcFinance(){const f=getFinance(); const capex=f.renovation+f.equipment+f.it+f.stock+f.license+f.contingency; const opex=f.rent+f.professional+f.staff+f.utility; const revenue=f.customers*f.avgTicket*f.openDays; const grossProfit=revenue*(f.grossMargin/100); const net=grossProfit-opex; const payback=net>0?capex/net:Infinity; document.getElementById('financeSummary').innerHTML=`<div class="grid"><div class="span-3"><span class="badge">CAPEX</span><div class="num">${money(capex)}</div></div><div class="span-3"><span class="badge amber">OPEX/เดือน</span><div class="num">${money(opex)}</div></div><div class="span-3"><span class="badge blue">รายได้/เดือน</span><div class="num">${money(revenue)}</div></div><div class="span-3"><span class="badge ${net>0?'':'red'}">กำไรสุทธิ/เดือน</span><div class="num">${money(net)}</div></div></div><div class="notice"><b>จุดคุ้มทุน:</b> ${isFinite(payback)?payback.toFixed(1)+' เดือน':'ยังไม่คุ้มทุนจากสมมติฐานนี้'} ${net<=0?' — ต้องเพิ่มรายได้ ลดต้นทุน หรือปรับโมเดลก่อนลงทุน':''}</div>`; document.getElementById('capexShow').textContent=money(capex); document.getElementById('paybackShow').textContent=isFinite(payback)?payback.toFixed(1)+' ด.':'ไม่คุ้ม';}
+function renderFlow(){const html=`<div class="flow"><div class="step"><div class="n">0</div><h4>หยุดคิดแบบร้านเดิม</h4><p>ขายช่อดอกแบบทั่วไป/สันทนาการ/ออนไลน์/โปรโมชัน เป็นความเสี่ยงสูง ต้องปรับเป็นระบบทางการแพทย์</p></div><div class="step"><div class="n">1</div><h4>เลือกฐานกิจการ</h4><p>เลือก 1 ใน 4: คลินิกเวชกรรม, คลินิกแผนไทย, ร้านยา, ผลิตภัณฑ์สมุนไพร</p></div><div class="step"><div class="n">2</div><h4>ตรวจคุณสมบัติ</h4><p>ผู้ขออนุญาต บุคลากร สถานที่ สิทธิครอบครอง งบประมาณ และประวัติความเสี่ยง</p></div><div class="step"><div class="n">3</div><h4>เตรียมสถานที่</h4><p>โซนเก็บช่อดอก ระบบควบคุมคุณภาพ กลิ่นควัน ความปลอดภัย ป้าย เอกสาร</p></div><div class="step"><div class="n">4</div><h4>ยื่นฐานหลัก</h4><p>สถานพยาบาล: สบส./สสจ. | ร้านยา/สมุนไพร: อย./สสจ.</p></div><div class="step"><div class="n">5</div><h4>ตรวจ/แก้ไข</h4><p>รับการตรวจมาตรฐานสถานที่ เอกสาร บุคลากร และแก้ไขตามข้อเสนอ</p></div></div><div style="height:14px"></div><div class="flow"><div class="step"><div class="n">6</div><h4>ออกใบอนุญาตฐาน</h4><p>มีเลข/ใบอนุญาตฐานกิจการก่อน ไม่ถือว่าได้ใบกัญชาแล้ว</p></div><div class="step"><div class="n">7</div><h4>อบรมและวาง SOP</h4><p>บุคลากรผ่านอบรมกัญชาทางการแพทย์ ระบบ ภ.ท.33, AE, Stock, GACP</p></div><div class="step"><div class="n">8</div><h4>ยื่นสมุนไพรควบคุม</h4><p>ยื่นผ่านกรมการแพทย์แผนไทยฯ/สสจ. หรือระบบบริการยื่นคำขอที่กำหนด</p></div><div class="step"><div class="n">9</div><h4>รับการตรวจ</h4><p>แสดงเอกสาร แหล่งที่มา ระบบเก็บช่อดอก ระบบกำจัดกลิ่น บุคลากรประจำ</p></div><div class="step"><div class="n">10</div><h4>ได้รับอนุญาต</h4><p>เริ่มจำหน่าย/จ่ายเฉพาะตามใบสั่งจ่ายและเงื่อนไขกฎหมาย</p></div><div class="step"><div class="n">11</div><h4>รายงานต่อเนื่อง</h4><p>ส่งรายงานรายเดือน เก็บหลักฐาน ตรวจสอบย้อนกลับ และพร้อมรับตรวจ</p></div></div>`; document.getElementById('flowContent').innerHTML=html;}
+function renderChecklists(){const common=['สิทธิใช้สถานที่/สัญญาเช่า/หนังสือยินยอม','ผังสถานที่ รูปถ่าย ป้าย และโซนเก็บช่อดอก','รายชื่อและเอกสารผู้ประกอบวิชาชีพ/ผู้มีหน้าที่ปฏิบัติการ','หลักฐานผ่านอบรมกัญชาทางการแพทย์เบื้องต้น','SOP คัดกรอง-สั่งจ่าย-รับเข้า-จ่ายออก-รายงาน','แบบ ภ.ท.33 และระบบเก็บหลักฐาน 1 ปี','ทะเบียนรับเข้า/จ่ายออก/เลขล็อต/เอกสาร GACP','แผนกำจัดกลิ่นและควัน/ความปลอดภัย/ข้อร้องเรียน'];
+ const specific={medClinic:['คำขออนุญาตประกอบกิจการและดำเนินการสถานพยาบาล','เอกสารแพทย์ ผู้ดำเนินการสถานพยาบาล และเวลาปฏิบัติงาน','บัญชีรายการบริการ อัตราค่าบริการ ยา/เวชภัณฑ์ และสิทธิผู้ป่วย'],thaiClinic:['คำขอคลินิกการแพทย์แผนไทย/แผนไทยประยุกต์','ใบประกอบวิชาชีพแผนไทย/แผนไทยประยุกต์ และเวลาปฏิบัติงาน','รายการบริการแผนไทย/เวชระเบียน/การติดตามอาการ'],pharmacy:['คำขอใบอนุญาตขายยาแผนปัจจุบัน ข.ย.1 และคำรับรองผู้มีหน้าที่ปฏิบัติการ','แบบประเมินตนเอง GPP/ระบบ Skynet/หลักฐานสถานที่ขายยา','ระบบควบคุมยา เวชภัณฑ์ การให้คำปรึกษา และบันทึกตาม GPP'],herbalShop:['คำขอใบอนุญาตผลิต นำเข้า หรือขายผลิตภัณฑ์สมุนไพร แบบ สมพ.1','คำรับรองผู้มีหน้าที่ปฏิบัติการ แบบ สมพ.4/สัญญาเกี่ยวข้อง','แบบบันทึกการตรวจสถานที่ขายผลิตภัณฑ์สมุนไพร']};
+ const wrap=document.getElementById('checklistCards'); wrap.innerHTML=''; Object.keys(paths).forEach(k=>{const p=paths[k]; const div=document.createElement('div');div.className='card span-6';div.innerHTML=`<h3>${p.icon} ${p.name}</h3><h4>เอกสารเฉพาะทาง</h4><ul class="checklist">${specific[k].map(x=>`<li>${x}</li>`).join('')}</ul><h4>เอกสารร่วมสำหรับช่อดอกกัญชา</h4><ul class="checklist">${common.map(x=>`<li>${x}</li>`).join('')}</ul>`; wrap.appendChild(div)});}
+function renderLawRefs(){const refs=[
+ ['ประกาศกระทรวงสาธารณสุข เรื่อง สมุนไพรควบคุม (กัญชา) พ.ศ. 2568','กำหนดกรอบช่อดอกกัญชาเป็นสมุนไพรควบคุมและเงื่อนไขการใช้/ขออนุญาต','https://www.dtam.moph.go.th/sub-law/42864/'],
+ ['กฎกระทรวงการอนุญาตให้ศึกษาวิจัย/ส่งออก/จำหน่าย/แปรรูปสมุนไพรควบคุมเพื่อการค้า (ฉบับที่ 2) พ.ศ. 2569','เงื่อนไขสถานที่ บุคลากร ฐานกิจการ และระบบจัดการสำหรับขออนุญาตใหม่','https://ratchakitcha.soc.go.th/documents/114061.pdf'],
+ ['ข่าว สธ. ชี้แจงกฎกระทรวงใหม่กัญชาใช้เพื่อการแพทย์เท่านั้น','สรุปเงื่อนไขสำคัญ: สถานพยาบาล/ร้านยา/ผลิตภัณฑ์สมุนไพร, ภ.ท.33, บุคลากร, กลิ่นควัน, GACP','https://pr.moph.go.th/online/index/news/341039'],
+ ['ระบบบริการยื่นคำขออนุญาตสมุนไพรควบคุม (กัญชา)','ช่องทางระบบบริการตาม พ.ร.บ.คุ้มครองและส่งเสริมภูมิปัญญาการแพทย์แผนไทย','https://herbctrl.dtam.moph.go.th/'],
+ ['FAQ กองกัญชาทางการแพทย์','คำถามพบบ่อยเกี่ยวกับการวิจัย การสั่งจ่าย ภ.ท.33 และการขออนุญาต','https://med-cannabis.dtam.moph.go.th/q-and-a-faq/'],
+ ['พระราชบัญญัติสถานพยาบาล พ.ศ. 2541 และที่แก้ไขเพิ่มเติม','ฐานกฎหมายสำหรับคลินิกเวชกรรมและคลินิกแพทย์แผนไทย','https://www.hss.moph.go.th/fileupload_doc/2023-10-09-1-23-124335868.pdf'],
+ ['คู่มือ/กระบวนงานขออนุญาตคลินิก สบส.','ขั้นตอนตรวจเอกสาร ตรวจมาตรฐาน คณะกรรมการ และออกใบอนุญาตสถานพยาบาล','https://hss.moph.go.th/HssDepartment/file_reference/20260522880863893.pdf'],
+ ['กฎกระทรวงกำหนดวิชาชีพและจำนวนผู้ประกอบวิชาชีพในสถานพยาบาล','ระบุคลินิกการแพทย์แผนไทยต้องมีผู้ประกอบวิชาชีพแผนไทย/แผนไทยประยุกต์','https://hss.moph.go.th/fileupload_doc_slider/2016-11-11-117-101.pdf'],
+ ['พระราชบัญญัติยา พ.ศ. 2510 และกฎหมายยา','ฐานกฎหมายสำหรับร้านขายยาแผนปัจจุบัน','https://drug.fda.moph.go.th/drug-act'],
+ ['แนวทางการตรวจประเมิน GPP ร้านขายยา','การประเมินตนเองและแนวทาง GPP สำหรับสถานที่ขายยาแผนปัจจุบัน','https://drug.fda.moph.go.th/gpp-audit/'],
+ ['แบบฟอร์มการขออนุญาตสถานประกอบการด้านยา','คำแนะนำ/แบบคำขอ/แบบประเมินตนเอง GPP','https://drug.fda.moph.go.th/information-licensing-lic/'],
+ ['พระราชบัญญัติผลิตภัณฑ์สมุนไพร พ.ศ. 2562','ฐานกฎหมายสำหรับสถานที่ขายผลิตภัณฑ์สมุนไพร','https://laws.fda.moph.go.th/laws/herbal-product-act-be-2562'],
+ ['คู่มือประชาชน: ขอใบอนุญาตสถานที่ผลิต นำเข้า หรือขายผลิตภัณฑ์สมุนไพร','คู่มือช่องทางและขั้นตอนการขอใบอนุญาตสถานที่','https://herbal.fda.moph.go.th/manual/handbook1'],
+ ['แบบฟอร์มขอใบอนุญาตสถานที่นำเข้า/ขายผลิตภัณฑ์สมุนไพร','Check List, แบบ สมพ.1, สมพ.4, แบบตรวจสถานที่ขาย','https://herbal.fda.moph.go.th/location-permission/category/place-form-3']
+]; document.getElementById('lawRefs').innerHTML=`<div class="tablewrap"><table><thead><tr><th>กฎหมาย/แหล่งอ้างอิง</th><th>ใช้ทำอะไรใน App นี้</th><th>ลิงก์</th></tr></thead><tbody>${refs.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td><a href="${r[2]}" target="_blank" rel="noopener">เปิดลิงก์</a></td></tr>`).join('')}</tbody></table></div>`;}
+function renderReport(){const {scores}=calcScores(); const sorted=Object.keys(scores).sort((a,b)=>scores[b]-scores[a]); const best=sorted[0]; const p=getProfile(); const f=getFinance(); const capex=f.renovation+f.equipment+f.it+f.stock+f.license+f.contingency; const opex=f.rent+f.professional+f.staff+f.utility; const revenue=f.customers*f.avgTicket*f.openDays; const gp=revenue*(f.grossMargin/100); const net=gp-opex; const pay=net>0?(capex/net).toFixed(1)+' เดือน':'ยังไม่คุ้มทุน'; document.getElementById('printReport').innerHTML=`<h3>รายงานสรุปการประเมิน</h3><p><b>สถานประกอบการ:</b> ${p.businessName||'-'} | <b>จังหวัด:</b> ${p.province||'-'} | <b>วันที่ประเมิน:</b> ${new Date().toLocaleDateString('th-TH')}</p><div class="ok"><b>เส้นทางแนะนำ:</b> ${paths[best].icon} ${paths[best].name} คะแนน ${pct(scores[best])} — ${level(scores[best])[2]}</div><div class="tablewrap"><table><thead><tr><th>เส้นทาง</th><th>คะแนน</th><th>ระดับ</th></tr></thead><tbody>${Object.keys(paths).map(k=>`<tr><td>${paths[k].icon} ${paths[k].name}</td><td>${pct(scores[k])}</td><td>${level(scores[k])[0]}</td></tr>`).join('')}</tbody></table></div><h4>สรุปเศรษฐศาสตร์</h4><p>CAPEX ${money(capex)} บาท | OPEX ${money(opex)} บาท/เดือน | รายได้ ${money(revenue)} บาท/เดือน | กำไรสุทธิประมาณ ${money(net)} บาท/เดือน | คืนทุน ${pay}</p><h4>คำแนะนำ</h4><ol><li>ปิด Red Flag ก่อนยื่นคำขอ โดยเฉพาะบุคลากร วิชาชีพ สถานที่เก็บช่อดอก ภ.ท.33 และระบบรายงาน</li><li>ขอใบอนุญาตฐานกิจการหลักให้ถูกต้องก่อน แล้วจึงยื่นใบอนุญาตสมุนไพรควบคุม (กัญชา)</li><li>เก็บหลักฐานการให้คำปรึกษา การรับเข้า-จ่ายออก แหล่งที่มา GACP และรายงานรายเดือนไว้ตรวจสอบ</li></ol>`;}
+function downloadJSON(){saveAll(); const blob=new Blob([localStorage.getItem('cannabisTransitionApp')||'{}'],{type:'application/json'}); dl(blob,'cannabis_transition_assessment.json')}
+function downloadCSV(){const {scores}=calcScores(); let csv='path,score,level\n'+Object.keys(paths).map(k=>`${paths[k].name},${Math.round(scores[k])},${level(scores[k])[0]}`).join('\n'); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); dl(blob,'cannabis_transition_scores.csv')}
+function dl(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function startup(){initNav();initProfile();initAssessment();initFinance();renderCompare();renderFlow();renderChecklists();renderLawRefs();loadAll();calc();document.querySelectorAll('input,select,textarea').forEach(el=>el.addEventListener('change',()=>{saveAll();calc();calcFinance();}));}
+startup();
+</script>
+</body>
+</html>
