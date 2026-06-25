@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ระบบประเมินความพร้อมเปลี่ยนผ่านร้านจำหน่ายช่อดอกกัญชา | V3.5.1 Visual Guide</title>
+<title>ระบบประเมินความพร้อมเปลี่ยนผ่านร้านจำหน่ายช่อดอกกัญชา | V3.5.2 Visual Guide</title>
 <style>
 :root{
   --green:#0f766e;--green2:#14b8a6;--mint:#ecfdf5;--gold:#99f6e4;--amber:#ccfbf1;--red:#dc2626;--blue:#0f766e;--violet:#0ea5a4;
@@ -71,6 +71,13 @@ body[data-theme="start"] .submenu-card{border-left:7px solid #14b8a6;background:
 .hintbox{margin-top:8px;border-left:4px solid var(--gold);background:#fffaf0;border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.5}
 .ringwrap{display:flex;justify-content:center}
 @media print{.v35-modal{display:none!important}}
+.howstep{display:flex;gap:12px;align-items:flex-start;padding:12px 2px;border-bottom:1px dashed var(--line)}
+.howstep:last-child{border-bottom:none}
+.hownum{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;font-weight:1000;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 3px 8px rgba(16,121,99,.3)}
+.howstep .htxt{flex:1;min-width:0}
+.howstep .htxt b{font-size:15px}
+.howstep .htxt p{margin:3px 0 8px;font-size:13.5px;color:#475569;line-height:1.55}
+#howToCard{background:linear-gradient(180deg,#f0fbf6,#ffffff);border:2px solid var(--green)}
 </style>
 </head>
 <body data-theme="overview" data-section="overview">
@@ -78,13 +85,14 @@ body[data-theme="start"] .submenu-card{border-left:7px solid #14b8a6;background:
   <header class="hero">
     <h1>ระบบประเมินความพร้อมเปลี่ยนผ่านร้านจำหน่ายช่อดอกกัญชา</h1>
     
-    <div class="meta"><span class="chip">Version 3.5.1 Visual Guide</span><span class="chip">ปรับปรุงวันที่ 23 มิถุนายน 2569</span><span class="chip">เครดิต: กลุ่มงานการแพทย์แผนไทยและการแพทย์ทางเลือก สสจ.สมุทรปราการ</span></div>
+    <div class="meta"><span class="chip">Version 3.5.2 Visual Guide</span><span class="chip">ปรับปรุงวันที่ 23 มิถุนายน 2569</span><span class="chip">เครดิต: กลุ่มงานการแพทย์แผนไทยและการแพทย์ทางเลือก สสจ.สมุทรปราการ</span></div>
     <div class="pillbar"><span class="pill">⚖️ Legal</span><span class="pill">🏥 Business</span><span class="pill">👥 Workforce</span><span class="pill">💰 Economics</span><span class="pill">🧭 Roadmap</span><span class="pill">📋 SOP</span></div>
     <div class="ticker no-print"><span>⚠️ คำเตือน: เป็นการแนะนำเบื้องต้นเท่านั้น รายละเอียดโปรดรับการแนะนำจากผู้อนุญาตโดยตรง และเกณฑ์ข้อบังคับการอนุญาตอื่น ๆ ให้ดำเนินการตามที่กฎหมายกำหนด ข้อมูลในที่นี้เป็นเพียงคำแนะนำในเบื้องต้น ผู้เขียนโปรแกรมขอสงวนสิทธิ์ในการรับผิดชอบใด ๆ หากเกิดการเปลี่ยนแปลงจากผู้อนุญาตหรือกฎหมายที่เกี่ยวข้อง ⚠️</span></div>
   </header>
   <nav class="nav no-print" id="nav"></nav>
 
   <section id="overview" class="section active"><div class="grid">
+    <div class="card span-12" id="howToCard"><h2>🚀 เริ่มต้นใช้งานง่าย ๆ (สำหรับมือใหม่ที่ไม่เคยใช้มาก่อน)</h2><p class="small muted" style="margin-top:-4px">ทำทีละขั้นจากบนลงล่างได้เลยค่ะ แต่ละข้อมีปุ่มกดไปหน้านั้นทันที ไม่ต้องงงว่าเริ่มตรงไหน</p><div class="howsteps"><div class="howstep"><div class="hownum">1</div><div class="htxt"><b>กรอกข้อมูลร้านของคุณ</b><p>บอกระบบว่าร้านคุณเป็นแบบไหน มีแพทย์/เภสัชกร/แพทย์แผนไทยไหม งบลงทุนเท่าไร พื้นที่กี่ตร.ม. — ถ้ายังไม่มีข้อมูล กดปุ่ม “ข้อมูลตัวอย่าง” ในหน้านั้นลองดูก่อนได้ค่ะ</p><div class="btns" style="margin:0"><button class="btn primary" style="padding:7px 12px" onclick="showSection('profile')">ไปกรอกข้อมูลร้าน →</button></div></div></div><div class="howstep"><div class="hownum">2</div><div class="htxt"><b>ทำแบบประเมินความพร้อม</b><p>มือใหม่แนะนำกด “โหมดถามทีละข้อ” ระบบจะถามทีละคำถาม พร้อมตัวอย่างว่าแบบไหน “ผ่าน” แบบไหน “ไม่ผ่าน” ตอบง่ายเหมือนทำแบบทดสอบค่ะ</p><div class="btns" style="margin:0"><button class="btn primary" style="padding:7px 12px" onclick="showSection('assessment')">ไปหน้าประเมิน →</button><button class="btn gold" style="padding:7px 12px" onclick="openWizard()">📝 เริ่มถามทีละข้อ</button></div></div></div><div class="howstep"><div class="hownum">3</div><div class="htxt"><b>ดูคะแนนความพร้อม</b><p>รู้ทันทีว่าตอนนี้ร้านคุณพร้อมกี่เปอร์เซ็นต์ในแต่ละเส้นทาง สีเขียว=ดี สีแดง=ต้องปรับปรุง</p><div class="btns" style="margin:0"><button class="btn primary" style="padding:7px 12px" onclick="showSection('scorecard')">ดูคะแนนของฉัน →</button></div></div></div><div class="howstep"><div class="hownum">4</div><div class="htxt"><b>ดูเส้นทางที่ระบบแนะนำ + สิ่งที่ต้องทำก่อน</b><p>ระบบจะเลือกเส้นทางที่ “ทำได้จริง” ที่สุดให้ พร้อมรายการงานเรียงลำดับว่าควรทำอะไรก่อน-หลัง</p><div class="btns" style="margin:0"><button class="btn primary" style="padding:7px 12px" onclick="showSection('ai')">ดูคำแนะนำ + แผนงาน →</button></div></div></div><div class="howstep"><div class="hownum">5</div><div class="htxt"><b>เช็กจุดอ่อนและงบประมาณ</b><p>ดูเรดาร์ว่าร้านอ่อนมิติไหน (เช่น สถานที่/บุคลากร) และคำนวณว่างบพอไหม ต้องมีลูกค้ากี่คน/วันถึงคุ้มทุน</p><div class="btns" style="margin:0"><button class="btn secondary" style="padding:7px 12px" onclick="showSection('risk')">🕸️ ดูจุดเสี่ยง →</button><button class="btn secondary" style="padding:7px 12px" onclick="showSection('finance')">💰 คำนวณงบ →</button></div></div></div><div class="howstep"><div class="hownum">6</div><div class="htxt"><b>เตรียมเอกสาร + ดูขั้นตอนยื่นขออนุญาต</b><p>ดูขั้นตอนการยื่นทีละสเต็ป และเช็กลิสต์เอกสารที่ต้องใช้ตามเส้นทางของคุณ</p><div class="btns" style="margin:0"><button class="btn secondary" style="padding:7px 12px" onclick="showSection('flow')">📑 ขั้นตอนยื่น →</button><button class="btn secondary" style="padding:7px 12px" onclick="showSection('checklists')">📋 รายการเอกสาร →</button></div></div></div><div class="howstep"><div class="hownum">7</div><div class="htxt"><b>บันทึก/ส่งออกรายงานไปปรึกษาเจ้าหน้าที่</b><p>เซฟผลเป็น PDF / Word / Excel ได้เลย เอาไปคุยกับ สสจ. หรือเก็บไว้ทบทวนก็ได้ค่ะ</p><div class="btns" style="margin:0"><button class="btn primary" style="padding:7px 12px" onclick="showSection('export')">💾 ส่งออกรายงาน →</button></div></div></div></div><div class="notice" style="margin-top:10px">เมนูอื่น ๆ (กฎหมายแปลไทยเป็นไทย, SOP, คำถามพบบ่อย, คลังกฎหมาย) เปิดดูเพิ่มได้ทุกเมื่อจากเมนูด้านบน <div class="btns" style="margin-top:8px"><button class="btn secondary" style="padding:6px 10px" onclick="openGlossary()">📖 คลังศัพท์ ผปก.</button><button class="btn secondary" style="padding:6px 10px" onclick="showSection('faq')">❓ คำถามพบบ่อย</button><button class="btn secondary" style="padding:6px 10px" onclick="showSection('lawplain')">⚖️ กฎหมายแปลไทยเป็นไทย</button></div></div></div>
     <div class="card span-12"><h2>หน้าแรกแบบง่าย: เหลือ 5 เมนูหลัก</h2><div class="notice"><b>แนวคิดใหม่:</b> ซ่อนรายละเอียด 17 เมนูไว้ด้านใน ให้ผู้ประกอบการเห็นคำถามหลักแค่ 3 เรื่องก่อน — ร้านพร้อมไหม / ควรไปทางไหน / ต้องทำอะไรต่อ</div></div>
     <div class="card span-3"><div class="kpi"><div><div class="small">ทางเลือกแนะนำ</div><div class="num" id="bestPathShort">-</div></div><span class="badge gold">AI</span></div></div>
     <div class="card span-3"><div class="kpi"><div><div class="small">คะแนนสูงสุด</div><div class="num" id="bestScore">0%</div></div><span class="badge">Ready</span></div></div>
@@ -192,10 +200,10 @@ body[data-theme="start"] .submenu-card{border-left:7px solid #14b8a6;background:
 
   <section id="about" class="section"><div class="grid"><div class="card span-12"><h2>17) Version / Disclaimer / Credit</h2><div id="aboutContent"></div></div></div></section>
 
-  <div id="wizardModal" class="v35-modal no-print" style="display:none"><div class="box"></div></div><div id="glossModal" class="v35-modal no-print" style="display:none"><div class="box"></div></div><div class="footer">Version 3.5.1 Visual Guide • ปรับปรุงวันที่ 23 มิถุนายน 2569 • เครดิต: กลุ่มงานการแพทย์แผนไทยและการแพทย์ทางเลือก สำนักงานสาธารณสุขจังหวัดสมุทรปราการ</div>
+  <div id="wizardModal" class="v35-modal no-print" style="display:none"><div class="box"></div></div><div id="glossModal" class="v35-modal no-print" style="display:none"><div class="box"></div></div><div class="footer">Version 3.5.2 Visual Guide • ปรับปรุงวันที่ 23 มิถุนายน 2569 • เครดิต: กลุ่มงานการแพทย์แผนไทยและการแพทย์ทางเลือก สำนักงานสาธารณสุขจังหวัดสมุทรปราการ</div>
 </div>
 <script>
-const APP_VERSION='3.5.1 Visual Guide';
+const APP_VERSION='3.5.2 Visual Guide';
 const APP_DATE='23 มิถุนายน 2569';
 const CREDIT='กลุ่มงานการแพทย์แผนไทยและการแพทย์ทางเลือก สำนักงานสาธารณสุขจังหวัดสมุทรปราการ';
 const DISCLAIMER='เป็นการแนะนำเบื้องต้นเท่านั้น รายละเอียดโปรดรับการแนะนำจากผู้อนุญาตโดยตรง และเกณฑ์ข้อบังคับการอนุญาตอื่น ๆ ให้ดำเนินการตามที่กฎหมายกำหนด ข้อมูลในที่นี้เป็นเพียงคำแนะนำในเบื้องต้น ผู้เขียนโปรแกรมขอสงวนสิทธิ์ในการรับผิดชอบใด ๆ หากเกิดการเปลี่ยนแปลงจากผู้อนุญาตหรือกฎหมายที่เกี่ยวข้อง';
