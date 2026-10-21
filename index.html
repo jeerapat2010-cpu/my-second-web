@@ -519,18 +519,31 @@
         }
 
         /* ============================================
-           📢 NEW APP TICKER — ตัววิ่งแนะนำโปรแกรมใหม่
+           📢 NEW APP TICKER — ตัววิ่งแนะนำโปรแกรมใหม่ (สไตล์สดใส)
         ============================================ */
         .new-ticker {
             display: flex;
-            align-items: stretch;
+            align-items: center;
             max-width: 1140px;
-            margin: -10px auto 30px;
-            background: #1e293b;
-            border-radius: 50px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px rgba(30, 41, 59, 0.25);
-            border: 2px solid #FFB75E;
+            margin: -28px auto 34px;
+            padding: 6px;
+            position: relative;
+            z-index: 5;
+            border-radius: 60px;
+            background:
+                linear-gradient(rgba(255,255,255,0.92), rgba(255,255,255,0.92)) padding-box,
+                linear-gradient(90deg, #ff6b9d, #ffb75e, #ffe066, #4ade80, #22d3ee, #a78bfa, #ff6b9d) border-box;
+            background-size: 100% 100%, 300% 100%;
+            border: 3px solid transparent;
+            box-shadow: 0 12px 30px rgba(255, 143, 3, 0.18), 0 4px 10px rgba(167, 139, 250, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            animation: ticker-border-flow 6s linear infinite;
+        }
+
+        @keyframes ticker-border-flow {
+            0%   { background-position: 0 0, 0% 50%; }
+            100% { background-position: 0 0, 300% 50%; }
         }
 
         .new-ticker-label {
@@ -538,38 +551,58 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 20px;
+            padding: 10px 22px;
+            border-radius: 50px;
             font-family: 'Prompt', sans-serif;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             color: #fff;
-            background: linear-gradient(45deg, #ff416c, #ff4b2b);
-            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8e53 55%, #ffc43d 100%);
+            box-shadow: 0 6px 14px rgba(255, 107, 157, 0.4);
+            letter-spacing: 0.3px;
             position: relative;
             z-index: 2;
+            overflow: hidden;
         }
 
-        .new-ticker-label i { animation: ticker-bell 1.2s ease-in-out infinite; }
+        .new-ticker-label::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.65), transparent);
+            transform: skewX(-25deg);
+            animation: shine 3s infinite;
+        }
+
+        .new-ticker-label i { animation: ticker-bell 1.4s ease-in-out infinite; transform-origin: 50% 0; }
 
         @keyframes ticker-bell {
             0%, 100% { transform: rotate(0); }
-            20% { transform: rotate(14deg); }
-            40% { transform: rotate(-12deg); }
-            60% { transform: rotate(8deg); }
-            80% { transform: rotate(-4deg); }
+            15% { transform: rotate(16deg); }
+            30% { transform: rotate(-14deg); }
+            45% { transform: rotate(9deg); }
+            60% { transform: rotate(-5deg); }
+            75% { transform: rotate(0); }
         }
 
         .new-ticker-viewport {
             flex: 1;
+            min-width: 0;
             overflow: hidden;
             display: flex;
             align-items: center;
             position: relative;
+            margin-left: 6px;
+            -webkit-mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 36px), transparent 100%);
+                    mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 36px), transparent 100%);
         }
 
         .new-ticker-track {
             display: inline-flex;
             align-items: center;
+            gap: 12px;
+            padding: 4px 6px;
             white-space: nowrap;
             width: max-content;
             animation: ticker-scroll var(--ticker-duration, 40s) linear infinite;
@@ -582,48 +615,87 @@
 
         @keyframes ticker-scroll {
             0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            100% { transform: translateX(calc(-50% - 6px)); }
+        }
+
+        .new-ticker-set {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .new-ticker-item {
+            --c1: #f97316; --c2: #fb923c; --soft: #fff1e6;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 28px;
-            color: #f1f5f9;
+            gap: 9px;
+            padding: 7px 18px 7px 8px;
+            border-radius: 50px;
+            color: #1e293b;
             text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.2s ease;
+            font-size: 0.93rem;
+            background: var(--soft);
+            border: 1.5px solid transparent;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
-        .new-ticker-item:hover { color: #FFD27F; }
+        .new-ticker-item:hover {
+            transform: translateY(-3px) scale(1.04);
+            border-color: var(--c1);
+            box-shadow: 0 8px 18px color-mix(in srgb, var(--c1) 35%, transparent);
+            color: #0f172a;
+        }
+
+        .new-ticker-item.c-pink   { --c1: #ec4899; --c2: #f472b6; --soft: #ffe8f3; }
+        .new-ticker-item.c-orange { --c1: #f97316; --c2: #fbbf24; --soft: #fff1e0; }
+        .new-ticker-item.c-green  { --c1: #16a34a; --c2: #4ade80; --soft: #e5f9ec; }
+        .new-ticker-item.c-cyan   { --c1: #0891b2; --c2: #22d3ee; --soft: #e0f7fc; }
+        .new-ticker-item.c-violet { --c1: #7c3aed; --c2: #a78bfa; --soft: #f0eaff; }
+        .new-ticker-item.c-red    { --c1: #dc2626; --c2: #fb7185; --soft: #ffe9eb; }
+
+        .new-ticker-item .nt-emoji {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 1.05rem;
+            background: linear-gradient(135deg, var(--c1), var(--c2));
+            box-shadow: 0 3px 8px color-mix(in srgb, var(--c1) 40%, transparent);
+        }
 
         .new-ticker-item .nt-tag {
-            background: #00c46a;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
             color: #fff;
             font-family: 'Prompt', sans-serif;
-            font-size: 0.68rem;
+            font-size: 0.64rem;
             font-weight: 700;
-            padding: 1px 7px;
+            padding: 2px 8px;
             border-radius: 20px;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
+            animation: nt-pulse 1.6s ease-in-out infinite;
+        }
+
+        @keyframes nt-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0.55); }
+            50%      { box-shadow: 0 0 0 6px rgba(255, 65, 108, 0); }
         }
 
         .new-ticker-item .nt-name { font-family: 'Prompt', sans-serif; font-weight: 600; }
-        .new-ticker-item .nt-desc { color: #94a3b8; font-size: 0.85rem; }
-        .new-ticker-item:hover .nt-desc { color: #cbd5e1; }
-
-        .new-ticker-sep { color: #FFB75E; opacity: 0.7; }
+        .new-ticker-item .nt-desc { color: #64748b; font-size: 0.82rem; }
 
         @media (max-width: 576px) {
-            .new-ticker { margin: -10px 12px 24px; }
-            .new-ticker-label { padding: 8px 12px; font-size: 0.8rem; }
+            .new-ticker { margin: -22px 12px 26px; padding: 4px; }
+            .new-ticker-label { padding: 9px 14px; font-size: 0.8rem; }
             .new-ticker-label .nt-label-text { display: none; }
             .new-ticker-item .nt-desc { display: none; }
+            .new-ticker-item { font-size: 0.86rem; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .new-ticker-track { animation: none; }
+            .new-ticker, .new-ticker-track, .new-ticker-label i, .new-ticker-item .nt-tag { animation: none; }
             .new-ticker-viewport { overflow-x: auto; }
         }
     </style>
@@ -1107,17 +1179,21 @@
             });
         };
 
-        const itemsHtml = NEW_APPS.map(function(app) {
-            return '<a class="new-ticker-item" href="' + esc(app.link) + '">' +
+        const COLORS = ['c-pink', 'c-cyan', 'c-orange', 'c-green', 'c-violet', 'c-red'];
+
+        const itemsHtml = NEW_APPS.map(function(app, i) {
+            return '<a class="new-ticker-item ' + COLORS[i % COLORS.length] + '" href="' + esc(app.link) + '">' +
+                '<span class="nt-emoji">' + app.emoji + '</span>' +
                 (app.isNew ? '<span class="nt-tag">NEW</span>' : '') +
-                '<span>' + app.emoji + '</span>' +
                 '<span class="nt-name">' + esc(app.name) + '</span>' +
-                '<span class="nt-desc">— ' + esc(app.desc) + '</span>' +
-                '</a><span class="new-ticker-sep" aria-hidden="true">✦</span>';
+                '<span class="nt-desc">' + esc(app.desc) + '</span>' +
+                '</a>';
         }).join('');
 
-        // ทำซ้ำ 2 ชุด เพื่อให้วนต่อเนื่องไม่สะดุด (ชุดที่ 2 ซ่อนจาก screen reader)
-        track.innerHTML = itemsHtml + '<span aria-hidden="true" style="display:inline-flex;align-items:center;">' + itemsHtml + '</span>';
+        // ทำซ้ำ 2 ชุด เพื่อให้วนต่อเนื่องไม่สะดุด (ชุดที่ 2 ซ่อนจาก screen reader และไม่รับ Tab)
+        track.innerHTML = '<span class="new-ticker-set">' + itemsHtml + '</span>' +
+            '<span class="new-ticker-set" aria-hidden="true">' + itemsHtml + '</span>';
+        track.querySelectorAll('.new-ticker-set[aria-hidden] a').forEach(function(a) { a.tabIndex = -1; });
         track.style.setProperty('--ticker-duration', Math.max(25, NEW_APPS.length * 9) + 's');
     })();
 </script>
