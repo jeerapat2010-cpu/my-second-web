@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>คู่มือโคโนไฟตัม เบอร์เกอรี</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Prompt:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: field-notebook for one tiny plant. Dark jade hero, pale mineral pages, specimen colours (jade / ruby / amber) as the only accents. */
+:root{
+  --ground:#f3f6f2; --paper:#ffffff; --ink:#14302a; --muted:#58706a; --line:#d5e0da;
+  --jade:#1f7a5c; --jade-soft:#dcefe6; --ruby:#a8324e; --ruby-soft:#f6dde3; --amber:#b98a1d; --amber-soft:#f6ebcc;
+  --hero:#0f3a31; --hero-ink:#f1f7f3; --warn:#9a5a00; --warn-soft:#fbead0;
+  --f-display:"Prompt","IBM Plex Sans Thai",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Thai","Sarabun",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0c1a17; --paper:#13271f; --ink:#e6f1ec; --muted:#9db5ad; --line:#26443b;
+  --jade:#4fc79c; --jade-soft:#17382e; --ruby:#f08aa3; --ruby-soft:#3b1d27; --amber:#e3bb56; --amber-soft:#3a3016;
+  --hero:#08231d; --hero-ink:#eaf5ef; --warn:#f0b35a; --warn-soft:#3a2b12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --ground:#0c1a17; --paper:#13271f; --ink:#e6f1ec; --muted:#9db5ad; --line:#26443b;
+  --jade:#4fc79c; --jade-soft:#17382e; --ruby:#f08aa3; --ruby-soft:#3b1d27; --amber:#e3bb56; --amber-soft:#3a3016;
+  --hero:#08231d; --hero-ink:#eaf5ef; --warn:#f0b35a; --warn-soft:#3a2b12; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1040px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);line-height:1.25;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.5rem,3.2vw,2rem);font-weight:600}
+h3{font-size:1.1rem;font-weight:600}
+p{margin:0 0 .8em}
+a{color:var(--jade)}
+.mono{font-family:var(--f-mono);letter-spacing:.04em}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--jade)}
+.sci{font-style:italic}
+img{max-width:100%;display:block}
+
+/* hero */
+.hero{margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));background:var(--hero);color:var(--hero-ink);
+  padding:clamp(28px,5vw,56px) max(16px,env(safe-area-inset-left,0px)) 0}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(20px,4vw,48px);align-items:end}
+.hero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:700}
+.hero h1 em{display:block;font-style:normal;color:#f5b7c6}
+.hero .latin{font-size:1.25rem;font-style:italic;opacity:.92;margin:.4em 0 1em}
+.hero p.lead{max-width:34em;opacity:.9}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0 0 28px;list-style:none}
+.chips li{border:1px solid rgba(241,247,243,.35);border-radius:999px;padding:3px 14px;font-size:.88rem}
+.chips li b{font-family:var(--f-mono);font-weight:500}
+.hero-photo{position:relative;align-self:end}
+.hero-photo img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:14px 14px 0 0;background:#1b4a3f}
+.photo-fallback{display:none;position:absolute;inset:0;border-radius:inherit;background:#1b4a3f;color:#cfe4da;
+  padding:16px;font-size:.85rem;align-content:center;text-align:center}
+.nophoto .photo-fallback{display:grid}
+.nophoto img{visibility:hidden}
+
+/* nav */
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ground);border-bottom:1px solid var(--line);
+  margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:8px max(16px,env(safe-area-inset-left,0px));overflow-x:auto;white-space:nowrap}
+nav.toc a{display:inline-block;text-decoration:none;color:var(--muted);font-size:.9rem;padding:4px 12px;border-radius:999px}
+nav.toc a:hover,nav.toc a:focus-visible{background:var(--jade-soft);color:var(--ink);outline:none}
+
+section{padding-block:clamp(36px,6vw,64px);border-bottom:1px solid var(--line)}
+.sec-head{display:grid;gap:6px;margin-bottom:22px;max-width:46em}
+.sec-head p{color:var(--muted);margin:0}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px 20px;min-width:0}
+.card h3{margin-bottom:6px}
+.card p:last-child{margin-bottom:0}
+.note{border-radius:12px;padding:12px 16px;background:var(--warn-soft);color:var(--ink);font-size:.93rem}
+.note b{color:var(--warn)}
+.tag{display:inline-block;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;padding:1px 8px;border-radius:6px;background:var(--amber-soft);color:var(--ink);vertical-align:middle}
+.tag.ok{background:var(--jade-soft)}.tag.bad{background:var(--ruby-soft)}
+
+/* gallery */
+.gallery{display:grid;gap:12px;grid-template-columns:repeat(6,1fr)}
+.gallery figure{margin:0;position:relative;border-radius:12px;overflow:hidden;background:var(--jade-soft);min-width:0}
+.gallery figure:nth-child(1){grid-column:span 3;grid-row:span 2}
+.gallery figure:nth-child(2){grid-column:span 3;grid-row:span 2}
+.gallery figure:nth-child(3){grid-column:span 4}
+.gallery figure:nth-child(4){grid-column:span 2}
+.gallery figure:nth-child(5),.gallery figure:nth-child(6){grid-column:span 3}
+.gallery img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;cursor:zoom-in}
+.gallery figure:nth-child(1) img,.gallery figure:nth-child(2) img{aspect-ratio:4/5}
+.gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 8px;font-size:.78rem;color:#fff;
+  background:linear-gradient(transparent,rgba(5,25,20,.78))}
+.gallery figcaption a{color:#fff}
+.gallery .photo-fallback{position:absolute;inset:0;color:var(--ink);background:var(--jade-soft)}
+.gallery .nophoto .photo-fallback{display:grid}
+@media(max-width:640px){.hero .wrap{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,1fr)}
+  .gallery figure:nth-child(n){grid-column:span 1;grid-row:auto}.gallery figure:nth-child(1){grid-column:span 2}
+  .gallery figure:nth-child(1) img{aspect-ratio:4/3}.gallery figure:nth-child(2) img{aspect-ratio:4/3}}
+#lightbox{position:fixed;inset:0;background:rgba(4,16,13,.92);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
+#lightbox.on{display:flex}#lightbox img{max-height:92vh;max-width:96vw;border-radius:8px}
+
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.93rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+tr:last-child td{border-bottom:0}
+tr.me td{background:var(--jade-soft);font-weight:500}
+
+/* infographics */
+.info{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:clamp(14px,3vw,26px)}
+.info svg{width:100%;height:auto;display:block}
+.svgtxt{font-family:var(--f-body);fill:var(--ink)}
+.svgmut{font-family:var(--f-mono);fill:var(--muted)}
+.spectrum{height:34px;border-radius:999px;background:linear-gradient(90deg,#7fb99a,#5f9a74 25%,#a8905a 50%,#a24a5c 75%,#6d1f3a);margin:10px 0 6px}
+.spec-labels{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);gap:8px}
+.cycle{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;counter-reset:s}
+.cycle>div{background:var(--jade-soft);border-radius:14px;padding:14px 14px 16px;position:relative;min-width:0}
+.cycle>div:nth-child(2){background:var(--ruby-soft)}.cycle>div:nth-child(3){background:var(--amber-soft)}
+.cycle b{display:block;font-family:var(--f-display);margin-bottom:2px}
+.cycle small{color:var(--muted);display:block;margin-top:6px}
+@media(max-width:760px){.cycle{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.cycle{grid-template-columns:1fr}}
+.months{display:grid;grid-template-columns:repeat(12,1fr);gap:4px}
+.months div{text-align:center;font-family:var(--f-mono);font-size:.7rem;padding:6px 0;border-radius:6px;color:#fff}
+.m-cool{background:#2f8a74}.m-hot{background:#b9701f}.m-wet{background:#3b6fa5}
+.month-key{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:.85rem}
+.month-key i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+@media(max-width:640px){.months{grid-template-columns:repeat(6,1fr)}}
+.seg{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.seg button{font:inherit;font-size:.9rem;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:6px 14px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--jade);border-color:var(--jade);color:#fff}
+.seg button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.donut-wrap{display:grid;grid-template-columns:minmax(180px,260px) 1fr;gap:24px;align-items:center}
+@media(max-width:560px){.donut-wrap{grid-template-columns:1fr;justify-items:center}}
+.donut{width:100%;max-width:260px;aspect-ratio:1;border-radius:50%;position:relative}
+.donut::after{content:"";position:absolute;inset:24%;background:var(--paper);border-radius:50%}
+.donut-center{position:absolute;inset:0;display:grid;place-items:center;z-index:1;text-align:center;font-size:.8rem;color:var(--muted);line-height:1.3}
+.legend{display:grid;gap:8px;width:100%}
+.legend div{display:grid;grid-template-columns:14px 1fr auto;gap:10px;align-items:center}
+.legend i{width:14px;height:14px;border-radius:4px}
+.legend b{font-family:var(--f-mono);font-weight:500}
+.bar{height:14px;border-radius:999px;background:var(--line);overflow:hidden}
+.bar span{display:block;height:100%;border-radius:999px}
+.stat{display:grid;gap:6px}
+.stat .n{font-family:var(--f-display);font-size:2.4rem;font-weight:700;line-height:1}
+.steps{display:grid;gap:0;margin:0;padding:0;list-style:none;border-left:2px solid var(--jade);margin-left:12px}
+.steps li{position:relative;padding:0 0 18px 26px}
+.steps li::before{content:"";position:absolute;left:-8px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:3px solid var(--jade)}
+.steps b{font-family:var(--f-display)}
+.row-stack{display:flex;height:46px;border-radius:10px;overflow:hidden}
+.row-stack div{display:grid;place-items:center;color:#fff;font-size:.78rem;font-family:var(--f-mono);min-width:0;padding:0 4px;text-align:center}
+.tool{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:520px){.tool{grid-template-columns:1fr}}
+.tool label{display:grid;gap:4px;font-size:.88rem;color:var(--muted)}
+.tool input{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--ground);color:var(--ink);width:100%}
+.out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.out div{background:var(--jade-soft);border-radius:12px;padding:10px 14px}
+.out b{display:block;font-family:var(--f-display);font-size:1.6rem}
+.check{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.check li{display:grid;grid-template-columns:22px 1fr;gap:10px}
+.check li::before{content:"✓";color:var(--jade);font-weight:700}
+.x li::before{content:"✕";color:var(--ruby)}
+footer{padding-block:36px 56px;color:var(--muted);font-size:.9rem}
+ul.plain{margin:0;padding-left:1.2em}
+@media print{nav.toc,#lightbox{display:none!important}.hero{background:#fff!important;color:#000!important}section{break-inside:avoid-page}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow" style="color:#9fdcc2">THE BOTANICAL HANDBOOK · ฉบับภาพจริง + อินโฟกราฟิก</div>
+      <h1 style="margin-top:14px">โคโนไฟตัม<em>เบอร์เกอรี</em></h1>
+      <div class="latin">Conophytum burgeri L.Bolus · “Burger’s onion”</div>
+      <p class="lead">ไม้อวบน้ำจิ๋วที่มีลำต้นรูปหัวหอมใส เงามัน เปลี่ยนสีได้ตั้งแต่เขียวเทาถึงแดงทับทิม พบตามธรรมชาติเพียงแห่งเดียวในโลก คู่มือนี้รวมภาพถ่ายจริง ข้อมูลพฤกษศาสตร์ วิธีทดลองปลูกในอากาศร้อนชื้น และข้อควรรู้ด้านกฎหมายและการอนุรักษ์</p>
+      <ul class="chips">
+        <li>สูง <b>13–25</b> มม.</li>
+        <li>ถิ่นเดียว <b>Aggeneys</b></li>
+        <li>IUCN <b>CR</b></li>
+        <li>เหลือ <b>&lt;250</b> ต้นในธรรมชาติ</li>
+      </ul>
+    </div>
+    <div class="hero-photo">
+      <img data-commons="Conophytum_burgeri_in_cultivation_1.jpg" data-w="900" alt="ต้น Conophytum burgeri ที่ปลูกเลี้ยง" loading="eager">
+      <div class="photo-fallback">ภาพจริงโหลดจาก Wikimedia Commons ต้องเปิดไฟล์นี้ขณะออนไลน์</div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="สารบัญ">
+  <a href="index.html">← หน้าหลัก</a><a href="#photos">ภาพจริง</a><a href="#know">รู้จักพืช</a><a href="#life">วงจรชีวิต</a><a href="#grow">ปลูกในไทย</a>
+  <a href="#mix">วัสดุปลูก</a><a href="#seed">เพาะเมล็ด</a><a href="#save">อนุรักษ์</a><a href="#buy">ซื้อและกฎหมาย</a><a href="#changes">ที่ปรับจากฉบับเดิม</a><a href="#refs">เครดิต</a>
+</nav>
+
+<main class="wrap">
+
+<section id="photos">
+  <div class="sec-head"><div class="eyebrow">ภาพถ่ายจริง</div><h2>หน้าตาจริงของต้นเบอร์เกอรี</h2>
+  <p>ทั้ง 6 ภาพเป็นภาพถ่ายจริงจากหมวด Conophytum burgeri บน Wikimedia Commons ไม่ใช่ภาพ AI แตะภาพเพื่อขยาย แตะชื่อไฟล์เพื่อดูผู้ถ่ายและสัญญาอนุญาตที่หน้าต้นฉบับ</p></div>
+  <div class="gallery">
+    <figure><img data-commons="Conophytum_burgeri_in_cultivation_1.jpg" data-w="900" alt="ต้นเบอร์เกอรีสีเขียวอมเทา"><div class="photo-fallback">ภาพ 1</div><figcaption><a href="https://commons.wikimedia.org/wiki/File:Conophytum_burgeri_in_cultivation_1.jpg" target="_blank" rel="noopener">ภาพ 1 · Abu Shawka · CC0</a></figcaption></figure>
+    <figure><img data-commons="Conophytum_burgeri_in_cultivation_2.jpg" data-w="900" alt="ต้นเบอร์เกอรีอีกมุม"><div class="photo-fallback">ภาพ 2</div><figcaption><a href="https://commons.wikimedia.org/wiki/File:Conophytum_burgeri_in_cultivation_2.jpg" target="_blank" rel="noopener">ภาพ 2 · Commons</a></figcaption></figure>
+    <figure><img data-commons="Conophytum_burgeri_-_RSA_5.jpg" data-w="1000" alt="ต้นเบอร์เกอรีหลายต้น"><div class="photo-fallback">ภาพ 3</div><figcaption><a href="https://commons.wikimedia.org/wiki/File:Conophytum_burgeri_-_RSA_5.jpg" target="_blank" rel="noopener">ภาพ 3 · RSA 5 (ภาพหลักบน Wikipedia/Wikidata)</a></figcaption></figure>
+    <figure><img data-commons="C._Burgeri_in_Cultivation.jpg" data-w="800" alt="ต้นเบอร์เกอรีในกระถาง"><div class="photo-fallback">ภาพ 4</div><figcaption><a href="https://commons.wikimedia.org/wiki/File:C._Burgeri_in_Cultivation.jpg" target="_blank" rel="noopener">ภาพ 4 · Commons</a></figcaption></figure>
+    <figure><img data-commons="2_Conophytum_burgeri_in_cultivation_8.jpg" data-w="600" alt="ภาพเล็กของต้นเบอร์เกอรี"><div class="photo-fallback">ภาพ 5</div><figcaption><a href="https://commons.wikimedia.org/wiki/File:2_Conophytum_burgeri_in_cultivation_8.jpg" target="_blank" rel="noopener">ภาพ 5 · Commons</a></figcaption></figure>
+    <figure><img data-commons="2_Conophytum_burgeri_in_cultivation_9.jpg" data-w="600" alt="ภาพเล็กของต้นเบอร์เกอรี"><div class="photo-fallback">ภาพ 6</div><figcaption><a href="https://commons.wikimedia.org/wiki/File:2_Conophytum_burgeri_in_cultivation_9.jpg" target="_blank" rel="noopener">ภาพ 6 · Commons</a></figcaption></figure>
+  </div>
+</section>
+
+<section id="know">
+  <div class="sec-head"><div class="eyebrow">01 · รู้จักพืช</div><h2>หัวหอมจิ๋วที่เกิดจากใบคู่เชื่อมติดกัน</h2>
+  <p>ส่วนกลมที่เห็นคือใบสองใบที่เชื่อมกันสนิท มีรอยแยกเล็ก ๆ ที่ยอด ไม่ใช่ลำต้นกลม</p></div>
+
+  <div class="grid g2">
+    <div class="info">
+      <svg viewBox="0 0 420 330" role="img" aria-label="แผนภาพกายวิภาคของต้น">
+        <ellipse cx="170" cy="282" rx="105" ry="12" fill="var(--line)"/>
+        <path d="M70 222 C62 150 112 80 170 78 C228 80 278 150 270 222 C262 262 222 280 170 280 C118 280 78 262 70 222Z" fill="#5f9a74"/>
+        <path d="M70 222 C62 150 112 80 170 78 C228 80 278 150 270 222 C262 262 222 280 170 280 C118 280 78 262 70 222Z" fill="url(#g1)"/>
+        <defs><radialGradient id="g1" cx=".4" cy=".45" r=".7"><stop offset="0" stop-color="#cfe9d4" stop-opacity=".75"/><stop offset="1" stop-color="#1f5a45" stop-opacity=".25"/></radialGradient></defs>
+        <path d="M150 80 Q170 90 190 80" stroke="#0f3a31" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M118 120 Q130 104 150 98" stroke="#fff" stroke-opacity=".7" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M66 238 C80 250 92 262 112 270" stroke="#e9e4d4" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="2 9"/>
+        <g class="svgtxt" font-size="14">
+          <line x1="190" y1="78" x2="318" y2="48" stroke="var(--muted)"/><text x="322" y="46">รอยแยกที่ยอด</text><text x="322" y="64" class="svgmut" font-size="11">fissure</text>
+          <line x1="262" y1="150" x2="318" y2="150" stroke="var(--muted)"/><text x="322" y="148">ผิวเรียบ เป็นมัน โปร่งแสง</text><text x="322" y="166" class="svgmut" font-size="11">epidermis</text>
+          <line x1="80" y1="256" x2="20" y2="300" stroke="var(--muted)"/><text x="8" y="318">ปลอกใบเก่าสีขาว (พักตัว)</text>
+          <line x1="150" y1="282" x2="318" y2="282" stroke="var(--muted)" stroke-dasharray="3 4"/><text x="322" y="286">ฐานแบน บางต้นเป็นหยัก</text>
+        </g>
+        <g stroke="var(--jade)" fill="none" stroke-width="1.5">
+          <line x1="40" y1="78" x2="40" y2="280"/><line x1="34" y1="78" x2="46" y2="78"/><line x1="34" y1="280" x2="46" y2="280"/>
+        </g>
+        <text x="12" y="186" class="svgmut" font-size="12" transform="rotate(-90 12 186)">สูง 13–25 มม.</text>
+        <g stroke="var(--jade)" fill="none" stroke-width="1.5"><line x1="70" y1="304" x2="270" y2="304"/><line x1="70" y1="298" x2="70" y2="310"/><line x1="270" y1="298" x2="270" y2="310"/></g>
+        <text x="130" y="322" class="svgmut" font-size="12" display="none">กว้าง</text>
+      </svg>
+      <p style="font-size:.85rem;color:var(--muted);margin:8px 0 0">แผนภาพประกอบ วาดเพื่ออธิบาย ไม่ใช่ภาพถ่าย ขนาดตามข้อมูลของ LLIFLE: สูง 13–25 มม. กว้าง 20–25 มม. ที่ฐาน</p>
+    </div>
+
+    <div class="grid" style="align-content:start">
+      <div class="card"><h3>ชื่อและประวัติ</h3>
+        <p><span class="sci">Conophytum burgeri</span> L.Bolus ตีพิมพ์ใน <i>Journal of South African Botany</i> เล่ม 33 หน้า 305 ปี 1967 (IPNI) วงศ์ Aizoaceae วงศ์ย่อย Ruschioideae</p>
+        <p>ชื่อชนิดตั้งตามตระกูล Burger เจ้าของฟาร์ม Aggeneys เล่ากันว่า Willem Burger สังเกตเห็นพืชแปลกตานี้แล้วติดต่อนักพฤกษศาสตร์ H.C. Kennedy</p></div>
+      <div class="card"><h3>ชื่อสามัญ</h3><p>Burger’s onion · Little Light Bulbs (หลอดไฟดวงน้อย) · ภาษาอาฟริกานส์ Papierkannetjie</p></div>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card">
+      <h3>สีของผิว ขึ้นกับแสง</h3>
+      <p style="margin:0 0 4px">ผิวเปลี่ยนจากเขียวเทาโปร่งแสงเป็นม่วงถึงแดงเมื่อโดนแดดตรง ตามคำอธิบายของ Wikipedia และ LLIFLE (ไม่ได้แปลว่าสีแดงจัดคือสุขภาพดีกว่า)</p>
+      <div class="spectrum" role="img" aria-label="ไล่สีจากเขียวเทาไปแดงทับทิม"></div>
+      <div class="spec-labels"><span>เขียวเทา โปร่งแสง</span><span>ม่วงแดง</span><span>แดงทับทิม</span></div>
+    </div>
+    <div class="card">
+      <h3>ดอก</h3>
+      <ul class="plain">
+        <li>สีชมพูม่วง โคนกลีบขาว มี 24–52 กลีบ เรียง 2–3 ชั้น เกสรตัวเมียยาว 10–14 มม.</li>
+        <li>กลิ่นน้ำผึ้ง บานช่วงบ่ายถึงเย็นแล้วหุบ</li>
+        <li>ออกต้นฤดูใบไม้ร่วงของซีกโลกใต้ (เม.ย.–พ.ค. ในแอฟริกาใต้) ดอกอาจทำให้ลำต้นแตกร่อง</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin:28px 0 10px">แยกจากญาติหน้าตาคล้ายกันอย่างไร</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>ชนิด</th><th>จุดแยกที่ใช้ได้</th></tr></thead>
+    <tbody>
+      <tr class="me"><td><span class="sci">C. burgeri</span></td><td>เกสรตัวเมียยาวเกิน 10 มม. ผิวกลายเป็นม่วงถึงแดงเมื่อโดนแดดตรง</td></tr>
+      <tr><td><span class="sci">C. subterraneum</span></td><td>เกสรตัวเมียสั้นกว่า 7 มม. และคงสีเขียว</td></tr>
+      <tr><td><span class="sci">C. ratum</span></td><td>รอยแยกกว้างกว่า (3–4 มม.) และจมลงในลำต้น</td></tr>
+      <tr><td><span class="sci">C. achabense</span></td><td>กลีบเลี้ยงมีเพียง 4 กลีบ</td></tr>
+      <tr><td><span class="sci">C. hammeri</span></td><td>มีหน้าต่างโปร่งแสงเลือน ๆ ที่ยอด</td></tr>
+    </tbody></table></div>
+</section>
+
+<section id="life">
+  <div class="sec-head"><div class="eyebrow">02 · วงจรชีวิต</div><h2>หนึ่งปีของต้นเบอร์เกอรี</h2>
+  <p>โคโนไฟตัมทุกชนิดมีช่วงเติบโตและช่วงพักตัวแห้งในรอบปี เมื่อพักตัว ใบเก่าแห้งเป็นปลอกบาง ๆ ห่อใบใหม่ไว้ข้างใน</p></div>
+
+  <div class="info">
+    <div class="cycle">
+      <div><b>1 · แตกใบใหม่</b>ใบใหม่ค่อย ๆ ดันปลอกเก่าให้แตกออก<small>อย่ารีบลอกปลอกที่ยังติดแน่น</small></div>
+      <div><b>2 · เติบโต</b>อวบน้ำ ผิวตึง ใส เป็นช่วงที่รับน้ำได้<small>ผิวเปลี่ยนสีตามแสง</small></div>
+      <div><b>3 · ออกดอก</b>ดอกชมพูม่วงบานช่วงบ่าย กลิ่นน้ำผึ้ง<small>ใน SA ราว เม.ย.–พ.ค.</small></div>
+      <div><b>4 · พักตัว</b>ใบเก่าแห้งเป็นปลอกขาวห่อใบใหม่<small>ลดน้ำมาก ไม่ดึงปลอกออก</small></div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:14px"><b>แหล่งข้อมูลไม่ตรงกันเรื่องฤดูเติบโต</b> LLIFLE ระบุว่าเป็นชนิดที่โตช่วงฤดูใบไม้ผลิถึงร้อนของซีกโลกใต้ ส่วน Wikipedia ระบุว่าถิ่นกำเนิดได้ฝนปลายฤดูใบไม้ผลิถึงต้นฤดูร้อน แต่ในการเลี้ยงมักปฏิบัติแบบโคโนไฟตัมทั่วไป คือถือเป็นชนิดฤดูฝนหนาว ผู้เลี้ยงในไทยจึงควรดูอาการของต้น (ผิวตึง เหี่ยว แตกใบใหม่) มากกว่ายึดปฏิทินตายตัว</div>
+</section>
+
+<section id="grow">
+  <div class="sec-head"><div class="eyebrow">03 · ปลูกเลี้ยงในไทย</div><h2>ร้อนชื้นคือโจทย์ใหญ่ ไม่ใช่แสง</h2>
+  <p>ข้อมูลในหมวดนี้ส่วนหนึ่งมาจากแหล่งอ้างอิง ส่วนที่ปรับให้เข้ากับอากาศไทยเป็นข้อเสนอเพื่อทดลอง ติดป้าย <span class="tag">ทดลอง</span> ไว้ชัดเจน</p></div>
+
+  <div class="grid g3">
+    <div class="card"><h3>แสง</h3><p>ชอบแดดสว่างและโปร่ง ผู้เลี้ยงทั่วไปให้กำบังเล็กน้อยช่วงร้อนจัดที่สุดของวัน หากผิวมีรอยไหม้ให้ลดแสงทันที <span class="tag">ทดลอง</span> เริ่มจากแดดเช้าอ่อนหรือแสงกรอง</p></div>
+    <div class="card"><h3>อากาศ</h3><p>ต้องการอากาศถ่ายเทดี และกลางคืนเย็น ในไทยจึงควรมีลมพัดทั่วถึง ไม่วางในมุมอับร้อน <span class="tag">ทดลอง</span> วัดอุณหภูมิที่ระดับต้นจริง</p></div>
+    <div class="card"><h3>อุณหภูมิ</h3><p>แหล่งข้อมูลให้เขตทนหนาว USDA 10b–11b (ต่ำสุดราว 1.7–10°C) ซึ่งบอกความทนหนาว ไม่ใช่อุณหภูมิที่ต้นโตดีที่สุด คู่มือเดิมเสนอช่วงทดลอง 15–25°C <span class="tag">ทดลอง</span></p></div>
+  </div>
+
+  <h3 style="margin:28px 0 10px">ปฏิทินสังเกตในสมุทรปราการ <span class="tag">ทดลอง</span></h3>
+  <div class="info">
+    <div class="months" role="img" aria-label="ปฏิทินสิบสองเดือน">
+      <div class="m-cool">ม.ค.</div><div class="m-cool">ก.พ.</div><div class="m-hot">มี.ค.</div><div class="m-hot">เม.ย.</div><div class="m-wet">พ.ค.</div><div class="m-wet">มิ.ย.</div>
+      <div class="m-wet">ก.ค.</div><div class="m-wet">ส.ค.</div><div class="m-wet">ก.ย.</div><div class="m-wet">ต.ค.</div><div class="m-cool">พ.ย.</div><div class="m-cool">ธ.ค.</div>
+    </div>
+    <div class="month-key">
+      <span><i class="m-cool"></i>พ.ย.–ก.พ. อากาศเย็นกว่า เหมาะทดลองเพาะและดูการเติบโต</span>
+      <span><i class="m-hot"></i>มี.ค.–เม.ย. ป้องกันความร้อนและแดดจัด</span>
+      <span><i class="m-wet"></i>พ.ค.–ต.ค. ระวังฝนและความชื้นสะสม ดูระยะพักตัว</span>
+    </div>
+  </div>
+
+  <h3 style="margin:28px 0 10px">อ่านอาการก่อนให้น้ำ</h3>
+  <div class="grid g4">
+    <div class="card"><span class="tag ok">รอ</span><h3 style="margin-top:6px">ผิวตึง ใส</h3><p>วัสดุยังชื้นอยู่ รอให้แห้งก่อน</p></div>
+    <div class="card"><span class="tag">ให้น้ำเล็กน้อย</span><h3 style="margin-top:6px">ผิวเหี่ยวย่น</h3><p>ต้นขาดน้ำ ให้น้ำน้อย ๆ เมื่อวัสดุแห้งสนิท</p></div>
+    <div class="card"><span class="tag bad">งดน้ำ</span><h3 style="margin-top:6px">ลำต้นแตกร่อง</h3><p>มักเกิดจากน้ำมากเกินไป ไม่น่าดูแต่มักไม่ถึงตาย</p></div>
+    <div class="card"><span class="tag bad">แยกต้น ตรวจราก</span><h3 style="margin-top:6px">นิ่มช้ำ ฐานเปลี่ยนสี</h3><p>สัญญาณเน่า งดน้ำ ตรวจรากและแยกจากต้นอื่นทันที</p></div>
+  </div>
+  <p style="font-size:.9rem;color:var(--muted);margin-top:10px">แหล่งอ้างอิงแนะนำให้น้ำเบา ๆ ทุก 1–2 สัปดาห์เมื่อวัสดุแห้งในช่วงที่ต้นโต และแทบงดน้ำช่วงพักตัว ตัวเลขนี้เป็นแนวทางทั่วไป ในห้องร้อนชื้นให้ยืดช่วงออกและดูอาการเป็นหลัก</p>
+</section>
+
+<section id="mix">
+  <div class="sec-head"><div class="eyebrow">04 · วัสดุปลูก</div><h2>โปร่ง ระบายน้ำเร็ว แร่เป็นหลัก</h2>
+  <p>สัดส่วนจากคู่มือเดิม ใช้เป็นจุดเริ่มทดลอง ไม่ใช่สูตรมาตรฐานที่มีงานวิจัยรับรอง แตะปุ่มเพื่อสลับสูตร</p></div>
+  <div class="info">
+    <div class="seg" role="group" aria-label="เลือกสูตร">
+      <button type="button" aria-pressed="true" data-mix="a">ต้นโตเริ่มต้น</button>
+      <button type="button" aria-pressed="false" data-mix="b">แร่ธาตุสูง</button>
+      <button type="button" aria-pressed="false" data-mix="c">เพาะเมล็ด</button>
+    </div>
+    <div class="donut-wrap">
+      <div class="donut" id="donut" role="img" aria-label="สัดส่วนวัสดุปลูก"><div class="donut-center" id="donutC">ปริมาตร<br>100%</div></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <p style="margin:16px 0 0;font-size:.9rem;color:var(--muted)">ใช้ภาชนะมีรูระบาย หลีกเลี่ยงทรายก่อสร้างที่ละเอียดอัดแน่น และจดระยะเวลาที่วัสดุแห้งจริงในแต่ละสูตรเพื่อเปรียบเทียบ</p>
+  </div>
+</section>
+
+<section id="seed">
+  <div class="sec-head"><div class="eyebrow">05 · ขยายพันธุ์</div><h2>เพาะเมล็ดคือทางหลัก และใช้เวลานาน</h2>
+  <p>ต้นโตช้ามาก LLIFLE ระบุว่าอาจใช้ 3–4 ปีกว่าจะได้ต้นขนาดเม็ดถั่วลันเตา และในการเลี้ยงมักแตกหัวไม่เกิน 4–5 หัว</p></div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>6 ขั้นตอนเพาะเมล็ด</h3>
+      <ol class="steps">
+        <li><b>เตรียม</b><br>เมล็ดจากเรือนเพาะ พร้อมที่มาและวันเก็บ ภาชนะสะอาดมีรูระบาย</li>
+        <li><b>หว่าน</b><br>วัสดุละเอียดพรมชื้นสม่ำเสมอ วางเมล็ดบนผิว ไม่ฝังลึก</li>
+        <li><b>ปิดฝาโปร่งแสง</b><br>รักษาความชื้นช่วงแรก</li>
+        <li><b>ควบคุมสิ่งแวดล้อม</b><br>เริ่มทดลอง 15–20°C แสงกรอง <span class="tag">ทดลอง</span></li>
+        <li><b>ติดตามการงอก</b><br>ดูการงอกช่วง 1–3 สัปดาห์แรก</li>
+        <li><b>ฝึกกล้า</b><br>ค่อย ๆ เปิดฝาระบายอากาศ ระวังแห้งเร็วและเชื้อรา</li>
+      </ol>
+    </div>
+    <div style="display:grid;gap:16px;align-content:start">
+      <div class="card"><h3>ผสมเกสร</h3>
+        <ul class="plain"><li>เลือกต้นแข็งแรง ดอกบานพร้อมกัน ควรต่างสายพันธุกรรม</li><li>ใช้พู่กันขนนุ่ม เก็บเรณูจากต้น A แตะยอดเกสรต้น B แล้วผสมกลับทิศ</li><li>ติดป้ายวันที่และคู่พ่อแม่ เก็บเมล็ดเมื่อฝักแห้งสนิท</li></ul></div>
+      <div class="card"><h3>แบ่งต้น</h3><p>แบ่งหัวได้เฉพาะเมื่อต้นแตกหัวเองตามธรรมชาติ ไม่ควรผ่ากลางต้นเดี่ยวเพื่อเพิ่มจำนวน เพราะเสี่ยงตาย</p></div>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h3>แผนทดลอง 2 × 2</h3>
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+        <div style="background:var(--jade-soft);border-radius:10px;padding:10px 12px"><b class="mono">18°C</b><br>แร่ธาตุสูง</div>
+        <div style="background:var(--jade-soft);border-radius:10px;padding:10px 12px"><b class="mono">18°C</b><br>ผสมอินทรีย์</div>
+        <div style="background:var(--amber-soft);border-radius:10px;padding:10px 12px"><b class="mono">24°C</b><br>แร่ธาตุสูง</div>
+        <div style="background:var(--amber-soft);border-radius:10px;padding:10px 12px"><b class="mono">24°C</b><br>ผสมอินทรีย์</div>
+      </div>
+      <p style="margin-top:10px;font-size:.9rem">4 กลุ่ม × 3 ซ้ำ × 20 เมล็ด = 240 เมล็ด จดวันที่ 7, 14, 21, 28 และอัตรารอดที่ 3 กับ 6 เดือน</p></div>
+    <div class="card"><h3>เครื่องคิดอัตรางอกและอัตรารอด</h3>
+      <div class="tool">
+        <label>เมล็ดที่เพาะ<input id="n1" type="number" min="0" value="20" inputmode="numeric"></label>
+        <label>งอก<input id="n2" type="number" min="0" value="15" inputmode="numeric"></label>
+        <label>รอด<input id="n3" type="number" min="0" value="12" inputmode="numeric"></label>
+      </div>
+      <div class="out"><div><b id="o1">75%</b>อัตรางอก</div><div><b id="o2">80%</b>อัตรารอดของต้นที่งอก</div></div>
+      <p style="font-size:.82rem;color:var(--muted);margin:8px 0 0">ค่าเริ่มต้นเป็นตัวอย่างสมมติจากคู่มือเดิม ใส่ตัวเลขจริงของคุณ</p></div>
+  </div>
+</section>
+
+<section id="save">
+  <div class="sec-head"><div class="eyebrow">06 · อนุรักษ์</div><h2>ชนิดที่เหลือไม่ถึง 250 ต้นในธรรมชาติ</h2>
+  <p>IUCN จัดสถานะ Critically Endangered (ประเมินปี 2022) แนวโน้มประชากรลดลง</p></div>
+  <div class="grid g3">
+    <div class="card stat"><div class="n" style="color:var(--ruby)">&lt;250</div><div>ต้นในแหล่งเดียว ที่หุบเขา Aggeneys</div></div>
+    <div class="card stat"><div class="n">97%</div><div>ของสกุล Conophytum ถูกจัดเป็นชนิดถูกคุกคาม</div><div class="bar"><span style="width:97%;background:var(--jade)"></span></div></div>
+    <div class="card stat"><div class="n" style="color:var(--ruby)">45%</div><div>ของสกุลอยู่ระดับ Critically Endangered</div><div class="bar"><span style="width:45%;background:var(--ruby)"></span></div></div>
+  </div>
+  <p style="font-size:.85rem;color:var(--muted);margin-top:8px">ตัวเลขสกุลจาก SANBI (ข่าว IUCN Red List ปี 2022) แหล่งที่อยู่อาศัยอยู่ในพื้นที่ของ Black Mountain mine ซึ่งมีรายงานว่าคุ้มครองไว้ ภัยคุกคามที่ระบุคือการทำเหมืองและการเก็บต้นจากธรรมชาติเพื่อขาย</p>
+  <div class="grid g2" style="margin-top:16px">
+    <div class="card"><h3>ทำได้</h3><ul class="check"><li>เลือกต้นจากเมล็ดเพาะหรือเรือนเพาะ (seed-grown / nursery-propagated)</li><li>ขอแหล่งที่มา วันเก็บเมล็ด และเอกสารรับรอง</li><li>จดคู่ผสมและรหัสชุด แบ่งปันความรู้</li></ul></div>
+    <div class="card"><h3>เลี่ยง</h3><ul class="check x"><li>ต้นขุดจากป่า โดยเฉพาะต้นโตผิดปกติที่ไม่มีประวัติ</li><li>เอกสารไม่ครบหรือผู้ขายตอบที่มาไม่ได้</li><li>ผ่าต้นเดี่ยวเพื่อเพิ่มจำนวน</li></ul></div>
+  </div>
+</section>
+
+<section id="buy">
+  <div class="sec-head"><div class="eyebrow">07 · ซื้อและกฎหมาย</div><h2>ตรวจก่อนสั่ง ทั้งที่มาและใบอนุญาต</h2></div>
+  <div class="grid g2">
+    <div class="card"><h3>นำเข้าเข้าไทย</h3>
+      <p>พืชที่อยู่ใน CITES ต้องขอใบอนุญาตนำเข้ากับกรมวิชาการเกษตร (แบบ พ.พ.13 ยื่นผ่านระบบ e-CITES หรือยื่นด้วยตนเอง) ใช้เอกสารประกอบ เช่น CITES export permit หรือ phytosanitary certificate หรือหนังสือรับรองถิ่นกำเนิด ค่าธรรมเนียมใบละ 100 บาท</p>
+      <p>ตรวจสถานะ CITES ของชนิดนี้ได้ที่ <a href="https://speciesplus.net/#/taxon_concepts/100693" target="_blank" rel="noopener">Species+</a> และสอบถามกรมวิชาการเกษตรอีกครั้งก่อนสั่ง เพราะกฎเปลี่ยนได้</p></div>
+    <div class="card"><h3>เช็กลิสต์ก่อนซื้อ</h3>
+      <ul class="check"><li>ชื่อวิทยาศาสตร์ตรง (ตรวจกับ <a href="https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:57252-1" target="_blank" rel="noopener">POWO ของ Kew</a>)</li><li>ผู้ขายระบุว่าเป็นต้นเพาะเมล็ด</li><li>มีเอกสารนำเข้าถ้าสั่งจากต่างประเทศ</li><li>ขอภาพต้นจริงล่าสุด ไม่ใช้ภาพสต๊อก</li><li>ราคาและสต็อกตรวจซ้ำทุกครั้ง</li></ul></div>
+  </div>
+
+  <h3 style="margin:28px 0 10px">แหล่งที่คู่มือเดิมรวบรวมไว้</h3>
+  <div class="tbl"><table><thead><tr><th>แหล่ง</th><th>ประเทศ</th><th>หมายเหตุ</th></tr></thead><tbody>
+    <tr><td><a href="https://mesagarden.com/" target="_blank" rel="noopener">Mesa Garden</a></td><td>สหรัฐฯ</td><td>แค็ตตาล็อกเมล็ดหลายรหัส ตรวจข้อจำกัดการส่งออกก่อน</td></tr>
+    <tr><td><a href="https://www.kaktus-koehres.de/" target="_blank" rel="noopener">Koehres Kakteen</a></td><td>เยอรมนี</td><td>เมล็ด Conophytum/Mesembryanthemum ตรวจจำนวนและสถานะส่งออก</td></tr>
+    <tr><td><a href="https://capesucculentseeds.com/" target="_blank" rel="noopener">Cape Succulent Seeds</a></td><td>แอฟริกาใต้</td><td>ตรวจวันเก็บเมล็ดและเอกสาร</td></tr>
+    <tr><td>Living Desert Plants</td><td>แอฟริกาใต้</td><td>livingdesertplants.co.za</td></tr>
+    <tr><td>ร้านไม้อวบน้ำบน Shopee/Lazada</td><td>ไทย</td><td>ค้นด้วยชื่อวิทยาศาสตร์ ขอภาพต้นจริงและที่มา</td></tr>
+  </tbody></table></div>
+  <p style="font-size:.85rem;color:var(--muted);margin-top:8px">รายชื่อนี้มาจากคู่มือเดิม น้องมายด์ยังไม่ได้ตรวจสต็อกหรือราคาล่าสุดของแต่ละร้าน</p>
+
+  <h3 style="margin:28px 0 10px">งบเริ่มต้น ประมาณ 2,300–7,200 บาท</h3>
+  <div class="info">
+    <div class="row-stack" role="img" aria-label="สัดส่วนงบเริ่มต้นโดยประมาณ">
+      <div style="background:#2f8a74;flex:1200">ต้นไม้ 3–5 ต้น</div>
+      <div style="background:#3b6fa5;flex:700">กระถาง+วัสดุ</div>
+      <div style="background:#b9701f;flex:2000">ชั้นไฟ/พัดลม</div>
+      <div style="background:#8a4f78;flex:1000">เครื่องมือ</div>
+    </div>
+    <div class="spec-labels" style="margin-top:8px;flex-wrap:wrap"><span>ต้น 300–1,500</span><span>กระถาง+วัสดุ 500–1,200</span><span>ชั้นไฟ/พัดลม 1,000–3,000</span><span>เครื่องมือ 500–1,500</span></div>
+    <p style="font-size:.85rem;color:var(--muted);margin:10px 0 0">ตัวเลขจากคู่มือเดิม ไม่รวมแอร์ ค่าไฟ และค่านำเข้า ความกว้างแถบเป็นค่ากลางโดยประมาณ</p>
+  </div>
+
+  <h3 style="margin:28px 0 10px">แผนเริ่มต้น</h3>
+  <div class="grid g4">
+    <div class="card"><b class="mono">เดือน 1</b><p style="margin:6px 0 0">จัดพื้นที่ วัดอุณหภูมิและแสง ซื้อต้นถูกต้อง 3–5 ต้น ติดป้ายและถ่ายภาพเริ่มต้น</p></div>
+    <div class="card"><b class="mono">เดือน 2–6</b><p style="margin:6px 0 0">ทดลองวัสดุ 2 สูตร ตั้งชุดเพาะเมล็ดขนาดเล็ก เก็บข้อมูลอัตรางอกและรอด</p></div>
+    <div class="card"><b class="mono">เดือน 6–12</b><p style="margin:6px 0 0">ติดตามการเปลี่ยนใบ การพักตัว และการผ่านฤดูร้อน/ฝนครั้งแรก ปรับสูตร</p></div>
+    <div class="card"><b class="mono">ปี 2–4</b><p style="margin:6px 0 0">คัดต้นรอดและรากแข็งแรง บันทึกสีและการออกดอก ผสมเกสรเมื่อพร้อม</p></div>
+  </div>
+</section>
+
+<section id="changes">
+  <div class="sec-head"><div class="eyebrow">08 · ที่ปรับจากฉบับเดิม</div><h2>น้องมายด์ตรวจและเพิ่มอะไรบ้าง</h2></div>
+  <div class="grid g2">
+    <div class="card"><h3>ยืนยันแล้วว่าตรง</h3><ul class="plain"><li>ปีตีพิมพ์ชื่อชนิด 1967 (IPNI) และผู้ตั้งชื่อ L.Bolus</li><li>สถานะ Critically Endangered (IUCN 2022)</li><li>ถิ่นเดียวใกล้ Aggeneys จังหวัด Northern Cape</li><li>ขั้นตอนการยื่นขอใบอนุญาตนำเข้า CITES ของไทย</li></ul></div>
+    <div class="card"><h3>เพิ่มใหม่</h3><ul class="plain"><li>ขนาดตัว ดอก และตารางแยกชนิดญาติ</li><li>จำนวนประชากรต่ำกว่า 250 ต้น และสถิติทั้งสกุลจาก SANBI</li><li>ข้อมูลฤดูเติบโตที่แหล่งอ้างอิงไม่ตรงกัน พร้อมคำแนะนำให้ดูอาการต้น</li><li>เครื่องคิดอัตรางอก และสัญลักษณ์ติดป้าย “ทดลอง” กับส่วนที่ไม่มีแหล่งอ้างอิงรองรับ</li></ul></div>
+  </div>
+  <div class="note" style="margin-top:16px"><b>เรื่องภาพ</b> หน้า 5 ของคู่มือเดิมระบุผู้ถ่ายและสัญญาอนุญาตของ 6 ภาพ น้องมายด์ตรวจเฉพาะภาพที่ 1 ในหมวด Commons ได้ว่า Abu Shawka เผยแพร่แบบ CC0 ภาพอื่นในหมวดนี้ยังไม่ได้ยืนยันรายตัว (ผู้ถ่ายและสัญญาอนุญาตดูที่หน้าไฟล์) และภาพต้นอ่อนปี 2026 ของ Fauzhaid ในคู่มือเดิมไม่อยู่ในรายการหมวดที่น้องมายด์เห็น จึงไม่ได้นำมาใช้ ถ้าจะเผยแพร่ ให้เปิดหน้าไฟล์ของแต่ละภาพเพื่อใส่เครดิตและเงื่อนไขให้ครบ (ภาพ CC BY-SA ต้องระบุผู้ถ่ายและใช้สัญญาอนุญาตเดียวกัน)</div>
+</section>
+
+<section id="refs" style="border-bottom:0">
+  <div class="sec-head"><div class="eyebrow">09 · เครดิตและแหล่งอ้างอิง</div><h2>ตรวจต่อได้ที่ต้นทาง</h2></div>
+  <div class="grid g2">
+    <div class="card"><h3>พฤกษศาสตร์และการเลี้ยง</h3><ul class="plain">
+      <li><a href="https://www.ipni.org/n/57252-1" target="_blank" rel="noopener">IPNI · Conophytum burgeri L.Bolus</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Conophytum_burgeri" target="_blank" rel="noopener">Wikipedia · Conophytum burgeri</a></li>
+      <li><a href="https://llifle.info/Encyclopedia/SUCCULENTS/Family/Aizoaceae/26040/Conophytum_burgeri" target="_blank" rel="noopener">LLIFLE · Conophytum burgeri</a></li>
+      <li><a href="https://worldofsucculents.com/conophytum-burgeri/" target="_blank" rel="noopener">World of Succulents</a></li>
+      <li><a href="https://smale-conophytum.co.uk/G4_Conophytum/G4_Cono_burgeri.htm" target="_blank" rel="noopener">Smale Conophytum · burgeri</a></li>
+      <li><a href="https://succulents.co.za/Growing_Mesembs/conophytum/conophytum_burgeri.shtml" target="_blank" rel="noopener">Mesembs · ข้อมูลดอกและลักษณะ</a></li></ul></div>
+    <div class="card"><h3>อนุรักษ์และกฎหมาย</h3><ul class="plain">
+      <li><a href="https://www.iucnredlist.org/species/202851348/202851350" target="_blank" rel="noopener">IUCN Red List · C. burgeri</a></li>
+      <li><a href="https://www.sanbi.org/media/sas-succulent-plants-experience-unprecedented-rates-of-decline/" target="_blank" rel="noopener">SANBI · succulents decline (2022)</a></li>
+      <li><a href="https://miceoss.tceb.or.th/?p=12856" target="_blank" rel="noopener">ขอใบอนุญาตนำเข้าพืช CITES (กรมวิชาการเกษตร)</a></li>
+      <li><a href="https://www.thailand.go.th/event-detail/001_03_306" target="_blank" rel="noopener">ใบอนุญาตนำเข้าพืชอนุรักษ์ · thailand.go.th</a></li>
+      <li><a href="https://commons.wikimedia.org/wiki/Category:Conophytum_burgeri" target="_blank" rel="noopener">Wikimedia Commons · หมวดภาพ</a></li></ul></div>
+  </div>
+  <footer>จัดทำฉบับปรับปรุงจากคู่มือ “โคโนไฟต้มเยลลี่ ฉบับภาพและอินโฟกราฟิก 2569” · ตุลาคม 2569 · แผนภาพทั้งหมดวาดขึ้นเพื่ออธิบาย ส่วนภาพถ่ายคือภาพจริงจาก Wikimedia Commons · ข้อมูลกฎหมายและราคาเปลี่ยนได้ ตรวจกับหน่วยงานก่อนตัดสินใจ</footer>
+</section>
+</main>
+
+<div id="lightbox" role="dialog" aria-label="ภาพขยาย"><img alt=""></div>
+
+<script>
+(function(){
+  // Photos: load from Wikimedia Commons; show a labelled fallback if a file cannot load
+  document.querySelectorAll('img[data-commons]').forEach(function(img){
+    var f=img.getAttribute('data-commons'), w=img.getAttribute('data-w')||'800';
+    img.addEventListener('error',function(){var p=img.parentElement;p.classList.add('nophoto')});
+    img.src='https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(f)+'?width='+w;
+  });
+  var lb=document.getElementById('lightbox'), lbi=lb.querySelector('img');
+  document.querySelectorAll('.gallery img').forEach(function(i){i.addEventListener('click',function(){
+    lbi.src=i.src.replace(/width=\d+/,'width=1600');lb.classList.add('on')})});
+  lb.addEventListener('click',function(){lb.classList.remove('on')});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('on')});
+
+  // Substrate donut
+  var mixes={
+    a:[['พัมมิซ',40,'#c9b98f'],['หินภูเขาไฟ/กรวดแร่',25,'#8a4a3a'],['อาคาดามะ',15,'#b9701f'],['ทรายหยาบล้าง',10,'#9bb3ad'],['อินทรีย์วัตถุร่อน',10,'#4a3a2c']],
+    b:[['พัมมิซ',45,'#c9b98f'],['หินภูเขาไฟ/กรวดแร่',25,'#8a4a3a'],['อาคาดามะ',15,'#b9701f'],['ทรายหยาบล้าง',10,'#9bb3ad'],['อินทรีย์วัตถุร่อน',5,'#4a3a2c']],
+    c:[['พัมมิซละเอียด',30,'#c9b98f'],['ทรายแร่ละเอียด',25,'#9bb3ad'],['อาคาดามะละเอียด',20,'#b9701f'],['เพอร์ไลต์',10,'#e3e8e4'],['วัสดุเพาะละเอียดสะอาด',15,'#4a3a2c']]
+  };
+  function drawMix(k){
+    var m=mixes[k],acc=0,stops=[],lg='';
+    m.forEach(function(x){stops.push(x[2]+' '+acc+'% '+(acc+x[1])+'%');acc+=x[1];
+      lg+='<div><i style="background:'+x[2]+'"></i><span>'+x[0]+'</span><b>'+x[1]+'%</b></div>'});
+    document.getElementById('donut').style.background='conic-gradient('+stops.join(',')+')';
+    document.getElementById('legend').innerHTML=lg;
+    document.querySelectorAll('[data-mix]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.mix===k)});
+  }
+  document.querySelectorAll('[data-mix]').forEach(function(b){b.addEventListener('click',function(){drawMix(b.dataset.mix)})});
+  drawMix('a');
+
+  // Germination calculator
+  var n1=document.getElementById('n1'),n2=document.getElementById('n2'),n3=document.getElementById('n3');
+  function calc(){
+    var a=+n1.value,b=+n2.value,c=+n3.value;
+    document.getElementById('o1').textContent=a>0?Math.round(b/a*100)+'%':'–';
+    document.getElementById('o2').textContent=b>0?Math.round(c/b*100)+'%':'–';
+  }
+  [n1,n2,n3].forEach(function(e){e.addEventListener('input',calc)});calc();
+})();
+</script>
+</body>
+</html>
