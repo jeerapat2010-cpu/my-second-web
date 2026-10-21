@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="th">
+<head>
+<!-- Google tag (GA4) : เฉพาะหน้านี้ -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DT9E54XRZZ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-DT9E54XRZZ',{anonymize_ip:true});</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BETTA LAB • คู่มือปลากัดไทยแบบอินเตอร์แอกทีฟ</title>
+<meta name="description" content="คู่มือปลากัดไทยครบวงจร ประวัติ สายพันธุ์ ออกแบบปลากัดของคุณ เครื่องมือคำนวณคุณภาพน้ำ วงจรไนโตรเจน เพาะพันธุ์ สุขภาพ ธุรกิจ แบบทดสอบ และอภิธานศัพท์">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eefaff;--bg2:#e0f4ff;--card:#ffffff;--card2:#f1faff;--ink:#0b2540;--muted:#4a6a85;--line:#cfe6f3;
+  --aqua:#06b6d4;--teal:#0d9488;--coral:#ff5d8f;--gold:#f59e0b;--violet:#7c3aed;--green:#16a34a;--red:#e11d48;
+  --grad:linear-gradient(120deg,#06b6d4,#6366f1 55%,#ff5d8f);
+  --shadow:0 14px 34px rgba(11,37,64,.10);
+  --f-display:"Prompt","IBM Plex Sans Thai",system-ui,sans-serif;--f-body:"IBM Plex Sans Thai","Prompt",system-ui,sans-serif;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#06182b;--bg2:#0a2540;--card:#0f2a47;--card2:#133457;--ink:#eaf6ff;--muted:#a3c0d8;--line:#235074;
+  --aqua:#35e0f5;--teal:#34d3bd;--coral:#ff7fa6;--gold:#ffcb5c;--violet:#a78bfa;--green:#4ade80;--red:#fb7185;
+  --shadow:0 14px 34px rgba(0,0,0,.35);color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75;overflow-x:hidden}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.25;margin:0}
+a{color:var(--teal)}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+#bar{position:fixed;top:0;left:0;height:4px;width:0;background:var(--grad);z-index:60}
+header.top{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.bar-in{display:flex;align-items:center;gap:12px;min-height:62px}
+.brand{font-family:var(--f-display);font-weight:800;font-size:20px;white-space:nowrap;text-decoration:none;color:var(--ink)}
+.brand i{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+nav.menu{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1}
+nav.menu::-webkit-scrollbar{display:none}
+nav.menu a{white-space:nowrap;text-decoration:none;color:var(--muted);font-size:13px;padding:7px 12px;border-radius:99px;transition:.2s}
+nav.menu a:hover{background:var(--card2);color:var(--ink)}
+nav.menu a.on{background:var(--aqua);color:#032233;font-weight:600}
+.iconbtn{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:7px 13px;font-size:13px;white-space:nowrap}
+.iconbtn:hover{border-color:var(--aqua)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:99px;padding:12px 22px;font-weight:600;background:var(--grad);color:#fff;text-decoration:none;box-shadow:0 8px 22px rgba(99,102,241,.3);transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 15px;font-size:13px;transition:.15s}
+.chip:hover{border-color:var(--aqua)}
+.chip.active{background:var(--aqua);color:#032233;border-color:var(--aqua);font-weight:600}
+/* hero */
+.hero{position:relative;overflow:hidden;background:radial-gradient(circle at 80% 10%,#7dd3fc55,transparent 40%),radial-gradient(circle at 10% 90%,#f9a8d455,transparent 40%),linear-gradient(180deg,var(--bg2),var(--bg))}
+#bubbles{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero-in{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;padding:46px 0 36px}
+.eyebrow{display:inline-block;background:var(--ink);color:var(--bg);border-radius:99px;padding:6px 15px;font-size:12px;font-weight:700;letter-spacing:.5px}
+h1{font-size:clamp(36px,5.6vw,68px);margin:18px 0 12px;letter-spacing:-1px}
+h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:17px;color:var(--muted);max-width:620px}
+.herofish{position:relative;border-radius:34px;background:linear-gradient(160deg,#0ea5e9,#6366f1 60%,#ec4899);padding:18px;box-shadow:var(--shadow);overflow:hidden}
+.herofish svg{width:100%;height:auto;display:block;animation:bob 5s ease-in-out infinite}
+.herofish .cap{position:absolute;left:16px;bottom:14px;background:#0008;color:#fff;border-radius:12px;padding:6px 12px;font-size:12px;backdrop-filter:blur(6px)}
+@keyframes bob{0%,100%{transform:translateY(-6px)}50%{transform:translateY(8px)}}
+.wag{transform-origin:240px 120px;animation:wag 1.6s ease-in-out infinite}
+@keyframes wag{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding-bottom:30px;position:relative}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow);text-align:center}
+.stat b{display:block;font-family:var(--f-display);font-size:32px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat small{color:var(--muted)}
+/* sections */
+section{padding:54px 0;scroll-margin-top:70px}
+section:nth-of-type(even){background:linear-gradient(180deg,transparent,var(--bg2) 50%,transparent)}
+.tag{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--aqua)}
+h2{font-size:clamp(26px,3.4vw,40px);margin:4px 0 6px}
+.sub{color:var(--muted);margin:0 0 24px;max-width:760px}
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+.card h3{font-size:19px;margin:4px 0 10px}
+.card p,.card li{color:var(--muted);font-size:14.5px}
+.card ul{padding-left:20px;margin:6px 0}
+.pill{display:inline-block;border-radius:99px;padding:3px 12px;font-size:12px;font-weight:700;background:color-mix(in srgb,var(--aqua) 20%,transparent);color:var(--teal)}
+.pill.c{background:color-mix(in srgb,var(--coral) 18%,transparent);color:var(--coral)}
+.pill.y{background:color-mix(in srgb,var(--gold) 22%,transparent);color:#b45309}
+:root[data-theme="dark"] .pill.y{color:var(--gold)}
+.callout{border-left:5px solid var(--gold);background:var(--card2);border-radius:12px;padding:14px 18px;margin:16px 0;font-size:14.5px}
+.callout.ok{border-color:var(--green)}.callout.bad{border-color:var(--red)}
+.mini{font-size:12.5px;color:var(--muted)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
+/* facts */
+.factbox{display:flex;align-items:center;gap:18px;min-height:130px}
+.factbox .em{font-size:54px}
+.factbox h3{font-size:20px;margin:0 0 4px}
+/* timeline */
+.tl{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 14px;scrollbar-width:thin}
+.tl button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);border-radius:16px;padding:10px 16px;text-align:left;min-width:132px}
+.tl button b{display:block;color:var(--aqua);font-family:var(--f-display)}
+.tl button.on{background:var(--grad);color:#fff;border-color:transparent}
+.tl button.on b{color:#fff}
+/* gallery */
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.search{flex:1;min-width:200px;border:1px solid var(--line);background:var(--card);border-radius:99px;padding:10px 16px}
+.gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.fc{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;text-align:left;padding:0;transition:.2s;box-shadow:var(--shadow)}
+.fc:hover{transform:translateY(-5px)}
+.fc img{display:block;width:100%;height:170px;object-fit:cover;background:var(--card2)}
+.fc div{padding:12px 14px}
+.fc h4{font-size:15px}.fc p{margin:2px 0 6px;font-size:12.5px;color:var(--muted)}
+.dots{color:var(--gold);letter-spacing:2px;font-size:12px}
+dialog{border:0;border-radius:24px;padding:0;max-width:640px;width:92vw;background:var(--card);color:var(--ink);box-shadow:0 30px 80px #0008}
+dialog::backdrop{background:#020b1788;backdrop-filter:blur(4px)}
+dialog .in{padding:24px}
+dialog img{width:100%;max-height:300px;object-fit:cover;border-radius:16px;margin-bottom:12px}
+/* designer */
+.designer{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+.stage{border-radius:24px;background:radial-gradient(circle at 30% 20%,#7dd3fc,#2563eb 55%,#1e1b4b);padding:14px;position:relative;overflow:hidden;min-height:300px;display:flex;align-items:center}
+.stage svg{width:100%;height:auto}
+.stage .nm{position:absolute;left:14px;bottom:12px;background:#000a;color:#fff;border-radius:12px;padding:6px 12px;font-size:13px}
+.sw{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 14px}
+.sw button{width:32px;height:32px;border-radius:50%;border:3px solid var(--card);box-shadow:0 0 0 1px var(--line)}
+.sw button.on{box-shadow:0 0 0 3px var(--aqua)}
+.lab{font-size:13px;font-weight:600;color:var(--muted);margin-top:8px;display:block}
+/* forms */
+.forms{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.field{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted)}
+input[type=number],input[type=text],input[type=date],select{width:100%;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--ink)}
+input[type=range]{width:100%;accent-color:var(--aqua)}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--aqua);outline-offset:2px}
+.result{background:var(--grad);color:#fff;border-radius:20px;padding:18px;display:flex;flex-wrap:wrap;justify-content:space-around;gap:12px;margin-top:16px}
+.result div{text-align:center}.result strong{display:block;font-size:24px;font-family:var(--f-display)}.result small{opacity:.9;font-size:12px}
+.meter{height:14px;border-radius:99px;background:var(--card2);overflow:hidden;border:1px solid var(--line)}
+.meter span{display:block;height:100%;background:var(--grad);transition:width .4s}
+canvas#cyc{width:100%;height:280px;display:block}
+.bars{display:grid;gap:8px;margin-top:14px}
+.bars div{height:26px;border-radius:8px;color:#fff;font-size:12.5px;padding:3px 10px;white-space:nowrap;transition:width .4s;min-width:70px}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px}
+.step b{display:block;font-family:var(--f-display);font-size:22px;color:var(--aqua)}
+.step small{color:var(--muted);display:block;font-size:12.5px;line-height:1.5}
+.tline{border-left:3px solid var(--aqua);margin:6px 0 0 8px;padding-left:18px}
+.tline article{position:relative;padding:4px 0 14px}
+.tline article:before{content:"";position:absolute;left:-27px;top:11px;width:12px;height:12px;border-radius:50%;background:var(--coral)}
+.tline b{color:var(--aqua)}
+.tline p{margin:2px 0}
+/* flip */
+.flip{perspective:900px;height:200px}
+.flip .fi{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.flip.on .fi{transform:rotateY(180deg)}
+.flip .f,.flip .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;padding:18px;display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line)}
+.flip .f{background:linear-gradient(140deg,#ffe4ec,#fff1c9);color:#4a1d2e}
+:root[data-theme="dark"] .flip .f{background:linear-gradient(140deg,#4a1d3a,#4a3a14);color:#ffe9f0}
+.flip .b{background:linear-gradient(140deg,#d8f7ee,#d9ecff);color:#0b3a35;transform:rotateY(180deg)}
+:root[data-theme="dark"] .flip .b{background:linear-gradient(140deg,#0e3d3a,#10305a);color:#e6fff8}
+.flip small{font-size:12px;font-weight:700;letter-spacing:1px;opacity:.7}
+.flip p{margin:6px 0 0;font-size:14px;color:inherit}
+/* quiz */
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--line);background:var(--card2);border-radius:14px;padding:11px 15px;margin:8px 0;transition:.15s}
+.opt:hover{border-color:var(--aqua)}
+.opt.right{background:color-mix(in srgb,var(--green) 22%,var(--card));border-color:var(--green)}
+.opt.wrong{background:color-mix(in srgb,var(--red) 20%,var(--card));border-color:var(--red)}
+/* checklist */
+.ci{display:flex;gap:11px;padding:11px 4px;border-bottom:1px solid var(--line);align-items:flex-start}
+.ci input{width:20px;height:20px;margin-top:4px;accent-color:var(--teal)}
+details.fq{border-bottom:1px solid var(--line)}
+details.fq summary{padding:15px 4px;cursor:pointer;font-weight:600}
+details.fq p{margin:0 0 16px;color:var(--muted);font-size:14.5px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;color:var(--teal);background:var(--card2)}th,td{padding:11px 12px;border-bottom:1px solid var(--line)}td{color:var(--muted)}
+.gl{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.gl div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px}
+.gl b{color:var(--teal)}.gl p{margin:2px 0 0;font-size:13.5px;color:var(--muted)}
+footer{padding:36px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.float{position:fixed;right:18px;bottom:22px;z-index:40;opacity:0;pointer-events:none;transition:.3s}
+.float.show{opacity:1;pointer-events:auto}
+@media(max-width:1000px){.gallery,.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}.hero-in,.designer{grid-template-columns:1fr}.steps{grid-template-columns:repeat(3,1fr)}.forms{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.g2,.g3,.gl{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}.forms{grid-template-columns:1fr}.fc img{height:120px}.brand{font-size:16px}.factbox{flex-direction:column;text-align:center}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+@media print{header.top,#bar,.float,.hero #bubbles,.tools,.iconbtn{display:none!important}body{background:#fff;color:#000}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<header class="top"><div class="wrap bar-in">
+  <a class="brand" href="#top">🐠 BETTA<i>LAB</i></a>
+  <nav class="menu" id="menu">
+    <a href="#history">เรื่องเล่า</a><a href="#species">สายพันธุ์</a><a href="#designer">ออกแบบปลา</a><a href="#care">การเลี้ยง</a><a href="#water">เครื่องมือน้ำ</a><a href="#breeding">เพาะพันธุ์</a><a href="#health">สุขภาพ</a><a href="#business">ธุรกิจ</a><a href="#quiz">ควิซ</a><a href="#myths">ความเชื่อ</a><a href="#glossary">อภิธานศัพท์</a><a href="#checklist">เช็กลิสต์</a>
+  </nav>
+  <a class="iconbtn" href="index.html">← หน้าหลัก</a>
+  <button class="iconbtn" id="themeBtn" aria-label="สลับธีมสว่าง/มืด">🌙 ธีม</button>
+</div></header>
+
+<div class="hero" id="top">
+  <canvas id="bubbles" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-in">
+      <div>
+        <span class="eyebrow">THE COMPLETE BETTA MASTER GUIDE · 2026</span>
+        <h1>ปลากัดไทย<br><span class="g">จากตู้เลี้ยง<br>สู่แบรนด์ระดับโลก</span></h1>
+        <p class="lead">สารานุกรมปลากัดฉบับลงมือทำ มีทั้งเครื่องออกแบบปลา เครื่องคำนวณพิษแอมโมเนียจริง กราฟวงจรไนโตรเจน ปฏิทินเพาะพันธุ์ ตัวช่วยประเมินอาการ แบบทดสอบ และอภิธานศัพท์ ครบในหน้าเดียว</p>
+        <p style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="#designer">🎨 ออกแบบปลากัดของคุณ</a><a class="btn ghost" href="#quiz">🧠 ทดสอบความรู้</a></p>
+      </div>
+      <div class="herofish" id="heroFish"><div class="cap">ภาพประกอบวาดโดยโค้ด · คลิกที่ปลาเพื่อสุ่มสีใหม่</div></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b data-count="24" data-suffix="–28°C">0</b><small>ช่วงอุณหภูมิน้ำทั่วไป</small></div>
+      <div class="stat"><b data-count="20" data-prefix="≥ " data-suffix=" L">0</b><small>ตู้ต่อปลา 1 ตัว (แนวทางเริ่มต้น)</small></div>
+      <div class="stat"><b data-count="0" data-suffix=" ppm">0</b><small>แอมโมเนีย/ไนไตรต์ที่วัดได้</small></div>
+      <div class="stat"><b data-count="5" data-prefix="3–" data-suffix=" ปี">0</b><small>อายุขัยเมื่อดูแลเหมาะสม</small></div>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+<!-- FACTS -->
+<section id="facts" style="padding-top:34px"><div class="tag">DID YOU KNOW?</div><h2>รู้หรือไม่ · เกร็ดน่ารู้ 10 ข้อ</h2>
+<div class="card reveal"><div class="factbox"><div class="em" id="fEm">🫧</div><div style="flex:1"><h3 id="fT"></h3><p id="fP" style="margin:0"></p></div></div>
+<p style="display:flex;gap:8px;align-items:center;margin:8px 0 0"><button class="chip" id="fPrev">◀ ก่อนหน้า</button><button class="chip" id="fNext">ถัดไป ▶</button><span class="mini" id="fN"></span></p></div></section>
+
+<!-- HISTORY -->
+<section id="history"><div class="tag">01 / ORIGIN &amp; CULTURE</div><h2>ประวัติศาสตร์ · จากนาข้าวสู่เวทีโลก</h2>
+<p class="sub">แตะที่แต่ละช่วงเวลาเพื่ออ่านรายละเอียด (ปีและเหตุการณ์ในอดีตบางส่วนเป็นข้อมูลจากเอกสารทั่วไป/คำบอกเล่า ควรตรวจกับแหล่งวิชาการก่อนอ้างอิงเชิงทางการ)</p>
+<div class="tl" id="tl"></div>
+<div class="card reveal" id="tlBox"></div>
+<div class="grid g3" style="margin-top:18px">
+  <div class="card reveal"><span class="pill">ถิ่นกำเนิด</span><h3>นาข้าว คูน้ำ พื้นที่ชุ่มน้ำ</h3><p><i>Betta splendens</i> พบในแถบเอเชียตะวันออกเฉียงใต้ โดยเฉพาะไทยและประเทศใกล้เคียง ใช้อวัยวะช่วยหายใจแบบ labyrinth ขึ้นฮุบอากาศได้ แต่นั่นไม่ได้แปลว่าอยู่ในน้ำเสียหรือภาชนะจิ๋วได้ดี</p></div>
+  <div class="card reveal"><span class="pill c">มรดกวัฒนธรรม</span><h3>การคัดเลือกพันธุ์ยาวนาน</h3><p>ไทยมีประวัติเลี้ยงและคัดเลือกปลากัดมายาวนาน ปัจจุบันแนวทางสากลเน้นความสวยงามและสวัสดิภาพ ไม่สนับสนุนการจัดให้ปลาต่อสู้เพื่อความบันเทิงหรือการพนัน</p></div>
+  <div class="card reveal"><span class="pill y">อนาคต</span><h3>Soft Power และตลาดส่งออก</h3><p>ความหลากหลายของสี รูปหาง และฝีมือเพาะพันธุ์เป็นจุดขายสำคัญ การส่งออกต้องมีทะเบียนและเอกสารตามข้อกำหนดกรมประมงและประเทศปลายทาง</p></div>
+</div></section>
+
+<!-- SPECIES -->
+<section id="species"><div class="tag">02 / REAL PHOTO ATLAS</div><h2>แกลเลอรีสายพันธุ์ · ภาพจริง</h2>
+<p class="sub">ค้นหาและกรองตามหมวด แตะการ์ดเพื่อดูรายละเอียด ชื่อเชิงการค้าส่วนใหญ่หมายถึง “ลักษณะ” (รูปหาง/สี) ไม่ใช่ชนิดทางอนุกรมวิธานแยกกัน</p>
+<div class="tools"><input class="search" id="spSearch" type="text" placeholder="🔍 ค้นหาชื่อสายพันธุ์ เช่น crown, มหาชัย, koi">
+<button class="chip active" data-f="all">ทั้งหมด</button><button class="chip" data-f="tail">รูปหาง</button><button class="chip" data-f="color">สี/ลาย</button><button class="chip" data-f="wild">สายธรรมชาติ</button></div>
+<div class="gallery" id="gallery"></div>
+<div class="callout">🖼️ ภาพถ่ายโหลดจาก Wikimedia Commons เมื่อออนไลน์ พร้อมลิงก์ไปดูผู้ถ่ายและใบอนุญาต หากโหลดไม่ได้จะใช้ภาพสำรอง (ภาพสำรองไม่ใช่ตัวอย่างจำเพาะของทุกสาย)</div>
+<dialog id="dlg"><div class="in" id="dlgIn"></div></dialog></section>
+
+<!-- DESIGNER -->
+<section id="designer"><div class="tag">03 / BETTA DESIGNER</div><h2>🎨 ออกแบบปลากัดของคุณ</h2>
+<p class="sub">เลือกรูปหาง สีลำตัว สีครีบ และลวดลาย ระบบจะสร้างภาพและตั้งชื่อเชิงการค้าให้ (เป็นภาพวาดเพื่อการเรียนรู้ ไม่ใช่แบบจำลองพันธุกรรมจริง)</p>
+<div class="designer reveal">
+<div class="stage" id="stage"><div class="nm" id="stageName"></div></div>
+<div class="card">
+<span class="lab">รูปหาง</span><div class="tools" id="dTail"></div>
+<span class="lab">สีลำตัว</span><div class="sw" id="dBody"></div>
+<span class="lab">สีครีบ/หาง</span><div class="sw" id="dFin"></div>
+<span class="lab">ลวดลาย</span><div class="tools" id="dPat"></div>
+<p style="display:flex;gap:8px;flex-wrap:wrap"><button class="chip" id="dRand">🎲 สุ่มให้</button><button class="chip" id="dSave">💾 ดาวน์โหลด SVG</button></p>
+<p class="mini" id="dTip"></p></div></div></section>
+
+<!-- PERSONALITY -->
+<section id="match" style="padding-top:10px"><div class="tag">FIND YOUR BETTA</div><h2>🐟 ปลากัดแบบไหนเหมาะกับคุณ?</h2>
+<p class="sub">ตอบ 4 ข้อสั้น ๆ เพื่อดูแนวทางเริ่มต้น (ไม่ใช่การรับรองว่าปลาจะเข้ากับทุกคน)</p>
+<div class="card reveal" id="matchBox"></div></section>
+
+<!-- CARE -->
+<section id="care"><div class="tag">04 / ANIMAL WELFARE FIRST</div><h2>การเลี้ยงแบบมืออาชีพ</h2>
+<p class="sub">อย่าเริ่มจากเลือกขวด — เริ่มจากระบบน้ำที่นิ่งและปลอดภัยสำหรับปลา</p>
+<div class="grid g3">
+<div class="card reveal"><h3>💧 น้ำและตู้</h3><ul><li>เริ่มต้นแนะนำ ≥ 20 ลิตร/ตัว ภาชนะแยกขายเป็นที่พักชั่วคราวเท่านั้น</li><li>อุณหภูมิคงที่ 24–28°C (เพาะมักใช้ 27–28°C)</li><li>pH ราว 6.5–7.5 เน้น “เสถียร” มากกว่า “เป๊ะ”</li><li>แอมโมเนียและไนไตรต์ 0 ppm ไนเตรตต่ำ (&lt; 20 ppm)</li><li>ใช้สารกำจัดคลอรีน/คลอรามีนทุกครั้งที่เติมน้ำประปา</li></ul></div>
+<div class="card reveal"><h3>🍤 อาหารและแสง</h3><ul><li>อาหารเม็ดโปรตีนสูงสำหรับปลากัด + อาร์ทีเมีย ลูกน้ำ/ไรแดงแหล่งสะอาด หรืออาหารแช่แข็ง</li><li>ให้ในปริมาณที่กินหมดภายในราว 2 นาที วันละ 1–2 มื้อ</li><li>งดอาหาร 1 วัน/สัปดาห์ได้ในปลาโตที่ท้องไม่ผิดปกติ</li><li>แสง 8–12 ชม./วัน หลีกเลี่ยงแดดจัดโดยตรง</li></ul></div>
+<div class="card reveal"><h3>🌿 สิ่งแวดล้อม</h3><ul><li>กรองฟองน้ำหรือกระแสเบา (ครีบยาวไม่ชอบแรงน้ำ)</li><li>พืชน้ำ ที่หลบซ่อน ฝาปิดกันกระโดด</li><li>ไม่เลี้ยงตัวผู้โตรวมกัน</li><li>มีภาชนะกักกันและอุปกรณ์แยกสำหรับปลาใหม่/ป่วย</li><li>เปลี่ยนน้ำบางส่วนตามผลตรวจ ไม่เปลี่ยนหมดฉับพลัน</li></ul></div>
+</div>
+<div class="grid g2" style="margin-top:18px">
+<div class="card reveal"><h3>🧩 เปรียบเทียบอาหาร</h3><div class="tablewrap"><table><thead><tr><th>ชนิด</th><th>ข้อดี</th><th>ข้อควรระวัง</th></tr></thead><tbody>
+<tr><td>เม็ดโปรตีนสูง</td><td>ครบถ้วน เก็บง่าย</td><td>ให้เกินแล้วท้องอืด/น้ำเสีย</td></tr>
+<tr><td>อาร์ทีเมียแรกฟัก</td><td>เหมาะลูกปลา โปรตีนดี</td><td>ต้องฟักเอง ล้างน้ำเค็ม</td></tr>
+<tr><td>หนอนแดง/ลูกน้ำแช่แข็ง</td><td>กระตุ้นการกิน</td><td>แหล่งที่มาต้องสะอาด ละลายก่อนให้</td></tr>
+<tr><td>ไรแดงสด</td><td>ปลาชอบ</td><td>เสี่ยงพาเชื้อ ควรล้างและเลือกแหล่งดี</td></tr>
+<tr><td>ไข่น้ำ/อินฟูโซเรีย</td><td>เหมาะลูกปลาวันแรก ๆ</td><td>ต้องเพาะเลี้ยงต่อเนื่อง</td></tr></tbody></table></div></div>
+<div class="card reveal"><h3>⏱️ จับเวลาปรับสภาพน้ำ (Drip Acclimation)</h3><p>ใช้เมื่อย้ายปลาใหม่ที่ค่าน้ำต่างจากที่บ้าน: ทยอยเติมน้ำจากตู้ปลายทางลงภาชนะที่ปลาอยู่ เพื่อลดช็อกจากค่าน้ำ</p>
+<div class="meter"><span id="acBar" style="width:0%"></span></div>
+<p id="acTxt" style="font-size:22px;font-family:var(--f-display);color:var(--ink);margin:10px 0">00:00</p>
+<label class="field">ระยะเวลาทั้งหมด (นาที)<input type="range" id="acMin" min="15" max="60" step="5" value="30"></label><span class="mini" id="acLab">30 นาที</span>
+<p style="display:flex;gap:8px;margin:10px 0 0"><button class="chip" id="acGo">▶ เริ่ม/หยุด</button><button class="chip" id="acReset">↺ รีเซ็ต</button></p>
+<p class="mini" id="acStage"></p></div>
+</div></section>
+
+<!-- WATER -->
+<section id="water"><div class="tag">05 / WATER LAB</div><h2>🧪 เครื่องมือคุณภาพน้ำ</h2>
+<p class="sub">คำนวณพิษแอมโมเนียอิสระ (NH₃) จากค่า pH และอุณหภูมิ วางแผนเปลี่ยนน้ำ ประเมินปริมาตรตู้ และดูกราฟวงจรไนโตรเจน</p>
+<div class="grid g2">
+<div class="card reveal"><h3>☠️ แอมโมเนียอิสระ (NH₃) คำนวณจริง</h3>
+<div class="forms" style="grid-template-columns:repeat(3,1fr)"><label class="field">TAN รวม (ppm)<input id="wTan" type="number" value="0.25" step="0.05" min="0"></label><label class="field">pH<input id="wPh" type="number" value="7.4" step="0.1"></label><label class="field">อุณหภูมิ (°C)<input id="wT" type="number" value="27" step="0.5"></label></div>
+<div class="meter" style="margin-top:14px"><span id="nhBar" style="width:0%"></span></div>
+<div class="callout" id="nhOut"></div>
+<p class="mini">สูตร: สัดส่วน NH₃ = 1 / (1 + 10^(pKa − pH)), pKa = 0.09018 + 2729.92 / (T + 273.15) (Emerson et al. 1975) ความเป็นพิษจริงขึ้นกับหลายปัจจัย โปรดใช้เป็นแนวทางประกอบชุดทดสอบที่เชื่อถือได้</p></div>
+<div class="card reveal"><h3>🔄 วางแผนเปลี่ยนน้ำ</h3>
+<div class="forms" style="grid-template-columns:repeat(2,1fr)"><label class="field">ไนเตรตตอนนี้ (ppm)<input id="cNow" type="number" value="40"></label><label class="field">ไนเตรตเป้าหมาย (ppm)<input id="cTar" type="number" value="15"></label><label class="field">ไนเตรตในน้ำประปา (ppm)<input id="cTap" type="number" value="0"></label><label class="field">ปริมาตรตู้ (ลิตร)<input id="cVol" type="number" value="20"></label></div>
+<div class="callout ok" id="cOut"></div>
+<p class="mini">คำนวณจากการผสมแบบง่าย: N' = N × (1 − p) + N₀ × p ค่าจริงอาจต่างเล็กน้อย ควรเปลี่ยนไม่เกินครั้งละราว 25–50% สำหรับตู้ที่มีปลาอยู่และปรับอุณหภูมิน้ำใหม่ให้ใกล้เคียง</p></div>
+<div class="card reveal"><h3>📐 คำนวณปริมาตรตู้</h3>
+<div class="forms" style="grid-template-columns:repeat(3,1fr)"><label class="field">ยาว (ซม.)<input id="tL" type="number" value="40"></label><label class="field">กว้าง (ซม.)<input id="tW" type="number" value="25"></label><label class="field">สูงของระดับน้ำ (ซม.)<input id="tH" type="number" value="20"></label></div>
+<div class="callout" id="tOut"></div></div>
+<div class="card reveal"><h3>🌡️ ตรวจเร็ว 6 ค่า</h3>
+<div class="forms"><label class="field">อุณหภูมิ<input id="qT" type="number" value="27" step="0.5"></label><label class="field">pH<input id="qP" type="number" value="7" step="0.1"></label><label class="field">แอมโมเนีย<input id="qA" type="number" value="0" step="0.1"></label><label class="field">ไนไตรต์<input id="qN" type="number" value="0" step="0.1"></label><label class="field">ไนเตรต<input id="qR" type="number" value="10"></label><label class="field">ปริมาตร (ลิตร)<input id="qL" type="number" value="20"></label></div>
+<div class="callout" id="qOut" aria-live="polite"></div></div>
+</div>
+<div class="card reveal" style="margin-top:18px"><h3>♻️ จำลองวงจรไนโตรเจน (ภาพประกอบเชิงแนวคิด)</h3>
+<p>ลากแถบเพื่อดูว่าสารแต่ละชนิดเปลี่ยนไปอย่างไรในตู้ใหม่ (ระยะเวลาจริงผันแปรตามอุณหภูมิ แบคทีเรียเริ่มต้น และปริมาณแอมโมเนียที่ใส่)</p>
+<canvas id="cyc"></canvas>
+<label class="field">วันที่ <b id="cDay">0</b> จาก 42<input id="cycR" type="range" min="0" max="42" value="0"></label>
+<div class="callout" id="cycTxt"></div>
+<p class="mini">ตู้ถือว่าพร้อมเมื่อใส่แอมโมเนียแล้วทั้งแอมโมเนียและไนไตรต์กลับเป็น 0 ภายใน 24 ชั่วโมง และเริ่มมีไนเตรต</p></div>
+</section>
+
+<!-- BREEDING -->
+<section id="breeding"><div class="tag">06 / BREEDING WORKFLOW</div><h2>เพาะพันธุ์อย่างเป็นระบบ</h2>
+<p class="sub">ความสำเร็จไม่ได้จบที่ไข่ฟัก แต่เริ่มจริง ๆ เมื่อดูแลลูกปลาจนแข็งแรงและมีบ้านปลายทาง</p>
+<div class="steps reveal">
+<div class="step"><b>01</b><strong>คัดพ่อแม่พันธุ์</strong><small>สุขภาพดี ไม่มีแผล บันทึกสายเลือด</small></div>
+<div class="step"><b>02</b><strong>บำรุง 10–14 วัน</strong><small>แยกเลี้ยง อาหารคุณภาพ ตรวจน้ำ</small></div>
+<div class="step"><b>03</b><strong>เตรียมตู้เพาะ</strong><small>น้ำตื้น อุณหภูมิคงที่ พืชลอย ที่ซ่อน</small></div>
+<div class="step"><b>04</b><strong>จับคู่ระวังบาดเจ็บ</strong><small>ให้เห็นกันผ่านฉากกั้น เฝ้าดู แยกเมื่อก้าวร้าว</small></div>
+<div class="step"><b>05</b><strong>เลี้ยงลูกปลา</strong><small>แยกแม่หลังวางไข่ แยกพ่อเมื่อลูกว่ายอิสระ</small></div></div>
+<div class="grid g2" style="margin-top:18px">
+<div class="card reveal"><h3>📅 ปฏิทินครอก (กรอกวันวางไข่)</h3>
+<label class="field">วันที่วางไข่<input type="date" id="bDate"></label>
+<div class="tline" id="bOut" style="margin-top:14px"></div>
+<p class="mini">เป็นช่วงโดยประมาณ ปรับตามอุณหภูมิ สุขภาพ และสายพันธุ์</p></div>
+<div class="card reveal"><h3>🧮 วางแผนความจุก่อนจับคู่</h3>
+<div class="forms" style="grid-template-columns:repeat(2,1fr)"><label class="field">ไข่/ลูกฟัก (ตัว)<input id="pFry" type="number" value="150"></label><label class="field">อัตรารอดถึง 90 วัน (%)<input id="pSur" type="number" value="40"></label><label class="field">ปลาต่อภาชนะ (เมื่อโต)<input id="pPer" type="number" value="1"></label><label class="field">ความจุภาชนะ (ลิตร)<input id="pCap" type="number" value="1"></label></div>
+<div class="callout" id="pOut"></div></div></div>
+<div class="grid g2" style="margin-top:18px">
+<div class="card reveal"><h3>🧬 จริยธรรมการเพาะพันธุ์</h3><p>ตั้งจำนวนเป้าหมายตามความจุจริง เตรียมภาชนะ กรอง อาหาร เวลาแรงงาน และแผนจำหน่ายก่อนจับคู่ ไม่ผลิตเกินความสามารถ ไม่ปล่อยสายเลี้ยงลงธรรมชาติ และไม่กำจัดปลาที่ไม่ผ่านเกณฑ์ด้วยวิธีทารุณ ควรปรึกษาสัตวแพทย์หรือผู้เชี่ยวชาญเรื่องวิธีการุณยฆาตที่เหมาะสมเมื่อจำเป็น</p></div>
+<div class="card reveal"><h3>📒 บันทึกครอกที่ควรเก็บ</h3><p>รหัสพ่อแม่ · วันจับคู่ · สี/ลักษณะ · pH/T° · จำนวนฟัก · รอด 30/60/90 วัน · จำนวนที่ขายได้ · รูปประกอบ · ต้นทุนแต่ละครอก</p><p class="mini">ข้อมูลเหล่านี้ช่วยให้เห็นแนวโน้มและทำ line breeding อย่างมีหลักฐาน</p></div></div>
+</section>
+
+<!-- HEALTH -->
+<section id="health"><div class="tag">07 / HEALTH &amp; BIOSECURITY</div><h2>🩺 ตัวช่วยประเมินอาการเบื้องต้น</h2>
+<p class="sub">เลือกอาการที่เห็น เพื่อดูสาเหตุที่พบบ่อยและขั้นตอนแรกที่ปลอดภัย (ไม่ใช่การวินิจฉัย และไม่ระบุขนาดยา)</p>
+<div class="tools" id="hChips"></div><div class="card reveal" id="hBox"></div>
+<div class="grid g2" style="margin-top:18px">
+<div class="card reveal"><h3>🧼 แนวทางกักกันปลาใหม่</h3><ul><li>เตรียมภาชนะ อุปกรณ์ และสวิงแยก ไม่ใช้ปนกับระบบหลัก</li><li>สังเกตพฤติกรรม การกิน ลักษณะครีบและผิว ตรวจน้ำประจำ</li><li>ล้างมือและอุปกรณ์ระหว่างตู้ ดูแลตู้กักกันเป็นลำดับสุดท้าย</li><li>ระยะเวลาปรับตามประวัติการขนส่งและคำแนะนำสัตวแพทย์สัตว์น้ำ</li></ul></div>
+<div class="card reveal"><h3>🚫 สิ่งที่ไม่ควรทำ</h3><ul><li>ตัดสินจากรูปถ่ายอย่างเดียว</li><li>ใช้เกลือ สารฆ่าเชื้อ หรือยาปฏิชีวนะเป็นกิจวัตรโดยไม่มีข้อบ่งชี้</li><li>ผสมยาหลายชนิดพร้อมกัน</li><li>ใช้สารเคมีโดยไม่ทราบความเข้มข้นและผลต่อระบบกรอง</li></ul></div></div></section>
+
+<!-- BUSINESS -->
+<section id="business"><div class="tag">08 / BUSINESS &amp; MARKETING</div><h2>จากผู้เลี้ยงสู่นักเพาะพันธุ์มืออาชีพ</h2>
+<p class="sub">เป้าหมายคือกำไรต่อปลาที่สุขภาพดีและส่งถึงมือลูกค้าอย่างปลอดภัย ไม่ใช่จำนวนครอกให้มากที่สุด</p>
+<div class="grid g3">
+<div class="card reveal"><h3>🎯 เลือกตำแหน่งตลาด</h3><p>เลือก 1–2 เซกเมนต์ เช่น ปลาสวยงามทั่วไป สายประกวด คู่พ่อแม่พันธุ์ หรือชุดอุปกรณ์พร้อมคู่มือ แยกเกรด A/B/C อย่างโปร่งใสพร้อมอธิบายเหตุผลของราคา</p></div>
+<div class="card reveal"><h3>📷 สร้างคอนเทนต์ขาย</h3><p>ถ่ายภาพด้านข้างและคลิป 15–30 วินาทีด้วยแสงสม่ำเสมอ ไม่ปรับสีเกินจริง ระบุรหัสปลา อายุ ขนาด เพศ ลักษณะเด่น ราคา วันที่ถ่าย และเงื่อนไขรับประกันขนส่ง</p></div>
+<div class="card reveal"><h3>📦 การจัดส่งและติดตาม</h3><p>ใช้ผู้ให้บริการที่รองรับสัตว์มีชีวิต ควบคุมอุณหภูมิ บรรจุเหมาะสม ระบุเวลานำส่งและนโยบาย DOA อย่าสรุปว่าทุกบริการขนส่งรับสัตว์มีชีวิตได้</p></div></div>
+<div class="card reveal" style="margin-top:18px"><h3>📈 เส้นทางตลาด 90 วัน</h3><div class="steps">
+<div class="step"><b>1–15</b><small>สำรวจคู่แข่ง ตั้งชื่อตราฟาร์ม</small></div><div class="step"><b>16–30</b><small>ระบบถ่ายภาพ รหัสปลา สต็อก โปรไฟล์ร้าน</small></div><div class="step"><b>31–45</b><small>คอนเทนต์ดูแลปลา 2–3 ชิ้น/สัปดาห์</small></div><div class="step"><b>46–60</b><small>ทดลองขาย เก็บต้นทุนต่อออเดอร์จริง</small></div><div class="step"><b>61–90</b><small>วิเคราะห์กำไร การตีกลับ ความพึงพอใจ ขยายอย่างมีวินัย</small></div></div></div>
+
+<div class="grid g2" style="margin-top:18px">
+<div class="card reveal"><h3>🏷️ ผสมเกรดปลา → ราคาเฉลี่ย</h3>
+<div class="forms" style="grid-template-columns:repeat(3,1fr)"><label class="field">เกรด A (%)<input id="gA" type="number" value="10"></label><label class="field">เกรด B (%)<input id="gB" type="number" value="35"></label><label class="field">เกรด C (%)<input id="gC" type="number" value="55"></label>
+<label class="field">ราคา A (฿)<input id="pA" type="number" value="500"></label><label class="field">ราคา B (฿)<input id="pB" type="number" value="150"></label><label class="field">ราคา C (฿)<input id="pC" type="number" value="60"></label></div>
+<div class="callout" id="gOut"></div><button class="chip" id="gUse">ใช้ราคาเฉลี่ยนี้ในเครื่องคำนวณ ↓</button></div>
+<div class="card reveal"><h3>💡 ข้อสังเกตเรื่องกระแสเงินสด</h3><p>วงจรจากจับคู่ถึงขายปลาโตใช้เวลาหลายเดือน รายได้เริ่มต้นจึงไม่สม่ำเสมอ ควรกันเงินทุนหมุนเวียนค่าอาหาร น้ำ ไฟ และภาชนะ รวมถึงปลาที่ยังขายไม่ได้ ราคาและต้นทุนทั้งหมดในหน้านี้เป็นสมมติฐานเพื่อทดลอง ไม่ใช่ราคาตลาดอ้างอิง</p><div class="callout bad">ไม่ใช่คำแนะนำทางการเงิน โปรดตรวจสอบต้นทุนจริงและกฎหมายก่อนลงทุน</div></div></div>
+
+<div class="card reveal" id="calcCard" style="margin-top:18px"><h3>🧮 คำนวณต้นทุน · รายได้ · กำไร</h3>
+<div class="forms">
+<label class="field">เงินลงทุนเริ่มต้น (฿)<input type="number" id="initial" value="18000"></label>
+<label class="field">จำนวนครอก/เดือน<input type="number" id="broods" value="2"></label>
+<label class="field">ลูกปลาฟัก/ครอก (ตัว)<input type="number" id="fry" value="100"></label>
+<label class="field">อัตรารอดถึงขายได้ (%)<input type="number" id="survival" value="45"></label>
+<label class="field">สัดส่วนปลาผ่านเกณฑ์ขาย (%)<input type="number" id="saleRate" value="75"></label>
+<label class="field">ราคาขายเฉลี่ย/ตัว (฿)<input type="number" id="price" value="120"></label>
+<label class="field">ต้นทุนผันแปร/ตัว (฿)<input type="number" id="unitcost" value="28"></label>
+<label class="field">ต้นทุนเพาะต่อครอก (฿)<input type="number" id="broodcost" value="750"></label>
+<label class="field">ค่าใช้จ่ายคงที่/เดือน (฿)<input type="number" id="fixed" value="3500"></label>
+<label class="field">ค่าแรงรวม/เดือน (฿)<input type="number" id="labor" value="2500"></label>
+<label class="field">การตลาด+แพ็ก (฿/ตัว)<input type="number" id="pack" value="12"></label>
+<label class="field">ขายได้จริงในเดือน (%)<input type="number" id="realized" value="80"></label></div>
+<div class="result"><div><small>ขายจริง/เดือน</small><strong id="oQ">—</strong></div><div><small>รายได้</small><strong id="oR">—</strong></div><div><small>ต้นทุน</small><strong id="oC">—</strong></div><div><small>กำไร/ขาดทุน</small><strong id="oP">—</strong></div><div><small>คืนทุน</small><strong id="oB">—</strong></div><div><small>จุดคุ้มทุน (ตัว/เดือน)</small><strong id="oBE">—</strong></div></div>
+<div class="bars" id="oBars"></div>
+<div class="callout" id="oTip"></div>
+<p class="mini">คิดจากผลผลิตต่อครอก × อัตรารอด × ผ่านเกณฑ์ × ขายจริง × จำนวนครอก ไม่รวมภาษี ดอกเบี้ย ค่าเสื่อมราคา และเงินทุนหมุนเวียนในปลาโต</p>
+<button class="chip" onclick="print()">🖨️ พิมพ์/บันทึก PDF</button></div>
+
+<div class="card reveal" style="margin-top:18px"><h3>🛒 อุปกรณ์และกรอบราคาตั้งต้น</h3><div class="tablewrap"><table><thead><tr><th>รายการ</th><th>การใช้งาน</th><th>งบตัวอย่าง</th><th>ข้อควรดู</th></tr></thead><tbody>
+<tr><td>ตู้เลี้ยง/ภาชนะแยก</td><td>เลี้ยงรายตัว</td><td>150–1,500 ฿</td><td>ขนาดเหมาะสม ไม่มีขอบคม</td></tr>
+<tr><td>กรองฟองน้ำ + ปั๊มลม</td><td>คุณภาพน้ำ</td><td>350–2,000 ฿</td><td>แรงน้ำเบา มีระบบสำรอง</td></tr>
+<tr><td>ชุดวัด pH, NH₃/NH₄⁺, NO₂⁻, NO₃⁻</td><td>ควบคุมน้ำ</td><td>700–2,500 ฿</td><td>อายุสารทดสอบ ความน่าเชื่อถือ</td></tr>
+<tr><td>ฮีตเตอร์ + เทอร์โมมิเตอร์</td><td>คุมอุณหภูมิ</td><td>250–900 ฿</td><td>เลือกตามห้องและฤดูกาล</td></tr>
+<tr><td>ตู้เพาะ/อนุบาล</td><td>แยกครอก</td><td>300–1,500 ฿</td><td>พื้นที่ลูกปลาเพียงพอ</td></tr>
+<tr><td>ชุดฟักอาร์ทีเมีย</td><td>อนุบาล</td><td>300–1,500 ฿</td><td>สุขอนามัย ความต่อเนื่อง</td></tr>
+<tr><td>ไฟ ฉาก ขาตั้งถ่ายภาพ</td><td>ทำคอนเทนต์</td><td>500–3,000 ฿</td><td>สีไม่บิดเบือน</td></tr></tbody></table></div>
+<p class="mini">ราคาเป็นตัวเลขสมมติเพื่อวางงบ ควรขอใบเสนอราคาในพื้นที่ก่อนลงทุน</p></div>
+
+<div class="card reveal" style="margin-top:18px"><h3>🌎 ขายต่างประเทศ: เช็กลิสต์กฎหมาย</h3><p>ตรวจสอบการขึ้นทะเบียนผู้ประกอบการ/สถานเพาะเลี้ยงและกฎหมายปัจจุบันกับกรมประมง ก่อนส่งออกให้ตรวจเอกสารตามชนิดธุรกรรม เช่น ใบอนุญาตส่งออกสัตว์น้ำ หนังสือรับรองสุขภาพสัตว์น้ำ แบบแจ้ง และเอกสารแหล่งที่มา รวมทั้งเงื่อนไขประเทศปลายทาง ข้อกำหนดอาจเปลี่ยนแปลงได้</p><p><a href="https://www4.fisheries.go.th/dof/activity_item/11372/all_activity/495" target="_blank" rel="noopener">เอกสารและข่าวกรมประมง ↗</a></p></div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz"><div class="tag">09 / KNOWLEDGE QUIZ</div><h2>🧠 ทดสอบความรู้ปลากัด</h2><p class="sub">10 ข้อ พร้อมเฉลยและคำอธิบายทันที</p>
+<div class="card reveal" id="qBox"></div></section>
+
+<!-- MYTHS -->
+<section id="myths"><div class="tag">10 / MYTH vs FACT</div><h2>🔮 ความเชื่อ vs ความจริง</h2><p class="sub">แตะการ์ดเพื่อพลิกดูคำตอบ</p><div class="grid g3" id="mGrid"></div></section>
+
+<!-- GLOSSARY -->
+<section id="glossary"><div class="tag">11 / GLOSSARY</div><h2>📖 อภิธานศัพท์</h2><p class="sub">พิมพ์ค้นหาคำศัพท์ที่ได้ยินในวงการ</p>
+<div class="tools"><input class="search" id="glS" type="text" placeholder="🔍 ค้นหา เช่น plakat, cycle, DOA, หวอด"><span class="mini" id="glN"></span></div><div class="gl" id="glBox"></div></section>
+
+<!-- CHECKLIST -->
+<section id="checklist"><div class="tag">12 / SMART CHECKLIST</div><h2>เช็กลิสต์</h2><p class="sub">ติ๊กแล้วระบบจดจำไว้เฉพาะบนเบราว์เซอร์ของอุปกรณ์นี้ (เช็กลิสต์รายวันจะรีเซ็ตเองทุกวัน)</p>
+<div class="grid g2">
+<div class="card reveal"><h3>☀️ เช็กลิสต์รายวัน</h3><p id="dProg" class="mini"></p><div class="meter"><span id="dBar"></span></div><div id="dList"></div></div>
+<div class="card reveal"><h3>🏭 เช็กลิสต์เริ่มต้นฟาร์ม</h3><p id="fProg" class="mini"></p><div class="meter"><span id="fBar"></span></div><div id="fList"></div><p><button class="chip" id="fReset">↻ เริ่มใหม่</button></p></div></div>
+<div class="card reveal" style="margin-top:18px"><h3>❓ คำถามที่พบบ่อย</h3>
+<details class="fq"><summary>ปลากัดต้องใช้ฮีตเตอร์ในเมืองไทยไหม?</summary><p>ขึ้นกับอุณหภูมิห้องจริง ถ้าน้ำเย็นลงต่ำกว่าราว 24°C ในฤดูหนาวหรือห้องแอร์ ฮีตเตอร์ช่วยให้สถานะเสถียร ควรมีเทอร์โมมิเตอร์เสมอ</p></details>
+<details class="fq"><summary>เปลี่ยนน้ำบ่อยแค่ไหน?</summary><p>ตู้ที่มีกรองและวงจรไนโตรเจนพร้อมมักเปลี่ยนบางส่วนรายสัปดาห์ ตู้ไม่มีกรองต้องเปลี่ยนบ่อยกว่า ปรับตามค่าที่วัดได้จริง</p></details>
+<details class="fq"><summary>ทำไมปลาไม่สร้างหวอด?</summary><p>หวอดไม่ใช่ตัวชี้วัดสุขภาพโดยตรง ตัวผู้บางตัวสร้างน้อยหรือไม่สร้าง ขึ้นกับอายุ ความเครียด อุณหภูมิ และกระแสน้ำ ให้ดูพฤติกรรมการกิน ครีบ และผิวควบคู่</p></details>
+<details class="fq"><summary>เลี้ยงปลากัดรวมกับปลาอื่นได้ไหม?</summary><p>ทำได้ในบางกรณีด้วยตู้ใหญ่และสายพันธุ์ที่เข้ากันได้ แต่มีความเสี่ยงกัดครีบ/เครียด ควรเริ่มด้วยการเลี้ยงเดี่ยวและศึกษาเฉพาะรายชนิดก่อน</p></details>
+<details class="fq"><summary>ปลาโดนน้ำประปาโดยตรงได้ไหม?</summary><p>ไม่ควร คลอรีน/คลอรามีนเป็นพิษต่อเหงือกปลา ควรใช้สารกำจัดคลอรีนที่ครอบคลุมคลอรามีนหรือพักน้ำตามเหมาะสม</p></details></div></section>
+
+<!-- SOURCES -->
+<section id="sources"><div class="tag">EVIDENCE &amp; CREDITS</div><h2>อ้างอิงและเครดิต</h2><div class="card reveal"><ol>
+<li><a target="_blank" rel="noopener" href="https://ask.ifas.ufl.edu/publication/FA212">University of Florida IFAS Extension — Evolution, Culture, and Care for Betta splendens</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.petmd.com/fish/betta-fish-care-sheet">PetMD — Betta Fish Care Sheet</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ibcbettas.org/memberhome/standards/">International Betta Congress — Exhibition Standards</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ibcbettas.org/about-betta-splendens/smp/species-complex-management/">International Betta Congress — Species Complex Management</a></li>
+<li><a target="_blank" rel="noopener" href="https://www4.fisheries.go.th/dof/activity_item/11372/all_activity/495">กรมประมง — การส่งออกสัตว์น้ำสวยงามและเอกสารที่เกี่ยวข้อง</a></li>
+<li><a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/Betta_splendens">Wikimedia Commons — Betta splendens Gallery</a> (ภาพถ่ายจากผู้ถ่ายหลายราย สิทธิ์แต่ละไฟล์แตกต่างกัน)</li>
+<li>Emerson K. et al. (1975) Aqueous ammonia equilibrium calculations. J. Fish. Res. Board Can. 32:2379–2383</li></ol>
+<p class="mini">เนื้อหาเพื่อการศึกษาและการวางแผนเบื้องต้น ไม่ใช่แนวปฏิบัติการรักษาสัตว์น้ำเฉพาะราย และไม่ได้รับรองผลตอบแทนทางธุรกิจ ภาพประกอบปลาในเครื่องออกแบบวาดขึ้นด้วยโค้ดเพื่อการเรียนรู้</p></div></section>
+</main>
+
+<footer><div class="wrap"><b style="color:var(--teal)">BETTA LAB / THAILAND</b>
+<p>คู่มือปลากัดไทยฉบับอินเตอร์แอกทีฟ · ออกแบบเพื่อผู้เลี้ยง ผู้เพาะพันธุ์ และผู้ประกอบการ · ปรับปรุงเนื้อหา ตุลาคม 2569 · <a href="index.html">← กลับหน้าหลัก My Application &amp; Knowledge Hub</a></p>
+<p class="mini">หน้านี้ใช้ Google Analytics (G-DT9E54XRZZ) เฉพาะหน้านี้ การเก็บข้อมูลขึ้นกับการตั้งค่าความเป็นส่วนตัวและตัวบล็อกการติดตามของผู้ชม</p></div></footer>
+<button class="btn float" id="toTop" aria-label="กลับขึ้นบน">↑ บนสุด</button>
+
+<script>
+const $=id=>document.getElementById(id),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+function track(n,p={}){try{if(typeof gtag==='function')gtag('event',n,p)}catch(e){}}
+function lsGet(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+const num=id=>Number($(id).value)||0;
+const fmt=(n,d=0)=>n.toLocaleString('th-TH',{maximumFractionDigits:d});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- theme ---------- */
+(function(){const t=lsGet('bettaTheme',null);if(t)document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.dataset.theme='dark'})();
+$('themeBtn').onclick=()=>{const d=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=d;lsSet('bettaTheme',d);drawCycle();track('theme_toggle',{mode:d})};
+
+/* ---------- fish svg ---------- */
+function tailPath(t){
+  const spikes=()=>{let p='M240 120',n=13,R=148;for(let i=0;i<=n;i++){const a=(-78+156*i/n)*Math.PI/180,r=R*(1-.16*Math.abs(a)/1.36);p+=` L${(240+r*Math.cos(a)).toFixed(1)} ${(120+r*Math.sin(a)*.76).toFixed(1)}`;if(i<n){const b=(-78+156*(i+.5)/n)*Math.PI/180,r2=r*.55;p+=` L${(240+r2*Math.cos(b)).toFixed(1)} ${(120+r2*Math.sin(b)*.76).toFixed(1)}`}}return p+' Z'};
+  return({
+    plakat:'M240 108 C272 94 302 100 308 120 C302 140 272 146 240 132 Z',
+    veil:'M240 106 C300 66 352 98 346 176 C340 218 290 204 240 136 Z',
+    halfmoon:'M240 116 C246 62 268 16 330 10 C392 16 398 96 396 120 C398 144 392 224 330 230 C268 224 246 178 240 124 Z',
+    delta:'M240 114 L336 34 Q380 120 336 206 L240 126 Z',
+    crown:spikes(),
+    double:'M240 112 C268 40 330 26 348 66 C344 108 292 122 240 120 Z M240 120 C292 118 344 132 348 174 C330 214 268 200 240 128 Z'
+  })[t]
+}
+const TAILS={plakat:'Plakat',veil:'Veiltail',halfmoon:'Halfmoon',delta:'Delta',crown:'Crowntail',double:'Doubletail'};
+const COLORS=[['#e11d48','Red','แดง'],['#2563eb','Blue','น้ำเงิน'],['#14b8a6','Turquoise','เขียวน้ำทะเล'],['#facc15','Yellow','เหลือง'],['#22c55e','Green','เขียว'],['#8b5cf6','Purple','ม่วง'],['#1f2937','Black','ดำ'],['#e2e8f0','Opal','ขาวมุก'],['#f472b6','Pink','ชมพู'],['#c2763b','Copper','ทองแดง'],['#f97316','Orange','ส้ม']];
+let uid=0;
+function fishSVG(o){
+  const id='f'+(++uid),b=o.body,f=o.fin,tail=tailPath(o.tail);
+  let pat='';
+  if(o.pat==='marble'){const sp=[[90,100,14,.55],[130,128,18,.5],[165,100,12,.55],[190,135,16,.5],[110,142,10,.5],[215,112,12,.45]];pat=sp.map(s=>`<circle cx="${s[0]}" cy="${s[1]}" r="${s[2]}" fill="#fff" opacity="${s[3]}"/>`).join('')+`<circle cx="150" cy="115" r="9" fill="#000" opacity=".25"/>`}
+  if(o.pat==='dragon')pat=`<rect x="40" y="70" width="230" height="100" fill="url(#${id}s)" opacity=".55"/>`;
+  if(o.pat==='metal')pat=`<ellipse cx="150" cy="104" rx="90" ry="12" fill="#fff" opacity=".45"/>`;
+  return `<svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ภาพปลากัด ${TAILS[o.tail]}">
+<defs><linearGradient id="${id}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${b}"/><stop offset="1" stop-color="${b}" stop-opacity=".78"/></linearGradient>
+<linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${f}" stop-opacity=".95"/><stop offset="1" stop-color="${f}" stop-opacity=".55"/></linearGradient>
+<pattern id="${id}s" width="14" height="12" patternUnits="userSpaceOnUse"><path d="M0 10 Q7 0 14 10" fill="none" stroke="#fff" stroke-width="1.4"/></pattern>
+<clipPath id="${id}c"><ellipse cx="155" cy="120" rx="108" ry="40"/></clipPath></defs>
+<g class="wag"><path d="${tail}" fill="url(#${id}f)" stroke="${f}" stroke-width="2" stroke-linejoin="round"/></g>
+<path d="M128 88 C156 54 206 52 244 84 L236 98 C200 84 160 90 128 96 Z" fill="url(#${id}f)" stroke="${f}" stroke-width="1.5"/>
+<path d="M136 148 C166 184 212 184 242 156 L232 144 C200 156 166 152 136 144 Z" fill="url(#${id}f)" stroke="${f}" stroke-width="1.5"/>
+<path d="M92 150 C74 188 92 210 122 214 C116 188 126 166 138 152 Z" fill="url(#${id}f)" stroke="${f}" stroke-width="1.2"/>
+<ellipse cx="155" cy="120" rx="108" ry="40" fill="url(#${id}b)"/>
+<g clip-path="url(#${id}c)">${pat}</g>
+<path d="M92 90 Q80 120 98 150" fill="none" stroke="#0004" stroke-width="2"/>
+<circle cx="66" cy="112" r="10" fill="#fff"/><circle cx="64" cy="112" r="5.5" fill="#0b1220"/><circle cx="62" cy="110" r="1.8" fill="#fff"/>
+<path d="M50 126 Q58 130 66 126" stroke="#0007" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`}
+const heroOpts={tail:'halfmoon',body:'#e11d48',fin:'#ff7aa8',pat:'metal'};
+function heroFish(){const h=$('heroFish');const old=h.querySelector('svg');if(old)old.remove();h.insertAdjacentHTML('afterbegin',fishSVG(heroOpts))}
+heroFish();
+$('heroFish').addEventListener('click',()=>{const c=COLORS[Math.floor(Math.random()*COLORS.length)],d=COLORS[Math.floor(Math.random()*COLORS.length)];heroOpts.body=c[0];heroOpts.fin=d[0];heroOpts.tail=Object.keys(TAILS)[Math.floor(Math.random()*6)];heroFish();track('hero_fish_click')});
+
+/* ---------- bubbles ---------- */
+(function(){const c=$('bubbles'),x=c.getContext('2d');let W,H,bs=[];function size(){const r=c.getBoundingClientRect();W=c.width=r.width;H=c.height=r.height;bs=Array.from({length:Math.min(40,Math.floor(W/28))},()=>({x:Math.random()*W,y:Math.random()*H,r:2+Math.random()*7,v:.2+Math.random()*.7,p:Math.random()*6}))}
+size();addEventListener('resize',size);
+if(matchMedia('(prefers-reduced-motion:reduce)').matches){bs.forEach(b=>{x.beginPath();x.arc(b.x,b.y,b.r,0,7);x.strokeStyle='rgba(6,182,212,.4)';x.stroke()});return}
+(function loop(){x.clearRect(0,0,W,H);bs.forEach(b=>{b.y-=b.v;b.p+=.02;b.x+=Math.sin(b.p)*.4;if(b.y<-10){b.y=H+10;b.x=Math.random()*W}x.beginPath();x.arc(b.x,b.y,b.r,0,7);x.fillStyle='rgba(255,255,255,.18)';x.fill();x.strokeStyle='rgba(6,182,212,.45)';x.lineWidth=1.2;x.stroke()});requestAnimationFrame(loop)})()})();
+
+/* ---------- counters, reveal, progress, scrollspy ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+function observeReveal(){$$('.reveal:not(.in)').forEach(e=>io.observe(e))}observeReveal();
+$$('[data-count]').forEach(el=>{const to=+el.dataset.count,pre=el.dataset.prefix||'',suf=el.dataset.suffix||'';let t0=null;const step=t=>{t0=t0||t;const k=Math.min(1,(t-t0)/1200);el.textContent=pre+Math.round(to*(1-Math.pow(1-k,3)))+suf;if(k<1)requestAnimationFrame(step)};requestAnimationFrame(step)});
+const secs=$$('section[id]'),links=$$('#menu a');
+function onScroll(){const h=document.documentElement,p=h.scrollTop/(h.scrollHeight-h.clientHeight||1);$('bar').style.width=(p*100)+'%';$('toTop').classList.toggle('show',h.scrollTop>700);let cur='';secs.forEach(s=>{if(s.getBoundingClientRect().top<140)cur=s.id});links.forEach(a=>{const on=a.getAttribute('href')==='#'+cur;a.classList.toggle('on',on);if(on&&a.scrollIntoView){const m=$('menu');m.scrollTo({left:a.offsetLeft-m.clientWidth/2+a.clientWidth/2})}})}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+$('toTop').onclick=()=>scrollTo({top:0,behavior:'smooth'});
+
+/* ---------- facts ---------- */
+const FACTS=[
+['🫁','หายใจได้สองทาง','ปลากัดมีอวัยวะ labyrinth จึงฮุบอากาศจากผิวน้ำได้ แต่เหงือกยังจำเป็น น้ำเสียจึงยังอันตราย'],
+['🫧','หวอดคือบ้านของไข่','ตัวผู้เป่าฟองอากาศเคลือบเมือกเป็นหวอด ใช้เก็บไข่และเลี้ยงลูกวัยอ่อน'],
+['🎨','สีสดมาจากการคัดพันธุ์','ปลากัดป่ามักสีน้ำตาล เขียวหม่น สีสดและหางใหญ่เป็นผลของการคัดเลือกพันธุ์หลายชั่วอายุ'],
+['🔬','ชื่อวิทยาศาสตร์','Betta splendens ตั้งชื่อโดย Regan ในปี ค.ศ. 1910 คำว่า splendens แปลว่า “ส่องสว่าง/งดงาม”'],
+['🇹🇭','สัตว์น้ำประจำชาติ','ปลากัดได้รับการประกาศให้เป็นสัตว์น้ำประจำชาติไทย เมื่อ พ.ศ. 2562 (ควรตรวจประกาศทางการเมื่ออ้างอิง)'],
+['🌊','ปลากัดมหาชัย','Betta mahachaiensis พบในพื้นที่น้ำกร่อยชายฝั่งอ่าวไทยตอนบน เป็นชนิดที่ถูกคุกคามจากการสูญเสียถิ่นอาศัย'],
+['🌀','ลายมาร์เบิลเปลี่ยนได้','ปลากัดสายมาร์เบิล/โคอิ ลายและสีอาจเปลี่ยนไปเมื่ออายุมากขึ้น'],
+['🌡️','ปลาเขตร้อน','ถิ่นกำเนิดอยู่โซนอุ่น น้ำที่เย็นลงทำให้เมตาบอลิซึมช้าและภูมิคุ้มกันอ่อนแอลง'],
+['👨‍👧','พ่อคือผู้เลี้ยง','หลังวางไข่ ตัวผู้เป็นผู้ดูแลไข่และหวอด จึงต้องแยกแม่ปลาออกเพื่อความปลอดภัย'],
+['⏳','อายุขัย','เมื่อดูแลน้ำ อาหาร และอุณหภูมิเหมาะสม มักอยู่ได้ราว 3–5 ปี']];
+let fi=0;function showFact(){const f=FACTS[fi];$('fEm').textContent=f[0];$('fT').textContent=f[1];$('fP').textContent=f[2];$('fN').textContent=(fi+1)+' / '+FACTS.length}
+$('fNext').onclick=()=>{fi=(fi+1)%FACTS.length;showFact()};$('fPrev').onclick=()=>{fi=(fi+FACTS.length-1)%FACTS.length;showFact()};showFact();
+
+/* ---------- history ---------- */
+const HIST=[
+['ก่อนศตวรรษที่ 19','เลี้ยงในครัวเรือน','ชาวบ้านในที่ราบลุ่มภาคกลางเก็บปลาจากนา คูคลอง มาเลี้ยงและคัดเลือกตามอุปนิสัยและรูปร่าง เป็นวัฒนธรรมพื้นบ้านที่สืบต่อกันมา'],
+['ราว พ.ศ. 2383','ถึงมือนักวิชาการตะวันตก','มีเรื่องเล่าว่าปลากัดถูกส่งไปยุโรปผ่านนักธรรมชาติวิทยา ชื่อที่ใช้ในยุคแรกยังไม่ตรงกับชื่อปัจจุบัน'],
+['ค.ศ. 1910','ชื่อ Betta splendens','Regan ตีพิมพ์ชื่อวิทยาศาสตร์ Betta splendens ซึ่งกลายเป็นชื่อมาตรฐานของปลากัดสายพันธุ์ที่ใช้เลี้ยงอย่างแพร่หลาย'],
+['ศตวรรษที่ 20','เริ่มคัดสีและครีบ','นักเพาะพันธุ์ในไทยและต่างประเทศคัดสี รูปหาง และขนาดครีบอย่างเป็นระบบ เกิดสาย Veiltail, Crowntail, Halfmoon ตามลำดับ'],
+['ค.ศ. 1972–2012','ปลากัดป่าหลายชนิด','มีการอธิบายชนิดใหม่ เช่น Betta smaragdina และ Betta imbellis ในช่วง 1970s และ Betta mahachaiensis ในปี 2012 เป็นสัญลักษณ์ความหลากหลายของไทย'],
+['ปัจจุบัน','แบรนด์และอีสปอร์ตสัตว์น้ำ','ตลาดส่งออกและการประกวดความงามเติบโต ควบคู่การให้ความสำคัญกับสวัสดิภาพ การตรวจโรค และเอกสารส่งออก']];
+$('tl').innerHTML=HIST.map((h,i)=>`<button data-i="${i}"><b>${esc(h[0])}</b><span class="mini">${esc(h[1])}</span></button>`).join('');
+function showHist(i){$$('#tl button').forEach((b,k)=>b.classList.toggle('on',k===i));const h=HIST[i];$('tlBox').innerHTML=`<span class="pill">${esc(h[0])}</span><h3>${esc(h[1])}</h3><p>${esc(h[2])}</p>`;track('history_view',{i})}
+$('tl').onclick=e=>{const b=e.target.closest('button');if(b)showHist(+b.dataset.i)};showHist(0);
+
+/* ---------- species ---------- */
+const FISH=[
+{n:'Halfmoon Plakat',t:'tail',lv:2,i:'หางสั้น กางครึ่งวงกลม ว่ายคล่องกว่าสายครีบยาว',file:'DVJ_Betta_splendens_004.jpg',d:'ผสมระหว่างความแข็งแรงแบบ Plakat กับหางกว้างแบบ Halfmoon เหมาะผู้เริ่มที่อยากได้ความสวยแต่ไม่ต้องการครีบยาวเกินไป'},
+{n:'Plakat (ครีบสั้น)',t:'tail',lv:1,i:'ครีบสั้น รูปร่างกระชับ แข็งแรง',file:'DVJ_Betta_splendens_003.jpg',d:'ใกล้เคียงรูปร่างปลากัดดั้งเดิมของไทย ว่ายเก่ง ทนทานกว่าสายครีบยาว เหมาะเป็นปลาเลี้ยงแรกและเป็นฐานพันธุกรรม'},
+{n:'Halfmoon',t:'tail',lv:3,i:'หางกางใกล้ 180° ตามอุดมคติประกวด',s:'Betta splendens halfmoon',d:'หางใหญ่หนัก ต้องการน้ำนิ่ง ตู้กว้างพอ และดูแลครีบไม่ให้ฉีก ต้นทุนดูแลสูงกว่ากลุ่มครีบสั้น'},
+{n:'Crowntail',t:'tail',lv:2,i:'ก้านครีบยื่นพ้นเยื่อครีบเหมือนมงกุฎ',s:'Betta splendens crowntail',d:'ก้านครีบแหลมสวยมาก แต่เปราะ ครีบอาจกร่อนง่ายถ้าน้ำไม่ดี หลีกเลี่ยงวัสดุคมในตู้'},
+{n:'Veiltail',t:'tail',lv:2,i:'หางยาวโค้งตกคล้ายผ้าคลุม',s:'Betta splendens veiltail',d:'พบมากในตลาดสัตว์เลี้ยง หางยาวทำให้ว่ายช้ากว่า ควรลดกระแสน้ำจากกรอง'},
+{n:'Doubletail',t:'tail',lv:3,i:'หางแยกสองแฉก',s:'Betta splendens double tail',d:'ลักษณะโครงสร้างต่างจากปกติ บางตัวมีหลังสั้น/ปัญหาการว่าย ต้องใส่ใจสุขภาพและความเหมาะสมในการเพาะ'},
+{n:'Koi / Marble',t:'color',lv:2,i:'ลวดลายหลายสี ลายอาจเปลี่ยนตามอายุ',s:'koi betta splendens',d:'สีและลายมีความไม่แน่นอนสูง ราคามักขึ้นกับความชัดและความสมมาตรของลาย'},
+{n:'Dragon / Metallic',t:'color',lv:2,i:'เกล็ดสะท้อนแสงเป็นเอกลักษณ์',s:'dragon scale betta splendens',d:'ลักษณะเกล็ดหนาและเงาโลหะ เป็นที่นิยมในตลาดพรีเมียม'},
+{n:'Wild Betta splendens',t:'wild',lv:2,i:'ลักษณะธรรมชาติ สีไม่ฉูดฉาด',s:'Betta splendens wild male',d:'ปลาสายธรรมชาติ ควรบันทึกแหล่งที่มาและไม่ปนสายกับปลาประกวด'},
+{n:'Betta imbellis',t:'wild',lv:3,i:'คนละชนิดกับ B. splendens',s:'Betta imbellis',d:'ปลากัดป่าที่มีความต้องการดูแลเฉพาะ ควรศึกษาข้อมูลเฉพาะชนิดและแหล่งที่ถูกกฎหมาย'},
+{n:'Betta smaragdina',t:'wild',lv:3,i:'ปลากัดเขียว/อีสาน คนละชนิด',s:'Betta smaragdina',d:'พบในภาคอีสานและพื้นที่ใกล้เคียง สีเขียวมรกตสะท้อนแสง ควรรักษาสายพันธุ์ไม่ผสมข้ามชนิด'},
+{n:'Betta mahachaiensis',t:'wild',lv:3,i:'ปลากัดมหาชัย น้ำกร่อย',s:'Betta mahachaiensis',d:'พบในพื้นที่น้ำกร่อยชายฝั่ง มีสถานะน่าห่วงด้านการอนุรักษ์ การครอบครองและค้าควรเป็นไปตามกฎหมายและมีแหล่งที่มาชัดเจน'}];
+const FALLBACK='https://commons.wikimedia.org/wiki/Special:FilePath/DVJ_Betta_splendens_004.jpg?width=640';
+const cache={};
+async function commons(q){if(cache[q])return cache[q];try{const api='https://commons.wikimedia.org/w/api.php?'+new URLSearchParams({action:'query',generator:'search',gsrsearch:'filetype:bitmap '+q,gsrnamespace:'6',gsrlimit:'8',prop:'imageinfo',iiprop:'url|extmetadata',iiurlwidth:'700',format:'json',origin:'*'});const r=await fetch(api);if(!r.ok)throw 0;const j=await r.json();const ps=Object.values(j.query?.pages||{}).filter(x=>x.imageinfo?.[0]?.thumburl&&/\.(png|jpe?g)$/i.test(x.title));const p=ps.find(x=>x.title.toLowerCase().includes('betta'))||ps[0];if(!p)throw 0;return cache[q]={src:p.imageinfo[0].thumburl,link:'https://commons.wikimedia.org/wiki/'+encodeURIComponent(p.title).replaceAll('%20','_')}}catch(e){return null}}
+const cfile=n=>'https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(n).replaceAll('%20','_');
+let spF='all',spQ='';
+function renderGallery(){const list=FISH.map((f,ix)=>({f,ix})).filter(({f})=>(spF==='all'||f.t===spF)&&(!spQ||(f.n+f.i+f.d).toLowerCase().includes(spQ)));
+ $('gallery').innerHTML=list.length?list.map(({f,ix})=>`<button class="fc" data-ix="${ix}"><img id="im${ix}" loading="lazy" alt="ภาพปลากัดประกอบ ${esc(f.n)}" src="${f.file?'https://commons.wikimedia.org/wiki/Special:FilePath/'+f.file+'?width=640':FALLBACK}"><div><h4>${esc(f.n)}</h4><p>${esc(f.i)}</p><span class="dots" title="ระดับความยากในการดูแล">${'●'.repeat(f.lv)+'○'.repeat(3-f.lv)}</span></div></button>`).join(''):'<p class="mini">ไม่พบสายพันธุ์ที่ตรงกับคำค้น</p>';
+ list.forEach(({f,ix})=>{if(f.s)commons(f.s).then(p=>{const im=$('im'+ix);if(p&&im)im.src=p.src})})}
+$$('[data-f]').forEach(b=>b.onclick=()=>{spF=b.dataset.f;$$('[data-f]').forEach(x=>x.classList.toggle('active',x===b));renderGallery();track('species_filter',{f:spF})});
+$('spSearch').oninput=e=>{spQ=e.target.value.trim().toLowerCase();renderGallery()};
+$('gallery').onclick=async e=>{const b=e.target.closest('.fc');if(!b)return;const f=FISH[+b.dataset.ix];let p=f.s?await commons(f.s):null;const src=p?p.src:(f.file?'https://commons.wikimedia.org/wiki/Special:FilePath/'+f.file+'?width=900':FALLBACK),lk=p?p.link:(f.file?cfile(f.file):'https://commons.wikimedia.org/wiki/Betta_splendens');
+ $('dlgIn').innerHTML=`<img src="${src}" alt="${esc(f.n)}"><h3>${esc(f.n)}</h3><p>${esc(f.d)}</p><p><span class="pill">ระดับดูแล ${f.lv}/3</span> <a href="${lk}" target="_blank" rel="noopener">ดูเครดิต/ใบอนุญาตภาพ ↗</a></p><p style="text-align:right"><button class="chip" onclick="document.getElementById('dlg').close()">ปิด</button></p>`;$('dlg').showModal();track('species_open',{n:f.n})};
+$('dlg').addEventListener('click',e=>{if(e.target===$('dlg'))$('dlg').close()});renderGallery();
+
+/* ---------- designer ---------- */
+const D={tail:'halfmoon',body:'#e11d48',fin:'#2563eb',pat:'solid'};
+const PATS={solid:'เรียบ',marble:'มาร์เบิล',dragon:'ดราก้อน',metal:'เมทัลลิก'};
+$('dTail').innerHTML=Object.keys(TAILS).map(k=>`<button class="chip" data-k="tail" data-v="${k}">${TAILS[k]}</button>`).join('');
+$('dPat').innerHTML=Object.keys(PATS).map(k=>`<button class="chip" data-k="pat" data-v="${k}">${PATS[k]}</button>`).join('');
+['dBody:body','dFin:fin'].forEach(s=>{const [id,k]=s.split(':');$(id).innerHTML=COLORS.map(c=>`<button style="background:${c[0]}" data-k="${k}" data-v="${c[0]}" title="${c[2]}" aria-label="${c[2]}"></button>`).join('')});
+const cname=h=>(COLORS.find(c=>c[0]===h)||['','Custom','กำหนดเอง']);
+const TIPS={plakat:'ครีบสั้นดูแลง่ายและว่ายคล่อง เหมาะผู้เริ่มต้น',veil:'หางยาวควรลดแรงกรอง',halfmoon:'หางกว้างต้องน้ำนิ่งและห้ามมีวัสดุคม',delta:'หางสามเหลี่ยมกางราว 90–120° ดูแลปานกลาง',crown:'ก้านครีบแหลมเปราะ ระวังครีบกร่อน',double:'ควรเลือกตัวที่ว่ายน้ำปกติ โครงสร้างต้องแข็งแรง'};
+function drawDesign(){$$('#dTail .chip,#dPat .chip').forEach(b=>b.classList.toggle('active',D[b.dataset.k]===b.dataset.v));$$('.sw button').forEach(b=>b.classList.toggle('on',D[b.dataset.k]===b.dataset.v));
+ const st=$('stage'),old=st.querySelector('svg');if(old)old.remove();st.insertAdjacentHTML('afterbegin',fishSVG(D));
+ const p=D.pat==='solid'?'':' '+({marble:'Marble',dragon:'Dragon',metal:'Metallic'}[D.pat]);
+ $('stageName').textContent=`${TAILS[D.tail]} ${cname(D.body)[1]}${p} · ครีบ ${cname(D.fin)[2]}`;$('dTip').textContent='💡 '+TIPS[D.tail]}
+$('dTail').onclick=$('dPat').onclick=$('dBody').onclick=$('dFin').onclick=e=>{const b=e.target.closest('[data-k]');if(!b)return;D[b.dataset.k]=b.dataset.v;drawDesign();track('designer_change',{k:b.dataset.k})};
+$('dRand').onclick=()=>{const r=a=>a[Math.floor(Math.random()*a.length)];D.tail=r(Object.keys(TAILS));D.body=r(COLORS)[0];D.fin=r(COLORS)[0];D.pat=r(Object.keys(PATS));drawDesign();track('designer_random')};
+$('dSave').onclick=()=>{const s=fishSVG(D).replace(/<g class="wag">/,'<g>');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([s],{type:'image/svg+xml'}));a.download='my-betta.svg';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);track('designer_save')};
+drawDesign();
+
+/* ---------- match quiz ---------- */
+const MQ=[
+['คุณมีเวลาดูแลปลาต่อวันเท่าไร?',[['น้อย (5–10 นาที)',{plakat:2,wild:0,crown:1,halfmoon:0}],['ปานกลาง',{plakat:1,crown:2,halfmoon:1,wild:0}],['มาก ชอบทุ่มเท',{halfmoon:2,wild:2,crown:1}]]],
+['คุณอยากได้ความสวยแบบไหน?',[['กระชับ ว่ายเก่ง',{plakat:3}],['หางอลังการ',{halfmoon:3,crown:1}],['สีสด ลายแปลก',{crown:2,halfmoon:1,plakat:1}],['เป็นธรรมชาติ',{wild:3}]]],
+['ตู้ที่คุณเตรียมไว้?',[['ตู้เล็ก 20 ลิตร',{plakat:2,crown:1}],['ตู้กลาง 30–40 ลิตร',{halfmoon:2,crown:2,plakat:1}],['ตู้ใหญ่/ปลูกไม้น้ำ',{wild:2,halfmoon:1,crown:1}]]],
+['ประสบการณ์เลี้ยงปลา?',[['มือใหม่',{plakat:3}],['พอมีพื้นฐาน',{crown:2,halfmoon:2}],['ชำนาญแล้ว',{wild:3,halfmoon:1}]]]];
+const MR={plakat:['Plakat / Halfmoon Plakat','ครีบสั้น แข็งแรง ดูแลง่าย เหมาะเริ่มต้น'],halfmoon:['Halfmoon','หางอลังการ ต้องน้ำนิ่งและใส่ใจรายละเอียด'],crown:['Crowntail','ก้านครีบสวยโดดเด่น ระวังครีบกร่อน'],wild:['สายธรรมชาติ / ปลากัดป่า','เหมาะผู้มีประสบการณ์และสนใจการอนุรักษ์ ต้องตรวจแหล่งที่มาให้ถูกกฎหมาย']};
+let mq=0,ms={plakat:0,halfmoon:0,crown:0,wild:0};
+function drawMatch(){const b=$('matchBox');if(mq>=MQ.length){const k=Object.keys(ms).sort((a,c)=>ms[c]-ms[a])[0];b.innerHTML=`<span class="pill c">ผลลัพธ์ของคุณ</span><h3 style="font-size:26px">${MR[k][0]}</h3><p>${MR[k][1]}</p>${k!=='wild'?fishSVG({tail:k==='plakat'?'plakat':k==='halfmoon'?'halfmoon':'crown',body:'#2563eb',fin:'#f472b6',pat:'metal'}).replace('<svg ','<svg style="max-width:340px" '):''}<p><button class="chip" id="mRe">↺ ทำใหม่</button> <a class="chip" href="#designer" style="text-decoration:none">🎨 ไปออกแบบ</a></p>`;$('mRe').onclick=()=>{mq=0;ms={plakat:0,halfmoon:0,crown:0,wild:0};drawMatch()};track('match_done',{k});return}
+ const q=MQ[mq];b.innerHTML=`<p class="mini">ข้อ ${mq+1}/${MQ.length}</p><h3>${esc(q[0])}</h3>`+q[1].map((o,i)=>`<button class="opt" data-i="${i}">${esc(o[0])}</button>`).join('')}
+$('matchBox').onclick=e=>{const o=e.target.closest('.opt');if(!o)return;const s=MQ[mq][1][+o.dataset.i][1];for(const k in s)ms[k]+=s[k];mq++;drawMatch()};drawMatch();
+
+/* ---------- acclimation timer ---------- */
+let acT=null,acEl=0;
+function acDraw(){const tot=+$('acMin').value*60,p=Math.min(1,acEl/tot);$('acBar').style.width=p*100+'%';const r=Math.max(0,tot-acEl);$('acTxt').textContent=String(Math.floor(r/60)).padStart(2,'0')+':'+String(Math.floor(r%60)).padStart(2,'0');$('acLab').textContent=$('acMin').value+' นาที';
+ $('acStage').textContent=p>=1?'✅ ครบเวลา: ใช้สวิงย้ายปลา ไม่เทน้ำจากภาชนะเก่าลงตู้':p<.34?'ขั้นที่ 1: ทยอยเติมน้ำจากตู้ปลายทางทีละน้อย':p<.67?'ขั้นที่ 2: เทน้ำทิ้งบางส่วนแล้วเติมต่อ':'ขั้นที่ 3: เกือบเท่ากันแล้ว สังเกตอาการปลา'}
+$('acMin').oninput=acDraw;
+$('acGo').onclick=()=>{if(acT){clearInterval(acT);acT=null;return}acT=setInterval(()=>{acEl++;acDraw();if(acEl>=+$('acMin').value*60){clearInterval(acT);acT=null;track('acclimation_done')}},1000)};
+$('acReset').onclick=()=>{clearInterval(acT);acT=null;acEl=0;acDraw()};acDraw();
+
+/* ---------- water tools ---------- */
+function nh3(){const tan=num('wTan'),ph=num('wPh'),t=num('wT');const pKa=0.09018+2729.92/(t+273.15),fr=1/(1+Math.pow(10,pKa-ph)),f=tan*fr;
+ $('nhBar').style.width=Math.min(100,f/0.1*100)+'%';
+ const lvl=f<0.01?['ok','✅ ปลอดภัยเมื่อเทียบเกณฑ์ทั่วไป']:f<0.02?['','⚠️ เริ่มใกล้เส้นเสี่ยงระยะยาว ควรลดแหล่งแอมโมเนียและเปลี่ยนน้ำ']:['bad','🚨 เสี่ยงต่อเหงือกและสุขภาพ ควรเปลี่ยนน้ำบางส่วนและแก้ต้นเหตุทันที'];
+ const el=$('nhOut');el.className='callout '+lvl[0];el.innerHTML=`NH₃ ที่ประเมิน ≈ <b>${f.toFixed(4)} ppm</b> (${(fr*100).toFixed(2)}% ของ TAN)<br>${lvl[1]}`}
+['wTan','wPh','wT'].forEach(i=>$(i).oninput=nh3);nh3();
+function chg(){const N=num('cNow'),T=num('cTar'),N0=num('cTap'),V=num('cVol'),el=$('cOut');if(N<=T){el.className='callout ok';el.textContent='✅ ค่าปัจจุบันไม่เกินเป้าหมาย ไม่ต้องเปลี่ยนน้ำเพื่อลดไนเตรต';return}if(N0>=T){el.className='callout bad';el.textContent='น้ำประปามีไนเตรตไม่ต่ำกว่าเป้าหมาย การเปลี่ยนน้ำอย่างเดียวจะไม่ถึงเป้า';return}
+ const p=(N-T)/(N-N0);el.className='callout '+(p>.5?'bad':'ok');el.innerHTML=`ต้องเปลี่ยนน้ำประมาณ <b>${fmt(p*100,0)}%</b> ≈ <b>${fmt(p*V,1)} ลิตร</b>${p>.5?'<br>⚠️ มากกว่า 50% แนะนำแบ่งเปลี่ยนเป็น 2 รอบห่างกันหลายชั่วโมงถึงวันถัดไป':''}`}
+['cNow','cTar','cTap','cVol'].forEach(i=>$(i).oninput=chg);chg();
+function tank(){const v=num('tL')*num('tW')*num('tH')/1000;$('tOut').innerHTML=`น้ำจริง ≈ <b>${fmt(v,1)} ลิตร</b> ${v>=20?'✅ ผ่านเกณฑ์เริ่มต้น 20 ลิตร':'⚠️ น้อยกว่า 20 ลิตร'}<br><span class="mini">ถ้าเติมน้ำที่ระดับ 90% ของความสูงตู้ ให้คูณกับ 0.9 และหักพื้นที่วัสดุตกแต่ง</span>`}
+['tL','tW','tH'].forEach(i=>$(i).oninput=tank);tank();
+function quick(){const m=[],t=num('qT'),p=num('qP'),a=num('qA'),n=num('qN'),r=num('qR'),l=num('qL');if(t<24||t>28)m.push('อุณหภูมินอกช่วง 24–28°C');if(p<6.5||p>7.5)m.push('pH นอกช่วง 6.5–7.5 ควรปรับค่อยเป็นค่อยไป');if(a>0)m.push('พบแอมโมเนีย: ตรวจระบบกรอง/การให้อาหาร แก้ด่วน');if(n>0)m.push('พบไนไตรต์: อันตราย แก้ระบบน้ำทันที');if(r>=20)m.push('ไนเตรตสูงกว่า 20 ppm');if(l<20)m.push('ปริมาตรน้ำน้อยกว่า 20 ลิตร');
+ const el=$('qOut');el.className='callout '+(m.length?'bad':'ok');el.textContent=m.length?'⚠️ '+m.join(' • '):'✅ ค่าอยู่ในช่วงคัดกรองเบื้องต้น อย่าลืมสังเกตอาการปลาเป็นประจำ';track('water_quick')}
+$$('#qT,#qP,#qA,#qN,#qR,#qL').forEach(e=>e.oninput=quick);quick();
+/* nitrogen cycle chart */
+const cv=$('cyc');
+function cycVals(d){return{a:4*Math.exp(-Math.pow((d-7)/5.2,2))*(d>7?1:Math.min(1,.25+d/9)),n:3.2*Math.exp(-Math.pow((d-18)/5.5,2)),r:42/(1+Math.exp(-(d-24)/4))}}
+function drawCycle(){const dpr=devicePixelRatio||1,w=cv.clientWidth,h=cv.clientHeight;cv.width=w*dpr;cv.height=h*dpr;const x=cv.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,h);const cs=getComputedStyle(document.documentElement),ink=cs.getPropertyValue('--muted').trim(),line=cs.getPropertyValue('--line').trim();
+ const L=38,B=h-26,T=12,Rr=w-12;x.strokeStyle=line;x.fillStyle=ink;x.font='11px sans-serif';x.lineWidth=1;
+ for(let i=0;i<=4;i++){const y=B-(B-T)*i/4;x.beginPath();x.moveTo(L,y);x.lineTo(Rr,y);x.stroke();x.fillText(String(i*12.5),4,y+4)}
+ for(let d=0;d<=42;d+=7){const px=L+(Rr-L)*d/42;x.fillText(d,px-4,h-8)}
+ const ser=[['a','#ef4444','แอมโมเนีย (×10)',10],['n','#f59e0b','ไนไตรต์ (×10)',10],['r','#22c55e','ไนเตรต',1]];
+ ser.forEach((s,si)=>{x.beginPath();x.strokeStyle=s[1];x.lineWidth=2.6;for(let d=0;d<=42;d+=.5){const v=cycVals(d)[s[0]]*s[3],px=L+(Rr-L)*d/42,py=B-(B-T)*Math.min(v,50)/50;d?x.lineTo(px,py):x.moveTo(px,py)}x.stroke();x.fillStyle=s[1];x.fillRect(L+8+si*130,T+2,10,10);x.fillStyle=ink;x.fillText(s[2],L+22+si*130,T+11)});
+ const cd=+$('cycR').value,px=L+(Rr-L)*cd/42;x.strokeStyle=cs.getPropertyValue('--aqua').trim();x.lineWidth=2;x.setLineDash([5,4]);x.beginPath();x.moveTo(px,T);x.lineTo(px,B);x.stroke();x.setLineDash([]);
+ const v=cycVals(cd);ser.forEach(s=>{x.beginPath();x.fillStyle=s[1];x.arc(px,B-(B-T)*Math.min(v[s[0]]*s[3],50)/50,5,0,7);x.fill()})}
+function cycText(){const d=+$('cycR').value,v=cycVals(d);$('cDay').textContent=d;let s;
+ if(d<4)s='แอมโมเนียเริ่มสะสม แบคทีเรียกลุ่มแรกยังมีน้อย';else if(d<14)s='แอมโมเนียสูงสุดแล้วค่อย ๆ ลด แบคทีเรียที่เปลี่ยนแอมโมเนียเป็นไนไตรต์เพิ่มจำนวน';else if(d<24)s='ไนไตรต์สูง อันตรายมาก ถ้ามีปลาอยู่ต้องเปลี่ยนน้ำและวัดทุกวัน';else if(d<32)s='ไนไตรต์ลดลง ไนเตรตเริ่มสะสม ระบบใกล้เสถียร';else s='ระบบเสถียร แอมโมเนียและไนไตรต์เป็น 0 มีไนเตรตให้จัดการด้วยการเปลี่ยนน้ำ/พืชน้ำ';
+ $('cycTxt').innerHTML=`<b>วันที่ ${d}</b> · แอมโมเนีย ≈ ${v.a.toFixed(1)} · ไนไตรต์ ≈ ${v.n.toFixed(1)} · ไนเตรต ≈ ${v.r.toFixed(0)} ppm<br>${s}`}
+$('cycR').oninput=()=>{drawCycle();cycText();track('cycle_slide')};addEventListener('resize',drawCycle);drawCycle();cycText();
+
+/* ---------- breeding calendar ---------- */
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const dfmt=d=>d.toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'});
+function bcal(){const v=$('bDate').value,el=$('bOut');if(!v){el.innerHTML='<p class="mini">เลือกวันวางไข่เพื่อดูตารางโดยประมาณ</p>';return}const d=new Date(v+'T00:00:00');
+ const ev=[[0,0,'วางไข่','พ่อดูแลหวอด แยกแม่หลังวางไข่'],[1,2,'ลูกปลาฟัก','อยู่ในหวอด ใช้ถุงไข่แดง'],[3,5,'เริ่มว่ายอิสระ','แยกพ่อเมื่อว่ายแนวนอนได้ เริ่มอาหารขนาดจิ๋ว'],[7,14,'เริ่มอาร์ทีเมียแรกฟัก','ให้เป็นมื้อเล็กหลายครั้ง ตรวจน้ำทุกวัน'],[30,45,'คัดแยกครั้งแรก','เริ่มเห็นความก้าวร้าว/ความต่างขนาด'],[60,90,'แยกเลี้ยงรายตัว','แยกตัวผู้ที่เริ่มกัดกัน'],[90,120,'พร้อมประเมินขาย','ตรวจสุขภาพ ถ่ายภาพ ระบุรหัสปลา']];
+ el.innerHTML=ev.map(e=>`<article><b>${e[2]} · ${e[0]===e[1]?dfmt(addDays(d,e[0])):dfmt(addDays(d,e[0]))+' – '+dfmt(addDays(d,e[1]))}</b><p>${e[3]}</p></article>`).join('');track('breeding_calendar')}
+$('bDate').oninput=bcal;$('bDate').valueAsDate=new Date();bcal();
+function plan(){const f=num('pFry'),s=num('pSur')/100,per=Math.max(1,num('pPer')),cap=num('pCap');const fish=Math.round(f*s);$('pOut').innerHTML=`คาดว่ารอด ≈ <b>${fish} ตัว</b> ต้องมีภาชนะ ≈ <b>${Math.ceil(fish/per)}</b> ใบ รวมความจุ ≈ <b>${fmt(Math.ceil(fish/per)*cap)}</b> ลิตร<br><span class="mini">ถ้ายังไม่มีที่เลี้ยง/ผู้รับซื้อ ให้ลดจำนวนครอกก่อนจับคู่</span>`}
+['pFry','pSur','pPer','pCap'].forEach(i=>$(i).oninput=plan);plan();
+
+/* ---------- health triage ---------- */
+const HS=[
+{k:'ซึม/นอนก้นตู้',c:['น้ำเย็นหรือร้อนเกินไป','แอมโมเนีย/ไนไตรต์สูง','ออกซิเจนต่ำ/น้ำเสื่อม','ปลาใหม่ยังปรับตัว'],s:['ตรวจอุณหภูมิและค่าน้ำทันที','เปลี่ยนน้ำบางส่วนอย่างระมัดระวัง','งดอาหารมื้อต่อไปชั่วคราวถ้าท้องผิดปกติ','ลดแสง/เสียงรบกวน'],v:'ถ้าไม่ดีขึ้นใน 24–48 ชั่วโมง หรือหยุดกินทั้งหมด'},
+{k:'ครีบกร่อน/ฉีก',c:['น้ำเสียหรือไนเตรตสูง','วัสดุคมหรือถูกกัด','ปลากัดครีบตัวเอง/เครียด','ติดเชื้อแบคทีเรียตามแผล'],s:['เปลี่ยนวัสดุคมเป็นแบบนุ่มหรือไม้น้ำจริง','ปรับกรองให้เบา','ปรับปรุงคุณภาพน้ำและบันทึกภาพเทียบรายวัน'],v:'ถ้ากร่อนลุกลามถึงโคนครีบ/ลำตัวมีรอยแดง'},
+{k:'จุดขาวเล็ก ๆ ทั่วตัว',c:['ปรสิตจุดขาว (Ich) พบหลังอุณหภูมิผันผวน/ความเครียด','ปลาใหม่ที่ไม่ได้กักกัน'],s:['แยกปลาป่วย บันทึกภาพ','คงอุณหภูมิให้เสถียร ตรวจน้ำ','ปรึกษาผู้เชี่ยวชาญเรื่องวิธีรักษาที่เหมาะกับระบบของคุณ'],v:'ควรปรึกษาเร็ว เพราะอาการอาจลุกลามเร็ว'},
+{k:'ท้องบวม/ตัวบวมเหมือนเกล็ดตั้ง',c:['กินมากเกินหรืออาหารไม่เหมาะ','ท้องผูก','ภาวะติดเชื้อภายใน/น้ำในช่องท้อง'],s:['งดอาหาร 1–2 วันสำหรับปลาโตที่ไม่ผอมผิดปกติ','ให้อาหารน้อยลงและหลากหลายขึ้น','ตรวจน้ำ'],v:'ถ้าเกล็ดตั้งทั้งตัว หรือไม่ดีขึ้นภายใน 1–2 วัน'},
+{k:'ลอย/จมผิดปกติ',c:['ปัญหาระบบลอยตัว (Swim bladder)','ท้องอืด','น้ำเย็น','โครงสร้างผิดปกติตั้งแต่กำเนิด'],s:['ลดระดับน้ำให้ปลาขึ้นฮุบอากาศได้ง่าย','คุมอุณหภูมิ','ปรับอาหารเป็นชิ้นเล็กและไม่ให้เกิน'],v:'ถ้าเป็นต่อเนื่องหลายวันหรือกินไม่ได้'},
+{k:'ฮุบอากาศถี่/หอบ',c:['ออกซิเจนต่ำหรืออุณหภูมิสูง','แอมโมเนีย/ไนไตรต์','เหงือกระคายเคือง/ติดปรสิต'],s:['ตรวจ NH₃/NO₂ ทันที','เพิ่มการไหลเวียนผิวน้ำเบา ๆ','เปลี่ยนน้ำบางส่วนด้วยน้ำที่ปรับอุณหภูมิแล้ว'],v:'ถ้าหอบต่อเนื่องหลังแก้น้ำแล้ว'},
+{k:'สีซีด/ด่างขาว',c:['เครียด','อายุ/พันธุกรรม (สายมาร์เบิลเปลี่ยนสี)','น้ำไม่เหมาะ หรืออาหารไม่ครบ'],s:['ตรวจน้ำและลดความเครียด','ดูว่ามีอาการอื่นร่วม เช่น ไม่กิน/ซึม'],v:'ถ้ามีฝ้าขาวคล้ายเมือกหรือแผลร่วม'},
+{k:'ตาโปน',c:['คุณภาพน้ำไม่ดี','บาดเจ็บที่ตา','ติดเชื้อ'],s:['แยกปลา ตรวจน้ำ','ลดความเครียด หลีกเลี่ยงของคม'],v:'ควรปรึกษาแพทย์/ผู้เชี่ยวชาญสัตว์น้ำเนื่องจากอาจเป็นข้างเดียวหรือสองข้าง'}];
+$('hChips').innerHTML=HS.map((h,i)=>`<button class="chip" data-i="${i}">${esc(h.k)}</button>`).join('');
+function showH(i){$$('#hChips .chip').forEach((b,k)=>b.classList.toggle('active',k===i));const h=HS[i];$('hBox').innerHTML=`<h3>${esc(h.k)}</h3><div class="grid g2"><div><b>สาเหตุที่พบบ่อย</b><ul>${h.c.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></div><div><b>ขั้นตอนแรกที่ปลอดภัย</b><ul>${h.s.map(x=>'<li>'+esc(x)+'</li>').join('')}</ul></div></div><div class="callout bad">🩺 ควรปรึกษาสัตวแพทย์สัตว์น้ำ/ผู้เชี่ยวชาญเมื่อ: ${esc(h.v)}</div><p class="mini">ข้อมูลเพื่อการเรียนรู้ ไม่ใช่การวินิจฉัย อย่าใช้ยาหรือสารเคมีโดยไม่ทราบข้อบ่งชี้และความปลอดภัย</p>`;track('health_view',{k:h.k})}
+$('hChips').onclick=e=>{const b=e.target.closest('.chip');if(b)showH(+b.dataset.i)};showH(0);
+
+/* ---------- business ---------- */
+function thb(n){return fmt(n)+' ฿'}
+function calc(){const n=num('broods')*num('fry')*Math.min(100,num('survival'))/100*Math.min(100,num('saleRate'))/100*Math.min(100,num('realized'))/100;
+ const rev=n*num('price'),vcost=n*(num('unitcost')+num('pack')),fixed=num('broods')*num('broodcost')+num('fixed')+num('labor'),cost=vcost+fixed,profit=rev-cost;
+ const margin=num('price')-num('unitcost')-num('pack'),be=margin>0?fixed/margin:Infinity;
+ $('oQ').textContent=fmt(n,1)+' ตัว';$('oR').textContent=thb(rev);$('oC').textContent=thb(cost);$('oP').textContent=thb(profit);$('oB').textContent=profit>0?(num('initial')/profit).toFixed(1)+' เดือน':'ไม่คืนทุน';$('oBE').textContent=isFinite(be)?fmt(be,1)+' ตัว':'—';
+ const mx=Math.max(rev,cost,1);$('oBars').innerHTML=`<div style="width:${Math.max(8,rev/mx*100)}%;background:#16a34a">รายได้ ${thb(rev)}</div><div style="width:${Math.max(8,cost/mx*100)}%;background:#f97316">ต้นทุน ${thb(cost)}</div>`;
+ const t=$('oTip');t.className='callout '+(profit>0?'ok':'bad');t.textContent=profit>0?'✅ โมเดลสมมติมีกำไร แต่ต้องมีสต็อกปลาโตต่อเนื่องและเงินทุนหมุนเวียนระหว่างรอขาย':'⚠️ โมเดลสมมติยังขาดทุน ลองปรับราคา อัตราขายจริง ต้นทุนคงที่ หรือกำลังผลิต โดยไม่ลดมาตรฐานสวัสดิภาพปลา'}
+$$('#calcCard input').forEach(e=>e.oninput=calc);calc();
+function grade(){const a=num('gA'),b=num('gB'),c=num('gC'),s=a+b+c,el=$('gOut');if(!s){el.textContent='กรอกสัดส่วนเกรด';return}const avg=(a*num('pA')+b*num('pB')+c*num('pC'))/s;el.innerHTML=`ราคาเฉลี่ยถ่วงน้ำหนัก ≈ <b>${fmt(avg,1)} ฿/ตัว</b>${Math.round(s)!==100?` <span class="mini">(สัดส่วนรวม ${fmt(s)}% ระบบปรับสัดส่วนให้อัตโนมัติ)</span>`:''}`;el._avg=avg}
+$$('#gA,#gB,#gC,#pA,#pB,#pC').forEach(e=>e.oninput=grade);grade();
+$('gUse').onclick=()=>{const v=$('gOut')._avg;if(v){$('price').value=Math.round(v);calc();$('calcCard').scrollIntoView({behavior:'smooth',block:'center'});track('grade_apply')}};
+
+/* ---------- knowledge quiz ---------- */
+const QZ=[
+['อวัยวะใดช่วยให้ปลากัดฮุบอากาศจากผิวน้ำได้?',['Labyrinth organ','กระเพาะลม','เหงือกชั้นนอก','ปอดจริง'],0,'ปลากัดมีอวัยวะ labyrinth จึงรับออกซิเจนจากอากาศได้ แต่ยังต้องใช้เหงือก'],
+['ค่าแอมโมเนียและไนไตรต์ที่เหมาะสมในตู้เลี้ยงควรเป็นเท่าไร?',['0 ppm','1–2 ppm','5 ppm','ไม่สำคัญ'],0,'ทั้งสองชนิดเป็นพิษต่อเหงือกและระบบประสาทของปลา เป้าหมายคือ 0'],
+['ปริมาตรตู้เริ่มต้นสำหรับปลา 1 ตัวตามคู่มือนี้คือ?',['≥ 20 ลิตร','2 ลิตร','ถ้วยกาแฟ','1 ลิตร'],0,'ภาชนะเล็กควบคุมอุณหภูมิและคุณภาพน้ำยาก'],
+['ช่วงอุณหภูมิทั่วไปของน้ำเลี้ยงปลากัดคือ?',['24–28°C','10–15°C','32–36°C','ไม่มีผล'],0,'ปลาเขตร้อนต้องการอุณหภูมิเสถียร'],
+['ไข่ปลากัดฟักโดยประมาณกี่ชั่วโมงหลังวางไข่?',['24–48 ชั่วโมง','5–7 วัน','2 สัปดาห์','10 นาที'],0,'ขึ้นกับอุณหภูมิ ลูกปลายังใช้ถุงไข่แดงช่วงแรก'],
+['หลังวางไข่ ใครเป็นผู้ดูแลไข่?',['พ่อปลา','แม่ปลา','ทั้งสองเท่ากัน','ไม่มีใครดูแล'],0,'ตัวผู้ดูแลหวอดและไข่ จึงต้องแยกแม่ออก'],
+['ไนเตรตที่ควรพยายามให้ต่ำกว่าเท่าไรในตู้เลี้ยงทั่วไป?',['< 20 ppm','> 100 ppm','200 ppm','ไม่มีเกณฑ์'],0,'ไนเตรตสะสมจากวงจรไนโตรเจน ลดด้วยการเปลี่ยนน้ำและพืชน้ำ'],
+['เมื่อพบจุดขายสีขาวเล็ก ๆ ควรทำอะไรก่อน?',['แยกปลา ตรวจน้ำ ทำให้อุณหภูมิเสถียร และขอคำแนะนำ','ใส่ยาหลายชนิดพร้อมกัน','เติมเกลือจำนวนมาก','ไม่ทำอะไร'],0,'การใช้ยาสุ่มเสี่ยงต่อปลาและระบบกรอง ควรประเมินก่อน'],
+['เลี้ยงตัวผู้โตสองตัวร่วมตู้เดียวกันได้ไหม?',['ไม่ควร เสี่ยงทำร้ายกัน','ได้เสมอ','ได้ถ้าให้อาหารเยอะ','ได้ถ้ามีหวอด'],0,'ปลากัดตัวผู้ก้าวร้าวต่อกัน'],
+['Betta mahachaiensis อาศัยอยู่ในสภาพแวดล้อมแบบใด?',['น้ำกร่อยชายฝั่ง','ภูเขาน้ำตก','ทะเลลึก','น้ำแข็ง'],0,'เป็นปลากัดป่าที่พบในพื้นที่น้ำกร่อย และต้องใส่ใจการอนุรักษ์']];
+let qi=0,qs=0,qa=false;
+function drawQ(){const b=$('qBox');if(qi>=QZ.length){const best=lsGet('bettaBest',0);if(qs>best)lsSet('bettaBest',qs);const m=qs>=9?'🏆 ปรมาจารย์ปลากัด':qs>=7?'🥇 นักเลี้ยงมืออาชีพ':qs>=5?'🥈 ผู้เลี้ยงที่กำลังไปได้ดี':'🥉 เริ่มต้นใหม่ได้เสมอ';b.innerHTML=`<h3 style="font-size:26px">${m}</h3><p style="font-size:20px;color:var(--ink)">คะแนน ${qs}/${QZ.length} <span class="mini">(คะแนนสูงสุดบนเครื่องนี้ ${Math.max(best,qs)})</span></p><div class="meter"><span style="width:${qs/QZ.length*100}%"></span></div><p><button class="chip" id="qRe">↺ ทำใหม่</button></p>`;$('qRe').onclick=()=>{qi=0;qs=0;drawQ()};track('quiz_done',{score:qs});return}
+ const q=QZ[qi];qa=false;const order=q[1].map((t,i)=>[t,i]).sort(()=>Math.random()-.5);
+ b.innerHTML=`<p class="mini">ข้อ ${qi+1}/${QZ.length} · คะแนน ${qs}</p><div class="meter"><span style="width:${qi/QZ.length*100}%"></span></div><h3 style="margin-top:12px">${esc(q[0])}</h3>`+order.map(o=>`<button class="opt" data-i="${o[1]}">${esc(o[0])}</button>`).join('')+'<div id="qEx"></div>'}
+$('qBox').onclick=e=>{const o=e.target.closest('.opt');if(o&&!qa){qa=true;const q=QZ[qi],ok=+o.dataset.i===q[2];if(ok)qs++;$$('#qBox .opt').forEach(x=>{if(+x.dataset.i===q[2])x.classList.add('right');else if(x===o)x.classList.add('wrong')});$('qEx').innerHTML=`<div class="callout ${ok?'ok':'bad'}">${ok?'✅ ถูกต้อง':'❌ ยังไม่ถูก'} — ${esc(q[3])}</div><button class="chip" id="qNx">${qi+1<QZ.length?'ข้อต่อไป ▶':'ดูผลคะแนน'}</button>`;return}
+ if(e.target.id==='qNx'){qi++;drawQ()}};drawQ();
+
+/* ---------- myths ---------- */
+const MY=[
+['ปลากัดอยู่ในขวดเล็ก/แจกันได้สบาย','ไม่จริง: แม้ขึ้นฮุบอากาศได้ แต่ภาชนะเล็กทำให้น้ำเสียเร็ว อุณหภูมิผันผวน และปลาเครียด ควรมีน้ำเพียงพอและควบคุมคุณภาพ'],
+['ปลากัดกินรากต้นไม้ก็อยู่ได้','ไม่จริง: ปลากัดเป็นปลากินเนื้อ/แมลง ต้องการโปรตีนจากอาหารที่เหมาะสม รากพืชไม่ใช่อาหารหลัก'],
+['ตู้ในไทยร้อนอยู่แล้ว ไม่ต้องดูอุณหภูมิ','ไม่จริงทั้งหมด: ห้องแอร์ ฤดูหนาว และอากาศเย็นเฉพาะวัน อาจทำให้น้ำต่ำกว่า 24°C หรือสูงเกินไปในที่ร้อนจัด ควรมีเทอร์โมมิเตอร์'],
+['ใส่ฉากกั้นแล้วตัวผู้สองตัวอยู่ด้วยกันได้','มีความเสี่ยง: การเห็นกันตลอดเวลาทำให้เครียดและแผ่เหงือกบ่อย ฉากกั้นต้องทึบหรือจัดวางอย่างเหมาะสม'],
+['ปลากัดเหงาถ้าอยู่คนเดียว','ปลากัดตัวผู้เป็นปลาอาณาเขต การอยู่เดี่ยวไม่ได้ทำให้เหงา หากมีที่หลบและสิ่งแวดล้อมเหมาะสม'],
+['น้ำใสแปลว่าน้ำดี','ไม่จริง: แอมโมเนียและไนไตรต์มองไม่เห็น ต้องวัดด้วยชุดทดสอบ'],
+['ใส่เกลือหรือยาทุกครั้งที่ปลาป่วย','ไม่ควร: การใช้โดยไม่ทราบสาเหตุอาจทำให้ปลาแย่ลงและรบกวนระบบกรอง ควรวินิจฉัยเบื้องต้นก่อน']];
+$('mGrid').innerHTML=MY.map((m,i)=>`<div class="flip" tabindex="0" role="button" aria-label="พลิกการ์ด" data-i="${i}"><div class="fi"><div class="f"><small>ความเชื่อ</small><p><b>${esc(m[0])}</b></p></div><div class="b"><small>ความจริง</small><p>${esc(m[1])}</p></div></div></div>`).join('');
+$('mGrid').onclick=e=>{const f=e.target.closest('.flip');if(f){f.classList.toggle('on');track('myth_flip')}};
+$('mGrid').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){const f=e.target.closest('.flip');if(f){e.preventDefault();f.classList.toggle('on')}}};
+
+/* ---------- glossary ---------- */
+const GL=[['Plakat (ปลากัดครีบสั้น)','ปลากัดครีบสั้น ลำตัวกระชับ แข็งแรง'],['Halfmoon','หางกางประมาณ 180° เป็นรูปครึ่งวงกลม'],['Delta / Super Delta','หางกางเป็นสามเหลี่ยม (Super Delta กว้างเกือบ 180°)'],['Crowntail','ก้านครีบยื่นพ้นเยื่อครีบ ปลายคล้ายมงกุฎ'],['Veiltail','หางยาวตกโค้งคล้ายผ้าคลุม'],['Doubletail','หางสองแฉกและมักมีหลังสั้น'],['Rosetail / Feathertail','หางแตกชั้นมากจนดูคล้ายกุหลาบ/ขนนก'],['Koi','สายลวดลายหลายสีคล้ายปลาคาร์ฟโคอิ'],['Marble','ลวดลายสีที่เปลี่ยนไปตามอายุ'],['Dragon','เกล็ดหนาเงาโลหะ'],['Opaque / Cambodian','ลำตัวสีทึบ มักสีเนื้อ/ชมพู ครีบสีเข้ม'],['Nitrogen cycle','วงจรที่แบคทีเรียเปลี่ยนแอมโมเนีย → ไนไตรต์ → ไนเตรต'],['TAN','Total Ammonia Nitrogen: แอมโมเนียรวมทั้ง NH₃ และ NH₄⁺'],['NH₃ / NH₄⁺','แอมโมเนียอิสระ (พิษสูง) / แอมโมเนียมไอออน (พิษน้อยกว่า)'],['Dechlorinator','สารกำจัดคลอรีน/คลอรามีนในน้ำประปา'],['หวอด (Bubble nest)','ฟองอากาศเคลือบเมือกที่ตัวผู้สร้างเก็บไข่'],['Flaring','การแผ่เหงือกและครีบเพื่อข่มหรือโชว์'],['Spawning','การวางไข่/ผสมพันธุ์'],['Fry','ลูกปลาวัยอ่อน'],['Infusoria','จุลชีพขนาดเล็กใช้เป็นอาหารลูกปลาระยะแรก'],['BBS / อาร์ทีเมีย','Baby Brine Shrimp: อาร์ทีเมียแรกฟัก อาหารเด่นของลูกปลา'],['DOA','Dead on Arrival: ปลาตายเมื่อถึงมือผู้รับ'],['Line breeding','การผสมในสายใกล้ชิดเพื่อตรึงลักษณะ ต้องบันทึกและระวังความอ่อนแอทางพันธุกรรม'],['Outcross','ผสมกับสายที่ไม่เกี่ยวข้องเพื่อเพิ่มความหลากหลาย'],['Quarantine (กักกัน)','การแยกปลาใหม่/ป่วยเพื่อป้องกันโรคและสังเกตอาการ'],['Ich (จุดขาว)','โรคปรสิตที่ทำให้เกิดจุดขาวเล็ก ๆ บนตัวปลา'],['Fin rot (ครีบเปื่อย)','ครีบกร่อนจากน้ำเสียหรือเชื้อฉวยโอกาส'],['Swim bladder','ถุงลมปลา ปัญหานี้ทำให้ลอย/จมผิดปกติ'],['Labyrinth organ','อวัยวะช่วยหายใจอากาศของปลากลุ่มนี้'],['GACC','หน่วยงานศุลกากรจีนที่กำหนดเงื่อนไขนำเข้าบางประเภท']];
+function drawGl(){const q=($('glS').value||'').trim().toLowerCase(),l=GL.filter(g=>!q||(g[0]+g[1]).toLowerCase().includes(q));$('glN').textContent=l.length+' / '+GL.length+' คำ';$('glBox').innerHTML=l.map(g=>`<div><b>${esc(g[0])}</b><p>${esc(g[1])}</p></div>`).join('')||'<p class="mini">ไม่พบคำที่ค้นหา</p>'}
+$('glS').oninput=drawGl;drawGl();
+
+/* ---------- checklists ---------- */
+const DAILY=['ตรวจอุณหภูมิและพฤติกรรมปลา','ให้อาหารพอดี เก็บเศษอาหาร','ตรวจกรองและปั๊มลมทำงานปกติ','สังเกตครีบ ผิว ตา และการหายใจ','เติมน้ำระเหยด้วยน้ำที่ปรับสภาพแล้ว'];
+const FARM=['เตรียมตู้และระบบไนโตรเจนไซเคิลพร้อม','ตรวจ pH / แอมโมเนีย / ไนไตรต์ / ไนเตรต','ตรวจอุณหภูมิและเครื่องสำรอง','จัดพื้นที่กักกันปลาใหม่','กำหนดสูตรอาหารและแหล่งอาหารสดที่ปลอดภัย','สร้างทะเบียนพ่อแม่พันธุ์และเลขครอก','จัดพื้นที่อนุบาลและแยกลูกปลา','ทำทะเบียนต้นทุน อัตรารอด และสต็อกขาย','ถ่ายภาพ/คลิปตรงสีจริงและระบุรหัสปลา','ตรวจเงื่อนไขขนส่งและกฎหมายก่อนรับออเดอร์'];
+function mkList(box,items,key,prog,bar,resetKey){const day=new Date().toISOString().slice(0,10);let st=lsGet(key,{});if(resetKey&&st._d!==day)st={_d:day};
+ $(box).innerHTML=items.map((t,i)=>`<div class="ci"><input type="checkbox" id="${box}${i}" ${st[i]?'checked':''}><label for="${box}${i}">${esc(t)}</label></div>`).join('');
+ function upd(){let n=0;items.forEach((_,i)=>{if($(box+i).checked)n++});$(prog).textContent=n+'/'+items.length+' รายการ ('+Math.round(n/items.length*100)+'%)';$(bar).style.width=n/items.length*100+'%';return n}
+ $(box).onchange=()=>{const s={};if(resetKey)s._d=day;items.forEach((_,i)=>{if($(box+i).checked)s[i]=1});lsSet(key,s);const n=upd();if(n===items.length)track('checklist_complete',{k:key})};upd()}
+mkList('dList',DAILY,'bettaDaily','dProg','dBar',true);mkList('fList',FARM,'bettaFarm','fProg','fBar',false);
+$('fReset').onclick=()=>{lsSet('bettaFarm',{});mkList('fList',FARM,'bettaFarm','fProg','fBar',false)};
+requestAnimationFrame(()=>{observeReveal();drawCycle()});
+</script>
+</body>
+</html>
