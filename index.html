@@ -517,6 +517,115 @@
             letter-spacing: 3px;
             text-shadow: 0 0 10px #38bdf8;
         }
+
+        /* ============================================
+           📢 NEW APP TICKER — ตัววิ่งแนะนำโปรแกรมใหม่
+        ============================================ */
+        .new-ticker {
+            display: flex;
+            align-items: stretch;
+            max-width: 1140px;
+            margin: -10px auto 30px;
+            background: #1e293b;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(30, 41, 59, 0.25);
+            border: 2px solid #FFB75E;
+        }
+
+        .new-ticker-label {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            font-family: 'Prompt', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #fff;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .new-ticker-label i { animation: ticker-bell 1.2s ease-in-out infinite; }
+
+        @keyframes ticker-bell {
+            0%, 100% { transform: rotate(0); }
+            20% { transform: rotate(14deg); }
+            40% { transform: rotate(-12deg); }
+            60% { transform: rotate(8deg); }
+            80% { transform: rotate(-4deg); }
+        }
+
+        .new-ticker-viewport {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .new-ticker-track {
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+            width: max-content;
+            animation: ticker-scroll var(--ticker-duration, 40s) linear infinite;
+        }
+
+        .new-ticker:hover .new-ticker-track,
+        .new-ticker:focus-within .new-ticker-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes ticker-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .new-ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 28px;
+            color: #f1f5f9;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .new-ticker-item:hover { color: #FFD27F; }
+
+        .new-ticker-item .nt-tag {
+            background: #00c46a;
+            color: #fff;
+            font-family: 'Prompt', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 1px 7px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .new-ticker-item .nt-name { font-family: 'Prompt', sans-serif; font-weight: 600; }
+        .new-ticker-item .nt-desc { color: #94a3b8; font-size: 0.85rem; }
+        .new-ticker-item:hover .nt-desc { color: #cbd5e1; }
+
+        .new-ticker-sep { color: #FFB75E; opacity: 0.7; }
+
+        @media (max-width: 576px) {
+            .new-ticker { margin: -10px 12px 24px; }
+            .new-ticker-label { padding: 8px 12px; font-size: 0.8rem; }
+            .new-ticker-label .nt-label-text { display: none; }
+            .new-ticker-item .nt-desc { display: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .new-ticker-track { animation: none; }
+            .new-ticker-viewport { overflow-x: auto; }
+        }
     </style>
 </head>
 <body>
@@ -537,6 +646,16 @@
         </div>
     </div>
 </header>
+
+<!-- 📢 New App Ticker (แก้รายการได้ที่ NEW_APPS ในสคริปต์ท้ายหน้า) -->
+<div class="container">
+    <div class="new-ticker" role="region" aria-label="แนะนำโปรแกรมใหม่">
+        <div class="new-ticker-label"><i class="fa-solid fa-bullhorn"></i><span class="nt-label-text">โปรแกรมใหม่</span></div>
+        <div class="new-ticker-viewport">
+            <div class="new-ticker-track" id="newTickerTrack"></div>
+        </div>
+    </div>
+</div>
 
 <!-- Main Categories Section -->
 <div class="container">
@@ -964,6 +1083,43 @@
             return hex;
         }
     }
+</script>
+
+<!-- 📢 New App Ticker Script -->
+<script>
+    // ✏️ เพิ่ม/แก้ไขโปรแกรมใหม่ตรงนี้ (ใส่ตัวใหม่สุดไว้บนสุด) — new: true จะแสดงป้าย NEW
+    const NEW_APPS = [
+        { emoji: "🐠", name: "BETTA LAB คู่มือปลากัดไทย", desc: "ออกแบบปลา คำนวณคุณภาพน้ำ เพาะพันธุ์ ควิซ", link: "betta_master_guide.html", isNew: true },
+        { emoji: "🌱", name: "คู่มือโคโนไฟตัม เบอร์เกอรี", desc: "อินโฟกราฟิก วิธีปลูกเลี้ยง เพาะเมล็ด", link: "conophytum_burgeri.html", isNew: true },
+        { emoji: "📋", name: "App เอกสารขออนุญาต กัญชา ใหม่ มิย 69", desc: "ตรวจเอกสารประกอบการขออนุญาต", link: "DocCheckCBN2.html", isNew: false },
+        { emoji: "🌿", name: "ประเมินตนเองก่อนเปิดร้านจำหน่ายช่อดอกกัญชา", desc: "เช็กความพร้อมก่อนยื่นขออนุญาต", link: "G2NewCNBS.html", isNew: false },
+        { emoji: "🚗", name: "App ดูแลรถยนต์", desc: "ดูแลและซ่อมบำรุงรถยนต์ครบวงจร", link: "RepairEsti.html", isNew: false },
+        { emoji: "🎸", name: "MusicandEffect player", desc: "ค้นหาและบันทึกคอร์ดกีตาร์ทุกคีย์", link: "dj_mixer_player.html", isNew: false }
+    ];
+
+    (function buildNewTicker() {
+        const track = document.getElementById('newTickerTrack');
+        if (!track) return;
+
+        const esc = function(s) {
+            return String(s).replace(/[&<>"']/g, function(c) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+            });
+        };
+
+        const itemsHtml = NEW_APPS.map(function(app) {
+            return '<a class="new-ticker-item" href="' + esc(app.link) + '">' +
+                (app.isNew ? '<span class="nt-tag">NEW</span>' : '') +
+                '<span>' + app.emoji + '</span>' +
+                '<span class="nt-name">' + esc(app.name) + '</span>' +
+                '<span class="nt-desc">— ' + esc(app.desc) + '</span>' +
+                '</a><span class="new-ticker-sep" aria-hidden="true">✦</span>';
+        }).join('');
+
+        // ทำซ้ำ 2 ชุด เพื่อให้วนต่อเนื่องไม่สะดุด (ชุดที่ 2 ซ่อนจาก screen reader)
+        track.innerHTML = itemsHtml + '<span aria-hidden="true" style="display:inline-flex;align-items:center;">' + itemsHtml + '</span>';
+        track.style.setProperty('--ticker-duration', Math.max(25, NEW_APPS.length * 9) + 's');
+    })();
 </script>
 
 <!-- Visitor Counter Script -->
