@@ -172,12 +172,50 @@ tr.me td{background:var(--jade-soft);font-weight:500}
 .x li::before{content:"✕";color:var(--ruby)}
 footer{padding-block:36px 56px;color:var(--muted);font-size:.9rem}
 ul.plain{margin:0;padding-left:1.2em}
+
+/* interactive layer */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--ruby);z-index:30}
+.tbtn{font:inherit;font-size:.88rem;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:4px 12px;border-radius:999px;cursor:pointer;margin-left:8px}
+.reveal-on .rv{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.reveal-on .rv.in{opacity:1;transform:none}
+input[type=range]{width:100%;accent-color:var(--jade)}
+.hl{stroke:#e0a100;stroke-width:6;filter:drop-shadow(0 0 5px #e0a100)}
+.panel{background:var(--jade-soft);border-radius:12px;padding:12px 16px;margin-top:12px;min-height:3.4em;font-size:.95rem}
+.panel b{font-family:var(--f-display)}
+.months div{cursor:pointer;border:2px solid transparent}
+.months div[aria-pressed="true"]{border-color:var(--ink);transform:translateY(-2px)}
+.months div:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.sel{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.sel label{display:grid;gap:4px;font-size:.88rem;color:var(--muted)}
+.sel select,.logf input,.logf select{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--ground);color:var(--ink);width:100%}
+.res{border-radius:12px;padding:14px 18px;margin-top:14px;background:var(--jade-soft)}
+.res.warn{background:var(--amber-soft)}.res.bad{background:var(--ruby-soft)}
+.res b{font-family:var(--f-display);display:block;margin-bottom:2px}
+.ready{display:grid;grid-template-columns:140px 1fr;gap:20px;align-items:center}
+@media(max-width:520px){.ready{grid-template-columns:1fr;justify-items:center}}
+.ring text{font-family:var(--f-display);font-weight:700;fill:var(--ink)}
+.ck label{display:grid;grid-template-columns:22px 1fr;gap:10px;cursor:pointer;padding:4px 0}
+.ck input{width:18px;height:18px;accent-color:var(--jade);margin-top:5px}
+.qopt{display:block;width:100%;text-align:left;font:inherit;border:1px solid var(--line);background:var(--ground);color:var(--ink);padding:10px 14px;border-radius:10px;margin-top:8px;cursor:pointer}
+.qopt:hover:not(:disabled){border-color:var(--jade)}
+.qopt.right{background:var(--jade-soft);border-color:var(--jade)}.qopt.wrong{background:var(--ruby-soft);border-color:var(--ruby)}
+.qopt:disabled{cursor:default;color:var(--ink)}
+.btn{font:inherit;border:0;background:var(--jade);color:#fff;padding:8px 18px;border-radius:999px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn:focus-visible,.qopt:focus-visible,.tbtn:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.logf{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;align-items:end}
+.logf label{display:grid;gap:4px;font-size:.85rem;color:var(--muted)}
+.lbn{position:absolute;top:50%;transform:translateY(-50%);font-size:2rem;line-height:1;border:0;background:rgba(255,255,255,.14);color:#fff;width:46px;height:46px;border-radius:50%;cursor:pointer}
+#lbprev{left:12px}#lbnext{right:12px}
+#lbcap{position:absolute;bottom:14px;left:0;right:0;text-align:center;color:#cfe4da;font-size:.85rem}
+@media print{.rv{opacity:1!important;transform:none!important}.progress{display:none}}
 @media print{nav.toc,#lightbox{display:none!important}.hero{background:#fff!important;color:#000!important}section{break-inside:avoid-page}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
 
+<div id="progress" class="progress"></div>
 <header class="hero">
   <div class="wrap">
     <div>
@@ -201,7 +239,7 @@ ul.plain{margin:0;padding-left:1.2em}
 
 <nav class="toc" aria-label="สารบัญ">
   <a href="index.html">← หน้าหลัก</a><a href="#photos">ภาพจริง</a><a href="#know">รู้จักพืช</a><a href="#life">วงจรชีวิต</a><a href="#grow">ปลูกในไทย</a>
-  <a href="#mix">วัสดุปลูก</a><a href="#seed">เพาะเมล็ด</a><a href="#save">อนุรักษ์</a><a href="#buy">ซื้อและกฎหมาย</a><a href="#changes">ที่ปรับจากฉบับเดิม</a><a href="#refs">เครดิต</a>
+  <a href="#mix">วัสดุปลูก</a><a href="#seed">เพาะเมล็ด</a><a href="#save">อนุรักษ์</a><a href="#buy">ซื้อและกฎหมาย</a><a href="#quiz">ทดสอบความรู้</a><a href="#log">สมุดบันทึก</a><a href="#changes">ที่ปรับจากฉบับเดิม</a><a href="#refs">เครดิต</a><button type="button" class="tbtn" id="themeBtn" aria-label="สลับโหมดสว่าง/มืด">◐ โหมดสี</button>
 </nav>
 
 <main class="wrap">
@@ -227,12 +265,12 @@ ul.plain{margin:0;padding-left:1.2em}
     <div class="info">
       <svg viewBox="0 0 420 330" role="img" aria-label="แผนภาพกายวิภาคของต้น">
         <ellipse cx="170" cy="282" rx="105" ry="12" fill="var(--line)"/>
-        <path d="M70 222 C62 150 112 80 170 78 C228 80 278 150 270 222 C262 262 222 280 170 280 C118 280 78 262 70 222Z" fill="#5f9a74"/>
+        <path d="M70 222 C62 150 112 80 170 78 C228 80 278 150 270 222 C262 262 222 280 170 280 C118 280 78 262 70 222Z" fill="#5f9a74" id="a-body"/>
         <path d="M70 222 C62 150 112 80 170 78 C228 80 278 150 270 222 C262 262 222 280 170 280 C118 280 78 262 70 222Z" fill="url(#g1)"/>
         <defs><radialGradient id="g1" cx=".4" cy=".45" r=".7"><stop offset="0" stop-color="#cfe9d4" stop-opacity=".75"/><stop offset="1" stop-color="#1f5a45" stop-opacity=".25"/></radialGradient></defs>
-        <path d="M150 80 Q170 90 190 80" stroke="#0f3a31" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path id="a-fis" d="M150 80 Q170 90 190 80" stroke="#0f3a31" stroke-width="3" fill="none" stroke-linecap="round"/>
         <path d="M118 120 Q130 104 150 98" stroke="#fff" stroke-opacity=".7" stroke-width="6" fill="none" stroke-linecap="round"/>
-        <path d="M66 238 C80 250 92 262 112 270" stroke="#e9e4d4" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="2 9"/>
+        <path id="a-sheath" d="M66 238 C80 250 92 262 112 270" stroke="#e9e4d4" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="2 9"/>
         <g class="svgtxt" font-size="14">
           <line x1="190" y1="78" x2="318" y2="48" stroke="var(--muted)"/><text x="322" y="46">รอยแยกที่ยอด</text><text x="322" y="64" class="svgmut" font-size="11">fissure</text>
           <line x1="262" y1="150" x2="318" y2="150" stroke="var(--muted)"/><text x="322" y="148">ผิวเรียบ เป็นมัน โปร่งแสง</text><text x="322" y="166" class="svgmut" font-size="11">epidermis</text>
@@ -247,6 +285,13 @@ ul.plain{margin:0;padding-left:1.2em}
         <text x="130" y="322" class="svgmut" font-size="12" display="none">กว้าง</text>
       </svg>
       <p style="font-size:.85rem;color:var(--muted);margin:8px 0 0">แผนภาพประกอบ วาดเพื่ออธิบาย ไม่ใช่ภาพถ่าย ขนาดตามข้อมูลของ LLIFLE: สูง 13–25 มม. กว้าง 20–25 มม. ที่ฐาน</p>
+      <div class="seg" style="margin:14px 0 0" role="group" aria-label="เลือกส่วนของต้น">
+        <button type="button" aria-pressed="false" data-part="body">ใบคู่เชื่อมกัน</button>
+        <button type="button" aria-pressed="false" data-part="skin">ผิว</button>
+        <button type="button" aria-pressed="false" data-part="fis">รอยแยก</button>
+        <button type="button" aria-pressed="false" data-part="sheath">ปลอกใบเก่า</button>
+      </div>
+      <div class="panel" id="partInfo">แตะปุ่มด้านบน แล้วส่วนนั้นในแผนภาพจะเรืองขึ้น</div>
     </div>
 
     <div class="grid" style="align-content:start">
@@ -263,6 +308,11 @@ ul.plain{margin:0;padding-left:1.2em}
       <p style="margin:0 0 4px">ผิวเปลี่ยนจากเขียวเทาโปร่งแสงเป็นม่วงถึงแดงเมื่อโดนแดดตรง ตามคำอธิบายของ Wikipedia และ LLIFLE (ไม่ได้แปลว่าสีแดงจัดคือสุขภาพดีกว่า)</p>
       <div class="spectrum" role="img" aria-label="ไล่สีจากเขียวเทาไปแดงทับทิม"></div>
       <div class="spec-labels"><span>เขียวเทา โปร่งแสง</span><span>ม่วงแดง</span><span>แดงทับทิม</span></div>
+      <div style="margin-top:16px;display:grid;grid-template-columns:90px 1fr;gap:14px;align-items:center">
+        <svg viewBox="0 0 100 100" aria-hidden="true" style="width:90px"><ellipse cx="50" cy="90" rx="32" ry="5" fill="var(--line)"/><path id="sunBody" d="M18 66 C14 38 32 14 50 13 C68 14 86 38 82 66 C80 80 66 86 50 86 C34 86 20 80 18 66Z" fill="#7fb99a"/><path d="M44 14 Q50 18 56 14" stroke="#0f3a31" stroke-width="2" fill="none"/><path d="M33 34 Q38 27 46 25" stroke="#fff" stroke-opacity=".7" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+        <div><label for="sun" style="font-size:.88rem;color:var(--muted)">ลากเพื่อดูแนวโน้มสีเมื่อได้แดดตรงมากขึ้น</label><input id="sun" type="range" min="0" max="8" step="1" value="0"><div id="sunLbl" class="mono" style="font-size:.85rem"></div></div>
+      </div>
+      <p style="font-size:.8rem;color:var(--muted);margin:8px 0 0">ภาพจำลองแนวโน้มตามที่แหล่งอ้างอิงบรรยาย ตัวเลขชั่วโมงเป็นสเกลสมมติ สีจริงต่างกันตามต้นและสภาพแสง</p>
     </div>
     <div class="card">
       <h3>ดอก</h3>
@@ -317,6 +367,7 @@ ul.plain{margin:0;padding-left:1.2em}
       <div class="m-cool">ม.ค.</div><div class="m-cool">ก.พ.</div><div class="m-hot">มี.ค.</div><div class="m-hot">เม.ย.</div><div class="m-wet">พ.ค.</div><div class="m-wet">มิ.ย.</div>
       <div class="m-wet">ก.ค.</div><div class="m-wet">ส.ค.</div><div class="m-wet">ก.ย.</div><div class="m-wet">ต.ค.</div><div class="m-cool">พ.ย.</div><div class="m-cool">ธ.ค.</div>
     </div>
+    <div class="panel" id="mpanel" aria-live="polite">แตะเดือนเพื่อดูข้อแนะนำและเทียบฤดูกับแอฟริกาใต้</div>
     <div class="month-key">
       <span><i class="m-cool"></i>พ.ย.–ก.พ. อากาศเย็นกว่า เหมาะทดลองเพาะและดูการเติบโต</span>
       <span><i class="m-hot"></i>มี.ค.–เม.ย. ป้องกันความร้อนและแดดจัด</span>
@@ -332,6 +383,23 @@ ul.plain{margin:0;padding-left:1.2em}
     <div class="card"><span class="tag bad">แยกต้น ตรวจราก</span><h3 style="margin-top:6px">นิ่มช้ำ ฐานเปลี่ยนสี</h3><p>สัญญาณเน่า งดน้ำ ตรวจรากและแยกจากต้นอื่นทันที</p></div>
   </div>
   <p style="font-size:.9rem;color:var(--muted);margin-top:10px">แหล่งอ้างอิงแนะนำให้น้ำเบา ๆ ทุก 1–2 สัปดาห์เมื่อวัสดุแห้งในช่วงที่ต้นโต และแทบงดน้ำช่วงพักตัว ตัวเลขนี้เป็นแนวทางทั่วไป ในห้องร้อนชื้นให้ยืดช่วงออกและดูอาการเป็นหลัก</p>
+
+  <h3 style="margin:28px 0 10px">หมอต้นไม้ ตอบ 3 ข้อเพื่อดูแนวทาง</h3>
+  <div class="info">
+    <div class="sel">
+      <label>ผิวต้นตอนนี้<select id="d1"><option value="tight">ตึง ใส</option><option value="shriv">เหี่ยวย่น</option><option value="split">แตกร่อง</option><option value="soft">นิ่มช้ำ / ฐานเปลี่ยนสี</option></select></label>
+      <label>วัสดุปลูกด้านใน<select id="d2"><option value="dry">แห้งสนิท</option><option value="wet">ยังชื้น</option><option value="unk">ไม่แน่ใจ</option></select></label>
+      <label>ช่วงชีวิตของต้น<select id="d3"><option value="grow">กำลังแตกใบใหม่/โต</option><option value="dorm">พักตัว มีปลอกแห้งหุ้ม</option><option value="unk">ไม่แน่ใจ</option></select></label>
+    </div>
+    <div class="res" id="dres"></div>
+    <p style="font-size:.82rem;color:var(--muted);margin:10px 0 0">แนวทางทั่วไปจากแหล่งอ้างอิงและคู่มือเดิม ใช้ประกอบการสังเกต ไม่ใช่คำวินิจฉัย</p>
+  </div>
+
+  <h3 style="margin:28px 0 10px">เช็กความพร้อมของพื้นที่เลี้ยง</h3>
+  <div class="info ready">
+    <svg class="ring" viewBox="0 0 120 120" width="140" height="140" role="img" aria-label="คะแนนความพร้อม"><circle cx="60" cy="60" r="44" fill="none" stroke="var(--line)" stroke-width="12"/><circle id="ringFg" cx="60" cy="60" r="44" fill="none" stroke="var(--jade)" stroke-width="12" stroke-linecap="round" stroke-dasharray="0 276.5" transform="rotate(-90 60 60)"/><text id="ringTx" x="60" y="68" text-anchor="middle" font-size="24">0%</text></svg>
+    <div class="ck" id="ready"></div>
+  </div>
 </section>
 
 <section id="mix">
@@ -438,6 +506,13 @@ ul.plain{margin:0;padding-left:1.2em}
       <div style="background:#8a4f78;flex:1000">เครื่องมือ</div>
     </div>
     <div class="spec-labels" style="margin-top:8px;flex-wrap:wrap"><span>ต้น 300–1,500</span><span>กระถาง+วัสดุ 500–1,200</span><span>ชั้นไฟ/พัดลม 1,000–3,000</span><span>เครื่องมือ 500–1,500</span></div>
+    <div class="ck" id="bud" style="margin-top:14px">
+      <label><input type="checkbox" checked data-min="300" data-max="1500"><span>ต้นไม้ถูกต้อง 3–5 ต้น <span class="mono">300–1,500</span></span></label>
+      <label><input type="checkbox" checked data-min="500" data-max="1200"><span>กระถาง + วัสดุปลูก <span class="mono">500–1,200</span></span></label>
+      <label><input type="checkbox" checked data-min="1000" data-max="3000"><span>ชั้นไฟ / พัดลม <span class="mono">1,000–3,000</span></span></label>
+      <label><input type="checkbox" checked data-min="500" data-max="1500"><span>เครื่องมือเพาะและวัด <span class="mono">500–1,500</span></span></label>
+    </div>
+    <div class="out"><div><b id="budTot">2,300–7,200</b>รวม (บาท) ตามรายการที่เลือก</div></div>
     <p style="font-size:.85rem;color:var(--muted);margin:10px 0 0">ตัวเลขจากคู่มือเดิม ไม่รวมแอร์ ค่าไฟ และค่านำเข้า ความกว้างแถบเป็นค่ากลางโดยประมาณ</p>
   </div>
 
@@ -450,8 +525,28 @@ ul.plain{margin:0;padding-left:1.2em}
   </div>
 </section>
 
+<section id="quiz">
+  <div class="sec-head"><div class="eyebrow">08 · ทดสอบความรู้</div><h2>ตอบ 6 ข้อ ดูว่าจำได้กี่ข้อ</h2><p>เฉลยทันทีพร้อมเหตุผล ไม่เก็บคะแนนไว้ที่ไหน</p></div>
+  <div class="info" id="quizBox"></div>
+</section>
+
+<section id="log">
+  <div class="sec-head"><div class="eyebrow">09 · สมุดบันทึกของฉัน</div><h2>จดการเลี้ยงของต้นคุณเอง</h2><p>บันทึกเก็บในเบราว์เซอร์เครื่องนี้เท่านั้น ไม่ส่งไปไหน ส่งออกเป็นไฟล์ CSV ได้ ถ้าล้างข้อมูลเบราว์เซอร์รายการจะหาย</p></div>
+  <div class="info">
+    <form class="logf" id="logForm">
+      <label>รหัสต้น / รุ่นเมล็ด<input id="lg1" required placeholder="เช่น B-01"></label>
+      <label>วันที่<input id="lg2" type="date" required></label>
+      <label>เหตุการณ์<select id="lg3"><option>รดน้ำ</option><option>ย้ายปลูก</option><option>แตกใบใหม่</option><option>ออกดอก</option><option>ผสมเกสร</option><option>เพาะเมล็ด</option><option>อาการผิดปกติ</option><option>อื่น ๆ</option></select></label>
+      <label>หมายเหตุ<input id="lg4" placeholder="แสง อุณหภูมิ อาการ"></label>
+      <button class="btn" type="submit">เพิ่มรายการ</button>
+    </form>
+    <div class="tbl" style="margin-top:16px"><table><thead><tr><th>วันที่</th><th>รหัสต้น</th><th>เหตุการณ์</th><th>หมายเหตุ</th><th></th></tr></thead><tbody id="logBody"></tbody></table></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn ghost" type="button" id="logCsv">ส่งออก CSV</button><button class="btn ghost" type="button" id="logClr">ล้างทั้งหมด</button><span id="logMsg" style="color:var(--muted);align-self:center;font-size:.9rem"></span></div>
+  </div>
+</section>
+
 <section id="changes">
-  <div class="sec-head"><div class="eyebrow">08 · ที่ปรับจากฉบับเดิม</div><h2>น้องมายด์ตรวจและเพิ่มอะไรบ้าง</h2></div>
+  <div class="sec-head"><div class="eyebrow">10 · ที่ปรับจากฉบับเดิม</div><h2>น้องมายด์ตรวจและเพิ่มอะไรบ้าง</h2></div>
   <div class="grid g2">
     <div class="card"><h3>ยืนยันแล้วว่าตรง</h3><ul class="plain"><li>ปีตีพิมพ์ชื่อชนิด 1967 (IPNI) และผู้ตั้งชื่อ L.Bolus</li><li>สถานะ Critically Endangered (IUCN 2022)</li><li>ถิ่นเดียวใกล้ Aggeneys จังหวัด Northern Cape</li><li>ขั้นตอนการยื่นขอใบอนุญาตนำเข้า CITES ของไทย</li></ul></div>
     <div class="card"><h3>เพิ่มใหม่</h3><ul class="plain"><li>ขนาดตัว ดอก และตารางแยกชนิดญาติ</li><li>จำนวนประชากรต่ำกว่า 250 ต้น และสถิติทั้งสกุลจาก SANBI</li><li>ข้อมูลฤดูเติบโตที่แหล่งอ้างอิงไม่ตรงกัน พร้อมคำแนะนำให้ดูอาการต้น</li><li>เครื่องคิดอัตรางอก และสัญลักษณ์ติดป้าย “ทดลอง” กับส่วนที่ไม่มีแหล่งอ้างอิงรองรับ</li></ul></div>
@@ -460,7 +555,7 @@ ul.plain{margin:0;padding-left:1.2em}
 </section>
 
 <section id="refs" style="border-bottom:0">
-  <div class="sec-head"><div class="eyebrow">09 · เครดิตและแหล่งอ้างอิง</div><h2>ตรวจต่อได้ที่ต้นทาง</h2></div>
+  <div class="sec-head"><div class="eyebrow">11 · เครดิตและแหล่งอ้างอิง</div><h2>ตรวจต่อได้ที่ต้นทาง</h2></div>
   <div class="grid g2">
     <div class="card"><h3>พฤกษศาสตร์และการเลี้ยง</h3><ul class="plain">
       <li><a href="https://www.ipni.org/n/57252-1" target="_blank" rel="noopener">IPNI · Conophytum burgeri L.Bolus</a></li>
@@ -480,7 +575,7 @@ ul.plain{margin:0;padding-left:1.2em}
 </section>
 </main>
 
-<div id="lightbox" role="dialog" aria-label="ภาพขยาย"><img alt=""></div>
+<div id="lightbox" role="dialog" aria-label="ภาพขยาย"><button type="button" class="lbn" id="lbprev" aria-label="ภาพก่อนหน้า">‹</button><img alt=""><button type="button" class="lbn" id="lbnext" aria-label="ภาพถัดไป">›</button><div id="lbcap"></div></div>
 
 <script>
 (function(){
@@ -490,11 +585,14 @@ ul.plain{margin:0;padding-left:1.2em}
     img.addEventListener('error',function(){var p=img.parentElement;p.classList.add('nophoto')});
     img.src='https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(f)+'?width='+w;
   });
-  var lb=document.getElementById('lightbox'), lbi=lb.querySelector('img');
-  document.querySelectorAll('.gallery img').forEach(function(i){i.addEventListener('click',function(){
-    lbi.src=i.src.replace(/width=\d+/,'width=1600');lb.classList.add('on')})});
-  lb.addEventListener('click',function(){lb.classList.remove('on')});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('on')});
+  var lb=document.getElementById('lightbox'), lbi=lb.querySelector('img'), lbc=document.getElementById('lbcap'),
+      gal=[].slice.call(document.querySelectorAll('.gallery img')), cur=0;
+  function show(n){cur=(n+gal.length)%gal.length;lbi.src=gal[cur].src.replace(/width=\d+/,'width=1600');
+    lbc.textContent='ภาพ '+(cur+1)+' / '+gal.length;lb.classList.add('on')}
+  gal.forEach(function(i,k){i.addEventListener('click',function(){show(k)})});
+  lb.addEventListener('click',function(e){if(e.target.id==='lbprev')show(cur-1);else if(e.target.id==='lbnext')show(cur+1);else lb.classList.remove('on')});
+  document.addEventListener('keydown',function(e){if(!lb.classList.contains('on'))return;
+    if(e.key==='Escape')lb.classList.remove('on');if(e.key==='ArrowLeft')show(cur-1);if(e.key==='ArrowRight')show(cur+1)});
 
   // Substrate donut
   var mixes={
@@ -521,6 +619,142 @@ ul.plain{margin:0;padding-left:1.2em}
     document.getElementById('o2').textContent=b>0?Math.round(c/b*100)+'%':'–';
   }
   [n1,n2,n3].forEach(function(e){e.addEventListener('input',calc)});calc();
+})();
+</script>
+
+<script>
+(function(){
+  function $(q){return document.querySelector(q)}
+  function $$(q){return [].slice.call(document.querySelectorAll(q))}
+  function load(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+  function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+  // reading progress
+  var pb=$('#progress');
+  function onScroll(){var h=document.documentElement,m=h.scrollHeight-h.clientHeight;pb.style.width=(m>0?h.scrollTop/m*100:0)+'%'}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  // theme toggle
+  var th=load('cb-theme',null);if(th)document.documentElement.setAttribute('data-theme',th);
+  $('#themeBtn').addEventListener('click',function(){
+    var c=document.documentElement.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
+    var n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);save('cb-theme',n)});
+
+  // sun slider
+  var stops=[[127,185,154],[95,154,116],[168,144,90],[162,74,92],[109,31,58]];
+  function mix(t){var p=t*(stops.length-1),i=Math.min(Math.floor(p),stops.length-2),f=p-i,a=stops[i],b=stops[i+1];
+    return 'rgb('+[0,1,2].map(function(k){return Math.round(a[k]+(b[k]-a[k])*f)}).join(',')+')'}
+  var sun=$('#sun');
+  function sunUpd(){var v=+sun.value;$('#sunBody').setAttribute('fill',mix(v/8));
+    $('#sunLbl').textContent=v+' ชม./วัน · '+(v<=1?'เขียวเทา โปร่งแสง':v<=3?'เขียวเริ่มเข้มขึ้น':v<=5?'เริ่มม่วงแดง':v<=7?'ม่วงแดงชัด':'แดงทับทิม')}
+  sun.addEventListener('input',sunUpd);sunUpd();
+
+  // anatomy highlight
+  var parts={
+    body:['a-body','ใบคู่เชื่อมกัน','ใบสองใบเชื่อมติดกันสนิทเป็นก้อนเดียว สูงราว 13–25 มม. ส่วนที่เก็บน้ำไว้ใช้ในช่วงแล้ง'],
+    skin:['a-body','ผิว','เรียบ เป็นมัน โปร่งแสง สีเขียวเทาถึงม่วงแดง และเปลี่ยนสีเมื่อโดนแดดตรง'],
+    fis:['a-fis','รอยแยกที่ยอด','ร่องเล็ก ๆ ตรงที่ใบสองใบมาชนกัน ใบใหม่และดอกโผล่ออกมาทางนี้'],
+    sheath:['a-sheath','ปลอกใบเก่า','เมื่อพักตัว ใบเก่าแห้งเป็นปลอกบางสีขาวห่อใบใหม่ไว้ข้างใน ไม่ควรรีบลอกถ้ายังติดแน่น']};
+  $$('[data-part]').forEach(function(b){b.addEventListener('click',function(){
+    $$('.hl').forEach(function(e){e.classList.remove('hl')});
+    $$('[data-part]').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    var p=parts[b.dataset.part];document.getElementById(p[0]).classList.add('hl');
+    $('#partInfo').innerHTML='<b></b><br><span></span>';$('#partInfo b').textContent=p[1];$('#partInfo span').textContent=p[2]})});
+
+  // month explorer
+  var sa=['ร้อน (summer)','ร้อน (summer)','ใบไม้ร่วง (autumn)','ใบไม้ร่วง (autumn)','ใบไม้ร่วง (autumn)','หนาว (winter)','หนาว (winter)','หนาว (winter)','ใบไม้ผลิ (spring)','ใบไม้ผลิ (spring)','ใบไม้ผลิ (spring)','ร้อน (summer)'];
+  var act=['ช่วงอากาศเย็นกว่า เหมาะทดลองเพาะและดูการเติบโต ดูผิวตึงหรือเหี่ยวก่อนให้น้ำ','ช่วงอากาศเย็นกว่า เหมาะทดลองเพาะและดูการเติบโต ดูผิวตึงหรือเหี่ยวก่อนให้น้ำ',
+    'เริ่มร้อน ตรวจอุณหภูมิที่ระดับต้นและป้องกันแดดจัด','ร้อนจัด ป้องกันความร้อนและแดดแรง ให้ลมถ่ายเท','ระวังฝน ความอับชื้น และระยะพักตัว','ระวังฝน ความอับชื้น และระยะพักตัว',
+    'ระวังฝน ความอับชื้น และระยะพักตัว','ระวังฝน ความอับชื้น และระยะพักตัว','ติดตามการผลิตใบและการตื่นตัวก่อนเพิ่มน้ำ','ติดตามการผลิตใบและการตื่นตัวก่อนเพิ่มน้ำ',
+    'ช่วงอากาศเย็นกว่า เหมาะทดลองเพาะและดูการเติบโต','ช่วงอากาศเย็นกว่า เหมาะทดลองเพาะและดูการเติบโต'];
+  var mn=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+  var mb=$$('.months div');
+  function pick(i){mb.forEach(function(d,k){d.setAttribute('aria-pressed',k===i)});
+    var fl=(i===3||i===4)?' · ในแอฟริกาใต้ช่วงนี้เป็นช่วงที่ต้นออกดอก':'';
+    var p=$('#mpanel');p.innerHTML='<b></b><br><span></span>';p.querySelector('b').textContent=mn[i]+' · ที่แอฟริกาใต้เป็นฤดู'+sa[i]+fl;
+    p.querySelector('span').textContent=act[i]+' (แนวทางทดลองสำหรับสมุทรปราการ)'}
+  mb.forEach(function(d,i){d.setAttribute('role','button');d.setAttribute('tabindex','0');d.setAttribute('aria-pressed','false');
+    d.addEventListener('click',function(){pick(i)});d.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(i)}})});
+  pick(new Date().getMonth());
+
+  // plant doctor
+  function doctor(){
+    var a=$('#d1').value,b=$('#d2').value,c=$('#d3').value,t,m,k='';
+    if(a==='soft'){t='สัญญาณเน่า';m='งดน้ำ แยกต้นออกจากต้นอื่น แล้วตรวจฐานและราก อย่าเติมน้ำทันที';k='bad'}
+    else if(a==='split'){t='ลำต้นแตกร่อง';m='มักเกิดจากน้ำมากเกินไป และดอกก็อาจทำให้แตกได้ งดน้ำจนวัสดุแห้งสนิท ไม่น่าดูแต่มักไม่ถึงตาย';k='warn'}
+    else if(a==='shriv'&&b==='wet'){t='เหี่ยวทั้งที่วัสดุชื้น';m='ควรตรวจรากและการระบายน้ำ ผิวเหี่ยวทั้งที่วัสดุยังเปียกอาจแปลว่ารากไม่ทำงาน อย่าเพิ่มน้ำ';k='bad'}
+    else if(a==='shriv'&&c==='dorm'){t='เหี่ยวช่วงพักตัว';m='ช่วงพักตัวปล่อยแห้งได้ ให้น้ำน้อยมากเมื่อต้นเหี่ยวชัดเจนเท่านั้น และไม่ดึงปลอกใบเก่าออก';k='warn'}
+    else if(a==='shriv'){t='ต้นขาดน้ำ';m='ให้น้ำเล็กน้อยเมื่อวัสดุแห้งสนิท แล้วสังเกตว่าผิวกลับตึงใน 1–2 วันหรือไม่';k='warn'}
+    else if(b==='unk'){t='ตรวจความชื้นก่อน';m='ยกกระถางเทียบน้ำหนักตอนแห้งกับตอนเปียก หรือใช้ไม้จิ้มเช็กด้านใน แล้วเลือกคำตอบข้อวัสดุอีกครั้ง'}
+    else if(b==='wet'){t='ผิวตึง วัสดุยังชื้น';m='รอได้ ไม่ต้องรีบรดซ้ำ ให้วัสดุแห้งก่อน'}
+    else if(c==='dorm'){t='ผิวตึง วัสดุแห้ง ช่วงพักตัว';m='ยังไม่ต้องรีบให้น้ำ ปล่อยแห้งและสังเกตต่อ'}
+    else{t='ผิวตึง วัสดุแห้ง';m='ช่วงโตให้น้ำเบา ๆ ได้ ตามแหล่งอ้างอิงห่างกันราว 1–2 สัปดาห์ ในอากาศร้อนชื้นของไทยให้ดูอาการประกอบ'}
+    var r=$('#dres');r.className='res '+k;r.innerHTML='<b></b><span></span>';r.querySelector('b').textContent=t;r.querySelector('span').textContent=m}
+  ['#d1','#d2','#d3'].forEach(function(q){$(q).addEventListener('change',doctor)});doctor();
+
+  // readiness checklist
+  var items=['มีลมถ่ายเท ไม่อับ','กันฝนสาดและน้ำขัง','วัสดุปลูกโปร่ง ระบายน้ำเร็ว','ภาชนะมีรูระบายน้ำ','มีเครื่องวัดอุณหภูมิที่ระดับต้น','แสงสว่างแต่กรองได้ช่วงร้อนจัด','ต้นมีที่มาและเอกสารครบ','มีสมุดบันทึกพร้อมใช้ (ด้านล่าง)'];
+  var st=load('cb-ready',[]);var box=$('#ready');
+  items.forEach(function(t,i){var l=document.createElement('label'),c=document.createElement('input'),sp=document.createElement('span');
+    c.type='checkbox';c.checked=!!st[i];sp.textContent=t;l.appendChild(c);l.appendChild(sp);box.appendChild(l);
+    c.addEventListener('change',function(){st[i]=c.checked;save('cb-ready',st);ring()})});
+  function ring(){var n=$$('#ready input:checked').length,p=Math.round(n/items.length*100);
+    $('#ringFg').setAttribute('stroke-dasharray',(p/100*276.5)+' 276.5');$('#ringTx').textContent=p+'%'}
+  ring();
+
+  // budget
+  function bud(){var a=0,b=0;$$('#bud input:checked').forEach(function(c){a+=+c.dataset.min;b+=+c.dataset.max});
+    $('#budTot').textContent=a.toLocaleString('en-US')+'–'+b.toLocaleString('en-US')}
+  $$('#bud input').forEach(function(c){c.addEventListener('change',bud)});
+
+  // quiz
+  var Q=[
+   ['ส่วนกลมของต้นเบอร์เกอรีคืออะไร',['ลำต้นกลม','ใบสองใบเชื่อมติดกัน','หัวใต้ดิน'],1,'เป็นใบคู่ที่เชื่อมกันสนิท มีรอยแยกเล็ก ๆ ที่ยอด'],
+   ['ชื่อชนิด Conophytum burgeri ตีพิมพ์ในปีใด',['1922','1967','2022'],1,'L.Bolus ตีพิมพ์ใน J. S. African Bot. 33: 305 (1967) ตาม IPNI ส่วน 1922 คือปีที่ตั้งชื่อสกุล และ 2022 คือปีประเมิน IUCN'],
+   ['สถานะ IUCN ล่าสุดของชนิดนี้',['Least Concern','Endangered','Critically Endangered'],2,'IUCN 2022 จัดเป็น Critically Endangered แนวโน้มประชากรลดลง'],
+   ['จุดแยกจาก C. subterraneum ที่ใช้ได้',['เกสรตัวเมียยาวเกิน 10 มม. และผิวเปลี่ยนสีแดงในแดด','มีกลีบเลี้ยง 4 กลีบ','มีหน้าต่างโปร่งแสงที่ยอด'],0,'ข้อ 2 คือ C. achabense ข้อ 3 คือ C. hammeri'],
+   ['ลำต้นแตกร่อง มักหมายถึงอะไร',['ขาดแสง','น้ำมากเกินไป','ขาดปุ๋ย'],1,'แหล่งอ้างอิงระบุว่าแตกเมื่อได้น้ำมากเกินไป และดอกก็ทำให้แตกได้'],
+   ['ดอกเบอร์เกอรีบานช่วงไหนของวัน',['เช้าตรู่','ช่วงบ่ายถึงเย็น','กลางคืน'],1,'ดอกกลิ่นน้ำผึ้ง บานช่วงบ่ายแล้วหุบ']];
+  var qi=0,qs=0,qb=$('#quizBox');
+  function qr(){qb.innerHTML='';
+    if(qi>=Q.length){var d=document.createElement('div');d.innerHTML='<h3></h3><p></p>';d.querySelector('h3').textContent='ได้ '+qs+' / '+Q.length+' ข้อ';
+      d.querySelector('p').textContent=qs>=5?'แน่นมาก พร้อมเริ่มทดลองเลี้ยงแล้ว':qs>=3?'ผ่านครึ่งทาง ลองกลับไปอ่านหมวดวงจรชีวิตและปลูกในไทยอีกรอบ':'ลองอ่านทบทวนแล้วทำซ้ำได้เลย';
+      var b=document.createElement('button');b.className='btn';b.textContent='เริ่มใหม่';b.onclick=function(){qi=0;qs=0;qr()};d.appendChild(b);qb.appendChild(d);return}
+    var q=Q[qi],h=document.createElement('div');h.className='mono';h.style.color='var(--muted)';h.textContent='ข้อ '+(qi+1)+' / '+Q.length+' · คะแนน '+qs;qb.appendChild(h);
+    var t=document.createElement('h3');t.textContent=q[0];t.style.marginTop='6px';qb.appendChild(t);
+    var fb=document.createElement('div');
+    q[1].forEach(function(o,k){var b=document.createElement('button');b.className='qopt';b.textContent=o;
+      b.onclick=function(){$$('.qopt').forEach(function(x,j){x.disabled=true;if(j===q[2])x.classList.add('right')});
+        if(k===q[2])qs++;else b.classList.add('wrong');
+        fb.className='res '+(k===q[2]?'':'bad');fb.innerHTML='<b></b><span></span>';fb.querySelector('b').textContent=k===q[2]?'ถูกต้อง':'ยังไม่ใช่';fb.querySelector('span').textContent=q[3];
+        var n=document.createElement('button');n.className='btn';n.style.marginTop='12px';n.textContent=qi===Q.length-1?'ดูผล':'ข้อต่อไป';n.onclick=function(){qi++;qr()};fb.appendChild(document.createElement('br'));fb.appendChild(n)};
+      qb.appendChild(b)});
+    qb.appendChild(fb)}
+  qr();
+
+  // logbook
+  var L=load('cb-log',[]),lb2=$('#logBody'),msg=$('#logMsg');
+  $('#lg2').value=new Date().toISOString().slice(0,10);
+  function lr(){lb2.innerHTML='';
+    if(!L.length){var tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=5;td.style.color='var(--muted)';td.textContent='ยังไม่มีรายการ เพิ่มรายการแรกด้านบน';tr.appendChild(td);lb2.appendChild(tr);return}
+    L.slice().sort(function(a,b){return a.d<b.d?1:-1}).forEach(function(e){var tr=document.createElement('tr');
+      [e.d,e.t,e.k,e.n].forEach(function(v){var td=document.createElement('td');td.textContent=v||'';tr.appendChild(td)});
+      var td=document.createElement('td'),b=document.createElement('button');b.className='btn ghost';b.textContent='ลบ';b.onclick=function(){L=L.filter(function(x){return x!==e});save('cb-log',L);lr()};td.appendChild(b);tr.appendChild(td);lb2.appendChild(tr)})}
+  $('#logForm').addEventListener('submit',function(ev){ev.preventDefault();
+    L.push({d:$('#lg2').value,t:$('#lg1').value.trim(),k:$('#lg3').value,n:$('#lg4').value.trim()});save('cb-log',L);$('#lg4').value='';lr();msg.textContent='บันทึกแล้ว'});
+  var clr=0;$('#logClr').addEventListener('click',function(){if(!clr){clr=1;msg.textContent='กดอีกครั้งเพื่อยืนยันการล้างทั้งหมด';setTimeout(function(){clr=0;msg.textContent=''},4000);return}
+    L=[];save('cb-log',L);lr();clr=0;msg.textContent='ล้างแล้ว'});
+  $('#logCsv').addEventListener('click',function(){if(!L.length){msg.textContent='ยังไม่มีรายการให้ส่งออก';return}
+    var rows=[['วันที่','รหัสต้น','เหตุการณ์','หมายเหตุ']].concat(L.map(function(e){return [e.d,e.t,e.k,e.n]}));
+    var csv='\ufeff'+rows.map(function(r){return r.map(function(v){return '"'+String(v||'').replace(/"/g,'""')+'"'}).join(',')}).join('\r\n');
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='conophytum-log.csv';document.body.appendChild(a);a.click();a.remove()});
+  lr();
+
+  // reveal on scroll
+  if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
+    document.documentElement.classList.add('reveal-on');
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.06});
+    $$('.sec-head,.card,.info,.tbl,.gallery figure,.note').forEach(function(el){el.classList.add('rv');io.observe(el)})}
 })();
 </script>
 </body>
