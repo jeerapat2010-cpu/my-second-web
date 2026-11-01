@@ -1,0 +1,2877 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#10232C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="สู้ภัยประจำบ้าน">
+<title>คู่มืออุปกรณ์สู้ภัยประจำบ้าน</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<!-- TTM-GA4-APP START -->
+<script>
+(function () {
+  'use strict';
+  if (location.hostname !== 'jeerapat2010-cpu.github.io' ||
+      !location.pathname.startsWith('/my-second-web/homegear')) return;
+  if (window.__ttmGA4AppInstalled) return;
+  window.__ttmGA4AppInstalled = true;
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+  var appName = "คู่มืออุปกรณ์สู้ภัยประจำบ้าน";
+  var appCategory = "7. Utility";
+  var cleanReferrer = '';
+  try { var ref = new URL(document.referrer); cleanReferrer = ref.origin + ref.pathname; } catch (_) {}
+  window.gtag('js', new Date());
+  window.gtag('config', 'G-DT9E54XRZZ', {
+    page_location: location.origin + location.pathname,
+    page_referrer: cleanReferrer,
+    page_title: appName,
+    app_name: appName,
+    app_category: appCategory,
+    allow_google_signals: false,
+    allow_ad_personalization_signals: false
+  });
+  window.gtag('event', 'app_open', {
+    app_name: appName,
+    app_category: appCategory,
+    app_path: location.pathname.slice(0, 100),
+    send_to: 'G-DT9E54XRZZ'
+  });
+  var tag = document.createElement('script');
+  tag.async = true;
+  tag.src = 'https://www.googletagmanager.com/gtag/js?id=G-DT9E54XRZZ';
+  document.head.appendChild(tag);
+})();
+</script>
+<!-- TTM-GA4-APP END -->
+<style>
+@font-face{font-family:"Prompt";font-weight:600;src:url(fonts/prompt-thai-600.woff2) format("woff2");unicode-range:U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:"Prompt";font-weight:600;src:url(fonts/prompt-latin-600.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+2000-206F,U+20AC,U+2122}
+@font-face{font-family:"Prompt";font-weight:700;src:url(fonts/prompt-thai-700.woff2) format("woff2");unicode-range:U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:"Prompt";font-weight:700;src:url(fonts/prompt-latin-700.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+2000-206F,U+20AC,U+2122}
+@font-face{font-family:"Sarabun";font-weight:400;src:url(fonts/sarabun-thai-400.woff2) format("woff2");unicode-range:U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:"Sarabun";font-weight:400;src:url(fonts/sarabun-latin-400.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+2000-206F,U+20AC,U+2122}
+@font-face{font-family:"Sarabun";font-weight:600;src:url(fonts/sarabun-thai-600.woff2) format("woff2");unicode-range:U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:"Sarabun";font-weight:600;src:url(fonts/sarabun-latin-600.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+2000-206F,U+20AC,U+2122}
+:root{
+  --bg:#EDF1F0;--surface:#fff;--ink:#12222B;--muted:#4F6269;--line:#D2DBD9;--hero:#10232C;--hero-ink:#F1F6F5;
+  --accent:#C2410C;--accent-bg:#FF7A1A;--accent-ink:#fff;--danger:#C62828;--ok:#1B7F3B;--warn:#B7791F;
+  --c-flood:#1D6FB8;--c-power:#B7791F;--c-comm:#6B4FBB;--c-water:#0E8A8A;--c-camp:#4A7C2A;--c-ppe:#B83A6B;--c-med:#C62828;--c-tool:#4B5B66;
+  --f-d:"Prompt","Noto Sans Thai","Leelawadee UI",Tahoma,sans-serif;--f-b:"Sarabun","Noto Sans Thai","Leelawadee UI",Tahoma,sans-serif;
+  --imgf:none;color-scheme:light}
+@media (prefers-color-scheme:dark){:root[data-theme="auto"]{--bg:#0D161B;--surface:#15232A;--ink:#E5EDEF;--muted:#9AAEB5;--line:#27393F;--hero:#0A1216;--accent:#FF8A3D;--accent-ink:#1B0D03;--danger:#FF7B72;--ok:#6FD08C;--warn:#E9B44C;
+  --c-flood:#5AA9F0;--c-power:#E9B44C;--c-comm:#A794F0;--c-water:#4FD0CC;--c-camp:#8CCB5E;--c-ppe:#F07AA6;--c-med:#FF7B72;--c-tool:#9FB1BC;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0D161B;--surface:#15232A;--ink:#E5EDEF;--muted:#9AAEB5;--line:#27393F;--hero:#0A1216;--accent:#FF8A3D;--accent-ink:#1B0D03;--danger:#FF7B72;--ok:#6FD08C;--warn:#E9B44C;
+  --c-flood:#5AA9F0;--c-power:#E9B44C;--c-comm:#A794F0;--c-water:#4FD0CC;--c-camp:#8CCB5E;--c-ppe:#F07AA6;--c-med:#FF7B72;--c-tool:#9FB1BC;color-scheme:dark}
+:root[data-theme="night"]{--bg:#000;--surface:#140505;--ink:#FF7070;--muted:#C25555;--line:#3A0E0E;--hero:#000;--hero-ink:#FF7070;--accent:#FF4040;--accent-bg:#B01818;--accent-ink:#FFD6D6;--danger:#FF4040;--ok:#FF9A9A;--warn:#FF8A5A;
+  --c-flood:#FF7070;--c-power:#FF8A5A;--c-comm:#FF7070;--c-water:#FF7070;--c-camp:#FF7070;--c-ppe:#FF7070;--c-med:#FF4040;--c-tool:#FF7070;--imgf:brightness(.55) saturate(.4) sepia(.6) hue-rotate(-30deg);color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:calc(16px*var(--fs,1))}
+body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.6 var(--f-b);padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+h1,h2,h3,h4,h5{font-family:var(--f-d);line-height:1.25;margin:0;text-wrap:balance}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--accent)}
+img{max-width:100%;filter:var(--imgf)}
+.wrap{max-width:900px;margin:0 auto;padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px))}
+[hidden]{display:none!important}
+/* lock */
+#lock{position:fixed;inset:0;z-index:100;background:var(--hero);color:var(--hero-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px}
+#lock h1{font-size:1.5rem;text-align:center}
+#lock p{margin:0;color:color-mix(in srgb,var(--hero-ink) 72%,transparent);text-align:center;max-width:26em}
+.dots{display:flex;gap:14px;margin:4px 0}.dots i{width:16px;height:16px;border-radius:50%;border:2px solid var(--hero-ink)}.dots i.on{background:var(--accent-bg);border-color:var(--accent-bg)}
+.pad{display:grid;grid-template-columns:repeat(3,72px);gap:12px}
+.pad button{height:64px;border-radius:18px;border:1px solid color-mix(in srgb,var(--hero-ink) 30%,transparent);background:color-mix(in srgb,var(--hero-ink) 8%,transparent);color:var(--hero-ink);font:700 1.5rem var(--f-d)}
+.pad button:active{background:var(--accent-bg)}
+.shake{animation:sh .35s}@keyframes sh{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+#lockmsg{min-height:1.4em;color:#FFB4A8}
+.rem{display:flex;gap:8px;align-items:center;font-size:.9rem}
+.tels{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.tels a{background:var(--danger);color:#fff;text-decoration:none;border-radius:12px;padding:8px 12px;font:600 .95rem var(--f-d)}
+/* chrome */
+.top{background:var(--hero);color:var(--hero-ink);padding-top:env(safe-area-inset-top,0px)}
+.top .wrap{display:flex;align-items:center;gap:10px;padding-block:10px}
+.brand{font:700 1.05rem var(--f-d);flex:1;min-width:0}
+.brand small{display:block;font:400 .72rem var(--f-b);opacity:.7}
+.st{font-size:.72rem;padding:3px 9px;border-radius:99px;background:color-mix(in srgb,var(--hero-ink) 14%,transparent);white-space:nowrap}
+.st.on{background:#1B7F3B;color:#fff}.st.off{background:#B7791F;color:#fff}
+.ibtn{border:1px solid color-mix(in srgb,var(--hero-ink) 28%,transparent);background:transparent;color:var(--hero-ink);border-radius:10px;min-width:38px;height:36px;padding:0 8px;font:600 .85rem var(--f-d)}
+.sos{background:var(--danger);color:#fff}
+.sos .wrap{display:flex;gap:6px;padding-block:7px;overflow-x:auto}
+.sos a{flex:none;color:#fff;text-decoration:none;font:600 .85rem var(--f-d);border:1px solid rgba(255,255,255,.55);border-radius:99px;padding:5px 12px}
+.sos b{font-weight:700}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabs .wrap{display:grid;grid-template-columns:repeat(5,1fr);padding-inline:0;max-width:900px}
+.tabs a{display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 2px 7px;text-decoration:none;color:var(--muted);font:600 .72rem var(--f-d);min-height:60px;justify-content:center}
+.tabs a.on{color:var(--accent)}
+.tabs svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+main{padding-block:16px 24px}
+/* ui */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.card+.card,.stack>*+*{margin-top:12px}
+.h2{font-size:1.25rem;margin:4px 0 10px}
+.sub{color:var(--muted);font-size:.92rem;margin:2px 0 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 14px;font:600 .95rem var(--f-d);text-decoration:none;color:var(--ink);min-height:44px}
+.btn.p{background:var(--accent-bg);border-color:var(--accent-bg);color:#fff}
+.btn.d{background:var(--danger);border-color:var(--danger);color:#fff}
+.btn.sm{min-height:36px;padding:6px 10px;font-size:.85rem}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:12px}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.stat div{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
+.stat b{display:block;font:700 1.5rem/1.1 var(--f-d);font-variant-numeric:tabular-nums}
+.stat span{font-size:.82rem;color:var(--muted)}
+.big{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:0;border-radius:14px;padding:16px;background:var(--surface);border:1px solid var(--line);font:600 1.05rem var(--f-d);color:var(--ink);text-decoration:none;min-height:64px}
+.big i{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--accent-bg);color:#fff;font:700 1.1rem var(--f-d);font-style:normal}
+.big small{display:block;font:400 .82rem var(--f-b);color:var(--muted)}
+.chip{display:inline-block;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 12px;font:600 .82rem var(--f-d);text-decoration:none;color:var(--ink);cursor:pointer}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.chips>*{flex:none}
+.badge{display:inline-block;font:600 .72rem var(--f-d);padding:2px 9px;border-radius:99px;background:color-mix(in srgb,var(--sec,var(--accent)) 16%,var(--surface));color:var(--sec,var(--accent))}
+.badge.ready{--sec:var(--ok)}.badge.check{--sec:var(--warn)}.badge.repair{--sec:var(--danger)}.badge.missing{--sec:var(--danger)}
+input[type=text],input[type=number],input[type=date],input[type=search],select,textarea{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;min-height:44px}
+textarea{min-height:76px;resize:vertical}
+label.f{display:block;font:600 .8rem var(--f-d);color:var(--muted);margin:10px 0 4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.list{display:grid;gap:10px}
+.item{display:grid;grid-template-columns:84px 1fr;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px;text-decoration:none;color:var(--ink);align-items:center}
+.item img{width:84px;height:68px;object-fit:cover;border-radius:9px;display:block}
+.item h4{font-size:1rem}.item p{margin:2px 0 0;font-size:.82rem;color:var(--muted)}
+.item .m{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px;align-items:center}
+.photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px;border-radius:14px;overflow:hidden}
+.photos img{width:100%;height:240px;object-fit:cover;display:block}
+.sec-h{border-top:3px solid var(--sec);padding-top:8px;margin:18px 0 8px;font:700 1.05rem var(--f-d);color:var(--sec)}
+ul.p{margin:6px 0 0;padding-left:1.2em}ul.p li{margin:3px 0}
+.step{font:600 1.45rem/1.5 var(--f-d);padding:18px;border-radius:16px;background:var(--surface);border:2px solid var(--danger);min-height:9em;display:flex;align-items:center}
+.prog{height:8px;border-radius:9px;background:var(--line);overflow:hidden}.prog i{display:block;height:100%;background:var(--ok)}
+.steps{display:grid;gap:8px}
+.steps button{display:flex;gap:10px;align-items:flex-start;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px;font:inherit;color:var(--ink);min-height:48px}
+.steps button.done{background:color-mix(in srgb,var(--ok) 14%,var(--surface));border-color:var(--ok)}
+.steps b{flex:none;width:26px;height:26px;border-radius:8px;border:2px solid var(--muted);display:grid;place-items:center;font-size:.9rem}
+.steps .done b{background:var(--ok);border-color:var(--ok);color:#fff}
+table.t{width:100%;border-collapse:collapse;font-size:.88rem}table.t th,table.t td{padding:7px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.scroll{overflow-x:auto}
+.warn{border-left:4px solid var(--warn);background:color-mix(in srgb,var(--warn) 10%,var(--surface));padding:10px 12px;border-radius:8px;font-size:.92rem}
+.note{font-size:.85rem;color:var(--muted)}
+.overlay{position:fixed;inset:0;z-index:80;background:var(--bg);overflow:auto;padding:calc(env(safe-area-inset-top,0px) + 12px) 14px 30px}
+.overlay.full{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px}
+.pulse{width:min(60vw,240px);aspect-ratio:1;border-radius:50%;background:var(--danger);display:grid;place-items:center;color:#fff;font:700 4rem var(--f-d)}
+.pulse.beat{animation:pl .55s ease-out}@keyframes pl{0%{transform:scale(1.12)}100%{transform:scale(1)}}
+.qrgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.qrl{border:2px dashed #888;padding:10px;text-align:center;background:#fff;color:#000;border-radius:8px;break-inside:avoid}.qrl svg{width:130px;height:130px}.qrl b{display:block;font:700 1rem var(--f-d)}
+canvas#famcv{max-width:100%;border:1px solid var(--line);border-radius:8px}
+#printArea{display:none}
+@media print{
+  body.printing>*:not(#printArea){display:none!important}
+  body.printing #printArea{display:block}
+  body{background:#fff;color:#000;padding:0}
+  .top,.sos,.tabs,#lock,.overlay .btn{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<div id="lock">
+  <h1>คู่มืออุปกรณ์สู้ภัยประจำบ้าน</h1>
+  <p>ใส่รหัส 4 หลักเพื่อเปิดแอป</p>
+  <div class="dots" id="dots"><i></i><i></i><i></i><i></i></div>
+  <div class="pad" id="pad"></div>
+  <div id="lockmsg" role="status"></div>
+  <label class="rem"><input type="checkbox" id="remember" checked> จดจำเครื่องนี้ (ไม่ต้องใส่รหัสซ้ำ แม้ออฟไลน์)</label>
+  <p style="font-size:.85rem">เหตุฉุกเฉิน โทรได้ทันทีโดยไม่ต้องใส่รหัส</p>
+  <div class="tels"><a href="tel:1669">1669 การแพทย์ฉุกเฉิน</a><a href="tel:1784">1784 ปภ.</a><a href="tel:199">199 เพลิงไหม้</a><a href="tel:191">191 เหตุด่วน</a></div>
+</div>
+
+<div id="app" hidden>
+  <header class="top"><div class="wrap">
+    <div class="brand">สู้ภัยประจำบ้าน<small id="verline">v1.0</small></div>
+    <span class="st" id="net">...</span>
+    <button class="ibtn" id="btnTheme" aria-label="เปลี่ยนโหมดสี">โหมด</button>
+    <button class="ibtn" id="btnFont" aria-label="ขนาดตัวอักษร">Aa</button>
+  </div></header>
+  <div class="sos"><div class="wrap">
+    <a href="tel:1669"><b>1669</b> การแพทย์ฉุกเฉิน</a><a href="tel:1784"><b>1784</b> ปภ.</a><a href="tel:199"><b>199</b> เพลิงไหม้</a><a href="tel:191"><b>191</b> เหตุด่วน</a>
+  </div></div>
+  <main class="wrap" id="view"></main>
+  <nav class="tabs" id="tabs"><div class="wrap">
+    <a href="#home" data-t="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>หน้าแรก</a>
+    <a href="#gear" data-t="gear"><svg viewBox="0 0 24 24"><path d="M4 7h16v13H4zM9 7V4h6v3"/></svg>อุปกรณ์</a>
+    <a href="#inv" data-t="inv"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 9h6M9 13h6M9 17h3"/></svg>ทะเบียน</a>
+    <a href="#tools" data-t="tools"><svg viewBox="0 0 24 24"><path d="M14 4l6 6-3 3-6-6zM11 7L4 14l-1 6 6-1 7-7"/></svg>เครื่องมือ</a>
+    <a href="#more" data-t="more"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>เพิ่มเติม</a>
+  </div></nav>
+</div>
+<div id="overlay" class="overlay" hidden></div>
+<div id="printArea"></div>
+
+<script>//---------------------------------------------------------------------
+//
+// QR Code Generator for JavaScript
+//
+// Copyright (c) 2009 Kazuhiko Arase
+//
+// URL: http://www.d-project.com/
+//
+// Licensed under the MIT license:
+//  http://www.opensource.org/licenses/mit-license.php
+//
+// The word 'QR Code' is registered trademark of
+// DENSO WAVE INCORPORATED
+//  http://www.denso-wave.com/qrcode/faqpatent-e.html
+//
+//---------------------------------------------------------------------
+
+var qrcode = function() {
+
+  //---------------------------------------------------------------------
+  // qrcode
+  //---------------------------------------------------------------------
+
+  /**
+   * qrcode
+   * @param typeNumber 1 to 40
+   * @param errorCorrectionLevel 'L','M','Q','H'
+   */
+  var qrcode = function(typeNumber, errorCorrectionLevel) {
+
+    var PAD0 = 0xEC;
+    var PAD1 = 0x11;
+
+    var _typeNumber = typeNumber;
+    var _errorCorrectionLevel = QRErrorCorrectionLevel[errorCorrectionLevel];
+    var _modules = null;
+    var _moduleCount = 0;
+    var _dataCache = null;
+    var _dataList = [];
+
+    var _this = {};
+
+    var makeImpl = function(test, maskPattern) {
+
+      _moduleCount = _typeNumber * 4 + 17;
+      _modules = function(moduleCount) {
+        var modules = new Array(moduleCount);
+        for (var row = 0; row < moduleCount; row += 1) {
+          modules[row] = new Array(moduleCount);
+          for (var col = 0; col < moduleCount; col += 1) {
+            modules[row][col] = null;
+          }
+        }
+        return modules;
+      }(_moduleCount);
+
+      setupPositionProbePattern(0, 0);
+      setupPositionProbePattern(_moduleCount - 7, 0);
+      setupPositionProbePattern(0, _moduleCount - 7);
+      setupPositionAdjustPattern();
+      setupTimingPattern();
+      setupTypeInfo(test, maskPattern);
+
+      if (_typeNumber >= 7) {
+        setupTypeNumber(test);
+      }
+
+      if (_dataCache == null) {
+        _dataCache = createData(_typeNumber, _errorCorrectionLevel, _dataList);
+      }
+
+      mapData(_dataCache, maskPattern);
+    };
+
+    var setupPositionProbePattern = function(row, col) {
+
+      for (var r = -1; r <= 7; r += 1) {
+
+        if (row + r <= -1 || _moduleCount <= row + r) continue;
+
+        for (var c = -1; c <= 7; c += 1) {
+
+          if (col + c <= -1 || _moduleCount <= col + c) continue;
+
+          if ( (0 <= r && r <= 6 && (c == 0 || c == 6) )
+              || (0 <= c && c <= 6 && (r == 0 || r == 6) )
+              || (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+            _modules[row + r][col + c] = true;
+          } else {
+            _modules[row + r][col + c] = false;
+          }
+        }
+      }
+    };
+
+    var getBestMaskPattern = function() {
+
+      var minLostPoint = 0;
+      var pattern = 0;
+
+      for (var i = 0; i < 8; i += 1) {
+
+        makeImpl(true, i);
+
+        var lostPoint = QRUtil.getLostPoint(_this);
+
+        if (i == 0 || minLostPoint > lostPoint) {
+          minLostPoint = lostPoint;
+          pattern = i;
+        }
+      }
+
+      return pattern;
+    };
+
+    var setupTimingPattern = function() {
+
+      for (var r = 8; r < _moduleCount - 8; r += 1) {
+        if (_modules[r][6] != null) {
+          continue;
+        }
+        _modules[r][6] = (r % 2 == 0);
+      }
+
+      for (var c = 8; c < _moduleCount - 8; c += 1) {
+        if (_modules[6][c] != null) {
+          continue;
+        }
+        _modules[6][c] = (c % 2 == 0);
+      }
+    };
+
+    var setupPositionAdjustPattern = function() {
+
+      var pos = QRUtil.getPatternPosition(_typeNumber);
+
+      for (var i = 0; i < pos.length; i += 1) {
+
+        for (var j = 0; j < pos.length; j += 1) {
+
+          var row = pos[i];
+          var col = pos[j];
+
+          if (_modules[row][col] != null) {
+            continue;
+          }
+
+          for (var r = -2; r <= 2; r += 1) {
+
+            for (var c = -2; c <= 2; c += 1) {
+
+              if (r == -2 || r == 2 || c == -2 || c == 2
+                  || (r == 0 && c == 0) ) {
+                _modules[row + r][col + c] = true;
+              } else {
+                _modules[row + r][col + c] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+
+    var setupTypeNumber = function(test) {
+
+      var bits = QRUtil.getBCHTypeNumber(_typeNumber);
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[Math.floor(i / 3)][i % 3 + _moduleCount - 8 - 3] = mod;
+      }
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[i % 3 + _moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
+      }
+    };
+
+    var setupTypeInfo = function(test, maskPattern) {
+
+      var data = (_errorCorrectionLevel << 3) | maskPattern;
+      var bits = QRUtil.getBCHTypeInfo(data);
+
+      // vertical
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 6) {
+          _modules[i][8] = mod;
+        } else if (i < 8) {
+          _modules[i + 1][8] = mod;
+        } else {
+          _modules[_moduleCount - 15 + i][8] = mod;
+        }
+      }
+
+      // horizontal
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 8) {
+          _modules[8][_moduleCount - i - 1] = mod;
+        } else if (i < 9) {
+          _modules[8][15 - i - 1 + 1] = mod;
+        } else {
+          _modules[8][15 - i - 1] = mod;
+        }
+      }
+
+      // fixed module
+      _modules[_moduleCount - 8][8] = (!test);
+    };
+
+    var mapData = function(data, maskPattern) {
+
+      var inc = -1;
+      var row = _moduleCount - 1;
+      var bitIndex = 7;
+      var byteIndex = 0;
+      var maskFunc = QRUtil.getMaskFunction(maskPattern);
+
+      for (var col = _moduleCount - 1; col > 0; col -= 2) {
+
+        if (col == 6) col -= 1;
+
+        while (true) {
+
+          for (var c = 0; c < 2; c += 1) {
+
+            if (_modules[row][col - c] == null) {
+
+              var dark = false;
+
+              if (byteIndex < data.length) {
+                dark = ( ( (data[byteIndex] >>> bitIndex) & 1) == 1);
+              }
+
+              var mask = maskFunc(row, col - c);
+
+              if (mask) {
+                dark = !dark;
+              }
+
+              _modules[row][col - c] = dark;
+              bitIndex -= 1;
+
+              if (bitIndex == -1) {
+                byteIndex += 1;
+                bitIndex = 7;
+              }
+            }
+          }
+
+          row += inc;
+
+          if (row < 0 || _moduleCount <= row) {
+            row -= inc;
+            inc = -inc;
+            break;
+          }
+        }
+      }
+    };
+
+    var createBytes = function(buffer, rsBlocks) {
+
+      var offset = 0;
+
+      var maxDcCount = 0;
+      var maxEcCount = 0;
+
+      var dcdata = new Array(rsBlocks.length);
+      var ecdata = new Array(rsBlocks.length);
+
+      for (var r = 0; r < rsBlocks.length; r += 1) {
+
+        var dcCount = rsBlocks[r].dataCount;
+        var ecCount = rsBlocks[r].totalCount - dcCount;
+
+        maxDcCount = Math.max(maxDcCount, dcCount);
+        maxEcCount = Math.max(maxEcCount, ecCount);
+
+        dcdata[r] = new Array(dcCount);
+
+        for (var i = 0; i < dcdata[r].length; i += 1) {
+          dcdata[r][i] = 0xff & buffer.getBuffer()[i + offset];
+        }
+        offset += dcCount;
+
+        var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+        var rawPoly = qrPolynomial(dcdata[r], rsPoly.getLength() - 1);
+
+        var modPoly = rawPoly.mod(rsPoly);
+        ecdata[r] = new Array(rsPoly.getLength() - 1);
+        for (var i = 0; i < ecdata[r].length; i += 1) {
+          var modIndex = i + modPoly.getLength() - ecdata[r].length;
+          ecdata[r][i] = (modIndex >= 0)? modPoly.getAt(modIndex) : 0;
+        }
+      }
+
+      var totalCodeCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalCodeCount += rsBlocks[i].totalCount;
+      }
+
+      var data = new Array(totalCodeCount);
+      var index = 0;
+
+      for (var i = 0; i < maxDcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < dcdata[r].length) {
+            data[index] = dcdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      for (var i = 0; i < maxEcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < ecdata[r].length) {
+            data[index] = ecdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      return data;
+    };
+
+    var createData = function(typeNumber, errorCorrectionLevel, dataList) {
+
+      var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectionLevel);
+
+      var buffer = qrBitBuffer();
+
+      for (var i = 0; i < dataList.length; i += 1) {
+        var data = dataList[i];
+        buffer.put(data.getMode(), 4);
+        buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+        data.write(buffer);
+      }
+
+      // calc num max data.
+      var totalDataCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalDataCount += rsBlocks[i].dataCount;
+      }
+
+      if (buffer.getLengthInBits() > totalDataCount * 8) {
+        throw 'code length overflow. ('
+          + buffer.getLengthInBits()
+          + '>'
+          + totalDataCount * 8
+          + ')';
+      }
+
+      // end code
+      if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+        buffer.put(0, 4);
+      }
+
+      // padding
+      while (buffer.getLengthInBits() % 8 != 0) {
+        buffer.putBit(false);
+      }
+
+      // padding
+      while (true) {
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD0, 8);
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD1, 8);
+      }
+
+      return createBytes(buffer, rsBlocks);
+    };
+
+    _this.addData = function(data, mode) {
+
+      mode = mode || 'Byte';
+
+      var newData = null;
+
+      switch(mode) {
+      case 'Numeric' :
+        newData = qrNumber(data);
+        break;
+      case 'Alphanumeric' :
+        newData = qrAlphaNum(data);
+        break;
+      case 'Byte' :
+        newData = qr8BitByte(data);
+        break;
+      case 'Kanji' :
+        newData = qrKanji(data);
+        break;
+      default :
+        throw 'mode:' + mode;
+      }
+
+      _dataList.push(newData);
+      _dataCache = null;
+    };
+
+    _this.isDark = function(row, col) {
+      if (row < 0 || _moduleCount <= row || col < 0 || _moduleCount <= col) {
+        throw row + ',' + col;
+      }
+      return _modules[row][col];
+    };
+
+    _this.getModuleCount = function() {
+      return _moduleCount;
+    };
+
+    _this.make = function() {
+      if (_typeNumber < 1) {
+        var typeNumber = 1;
+
+        for (; typeNumber < 40; typeNumber++) {
+          var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, _errorCorrectionLevel);
+          var buffer = qrBitBuffer();
+
+          for (var i = 0; i < _dataList.length; i++) {
+            var data = _dataList[i];
+            buffer.put(data.getMode(), 4);
+            buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+            data.write(buffer);
+          }
+
+          var totalDataCount = 0;
+          for (var i = 0; i < rsBlocks.length; i++) {
+            totalDataCount += rsBlocks[i].dataCount;
+          }
+
+          if (buffer.getLengthInBits() <= totalDataCount * 8) {
+            break;
+          }
+        }
+
+        _typeNumber = typeNumber;
+      }
+
+      makeImpl(false, getBestMaskPattern() );
+    };
+
+    _this.createTableTag = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var qrHtml = '';
+
+      qrHtml += '<table style="';
+      qrHtml += ' border-width: 0px; border-style: none;';
+      qrHtml += ' border-collapse: collapse;';
+      qrHtml += ' padding: 0px; margin: ' + margin + 'px;';
+      qrHtml += '">';
+      qrHtml += '<tbody>';
+
+      for (var r = 0; r < _this.getModuleCount(); r += 1) {
+
+        qrHtml += '<tr>';
+
+        for (var c = 0; c < _this.getModuleCount(); c += 1) {
+          qrHtml += '<td style="';
+          qrHtml += ' border-width: 0px; border-style: none;';
+          qrHtml += ' border-collapse: collapse;';
+          qrHtml += ' padding: 0px; margin: 0px;';
+          qrHtml += ' width: ' + cellSize + 'px;';
+          qrHtml += ' height: ' + cellSize + 'px;';
+          qrHtml += ' background-color: ';
+          qrHtml += _this.isDark(r, c)? '#000000' : '#ffffff';
+          qrHtml += ';';
+          qrHtml += '"/>';
+        }
+
+        qrHtml += '</tr>';
+      }
+
+      qrHtml += '</tbody>';
+      qrHtml += '</table>';
+
+      return qrHtml;
+    };
+
+    _this.createSvgTag = function(cellSize, margin, alt, title) {
+
+      var opts = {};
+      if (typeof arguments[0] == 'object') {
+        // Called by options.
+        opts = arguments[0];
+        // overwrite cellSize and margin.
+        cellSize = opts.cellSize;
+        margin = opts.margin;
+        alt = opts.alt;
+        title = opts.title;
+      }
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      // Compose alt property surrogate
+      alt = (typeof alt === 'string') ? {text: alt} : alt || {};
+      alt.text = alt.text || null;
+      alt.id = (alt.text) ? alt.id || 'qrcode-description' : null;
+
+      // Compose title property surrogate
+      title = (typeof title === 'string') ? {text: title} : title || {};
+      title.text = title.text || null;
+      title.id = (title.text) ? title.id || 'qrcode-title' : null;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var c, mc, r, mr, qrSvg='', rect;
+
+      rect = 'l' + cellSize + ',0 0,' + cellSize +
+        ' -' + cellSize + ',0 0,-' + cellSize + 'z ';
+
+      qrSvg += '<svg version="1.1" xmlns="http://www.w3.org/2000/svg"';
+      qrSvg += !opts.scalable ? ' width="' + size + 'px" height="' + size + 'px"' : '';
+      qrSvg += ' viewBox="0 0 ' + size + ' ' + size + '" ';
+      qrSvg += ' preserveAspectRatio="xMinYMin meet"';
+      qrSvg += (title.text || alt.text) ? ' role="img" aria-labelledby="' +
+          escapeXml([title.id, alt.id].join(' ').trim() ) + '"' : '';
+      qrSvg += '>';
+      qrSvg += (title.text) ? '<title id="' + escapeXml(title.id) + '">' +
+          escapeXml(title.text) + '</title>' : '';
+      qrSvg += (alt.text) ? '<description id="' + escapeXml(alt.id) + '">' +
+          escapeXml(alt.text) + '</description>' : '';
+      qrSvg += '<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>';
+      qrSvg += '<path d="';
+
+      for (r = 0; r < _this.getModuleCount(); r += 1) {
+        mr = r * cellSize + margin;
+        for (c = 0; c < _this.getModuleCount(); c += 1) {
+          if (_this.isDark(r, c) ) {
+            mc = c*cellSize+margin;
+            qrSvg += 'M' + mc + ',' + mr + rect;
+          }
+        }
+      }
+
+      qrSvg += '" stroke="transparent" fill="black"/>';
+      qrSvg += '</svg>';
+
+      return qrSvg;
+    };
+
+    _this.createDataURL = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      return createDataURL(size, size, function(x, y) {
+        if (min <= x && x < max && min <= y && y < max) {
+          var c = Math.floor( (x - min) / cellSize);
+          var r = Math.floor( (y - min) / cellSize);
+          return _this.isDark(r, c)? 0 : 1;
+        } else {
+          return 1;
+        }
+      } );
+    };
+
+    _this.createImgTag = function(cellSize, margin, alt) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+
+      var img = '';
+      img += '<img';
+      img += '\u0020src="';
+      img += _this.createDataURL(cellSize, margin);
+      img += '"';
+      img += '\u0020width="';
+      img += size;
+      img += '"';
+      img += '\u0020height="';
+      img += size;
+      img += '"';
+      if (alt) {
+        img += '\u0020alt="';
+        img += escapeXml(alt);
+        img += '"';
+      }
+      img += '/>';
+
+      return img;
+    };
+
+    var escapeXml = function(s) {
+      var escaped = '';
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charAt(i);
+        switch(c) {
+        case '<': escaped += '&lt;'; break;
+        case '>': escaped += '&gt;'; break;
+        case '&': escaped += '&amp;'; break;
+        case '"': escaped += '&quot;'; break;
+        default : escaped += c; break;
+        }
+      }
+      return escaped;
+    };
+
+    var _createHalfASCII = function(margin) {
+      var cellSize = 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r1, r2, p;
+
+      var blocks = {
+        '██': '█',
+        '█ ': '▀',
+        ' █': '▄',
+        '  ': ' '
+      };
+
+      var blocksLastLineNoMargin = {
+        '██': '▀',
+        '█ ': '▀',
+        ' █': ' ',
+        '  ': ' '
+      };
+
+      var ascii = '';
+      for (y = 0; y < size; y += 2) {
+        r1 = Math.floor((y - min) / cellSize);
+        r2 = Math.floor((y + 1 - min) / cellSize);
+        for (x = 0; x < size; x += 1) {
+          p = '█';
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r1, Math.floor((x - min) / cellSize))) {
+            p = ' ';
+          }
+
+          if (min <= x && x < max && min <= y+1 && y+1 < max && _this.isDark(r2, Math.floor((x - min) / cellSize))) {
+            p += ' ';
+          }
+          else {
+            p += '█';
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          ascii += (margin < 1 && y+1 >= max) ? blocksLastLineNoMargin[p] : blocks[p];
+        }
+
+        ascii += '\n';
+      }
+
+      if (size % 2 && margin > 0) {
+        return ascii.substring(0, ascii.length - size - 1) + Array(size+1).join('▀');
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.createASCII = function(cellSize, margin) {
+      cellSize = cellSize || 1;
+
+      if (cellSize < 2) {
+        return _createHalfASCII(margin);
+      }
+
+      cellSize -= 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r, p;
+
+      var white = Array(cellSize+1).join('██');
+      var black = Array(cellSize+1).join('  ');
+
+      var ascii = '';
+      var line = '';
+      for (y = 0; y < size; y += 1) {
+        r = Math.floor( (y - min) / cellSize);
+        line = '';
+        for (x = 0; x < size; x += 1) {
+          p = 1;
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r, Math.floor((x - min) / cellSize))) {
+            p = 0;
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          line += p ? white : black;
+        }
+
+        for (r = 0; r < cellSize; r += 1) {
+          ascii += line + '\n';
+        }
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.renderTo2dContext = function(context, cellSize) {
+      cellSize = cellSize || 2;
+      var length = _this.getModuleCount();
+      for (var row = 0; row < length; row++) {
+        for (var col = 0; col < length; col++) {
+          context.fillStyle = _this.isDark(row, col) ? 'black' : 'white';
+          context.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+        }
+      }
+    }
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrcode.stringToBytes
+  //---------------------------------------------------------------------
+
+  qrcode.stringToBytesFuncs = {
+    'default' : function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        bytes.push(c & 0xff);
+      }
+      return bytes;
+    }
+  };
+
+  qrcode.stringToBytes = qrcode.stringToBytesFuncs['default'];
+
+  //---------------------------------------------------------------------
+  // qrcode.createStringToBytes
+  //---------------------------------------------------------------------
+
+  /**
+   * @param unicodeData base64 string of byte array.
+   * [16bit Unicode],[16bit Bytes], ...
+   * @param numChars
+   */
+  qrcode.createStringToBytes = function(unicodeData, numChars) {
+
+    // create conversion map.
+
+    var unicodeMap = function() {
+
+      var bin = base64DecodeInputStream(unicodeData);
+      var read = function() {
+        var b = bin.read();
+        if (b == -1) throw 'eof';
+        return b;
+      };
+
+      var count = 0;
+      var unicodeMap = {};
+      while (true) {
+        var b0 = bin.read();
+        if (b0 == -1) break;
+        var b1 = read();
+        var b2 = read();
+        var b3 = read();
+        var k = String.fromCharCode( (b0 << 8) | b1);
+        var v = (b2 << 8) | b3;
+        unicodeMap[k] = v;
+        count += 1;
+      }
+      if (count != numChars) {
+        throw count + ' != ' + numChars;
+      }
+
+      return unicodeMap;
+    }();
+
+    var unknownChar = '?'.charCodeAt(0);
+
+    return function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        if (c < 128) {
+          bytes.push(c);
+        } else {
+          var b = unicodeMap[s.charAt(i)];
+          if (typeof b == 'number') {
+            if ( (b & 0xff) == b) {
+              // 1byte
+              bytes.push(b);
+            } else {
+              // 2bytes
+              bytes.push(b >>> 8);
+              bytes.push(b & 0xff);
+            }
+          } else {
+            bytes.push(unknownChar);
+          }
+        }
+      }
+      return bytes;
+    };
+  };
+
+  //---------------------------------------------------------------------
+  // QRMode
+  //---------------------------------------------------------------------
+
+  var QRMode = {
+    MODE_NUMBER :    1 << 0,
+    MODE_ALPHA_NUM : 1 << 1,
+    MODE_8BIT_BYTE : 1 << 2,
+    MODE_KANJI :     1 << 3
+  };
+
+  //---------------------------------------------------------------------
+  // QRErrorCorrectionLevel
+  //---------------------------------------------------------------------
+
+  var QRErrorCorrectionLevel = {
+    L : 1,
+    M : 0,
+    Q : 3,
+    H : 2
+  };
+
+  //---------------------------------------------------------------------
+  // QRMaskPattern
+  //---------------------------------------------------------------------
+
+  var QRMaskPattern = {
+    PATTERN000 : 0,
+    PATTERN001 : 1,
+    PATTERN010 : 2,
+    PATTERN011 : 3,
+    PATTERN100 : 4,
+    PATTERN101 : 5,
+    PATTERN110 : 6,
+    PATTERN111 : 7
+  };
+
+  //---------------------------------------------------------------------
+  // QRUtil
+  //---------------------------------------------------------------------
+
+  var QRUtil = function() {
+
+    var PATTERN_POSITION_TABLE = [
+      [],
+      [6, 18],
+      [6, 22],
+      [6, 26],
+      [6, 30],
+      [6, 34],
+      [6, 22, 38],
+      [6, 24, 42],
+      [6, 26, 46],
+      [6, 28, 50],
+      [6, 30, 54],
+      [6, 32, 58],
+      [6, 34, 62],
+      [6, 26, 46, 66],
+      [6, 26, 48, 70],
+      [6, 26, 50, 74],
+      [6, 30, 54, 78],
+      [6, 30, 56, 82],
+      [6, 30, 58, 86],
+      [6, 34, 62, 90],
+      [6, 28, 50, 72, 94],
+      [6, 26, 50, 74, 98],
+      [6, 30, 54, 78, 102],
+      [6, 28, 54, 80, 106],
+      [6, 32, 58, 84, 110],
+      [6, 30, 58, 86, 114],
+      [6, 34, 62, 90, 118],
+      [6, 26, 50, 74, 98, 122],
+      [6, 30, 54, 78, 102, 126],
+      [6, 26, 52, 78, 104, 130],
+      [6, 30, 56, 82, 108, 134],
+      [6, 34, 60, 86, 112, 138],
+      [6, 30, 58, 86, 114, 142],
+      [6, 34, 62, 90, 118, 146],
+      [6, 30, 54, 78, 102, 126, 150],
+      [6, 24, 50, 76, 102, 128, 154],
+      [6, 28, 54, 80, 106, 132, 158],
+      [6, 32, 58, 84, 110, 136, 162],
+      [6, 26, 54, 82, 110, 138, 166],
+      [6, 30, 58, 86, 114, 142, 170]
+    ];
+    var G15 = (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0);
+    var G18 = (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0);
+    var G15_MASK = (1 << 14) | (1 << 12) | (1 << 10) | (1 << 4) | (1 << 1);
+
+    var _this = {};
+
+    var getBCHDigit = function(data) {
+      var digit = 0;
+      while (data != 0) {
+        digit += 1;
+        data >>>= 1;
+      }
+      return digit;
+    };
+
+    _this.getBCHTypeInfo = function(data) {
+      var d = data << 10;
+      while (getBCHDigit(d) - getBCHDigit(G15) >= 0) {
+        d ^= (G15 << (getBCHDigit(d) - getBCHDigit(G15) ) );
+      }
+      return ( (data << 10) | d) ^ G15_MASK;
+    };
+
+    _this.getBCHTypeNumber = function(data) {
+      var d = data << 12;
+      while (getBCHDigit(d) - getBCHDigit(G18) >= 0) {
+        d ^= (G18 << (getBCHDigit(d) - getBCHDigit(G18) ) );
+      }
+      return (data << 12) | d;
+    };
+
+    _this.getPatternPosition = function(typeNumber) {
+      return PATTERN_POSITION_TABLE[typeNumber - 1];
+    };
+
+    _this.getMaskFunction = function(maskPattern) {
+
+      switch (maskPattern) {
+
+      case QRMaskPattern.PATTERN000 :
+        return function(i, j) { return (i + j) % 2 == 0; };
+      case QRMaskPattern.PATTERN001 :
+        return function(i, j) { return i % 2 == 0; };
+      case QRMaskPattern.PATTERN010 :
+        return function(i, j) { return j % 3 == 0; };
+      case QRMaskPattern.PATTERN011 :
+        return function(i, j) { return (i + j) % 3 == 0; };
+      case QRMaskPattern.PATTERN100 :
+        return function(i, j) { return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 == 0; };
+      case QRMaskPattern.PATTERN101 :
+        return function(i, j) { return (i * j) % 2 + (i * j) % 3 == 0; };
+      case QRMaskPattern.PATTERN110 :
+        return function(i, j) { return ( (i * j) % 2 + (i * j) % 3) % 2 == 0; };
+      case QRMaskPattern.PATTERN111 :
+        return function(i, j) { return ( (i * j) % 3 + (i + j) % 2) % 2 == 0; };
+
+      default :
+        throw 'bad maskPattern:' + maskPattern;
+      }
+    };
+
+    _this.getErrorCorrectPolynomial = function(errorCorrectLength) {
+      var a = qrPolynomial([1], 0);
+      for (var i = 0; i < errorCorrectLength; i += 1) {
+        a = a.multiply(qrPolynomial([1, QRMath.gexp(i)], 0) );
+      }
+      return a;
+    };
+
+    _this.getLengthInBits = function(mode, type) {
+
+      if (1 <= type && type < 10) {
+
+        // 1 - 9
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 10;
+        case QRMode.MODE_ALPHA_NUM : return 9;
+        case QRMode.MODE_8BIT_BYTE : return 8;
+        case QRMode.MODE_KANJI     : return 8;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 27) {
+
+        // 10 - 26
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 12;
+        case QRMode.MODE_ALPHA_NUM : return 11;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 10;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 41) {
+
+        // 27 - 40
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 14;
+        case QRMode.MODE_ALPHA_NUM : return 13;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 12;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else {
+        throw 'type:' + type;
+      }
+    };
+
+    _this.getLostPoint = function(qrcode) {
+
+      var moduleCount = qrcode.getModuleCount();
+
+      var lostPoint = 0;
+
+      // LEVEL1
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount; col += 1) {
+
+          var sameCount = 0;
+          var dark = qrcode.isDark(row, col);
+
+          for (var r = -1; r <= 1; r += 1) {
+
+            if (row + r < 0 || moduleCount <= row + r) {
+              continue;
+            }
+
+            for (var c = -1; c <= 1; c += 1) {
+
+              if (col + c < 0 || moduleCount <= col + c) {
+                continue;
+              }
+
+              if (r == 0 && c == 0) {
+                continue;
+              }
+
+              if (dark == qrcode.isDark(row + r, col + c) ) {
+                sameCount += 1;
+              }
+            }
+          }
+
+          if (sameCount > 5) {
+            lostPoint += (3 + sameCount - 5);
+          }
+        }
+      };
+
+      // LEVEL2
+
+      for (var row = 0; row < moduleCount - 1; row += 1) {
+        for (var col = 0; col < moduleCount - 1; col += 1) {
+          var count = 0;
+          if (qrcode.isDark(row, col) ) count += 1;
+          if (qrcode.isDark(row + 1, col) ) count += 1;
+          if (qrcode.isDark(row, col + 1) ) count += 1;
+          if (qrcode.isDark(row + 1, col + 1) ) count += 1;
+          if (count == 0 || count == 4) {
+            lostPoint += 3;
+          }
+        }
+      }
+
+      // LEVEL3
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount - 6; col += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row, col + 1)
+              &&  qrcode.isDark(row, col + 2)
+              &&  qrcode.isDark(row, col + 3)
+              &&  qrcode.isDark(row, col + 4)
+              && !qrcode.isDark(row, col + 5)
+              &&  qrcode.isDark(row, col + 6) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount - 6; row += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row + 1, col)
+              &&  qrcode.isDark(row + 2, col)
+              &&  qrcode.isDark(row + 3, col)
+              &&  qrcode.isDark(row + 4, col)
+              && !qrcode.isDark(row + 5, col)
+              &&  qrcode.isDark(row + 6, col) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      // LEVEL4
+
+      var darkCount = 0;
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount; row += 1) {
+          if (qrcode.isDark(row, col) ) {
+            darkCount += 1;
+          }
+        }
+      }
+
+      var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+      lostPoint += ratio * 10;
+
+      return lostPoint;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // QRMath
+  //---------------------------------------------------------------------
+
+  var QRMath = function() {
+
+    var EXP_TABLE = new Array(256);
+    var LOG_TABLE = new Array(256);
+
+    // initialize tables
+    for (var i = 0; i < 8; i += 1) {
+      EXP_TABLE[i] = 1 << i;
+    }
+    for (var i = 8; i < 256; i += 1) {
+      EXP_TABLE[i] = EXP_TABLE[i - 4]
+        ^ EXP_TABLE[i - 5]
+        ^ EXP_TABLE[i - 6]
+        ^ EXP_TABLE[i - 8];
+    }
+    for (var i = 0; i < 255; i += 1) {
+      LOG_TABLE[EXP_TABLE[i] ] = i;
+    }
+
+    var _this = {};
+
+    _this.glog = function(n) {
+
+      if (n < 1) {
+        throw 'glog(' + n + ')';
+      }
+
+      return LOG_TABLE[n];
+    };
+
+    _this.gexp = function(n) {
+
+      while (n < 0) {
+        n += 255;
+      }
+
+      while (n >= 256) {
+        n -= 255;
+      }
+
+      return EXP_TABLE[n];
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrPolynomial
+  //---------------------------------------------------------------------
+
+  function qrPolynomial(num, shift) {
+
+    if (typeof num.length == 'undefined') {
+      throw num.length + '/' + shift;
+    }
+
+    var _num = function() {
+      var offset = 0;
+      while (offset < num.length && num[offset] == 0) {
+        offset += 1;
+      }
+      var _num = new Array(num.length - offset + shift);
+      for (var i = 0; i < num.length - offset; i += 1) {
+        _num[i] = num[i + offset];
+      }
+      return _num;
+    }();
+
+    var _this = {};
+
+    _this.getAt = function(index) {
+      return _num[index];
+    };
+
+    _this.getLength = function() {
+      return _num.length;
+    };
+
+    _this.multiply = function(e) {
+
+      var num = new Array(_this.getLength() + e.getLength() - 1);
+
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        for (var j = 0; j < e.getLength(); j += 1) {
+          num[i + j] ^= QRMath.gexp(QRMath.glog(_this.getAt(i) ) + QRMath.glog(e.getAt(j) ) );
+        }
+      }
+
+      return qrPolynomial(num, 0);
+    };
+
+    _this.mod = function(e) {
+
+      if (_this.getLength() - e.getLength() < 0) {
+        return _this;
+      }
+
+      var ratio = QRMath.glog(_this.getAt(0) ) - QRMath.glog(e.getAt(0) );
+
+      var num = new Array(_this.getLength() );
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        num[i] = _this.getAt(i);
+      }
+
+      for (var i = 0; i < e.getLength(); i += 1) {
+        num[i] ^= QRMath.gexp(QRMath.glog(e.getAt(i) ) + ratio);
+      }
+
+      // recursive call
+      return qrPolynomial(num, 0).mod(e);
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // QRRSBlock
+  //---------------------------------------------------------------------
+
+  var QRRSBlock = function() {
+
+    var RS_BLOCK_TABLE = [
+
+      // L
+      // M
+      // Q
+      // H
+
+      // 1
+      [1, 26, 19],
+      [1, 26, 16],
+      [1, 26, 13],
+      [1, 26, 9],
+
+      // 2
+      [1, 44, 34],
+      [1, 44, 28],
+      [1, 44, 22],
+      [1, 44, 16],
+
+      // 3
+      [1, 70, 55],
+      [1, 70, 44],
+      [2, 35, 17],
+      [2, 35, 13],
+
+      // 4
+      [1, 100, 80],
+      [2, 50, 32],
+      [2, 50, 24],
+      [4, 25, 9],
+
+      // 5
+      [1, 134, 108],
+      [2, 67, 43],
+      [2, 33, 15, 2, 34, 16],
+      [2, 33, 11, 2, 34, 12],
+
+      // 6
+      [2, 86, 68],
+      [4, 43, 27],
+      [4, 43, 19],
+      [4, 43, 15],
+
+      // 7
+      [2, 98, 78],
+      [4, 49, 31],
+      [2, 32, 14, 4, 33, 15],
+      [4, 39, 13, 1, 40, 14],
+
+      // 8
+      [2, 121, 97],
+      [2, 60, 38, 2, 61, 39],
+      [4, 40, 18, 2, 41, 19],
+      [4, 40, 14, 2, 41, 15],
+
+      // 9
+      [2, 146, 116],
+      [3, 58, 36, 2, 59, 37],
+      [4, 36, 16, 4, 37, 17],
+      [4, 36, 12, 4, 37, 13],
+
+      // 10
+      [2, 86, 68, 2, 87, 69],
+      [4, 69, 43, 1, 70, 44],
+      [6, 43, 19, 2, 44, 20],
+      [6, 43, 15, 2, 44, 16],
+
+      // 11
+      [4, 101, 81],
+      [1, 80, 50, 4, 81, 51],
+      [4, 50, 22, 4, 51, 23],
+      [3, 36, 12, 8, 37, 13],
+
+      // 12
+      [2, 116, 92, 2, 117, 93],
+      [6, 58, 36, 2, 59, 37],
+      [4, 46, 20, 6, 47, 21],
+      [7, 42, 14, 4, 43, 15],
+
+      // 13
+      [4, 133, 107],
+      [8, 59, 37, 1, 60, 38],
+      [8, 44, 20, 4, 45, 21],
+      [12, 33, 11, 4, 34, 12],
+
+      // 14
+      [3, 145, 115, 1, 146, 116],
+      [4, 64, 40, 5, 65, 41],
+      [11, 36, 16, 5, 37, 17],
+      [11, 36, 12, 5, 37, 13],
+
+      // 15
+      [5, 109, 87, 1, 110, 88],
+      [5, 65, 41, 5, 66, 42],
+      [5, 54, 24, 7, 55, 25],
+      [11, 36, 12, 7, 37, 13],
+
+      // 16
+      [5, 122, 98, 1, 123, 99],
+      [7, 73, 45, 3, 74, 46],
+      [15, 43, 19, 2, 44, 20],
+      [3, 45, 15, 13, 46, 16],
+
+      // 17
+      [1, 135, 107, 5, 136, 108],
+      [10, 74, 46, 1, 75, 47],
+      [1, 50, 22, 15, 51, 23],
+      [2, 42, 14, 17, 43, 15],
+
+      // 18
+      [5, 150, 120, 1, 151, 121],
+      [9, 69, 43, 4, 70, 44],
+      [17, 50, 22, 1, 51, 23],
+      [2, 42, 14, 19, 43, 15],
+
+      // 19
+      [3, 141, 113, 4, 142, 114],
+      [3, 70, 44, 11, 71, 45],
+      [17, 47, 21, 4, 48, 22],
+      [9, 39, 13, 16, 40, 14],
+
+      // 20
+      [3, 135, 107, 5, 136, 108],
+      [3, 67, 41, 13, 68, 42],
+      [15, 54, 24, 5, 55, 25],
+      [15, 43, 15, 10, 44, 16],
+
+      // 21
+      [4, 144, 116, 4, 145, 117],
+      [17, 68, 42],
+      [17, 50, 22, 6, 51, 23],
+      [19, 46, 16, 6, 47, 17],
+
+      // 22
+      [2, 139, 111, 7, 140, 112],
+      [17, 74, 46],
+      [7, 54, 24, 16, 55, 25],
+      [34, 37, 13],
+
+      // 23
+      [4, 151, 121, 5, 152, 122],
+      [4, 75, 47, 14, 76, 48],
+      [11, 54, 24, 14, 55, 25],
+      [16, 45, 15, 14, 46, 16],
+
+      // 24
+      [6, 147, 117, 4, 148, 118],
+      [6, 73, 45, 14, 74, 46],
+      [11, 54, 24, 16, 55, 25],
+      [30, 46, 16, 2, 47, 17],
+
+      // 25
+      [8, 132, 106, 4, 133, 107],
+      [8, 75, 47, 13, 76, 48],
+      [7, 54, 24, 22, 55, 25],
+      [22, 45, 15, 13, 46, 16],
+
+      // 26
+      [10, 142, 114, 2, 143, 115],
+      [19, 74, 46, 4, 75, 47],
+      [28, 50, 22, 6, 51, 23],
+      [33, 46, 16, 4, 47, 17],
+
+      // 27
+      [8, 152, 122, 4, 153, 123],
+      [22, 73, 45, 3, 74, 46],
+      [8, 53, 23, 26, 54, 24],
+      [12, 45, 15, 28, 46, 16],
+
+      // 28
+      [3, 147, 117, 10, 148, 118],
+      [3, 73, 45, 23, 74, 46],
+      [4, 54, 24, 31, 55, 25],
+      [11, 45, 15, 31, 46, 16],
+
+      // 29
+      [7, 146, 116, 7, 147, 117],
+      [21, 73, 45, 7, 74, 46],
+      [1, 53, 23, 37, 54, 24],
+      [19, 45, 15, 26, 46, 16],
+
+      // 30
+      [5, 145, 115, 10, 146, 116],
+      [19, 75, 47, 10, 76, 48],
+      [15, 54, 24, 25, 55, 25],
+      [23, 45, 15, 25, 46, 16],
+
+      // 31
+      [13, 145, 115, 3, 146, 116],
+      [2, 74, 46, 29, 75, 47],
+      [42, 54, 24, 1, 55, 25],
+      [23, 45, 15, 28, 46, 16],
+
+      // 32
+      [17, 145, 115],
+      [10, 74, 46, 23, 75, 47],
+      [10, 54, 24, 35, 55, 25],
+      [19, 45, 15, 35, 46, 16],
+
+      // 33
+      [17, 145, 115, 1, 146, 116],
+      [14, 74, 46, 21, 75, 47],
+      [29, 54, 24, 19, 55, 25],
+      [11, 45, 15, 46, 46, 16],
+
+      // 34
+      [13, 145, 115, 6, 146, 116],
+      [14, 74, 46, 23, 75, 47],
+      [44, 54, 24, 7, 55, 25],
+      [59, 46, 16, 1, 47, 17],
+
+      // 35
+      [12, 151, 121, 7, 152, 122],
+      [12, 75, 47, 26, 76, 48],
+      [39, 54, 24, 14, 55, 25],
+      [22, 45, 15, 41, 46, 16],
+
+      // 36
+      [6, 151, 121, 14, 152, 122],
+      [6, 75, 47, 34, 76, 48],
+      [46, 54, 24, 10, 55, 25],
+      [2, 45, 15, 64, 46, 16],
+
+      // 37
+      [17, 152, 122, 4, 153, 123],
+      [29, 74, 46, 14, 75, 47],
+      [49, 54, 24, 10, 55, 25],
+      [24, 45, 15, 46, 46, 16],
+
+      // 38
+      [4, 152, 122, 18, 153, 123],
+      [13, 74, 46, 32, 75, 47],
+      [48, 54, 24, 14, 55, 25],
+      [42, 45, 15, 32, 46, 16],
+
+      // 39
+      [20, 147, 117, 4, 148, 118],
+      [40, 75, 47, 7, 76, 48],
+      [43, 54, 24, 22, 55, 25],
+      [10, 45, 15, 67, 46, 16],
+
+      // 40
+      [19, 148, 118, 6, 149, 119],
+      [18, 75, 47, 31, 76, 48],
+      [34, 54, 24, 34, 55, 25],
+      [20, 45, 15, 61, 46, 16]
+    ];
+
+    var qrRSBlock = function(totalCount, dataCount) {
+      var _this = {};
+      _this.totalCount = totalCount;
+      _this.dataCount = dataCount;
+      return _this;
+    };
+
+    var _this = {};
+
+    var getRsBlockTable = function(typeNumber, errorCorrectionLevel) {
+
+      switch(errorCorrectionLevel) {
+      case QRErrorCorrectionLevel.L :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+      case QRErrorCorrectionLevel.M :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+      case QRErrorCorrectionLevel.Q :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+      case QRErrorCorrectionLevel.H :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+      default :
+        return undefined;
+      }
+    };
+
+    _this.getRSBlocks = function(typeNumber, errorCorrectionLevel) {
+
+      var rsBlock = getRsBlockTable(typeNumber, errorCorrectionLevel);
+
+      if (typeof rsBlock == 'undefined') {
+        throw 'bad rs block @ typeNumber:' + typeNumber +
+            '/errorCorrectionLevel:' + errorCorrectionLevel;
+      }
+
+      var length = rsBlock.length / 3;
+
+      var list = [];
+
+      for (var i = 0; i < length; i += 1) {
+
+        var count = rsBlock[i * 3 + 0];
+        var totalCount = rsBlock[i * 3 + 1];
+        var dataCount = rsBlock[i * 3 + 2];
+
+        for (var j = 0; j < count; j += 1) {
+          list.push(qrRSBlock(totalCount, dataCount) );
+        }
+      }
+
+      return list;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrBitBuffer
+  //---------------------------------------------------------------------
+
+  var qrBitBuffer = function() {
+
+    var _buffer = [];
+    var _length = 0;
+
+    var _this = {};
+
+    _this.getBuffer = function() {
+      return _buffer;
+    };
+
+    _this.getAt = function(index) {
+      var bufIndex = Math.floor(index / 8);
+      return ( (_buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+    };
+
+    _this.put = function(num, length) {
+      for (var i = 0; i < length; i += 1) {
+        _this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+      }
+    };
+
+    _this.getLengthInBits = function() {
+      return _length;
+    };
+
+    _this.putBit = function(bit) {
+
+      var bufIndex = Math.floor(_length / 8);
+      if (_buffer.length <= bufIndex) {
+        _buffer.push(0);
+      }
+
+      if (bit) {
+        _buffer[bufIndex] |= (0x80 >>> (_length % 8) );
+      }
+
+      _length += 1;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrNumber
+  //---------------------------------------------------------------------
+
+  var qrNumber = function(data) {
+
+    var _mode = QRMode.MODE_NUMBER;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _data;
+
+      var i = 0;
+
+      while (i + 2 < data.length) {
+        buffer.put(strToNum(data.substring(i, i + 3) ), 10);
+        i += 3;
+      }
+
+      if (i < data.length) {
+        if (data.length - i == 1) {
+          buffer.put(strToNum(data.substring(i, i + 1) ), 4);
+        } else if (data.length - i == 2) {
+          buffer.put(strToNum(data.substring(i, i + 2) ), 7);
+        }
+      }
+    };
+
+    var strToNum = function(s) {
+      var num = 0;
+      for (var i = 0; i < s.length; i += 1) {
+        num = num * 10 + chatToNum(s.charAt(i) );
+      }
+      return num;
+    };
+
+    var chatToNum = function(c) {
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      }
+      throw 'illegal char :' + c;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrAlphaNum
+  //---------------------------------------------------------------------
+
+  var qrAlphaNum = function(data) {
+
+    var _mode = QRMode.MODE_ALPHA_NUM;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var s = _data;
+
+      var i = 0;
+
+      while (i + 1 < s.length) {
+        buffer.put(
+          getCode(s.charAt(i) ) * 45 +
+          getCode(s.charAt(i + 1) ), 11);
+        i += 2;
+      }
+
+      if (i < s.length) {
+        buffer.put(getCode(s.charAt(i) ), 6);
+      }
+    };
+
+    var getCode = function(c) {
+
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      } else if ('A' <= c && c <= 'Z') {
+        return c.charCodeAt(0) - 'A'.charCodeAt(0) + 10;
+      } else {
+        switch (c) {
+        case ' ' : return 36;
+        case '$' : return 37;
+        case '%' : return 38;
+        case '*' : return 39;
+        case '+' : return 40;
+        case '-' : return 41;
+        case '.' : return 42;
+        case '/' : return 43;
+        case ':' : return 44;
+        default :
+          throw 'illegal char :' + c;
+        }
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qr8BitByte
+  //---------------------------------------------------------------------
+
+  var qr8BitByte = function(data) {
+
+    var _mode = QRMode.MODE_8BIT_BYTE;
+    var _data = data;
+    var _bytes = qrcode.stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _bytes.length;
+    };
+
+    _this.write = function(buffer) {
+      for (var i = 0; i < _bytes.length; i += 1) {
+        buffer.put(_bytes[i], 8);
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrKanji
+  //---------------------------------------------------------------------
+
+  var qrKanji = function(data) {
+
+    var _mode = QRMode.MODE_KANJI;
+    var _data = data;
+
+    var stringToBytes = qrcode.stringToBytesFuncs['SJIS'];
+    if (!stringToBytes) {
+      throw 'sjis not supported.';
+    }
+    !function(c, code) {
+      // self test for sjis support.
+      var test = stringToBytes(c);
+      if (test.length != 2 || ( (test[0] << 8) | test[1]) != code) {
+        throw 'sjis not supported.';
+      }
+    }('\u53cb', 0x9746);
+
+    var _bytes = stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return ~~(_bytes.length / 2);
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _bytes;
+
+      var i = 0;
+
+      while (i + 1 < data.length) {
+
+        var c = ( (0xff & data[i]) << 8) | (0xff & data[i + 1]);
+
+        if (0x8140 <= c && c <= 0x9FFC) {
+          c -= 0x8140;
+        } else if (0xE040 <= c && c <= 0xEBBF) {
+          c -= 0xC140;
+        } else {
+          throw 'illegal char at ' + (i + 1) + '/' + c;
+        }
+
+        c = ( (c >>> 8) & 0xff) * 0xC0 + (c & 0xff);
+
+        buffer.put(c, 13);
+
+        i += 2;
+      }
+
+      if (i < data.length) {
+        throw 'illegal char at ' + (i + 1);
+      }
+    };
+
+    return _this;
+  };
+
+  //=====================================================================
+  // GIF Support etc.
+  //
+
+  //---------------------------------------------------------------------
+  // byteArrayOutputStream
+  //---------------------------------------------------------------------
+
+  var byteArrayOutputStream = function() {
+
+    var _bytes = [];
+
+    var _this = {};
+
+    _this.writeByte = function(b) {
+      _bytes.push(b & 0xff);
+    };
+
+    _this.writeShort = function(i) {
+      _this.writeByte(i);
+      _this.writeByte(i >>> 8);
+    };
+
+    _this.writeBytes = function(b, off, len) {
+      off = off || 0;
+      len = len || b.length;
+      for (var i = 0; i < len; i += 1) {
+        _this.writeByte(b[i + off]);
+      }
+    };
+
+    _this.writeString = function(s) {
+      for (var i = 0; i < s.length; i += 1) {
+        _this.writeByte(s.charCodeAt(i) );
+      }
+    };
+
+    _this.toByteArray = function() {
+      return _bytes;
+    };
+
+    _this.toString = function() {
+      var s = '';
+      s += '[';
+      for (var i = 0; i < _bytes.length; i += 1) {
+        if (i > 0) {
+          s += ',';
+        }
+        s += _bytes[i];
+      }
+      s += ']';
+      return s;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64EncodeOutputStream
+  //---------------------------------------------------------------------
+
+  var base64EncodeOutputStream = function() {
+
+    var _buffer = 0;
+    var _buflen = 0;
+    var _length = 0;
+    var _base64 = '';
+
+    var _this = {};
+
+    var writeEncoded = function(b) {
+      _base64 += String.fromCharCode(encode(b & 0x3f) );
+    };
+
+    var encode = function(n) {
+      if (n < 0) {
+        // error.
+      } else if (n < 26) {
+        return 0x41 + n;
+      } else if (n < 52) {
+        return 0x61 + (n - 26);
+      } else if (n < 62) {
+        return 0x30 + (n - 52);
+      } else if (n == 62) {
+        return 0x2b;
+      } else if (n == 63) {
+        return 0x2f;
+      }
+      throw 'n:' + n;
+    };
+
+    _this.writeByte = function(n) {
+
+      _buffer = (_buffer << 8) | (n & 0xff);
+      _buflen += 8;
+      _length += 1;
+
+      while (_buflen >= 6) {
+        writeEncoded(_buffer >>> (_buflen - 6) );
+        _buflen -= 6;
+      }
+    };
+
+    _this.flush = function() {
+
+      if (_buflen > 0) {
+        writeEncoded(_buffer << (6 - _buflen) );
+        _buffer = 0;
+        _buflen = 0;
+      }
+
+      if (_length % 3 != 0) {
+        // padding
+        var padlen = 3 - _length % 3;
+        for (var i = 0; i < padlen; i += 1) {
+          _base64 += '=';
+        }
+      }
+    };
+
+    _this.toString = function() {
+      return _base64;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64DecodeInputStream
+  //---------------------------------------------------------------------
+
+  var base64DecodeInputStream = function(str) {
+
+    var _str = str;
+    var _pos = 0;
+    var _buffer = 0;
+    var _buflen = 0;
+
+    var _this = {};
+
+    _this.read = function() {
+
+      while (_buflen < 8) {
+
+        if (_pos >= _str.length) {
+          if (_buflen == 0) {
+            return -1;
+          }
+          throw 'unexpected end of file./' + _buflen;
+        }
+
+        var c = _str.charAt(_pos);
+        _pos += 1;
+
+        if (c == '=') {
+          _buflen = 0;
+          return -1;
+        } else if (c.match(/^\s$/) ) {
+          // ignore if whitespace.
+          continue;
+        }
+
+        _buffer = (_buffer << 6) | decode(c.charCodeAt(0) );
+        _buflen += 6;
+      }
+
+      var n = (_buffer >>> (_buflen - 8) ) & 0xff;
+      _buflen -= 8;
+      return n;
+    };
+
+    var decode = function(c) {
+      if (0x41 <= c && c <= 0x5a) {
+        return c - 0x41;
+      } else if (0x61 <= c && c <= 0x7a) {
+        return c - 0x61 + 26;
+      } else if (0x30 <= c && c <= 0x39) {
+        return c - 0x30 + 52;
+      } else if (c == 0x2b) {
+        return 62;
+      } else if (c == 0x2f) {
+        return 63;
+      } else {
+        throw 'c:' + c;
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // gifImage (B/W)
+  //---------------------------------------------------------------------
+
+  var gifImage = function(width, height) {
+
+    var _width = width;
+    var _height = height;
+    var _data = new Array(width * height);
+
+    var _this = {};
+
+    _this.setPixel = function(x, y, pixel) {
+      _data[y * _width + x] = pixel;
+    };
+
+    _this.write = function(out) {
+
+      //---------------------------------
+      // GIF Signature
+
+      out.writeString('GIF87a');
+
+      //---------------------------------
+      // Screen Descriptor
+
+      out.writeShort(_width);
+      out.writeShort(_height);
+
+      out.writeByte(0x80); // 2bit
+      out.writeByte(0);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Global Color Map
+
+      // black
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+
+      // white
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+
+      //---------------------------------
+      // Image Descriptor
+
+      out.writeString(',');
+      out.writeShort(0);
+      out.writeShort(0);
+      out.writeShort(_width);
+      out.writeShort(_height);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Local Color Map
+
+      //---------------------------------
+      // Raster Data
+
+      var lzwMinCodeSize = 2;
+      var raster = getLZWRaster(lzwMinCodeSize);
+
+      out.writeByte(lzwMinCodeSize);
+
+      var offset = 0;
+
+      while (raster.length - offset > 255) {
+        out.writeByte(255);
+        out.writeBytes(raster, offset, 255);
+        offset += 255;
+      }
+
+      out.writeByte(raster.length - offset);
+      out.writeBytes(raster, offset, raster.length - offset);
+      out.writeByte(0x00);
+
+      //---------------------------------
+      // GIF Terminator
+      out.writeString(';');
+    };
+
+    var bitOutputStream = function(out) {
+
+      var _out = out;
+      var _bitLength = 0;
+      var _bitBuffer = 0;
+
+      var _this = {};
+
+      _this.write = function(data, length) {
+
+        if ( (data >>> length) != 0) {
+          throw 'length over';
+        }
+
+        while (_bitLength + length >= 8) {
+          _out.writeByte(0xff & ( (data << _bitLength) | _bitBuffer) );
+          length -= (8 - _bitLength);
+          data >>>= (8 - _bitLength);
+          _bitBuffer = 0;
+          _bitLength = 0;
+        }
+
+        _bitBuffer = (data << _bitLength) | _bitBuffer;
+        _bitLength = _bitLength + length;
+      };
+
+      _this.flush = function() {
+        if (_bitLength > 0) {
+          _out.writeByte(_bitBuffer);
+        }
+      };
+
+      return _this;
+    };
+
+    var getLZWRaster = function(lzwMinCodeSize) {
+
+      var clearCode = 1 << lzwMinCodeSize;
+      var endCode = (1 << lzwMinCodeSize) + 1;
+      var bitLength = lzwMinCodeSize + 1;
+
+      // Setup LZWTable
+      var table = lzwTable();
+
+      for (var i = 0; i < clearCode; i += 1) {
+        table.add(String.fromCharCode(i) );
+      }
+      table.add(String.fromCharCode(clearCode) );
+      table.add(String.fromCharCode(endCode) );
+
+      var byteOut = byteArrayOutputStream();
+      var bitOut = bitOutputStream(byteOut);
+
+      // clear code
+      bitOut.write(clearCode, bitLength);
+
+      var dataIndex = 0;
+
+      var s = String.fromCharCode(_data[dataIndex]);
+      dataIndex += 1;
+
+      while (dataIndex < _data.length) {
+
+        var c = String.fromCharCode(_data[dataIndex]);
+        dataIndex += 1;
+
+        if (table.contains(s + c) ) {
+
+          s = s + c;
+
+        } else {
+
+          bitOut.write(table.indexOf(s), bitLength);
+
+          if (table.size() < 0xfff) {
+
+            if (table.size() == (1 << bitLength) ) {
+              bitLength += 1;
+            }
+
+            table.add(s + c);
+          }
+
+          s = c;
+        }
+      }
+
+      bitOut.write(table.indexOf(s), bitLength);
+
+      // end code
+      bitOut.write(endCode, bitLength);
+
+      bitOut.flush();
+
+      return byteOut.toByteArray();
+    };
+
+    var lzwTable = function() {
+
+      var _map = {};
+      var _size = 0;
+
+      var _this = {};
+
+      _this.add = function(key) {
+        if (_this.contains(key) ) {
+          throw 'dup key:' + key;
+        }
+        _map[key] = _size;
+        _size += 1;
+      };
+
+      _this.size = function() {
+        return _size;
+      };
+
+      _this.indexOf = function(key) {
+        return _map[key];
+      };
+
+      _this.contains = function(key) {
+        return typeof _map[key] != 'undefined';
+      };
+
+      return _this;
+    };
+
+    return _this;
+  };
+
+  var createDataURL = function(width, height, getPixel) {
+    var gif = gifImage(width, height);
+    for (var y = 0; y < height; y += 1) {
+      for (var x = 0; x < width; x += 1) {
+        gif.setPixel(x, y, getPixel(x, y) );
+      }
+    }
+
+    var b = byteArrayOutputStream();
+    gif.write(b);
+
+    var base64 = base64EncodeOutputStream();
+    var bytes = b.toByteArray();
+    for (var i = 0; i < bytes.length; i += 1) {
+      base64.writeByte(bytes[i]);
+    }
+    base64.flush();
+
+    return 'data:image/gif;base64,' + base64;
+  };
+
+  //---------------------------------------------------------------------
+  // returns qrcode function.
+
+  return qrcode;
+}();
+
+// multibyte support
+!function() {
+
+  qrcode.stringToBytesFuncs['UTF-8'] = function(s) {
+    // http://stackoverflow.com/questions/18729405/how-to-convert-utf8-string-to-byte-array
+    function toUTF8Array(str) {
+      var utf8 = [];
+      for (var i=0; i < str.length; i++) {
+        var charcode = str.charCodeAt(i);
+        if (charcode < 0x80) utf8.push(charcode);
+        else if (charcode < 0x800) {
+          utf8.push(0xc0 | (charcode >> 6),
+              0x80 | (charcode & 0x3f));
+        }
+        else if (charcode < 0xd800 || charcode >= 0xe000) {
+          utf8.push(0xe0 | (charcode >> 12),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+        // surrogate pair
+        else {
+          i++;
+          // UTF-16 encodes 0x10000-0x10FFFF by
+          // subtracting 0x10000 and splitting the
+          // 20 bits of 0x0-0xFFFFF into two halves
+          charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+            | (str.charCodeAt(i) & 0x3ff));
+          utf8.push(0xf0 | (charcode >>18),
+              0x80 | ((charcode>>12) & 0x3f),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+      }
+      return utf8;
+    }
+    return toUTF8Array(s);
+  };
+
+}();
+
+(function (factory) {
+  if (typeof define === 'function' && define.amd) {
+      define([], factory);
+  } else if (typeof exports === 'object') {
+      module.exports = factory();
+  }
+}(function () {
+    return qrcode;
+}));
+</script>
+<script>
+const D = {"sections":[{"id":"flood","color":"flood","tag":"น้ำท่วม · ช่วยชีวิตทางน้ำ","title":"ลอยตัว อพยพ ช่วยคน","intro":"ชุดสำหรับน้ำท่วมขังและการอพยพทางน้ำ หัวใจคือ \"ใส่ชูชีพก่อนลงน้ำ\" และ \"ไม่ลงไปช่วยเอง\"","tech_title":"เทคนิคสู้น้ำท่วม","tech":[["ตะโกน – โยน – ยื่น","เจอคนตกน้ำอย่ากระโดดลงไปช่วย ตะโกนเรียกคนช่วย โยนสิ่งที่ลอยได้ (กระดานโฟม เชือกมีห่วง ขวดน้ำปิดฝา) แล้วยื่นไม้หรือเชือกจากจุดที่ยืนมั่นคง"],["ก่อนน้ำมา","ปิดเบรกเกอร์ไฟชั้นล่าง ย้ายเอกสาร ยาประจำตัว และของมีค่าขึ้นที่สูง ใส่ถุงกันน้ำ ถ่ายรูปเอกสารเก็บไว้ในมือถือ"],["เมื่อต้องลุยน้ำ","สวมรองเท้าหุ้มส้น ใช้ไม้หยั่งพื้นก่อนก้าว ระวังฝาท่อเปิด สายไฟ และสัตว์มีพิษ ถ้าน้ำสูงเกินเข่าหรือไหลแรงให้รอการช่วยเหลือ"],["หลังลุยน้ำ","ล้างเท้า-แผลด้วยน้ำสะอาดและสบู่ ตากให้แห้ง สังเกตไข้ ปวดน่อง ตาแดงภายใน 2 สัปดาห์ (เสี่ยงโรคฉี่หนู) ถ้ามีอาการให้พบแพทย์และแจ้งว่าลุยน้ำท่วม"]]},{"id":"power","color":"power","tag":"ไฟดับ · พลังงานและแสงสว่าง","title":"ไฟฟ้า แสงสว่าง ข่าวสาร","intro":"ลำดับการใช้พลังงาน: ไฟฉายไดนาโมและโคมโซลาร์สำหรับแสงสว่าง ส่วน Power Station เก็บไว้ให้อุปกรณ์ที่จำเป็นจริง ๆ","tech_title":"เทคนิคเมื่อไฟดับ","tech":[["จัดลำดับการใช้ไฟ","แสงสว่างก่อน แล้วจึงวิทยุและมือถือ ปิดโหมดที่ไม่จำเป็น เปิดโหมดประหยัดพลังงาน ใช้ Power Station กับอุปกรณ์จำเป็น เช่น มือถือ วิทยุ และอุปกรณ์การแพทย์ที่ใช้ประจำ"],["ชาร์จโซลาร์ให้ได้ผล","วางแผงรับแดดช่วง 10:00–15:00 หันหน้าไปทางทิศใต้ เอียงประมาณ 15° หลีกเลี่ยงเงาแม้เพียงเล็กน้อย เพราะเงาบังแผงเพียงบางส่วนก็ทำให้ไฟลดลงมาก"],["ห้ามเด็ดขาด","ห้ามใช้เครื่องปั่นไฟ เตาถ่าน หรือเตาแก๊สในห้องปิด เสี่ยงก๊าซคาร์บอนมอนอกไซด์ ห้ามใช้ Power Station ในที่ชื้นหรือบนพื้นที่น้ำท่วมถึง"],["ฟังข่าวจากแหล่งทางการ","ใช้วิทยุ FM/AM ฟังประกาศของ ปภ. และกรมอุตุนิยมวิทยา ไม่ส่งต่อข่าวลือที่ไม่รู้ที่มา"]]},{"id":"comm","color":"comm","tag":"สื่อสาร · เฝ้าระวัง · ขอความช่วยเหลือ","title":"ติดต่อกัน ส่งสัญญาณ ดูสถานการณ์","intro":"เมื่อสัญญาณมือถือล่มหรือแน่น ต้องมีช่องทางสำรองสำหรับครอบครัวและเพื่อนบ้าน","tech_title":"เทคนิคสื่อสารและขอความช่วยเหลือ","tech":[["นัดหมายก่อนเกิดเหตุ","ตกลงจุดนัดพบ เส้นทางอพยพ ช่องความถี่ และเวลาเปิดเครื่องของครอบครัวไว้ล่วงหน้า ซ้อมใช้วิทยุสื่อสารอย่างน้อยทุกไตรมาส"],["สัญญาณขอความช่วยเหลือ","นกหวีด 3 ครั้งสั้น ๆ ซ้ำเป็นระยะ ส่องไฟฉายหรือกระจกสะท้อนแสงไปทางผู้ช่วยเหลือ โบกผ้าสีสดหรือผ้าห่มสีส้ม"],["เมื่อสัญญาณมือถือแน่น","ส่งข้อความสั้นแทนการโทร ปิดแอปที่ใช้เน็ตเยอะ ถ้าบาดเจ็บหรือเสี่ยงชีวิตโทร 1669 ปภ. สายด่วน 1784"],["เฝ้าระวังอย่างปลอดภัย","ใช้กล้องส่องทางไกลดูระดับน้ำหรือเส้นทางจากที่สูงและปลอดภัย ผลัดกันเฝ้า 2–3 ชั่วโมงต่อรอบ"]]},{"id":"water","color":"water","tag":"น้ำสะอาด · ระบบกรองและภาชนะ","title":"กรอง เก็บ และขนน้ำ","intro":"ส่วนน้ำดื่มพี่จีเตรียมแยกไว้แล้ว หมวดนี้จึงรวมเฉพาะอุปกรณ์กรองและภาชนะบรรจุ","tech_title":"เทคนิคน้ำสะอาดตอนน้ำท่วม","tech":[["น้ำท่วมขัง ไม่ใช่น้ำดื่ม","ขั้นตอนคือ ตั้งทิ้งให้ตกตะกอน กรองผ้าหรือกรองด้วยอุปกรณ์ แล้วต้มให้เดือดอย่างน้อย 1 นาที หรือใช้ยาฆ่าเชื้อคลอรีนตามฉลาก"],["ปริมาณที่ควรมี","วางแผนอย่างน้อย 3–4 ลิตร ต่อคน ต่อวัน สำหรับดื่ม ปรุงอาหาร และสุขอนามัยเบื้องต้น"],["ข้อจำกัดของตัวกรอง","ตัวกรองพกพาส่วนใหญ่ไม่ช่วยกำจัดสารเคมี น้ำมัน หรือเกลือ ถ้าแหล่งน้ำมีกลิ่นเคมีหรือมีคราบน้ำมันให้เลี่ยง"],["แยกถุงสะอาดกับถุงสกปรก","ใช้ถุงคนละใบสำหรับน้ำก่อนกรองและน้ำหลังกรอง ติดป้ายกันสับสน"]]},{"id":"camp","color":"camp","tag":"ที่พัก · ปรุงอาหาร · ความอบอุ่น","title":"พักพิง ปรุงอาหาร ห่มกาย","intro":"เมื่อต้องอยู่ที่พักชั่วคราวหรือระหว่างรอความช่วยเหลือ อุปกรณ์กลุ่มนี้ช่วยให้นอนแห้ง ปรุงอาหารร้อน และรักษาอุณหภูมิร่างกาย","tech_title":"เทคนิคที่พักและปรุงอาหาร","tech":[["เลือกที่ตั้ง","กางเต็นท์บนพื้นสูงและแห้ง ห่างต้นไม้ใหญ่ ป้ายโฆษณา สายไฟ และทางน้ำไหล ปูพื้นรองก่อนกาง"],["เตาแก๊สอย่างปลอดภัย","ใช้ในที่อากาศถ่ายเท วางบนพื้นเรียบ ห่างวัสดุติดไฟ ไม่ใช้ในเต็นท์หรือห้องปิด ปิดวาล์วและถอดกระป๋องหลังใช้"],["รักษาความอบอุ่น","ผ้าห่มฉุกเฉินช่วยเก็บความร้อนในผู้ที่เปียกหรือหนาว ให้เปลี่ยนเสื้อผ้าเปียกเป็นแห้งก่อนเสมอ"],["ป้องกันยุงและแมลง","น้ำท่วมแล้วยุงจะเพิ่ม นอนกางมุ้งหรือใช้ยาทากันยุงที่ได้มาตรฐาน ตามคำแนะนำของเภสัชกร"]]},{"id":"ppe","color":"ppe","tag":"ฝุ่น · ควัน · สารเคมี · ป้องกันร่างกาย","title":"หน้ากาก แว่น หมวก","intro":"การป้องกันที่ได้ผลขึ้นกับการเลือกอุปกรณ์ให้ตรงกับอันตราย ไม่มีหน้ากากใบเดียวที่ป้องกันได้ทุกอย่าง","tech_title":"เทคนิคเลือกและใช้หน้ากาก","tech":[["เลือกให้ตรงกับอันตราย","ฝุ่น ละอองและเขม่า ใช้ตลับกรองชนิดอนุภาค (P/N) ส่วนไอระเหยเคมีใช้ตลับชนิดไอสารอินทรีย์หรือก๊าซตามที่ระบุบนตลับ ตลับต่างชนิดใช้แทนกันไม่ได้"],["ทดสอบความแนบ (Fit check)","ปิดช่องหายใจออกแล้วเป่าลมเบา ๆ หน้ากากต้องพองเล็กน้อย จากนั้นปิดช่องหายใจเข้าแล้วสูดเบา ๆ หน้ากากต้องแฟบเข้า ถ้ามีลมรั่วให้ปรับสายใหม่"],["ข้อควรระวังเรื่องควันไฟ","หน้ากากกรองไม่ได้เพิ่มออกซิเจนและไม่กรองก๊าซคาร์บอนมอนอกไซด์ ถ้าเจอควันไฟให้หนีออกจากพื้นที่ คลานต่ำ และโทร 199"],["สำหรับผู้ป่วยโรคปอดหรือหัวใจ","การใส่หน้ากากกรองอาจเพิ่มแรงหายใจ ควรปรึกษาแพทย์ และพักหายใจเมื่อรู้สึกอึดอัด"]]},{"id":"med","color":"med","tag":"ปฐมพยาบาล · สุขอนามัย","title":"ดูแลบาดแผลและผู้ป่วย","intro":"ชุดปฐมพยาบาลจะมีประโยชน์เมื่อทุกคนในบ้านรู้ว่าอยู่ที่ไหน และรู้วิธีใช้เบื้องต้น","tech_title":"เทคนิคปฐมพยาบาลเบื้องต้น","tech":[["ห้ามเลือด","ใช้ผ้าสะอาดกดตรงบาดแผลแน่น ๆ ต่อเนื่องอย่างน้อย 10 นาที อย่าเปิดดูบ่อย ถ้าเลือดไม่หยุดให้โทร 1669"],["ล้างแผล","ล้างด้วยน้ำสะอาดไหลผ่านนาน ๆ ฟอกด้วยสบู่รอบแผล แผลจากน้ำท่วมหรือโคลนให้ล้างมากกว่าปกติ และพบแพทย์เรื่องบาดทะยัก"],["ผู้ไม่หายใจหรือหมดสติ","โทร 1669 กดหน้าอก 100–120 ครั้งต่อนาที ลึกประมาณ 5–6 ซม. ถ้าได้รับการฝึกให้เป่าปากสลับ 30:2 ถ้ามีเครื่อง AED ให้ใช้ตามเสียงแนะนำ"],["ยาประจำตัว","ใส่ยาประจำตัวอย่างน้อย 7 วันในถุงกันน้ำ แนบรายชื่อยา โรคประจำตัว และประวัติแพ้ยา"]]},{"id":"tool","color":"tool","tag":"เครื่องมือ · ผูก · ตัด · พกพา","title":"เครื่องมือและเครื่องแต่งกาย","intro":"เครื่องมือมีคมต้องใช้อย่างมีวินัย เก็บให้พ้นเด็ก และพกพาตามกฎหมายเท่านั้น","tech_title":"เทคนิคใช้เครื่องมือ","tech":[["ตัดห่างตัว","ตัดหรือสับในทิศทางที่ห่างจากลำตัวและขาเสมอ ให้คนรอบตัวอยู่ห่างอย่างน้อยเท่ากับความยาวแขนรวมเครื่องมือ"],["ใส่ปลอกทุกครั้ง","เมื่อไม่ใช้งานให้เก็บคืนปลอก ส่งต่อเครื่องมือโดยยื่นด้ามให้ผู้รับ"],["กฎหมายการพก","การพกมีดหรือขวานในที่สาธารณะอาจผิดกฎหมาย ควรเก็บในกระเป๋าและขนส่งเฉพาะเมื่อมีเหตุอันควร"],["แบ่งน้ำหนักเป้","ของหนักไว้ชิดหลังและอยู่กลางเป้ ของใช้บ่อยไว้ด้านนอก รวมน้ำหนักไม่เกิน 1 ใน 4 ของน้ำหนักตัวถ้าต้องเดินไกล"]]}],"items":[{"id":"flood1","sec":"flood","name":"เสื้อชูชีพผู้ใหญ่","qty":"อย่างน้อย 3 ตัว","photos":["img/p36.jpg","img/p93.jpg"],"use":"พยุงตัวให้ลอยเมื่ออพยพหรือช่วยเหลือผู้อื่นในน้ำ เทปสะท้อนแสงช่วยให้ทีมค้นหาเห็นตอนกลางคืน","how":["สวมก่อนลงน้ำเสมอ ไม่ใช่รอให้ตกน้ำแล้วค่อยใส่","รูดซิปและคาดหัวเข็มขัดทุกจุด ดึงสายรัดให้แน่น แล้วลองยกไหล่ขึ้น ถ้าตัวเสื้อเลื่อนขึ้นพ้นหูแปลว่าหลวมเกินไป","ให้ทุกคนลองลอยตัวในสระหรือน้ำตื้นที่ปลอดภัยก่อนวันจริง"],"care":["ล้างน้ำจืด ตากในร่ม ห้ามตากแดดจัดหรือซักเครื่อง","ห้ามใช้เป็นเบาะนั่งหรือวางของหนักทับ","ปีละครั้งตรวจโฟมแตก ผ้าเปื่อย สายรัดและหัวเข็มขัด"],"confirm":"","dq":3,"dp":500,"iv":365},{"id":"flood2","sec":"flood","name":"กระดานโฟมลอยน้ำ","qty":"1 แผ่น","photos":["img/p36.jpg"],"use":"ทุ่นลอยน้ำสำหรับเด็กหรือโยนให้ผู้ตกน้ำเกาะ","how":["โยนให้ผู้ตกน้ำเกาะแล้วดึงเข้าฝั่งด้วยเชือก","ผู้เกาะให้วางแขนพาดบนกระดาน เตะขาช้า ๆ"],"care":["ล้างน้ำจืด ตากให้แห้ง เก็บให้พ้นแดดจัด"],"confirm":"","dq":1,"dp":200,"iv":0},{"id":"flood3","sec":"flood","name":"เสื้อชูชีพสัตว์เลี้ยง","qty":"2 ตัว","photos":["img/p71.jpg"],"use":"พยุงสัตว์เลี้ยงเมื่ออพยพทางน้ำ","how":["เลือกไซซ์ตามน้ำหนักตัวสัตว์","ให้สัตว์ลองสวมในบ้านก่อนให้คุ้นเคย","ใช้หูหิ้วด้านหลังช่วยยกตัวขึ้นจากน้ำ"],"care":["ล้างน้ำจืด ตากให้แห้ง ตรวจแถบตีนตุ๊กแกไม่ให้ฝุ่นหรือขนติดจนยึดไม่อยู่"],"confirm":"","dq":2,"dp":250,"iv":365},{"id":"flood4","sec":"flood","name":"เรือคายัคเป่าลมแบบคู่","qty":"1 ลำ พร้อมไม้พาย 2 อัน (กล่อง Restart Kayaking-Double)","photos":["img/p41.jpg"],"use":"อพยพคนและขนของระยะสั้นในพื้นที่น้ำท่วมขังที่กระแสไม่แรง","how":["เป่าลมทดลองก่อนวันจริงอย่างน้อยหนึ่งครั้ง จับเวลาว่าใช้เวลาเท่าไร และเช็กว่าตึงทุกช่อง","ทุกคนสวมชูชีพตลอดเวลา","ไม่บรรทุกเกินน้ำหนักตามคู่มือ ไม่ใช้ในกระแสน้ำเชี่ยว"],"care":["ล้างโคลนด้วยน้ำจืด ปล่อยลมออกและตากให้แห้งสนิทก่อนพับเก็บ","ตรวจรอยรั่วด้วยน้ำสบู่ที่ตะเข็บและวาล์วก่อนฤดูฝน"],"confirm":"","dq":1,"dp":3200,"iv":180},{"id":"flood5","sec":"flood","name":"ไม้พายแบบถอดประกอบ","qty":"2 อัน","photos":["img/p48.jpg"],"use":"พายเรือคายัคอพยพหรือขนของในน้ำท่วมขัง","how":["ต่อท่อนไม้พายให้ล็อกแน่นก่อนลงน้ำ ทดลองบิดดูว่าไม่หลวม","จับด้ามให้มือสองข้างห่างกันประมาณหนึ่งช่วงไหล่ หน้าเว้าของใบพายหันเข้าหาตัว","พายสลับซ้ายขวาสม่ำเสมอ ใช้แรงจากลำตัวไม่ใช้แค่แขน"],"care":["ล้างน้ำจืดและตากให้แห้งก่อนถอดแยกเก็บ","ตรวจจุดต่อและปุ่มล็อกว่าไม่แตกหรือหลวม"],"confirm":"","dq":2,"dp":0,"iv":365},{"id":"flood6","sec":"flood","name":"หน้ากากดำน้ำ","qty":"1 ชุด (ในถุงตาข่าย)","photos":["img/p37.jpg"],"use":"ช่วยมองใต้น้ำ เช่น ตรวจสิ่งกีดขวางหรือค้นหาของในน้ำใสและสระ","how":["ปรับสายรัดศีรษะให้แนบพอดี ไม่รัดแน่นจนปวด","ทดสอบความแนบ วางหน้ากากบนใบหน้าโดยไม่ใส่สาย สูดจมูกเบา ๆ หน้ากากควรดูดติดหน้า","ป้องกันฝ้าด้วยน้ำยากันฝ้าหรือน้ำสบู่เจือจาง แล้วล้างน้ำสะอาด","น้ำท่วมขังปนเปื้อนและขุ่นมาก เลี่ยงการดำหรือสัมผัสน้ำบริเวณหน้า ถ้าเป็นแบบเต็มหน้าให้อ่านข้อควรระวังของผู้ผลิตก่อนใช้"],"care":["ล้างน้ำจืด ตากให้แห้งในที่ร่ม ไม่ตากแดดจัด","เก็บในกล่องหรือถุงตาข่ายไม่ให้เลนส์ถูกกด"],"confirm":"","dq":1,"dp":600,"iv":365},{"id":"flood7","sec":"flood","name":"ห่วงยางเป่าลมและของเป่าลม","qty":"หลายชิ้น (ตามรูป)","photos":["img/p62.jpg"],"use":"พยุงเด็กหรือผู้ว่ายน้ำในน้ำตื้นและช่วยเกาะลอย ไม่ใช่ชูชีพ","how":["เป่าลมให้ตึงพอดี ไม่แน่นจนตะเข็บตึง","เด็กต้องมีผู้ใหญ่ดูแลใกล้ตัวตลอดและสวมชูชีพทับเสมอ","ผูกเชือกที่ห่วงไว้กับเรือหรือหลักที่มั่นคงเมื่อใช้ในน้ำท่วมขัง","ห้ามให้เด็กเล็กเล่นถุงพลาสติกและของเป่าลมตามลำพัง"],"care":["ล้างน้ำจืด เช็ดให้แห้ง ปล่อยลมออกแล้วพับหลวม ๆ","ตรวจรอยรั่วด้วยน้ำสบู่ก่อนฤดูฝน"],"confirm":"","dq":3,"dp":167,"iv":180},{"id":"flood8","sec":"flood","name":"เชือก","qty":"ม้วนครีม-แดง 1 ม้วน และเชือกเขียวหลายม้วน","photos":["img/p39.jpg","img/p55.jpg"],"use":"โยนช่วยคน ผูกยึดเรือ ผูกของไม่ให้ลอยหาย ขึงชายคาหรือผ้าใบ","how":["เงื่อนบ่วงสายธนู (bowline) ใช้ทำห่วงไม่รูด","เงื่อนผูกกระหวัดไม้ (clove hitch) ผูกหลักหรือเสา","เงื่อนพิรอดผูกเชือกสองเส้นต่อกัน","โยนแบบม้วนหลวม ถือปลายหนึ่งไว้ ปล่อยอีกส่วนไป"],"care":["ล้างโคลน ตากให้แห้ง ม้วนหลวม ๆ","ตรวจรอยสึกก่อนใช้ ห้ามใช้ยกหรือโรยตัวคนถ้าไม่ได้ระบุว่าใช้กู้ภัย"],"confirm":"","dq":1,"dp":1100,"iv":180},{"id":"flood9","sec":"flood","name":"กระเป๋ากันน้ำ Dry Bag 25 ลิตร","qty":"1 ใบ","photos":["img/p70.jpg"],"use":"เก็บเอกสาร ยาประจำตัว เสื้อผ้าสำรอง ไฟฉาย ให้แห้งระหว่างอพยพ","how":["ใส่ของ ไล่อากาศออก พับปากถุงม้วนอย่างน้อย 3 รอบ แล้วล็อกหัวเข็มขัด","ใส่ของที่ต้องแห้งสนิทไว้ในถุงใส ซ้อนอีกชั้น","ลองแช่น้ำทดสอบทั้งใบก่อนใช้จริง"],"care":["ล้างน้ำจืด ตากให้แห้งก่อนเก็บ ระวังของมีคมเจาะ","ถุงที่มีอากาศลอยได้ แต่ไม่ใช่ทุ่นช่วยชีวิต"],"confirm":"","dq":1,"dp":350,"iv":365},{"id":"flood10","sec":"flood","name":"เคสมือถือกันน้ำ","qty":"2 ใบ","photos":["img/p72.jpg"],"use":"กันน้ำให้มือถือและเอกสารใบเล็กระหว่างลุยน้ำ","how":["ทดสอบด้วยกระดาษทิชชูแทนมือถือก่อน แช่น้ำ 10 นาทีแล้วเปิดดูว่าแห้งหรือไม่","ไล่อากาศ ปิดล็อกให้ครบทุกชั้น","ห้ามชาร์จขณะอยู่ในเคส"],"care":["ล้างน้ำจืด ตากแห้ง เปลี่ยนใบใหม่เมื่อซีลแข็งหรือแตก"],"confirm":"","dq":2,"dp":100,"iv":180},{"id":"flood11","sec":"flood","name":"เสื้อกันฝนแบบยาว","qty":"หลายตัว หลายไซซ์","photos":["img/p44.jpg"],"use":"กันฝนและละอองน้ำสกปรกระหว่างอพยพ","how":["สวมชั้นนอกสุดก่อนออกจากบ้าน","เลือกไซซ์ตามป้ายให้คลุมถึงเข่า"],"care":["ตากให้แห้งก่อนพับเก็บ ไม่ตากแดดจัด ตรวจรอยฉีกที่ตะเข็บ"],"confirm":"","dq":3,"dp":120,"iv":365},{"id":"power1","sec":"power","name":"Portable Power Station รุ่น Eg012Li","qty":"1 เครื่อง พร้อมอะแดปเตอร์","photos":["img/p50.jpg","img/p51.jpg"],"use":"แหล่งไฟสำรองพกพา มีช่อง AC, DC 12V และ USB","how":["ชาร์จให้เต็มก่อนฤดูฝนและก่อนพายุเข้า","ปิดโหลดก่อนเสียบหรือถอดอุปกรณ์ ดูกำลังไฟรวมไม่ให้เกินที่ระบุบนเครื่อง","ช่อง DC Input อ่านจากเลเบล 15–20V สูงสุด 20W จึงชาร์จจากโซลาร์ได้ช้า ควรชาร์จจากไฟบ้านเป็นหลัก"],"care":["เก็บที่ร่ม เย็น แห้ง ชาร์จเติมทุก 2–3 เดือนแม้ไม่ได้ใช้","ไม่คลุมผ้าขณะชาร์จ ไม่วางใกล้ความร้อน","ถ้าบวม มีกลิ่น หรือร้อนผิดปกติ ให้หยุดใช้ทันที"],"confirm":"","dq":1,"dp":2000,"iv":90},{"id":"power2","sec":"power","name":"แผงโซลาร์เซลล์แผงใหญ่","qty":"1 แผ่น (มีกล่องแผงโซลาร์อีกกล่อง)","photos":["img/p49.jpg","img/p47.jpg"],"use":"ผลิตไฟชาร์จ Power Station หรือแบตเตอรี่ตอนกลางวัน","how":["ตรวจแรงดันวงจรเปิด (Voc) ของแผงให้ไม่เกินช่อง DC Input ของ Power Station","ต่อสายให้ขั้วบวกลบถูกต้อง วางแผงก่อนแล้วจึงเสียบเข้าเครื่อง","เอียงรับแดดและเลื่อนตามเงาทุก 1–2 ชั่วโมง"],"care":["เช็ดฝุ่นด้วยผ้านุ่มชุบน้ำสะอาด ห้ามใช้ของแข็งขูด","เก็บในที่แห้งไม่ให้งอหรือกดทับ"],"confirm":"กำลังวัตต์และแรงดันของแผง รวมถึงกล่องที่เห็นเป็นแผงอีกแผงหรืออุปกรณ์อื่น","dq":1,"dp":900,"iv":90},{"id":"power3","sec":"power","name":"แผงโซลาร์พับ ชาร์จ USB","qty":"1 ชุด","photos":["img/p57.jpg","img/p58.jpg"],"use":"ชาร์จมือถือและวิทยุระหว่างอพยพหรือเดินทาง","how":["ห้อยบนเป้ให้หันหน้าเข้าหาแดด","เสียบสาย USB แล้วดูไฟแสดงสถานะชาร์จ","พักแผงให้โดนแดดตรงจะได้ไฟมากกว่าที่ร่มรำไร"],"care":["พับเก็บในที่แห้ง ไม่พับซ้ำที่เดิมแรง ๆ เช็ดฝุ่นด้วยผ้านุ่ม"],"confirm":"","dq":1,"dp":900,"iv":90},{"id":"power4","sec":"power","name":"โคมไฟโซลาร์ LED","qty":"4 กล่อง","photos":["img/p74.jpg"],"use":"ไฟส่องสว่างในบ้านหรือเต็นท์ มีแผงโซลาร์ในตัว","how":["ตากแดดเต็มวัน 1 วันก่อนใช้ครั้งแรก","วางให้แผงหันไปทางแดด เปิดสวิตช์ในช่วงมืด","ใช้ไฟโหมดอ่อนก่อนเพื่อประหยัดแบต"],"care":["เช็ดแผงและเลนส์ให้สะอาด","ทุกเดือนนำออกตากแดดและชาร์จให้เต็มแม้ไม่ได้ใช้"],"confirm":"","dq":4,"dp":500,"iv":30},{"id":"power5","sec":"power","name":"ไฟฉายไดนาโมแบบบีบ","qty":"2 กระบอก (และ 1 กระบอกเกี่ยวอยู่กับเสื้อกั๊ก)","photos":["img/p61.jpg","img/p60.jpg"],"use":"ไฟฉายไม่ต้องใช้ถ่าน มีตะขอเกี่ยวสำหรับห้อยเป้หรือเข็มขัด","how":["บีบหรือหมุนด้ามต่อเนื่องประมาณ 1–2 นาทีให้ได้แสง","เกี่ยวตะขอกับสายเป้หรือเข็มขัดให้มือว่าง"],"care":["ทดสอบทุกเดือน เก็บให้แห้ง ไม่ให้โดนน้ำเค็มหรือโคลน"],"confirm":"","dq":3,"dp":250,"iv":30},{"id":"power6","sec":"power","name":"วิทยุ PX-777","qty":"1 เครื่อง","photos":["img/p34.jpg"],"use":"ฟังข่าวและประกาศเตือนภัย AM/FM/SW มีไดนาโมมือหมุน โซลาร์ ไฟฉาย พอร์ต USB/TF และบลูทูธ","how":["หมุนไดนาโมมือประมาณ 1–2 นาทีเมื่อแบตหมด","ตั้งสถานี FM/AM ที่ใช้ฟังประกาศไว้ล่วงหน้า","วางตัวเครื่องให้แผงโซลาร์รับแสงระหว่างฟัง"],"care":["ชาร์จเต็มทุก 3 เดือน พับเสาอากาศเก็บให้เรียบร้อย อย่าให้เปียกน้ำ"],"confirm":"","dq":1,"dp":750,"iv":90},{"id":"comm1","sec":"comm","name":"วิทยุสื่อสาร BAOFENG","qty":"3 เครื่อง (ดำ 2 / แดง 1) พร้อมแท่นชาร์จ","photos":["img/p86.jpg","img/p91.jpg"],"use":"สื่อสารระยะใกล้ในกลุ่มครอบครัวหรือชุมชนเมื่อโทรศัพท์ใช้ไม่ได้","how":["วางบนแท่นชาร์จจนไฟเขียว ติดเสาอากาศให้แน่นก่อนกดส่ง","กดปุ่ม PTT ค้างไว้ พูดห่างปากประมาณ 5 ซม. พูดสั้น ชัด แล้วปล่อยปุ่มเพื่อฟัง","ตั้งช่องที่ตกลงไว้ ลดเสียงรบกวน (Squelch) พอดี","ใช้ตามความถี่ที่ได้รับอนุญาตเท่านั้น"],"care":["ห้ามกดส่งโดยไม่ติดเสาอากาศ เพราะเครื่องส่งอาจเสีย","ถอดแบตเมื่อเก็บนานกว่า 1 เดือน ชาร์จเติมทุกไตรมาส"],"confirm":"","dq":3,"dp":667,"iv":90},{"id":"comm2","sec":"comm","name":"ไมค์ลำโพงและหูฟังแอร์ทิวบ์","qty":"ไมค์ลำโพง 2 ตัว และหูฟังหลายชุด","photos":["img/p86.jpg"],"use":"ติดไว้ที่ไหล่เสื้อ ฟังและพูดได้โดยไม่ต้องควักเครื่อง","how":["เสียบเข้าช่องข้างเครื่องให้สนิท","เหน็บคลิปไว้ที่ไหล่ ให้ไมค์อยู่ใกล้ปาก"],"care":["เก็บสายไม่ให้พับงอ ตรวจแจ็กไม่ให้เป็นสนิม"],"confirm":"","dq":1,"dp":900,"iv":180},{"id":"comm3","sec":"comm","name":"กล้องส่องทางไกลตาเดียว พร้อมขาหนีบมือถือ","qty":"1 ตัว","photos":["img/p58.jpg","img/p57.jpg"],"use":"ดูระดับน้ำ เส้นทางอพยพ หรือผู้ที่ต้องการความช่วยเหลือจากระยะไกล","how":["หมุนโฟกัสให้ภาพคม ถือให้นิ่งหรือพิงกับของมั่นคง","ใช้ขาหนีบถ่ายภาพผ่านเลนส์ส่งให้เจ้าหน้าที่","ห้ามมองดวงอาทิตย์เด็ดขาด"],"care":["ปิดฝาเลนส์เสมอ เช็ดเลนส์ด้วยผ้าไมโครไฟเบอร์","เก็บในถุงกันชื้นพร้อมซิลิกาเจล"],"confirm":"","dq":1,"dp":700,"iv":180},{"id":"comm4","sec":"comm","name":"กล่องเหล็ก SOS","qty":"1 กล่อง","photos":["img/p63.jpg","img/p64.jpg"],"use":"กล่องเครื่องมือเอาตัวรอดขนาดพกพา ที่เห็นมีเข็มทิศและห่วงเหล็ก","how":["เปิดดูรายการข้างในและเขียนรายการติดฝากล่อง","เรียนรู้การใช้เข็มทิศ โดยวางราบ ปลายแม่เหล็กสีแดงชี้ทิศเหนือ"],"care":["ปิดฝาให้สนิท ใส่ซิลิกาเจล ตรวจสนิมทุกไตรมาส"],"confirm":"รายการของที่อยู่ข้างในกล่องทั้งหมด","dq":1,"dp":250,"iv":180},{"id":"comm5","sec":"comm","name":"กล่องกันน้ำสีดำ ชุดเอาตัวรอด","qty":"1 กล่อง","photos":["img/p75.jpg"],"use":"ชุดอุปกรณ์เล็กสำหรับเอาตัวรอด ที่เห็นมีที่ห้อยขวดน้ำสีทราย นกหวีดพร้อมพวงกุญแจ และถุงซิป","how":["ตรวจรายการข้างในและทดลองใช้ทุกชิ้นหนึ่งครั้ง","เก็บกล่องไว้ใกล้ทางออกหรือใส่กระเป๋าอพยพ"],"care":["เช็ดยางซีลให้สะอาด ตรวจความชื้นภายในกล่อง"],"confirm":"รายการของที่อยู่ข้างในกล่อง","dq":1,"dp":500,"iv":180},{"id":"water1","sec":"water","name":"หลอดกรองน้ำส่วนบุคคล (Personal Water Filter Straw)","qty":"1 ชุด พร้อมถุงน้ำพับ","photos":["img/p35.jpg"],"use":"ดูดน้ำผ่านตัวกรองโดยตรงจากถุงหรือแหล่งน้ำ เหมาะเป็นชุดฉุกเฉินส่วนตัว","how":["ล้างหรือเตรียมตัวกรองตามคู่มือก่อนใช้ครั้งแรก","ใส่น้ำในถุง ต่อหลอด แล้วดูดน้ำช้า ๆ","น้ำท่วมขังควรต้มซ้ำอีกครั้งเพื่อความปลอดภัย"],"care":["หลังใช้ล้างย้อน (backflush) ตามคู่มือ ตากให้แห้งสนิท","ห้ามปล่อยให้น้ำในตัวกรองแข็งตัว และเปลี่ยนตามอายุที่ผู้ผลิตกำหนด"],"confirm":"","dq":1,"dp":600,"iv":180},{"id":"water2","sec":"water","name":"ชุดกรองน้ำพกพา K-83S-AG","qty":"1 ชุด (ฉลากระบุ 2000 ลิตร)","photos":["img/p52.jpg"],"use":"ชุดกรองน้ำอเนกประสงค์สีเขียวทหารในกล่องกระเป๋าซิป","how":["เปิดกล่องดูชิ้นส่วนและอ่านคู่มือ","ล้างระบบด้วยน้ำสะอาดก่อนใช้งานครั้งแรก","ถ้าน้ำไหลช้าให้ทำความสะอาดหรือเปลี่ยนไส้กรอง"],"care":["ตากให้แห้ง เก็บในกล่องปิดสนิท จดวันที่เริ่มใช้และปริมาณน้ำที่ผ่านกรอง"],"confirm":"ยังไม่ทราบชนิดไส้กรอง ถ่ายรูปในกล่องหรือคู่มือส่งมาได้เลย","dq":1,"dp":1200,"iv":180},{"id":"water3","sec":"water","name":"ถุงน้ำพกพา MOUNTAINS 8 ลิตร","qty":"5 ใบ","photos":["img/p85.jpg"],"use":"เก็บน้ำสะอาดสำรองและพกอพยพ","how":["ล้างก่อนบรรจุ เติมน้ำที่ต้มแล้วหรือน้ำสะอาด","น้ำ 8 ลิตรหนักประมาณ 8 กก. ควรแบ่งให้หลายคนช่วยหิ้ว","ติดวันที่บรรจุไว้บนถุง"],"care":["เปลี่ยนน้ำทุก 1–3 เดือน ล้างด้วยน้ำสบู่อ่อน ตากแห้งก่อนพับ"],"confirm":"","dq":5,"dp":150,"iv":90},{"id":"water4","sec":"water","name":"ถุงน้ำพับหูหิ้วเหลือง","qty":"3 ใบ","photos":["img/p80.jpg"],"use":"ขนและเก็บน้ำปริมาตรมาก พับเก็บเล็กเมื่อไม่ใช้","how":["ล้างให้สะอาด เติมน้ำจนเต็มอย่างช้า ๆ ปิดฝาแน่น","ใช้หูหิ้วสีเหลืองยกด้วยสองมือ"],"care":["ล้างให้สะอาดและตากแห้งก่อนพับ ไม่วางใกล้ของมีคม"],"confirm":"","dq":3,"dp":120,"iv":180},{"id":"camp1","sec":"camp","name":"เต็นท์นอน","qty":"3 ชุด (ถุงหิ้วสีทอง)","photos":["img/p45.jpg"],"use":"ที่พักชั่วคราวกันฝน ลม และแมลง","how":["กางทดลองหนึ่งครั้งก่อนวันจริง เพื่อให้รู้ว่าชิ้นส่วนครบ","ตอกสมอหรือถ่วงมุมทั้งสี่ ขึงผ้ากันฝนให้ตึง ไม่ให้ติดตัวเต็นท์","เปิดช่องระบายอากาศเล็กน้อยเสมอ"],"care":["ตากให้แห้ง 100% ก่อนเก็บ ป้องกันเชื้อรา","ซ่อมรอยฉีกด้วยแผ่นปะและตรวจเสา"],"confirm":"","dq":3,"dp":1800,"iv":180},{"id":"camp2","sec":"camp","name":"ถุงนอน","qty":"2 ใบ (ห่อพลาสติก)","photos":["img/p68.jpg"],"use":"รักษาความอบอุ่นขณะนอนในเต็นท์หรือที่พักชั่วคราว","how":["แกะออกจากถุงล่วงหน้าและสะบัดให้ฟู ก่อนใช้ 15–30 นาที","ใช้แผ่นรองหรือเสื่อรองพื้นเสมอ เพราะพื้นดูดความร้อนจากตัว","ถ้าอากาศเย็น เปลี่ยนเป็นเสื้อผ้าแห้งก่อนเข้าถุงนอน"],"care":["ไม่เก็บในสภาพถูกอัดแน่นนาน ๆ เก็บแบบหลวมในถุงผ้าระบายอากาศ","ถ้าเปียกให้ผึ่งลมให้แห้งสนิททันที ซักเมื่อจำเป็นตามป้าย"],"confirm":"","dq":2,"dp":700,"iv":180},{"id":"camp3","sec":"camp","name":"ผ้าห่มฉุกเฉิน (Emergency Blanket)","qty":"ประมาณ 3 ผืน (SUSTAIN 1, สีส้ม 2)","photos":["img/p62.jpg","img/p60.jpg"],"use":"เก็บความร้อนร่างกาย กันลมและฝนชั่วคราว และสะท้อนแสงส่งสัญญาณ","how":["ห่อตัวโดยให้ด้านสีเงินอยู่ด้านใน แล้วรัดชายไว้","ห่อทับเสื้อผ้าแห้ง จะเก็บความร้อนได้ดีกว่าห่อทับเสื้อเปียก","ไม่คลุมปิดใบหน้าทั้งหมด"],"care":["พับตามเดิมแล้วเก็บในถุงเล็ก ระวังรอยฉีก ผืนที่เปิดใช้แล้วมักใช้ซ้ำไม่ได้ดี"],"confirm":"","dq":3,"dp":60,"iv":365},{"id":"camp4","sec":"camp","name":"ชุดหม้อแคมป์ปิ้ง","qty":"1 ชุด ในถุงตาข่าย","photos":["img/p46.jpg"],"use":"ต้มน้ำ ทำอาหาร และตุ๋นอาหารสำหรับหลายคน","how":["ซ้อนหม้อและฝาในถุงตาข่ายเพื่อประหยัดที่","ใช้กับเตาแก๊สที่ปากหม้อไม่กว้างเกินตัวเตา","ล้างหลังใช้แล้วเช็ดให้แห้ง"],"care":["ไม่ขัดด้วยฝอยโลหะ ระวังรอยขีดข่วนบนผิวเคลือบ"],"confirm":"","dq":1,"dp":800,"iv":365},{"id":"camp5","sec":"camp","name":"เตาแก๊สพกพา Apelee AP-9000 และแก๊สกระป๋อง","qty":"เตา 1 ตัว แก๊ส 3 กระป๋อง","photos":["img/p69.jpg"],"use":"ต้มน้ำและทำอาหารร้อนเมื่อไฟดับหรือแก๊สบ้านใช้ไม่ได้","how":["ใช้ที่โล่ง ใส่กระป๋องให้ล็อกจนสนิท ได้ยินเสียงคลิก","จุดไฟและปรับเปลวให้พอดีกับก้นหม้อ","ปิดวาล์วเมื่อเสร็จ ถอดกระป๋องออกหลังเตาเย็น","สงสัยแก๊สรั่ว ใช้น้ำสบู่ลูบรอยต่อ ถ้ามีฟองให้หยุดใช้"],"care":["เก็บแก๊สกระป๋องที่ร่ม ห่างความร้อน ห้ามทิ้งในรถ","เช็ดเตาให้สะอาดเมื่อเย็นแล้ว ตรวจยางโอริงทุกไตรมาส"],"confirm":"","dq":1,"dp":820,"iv":90},{"id":"camp6","sec":"camp","name":"ไฟแช็ก","qty":"2 อัน","photos":["img/p64.jpg"],"use":"จุดเตาหรือเทียน ใช้เมื่อไม่มีไฟจุดแก๊สในตัว","how":["เก็บในถุงซิปกันน้ำ ใส่แยกอย่างน้อย 2 จุด"],"care":["เก็บให้พ้นมือเด็กและความร้อน ตรวจแก๊สทุกไตรมาส"],"confirm":"","dq":2,"dp":15,"iv":90},{"id":"ppe1","sec":"ppe","name":"หน้ากากครึ่งหน้า 3M (Half Facepiece)","qty":"1 ชุด (ไซซ์ M ตามถุง)","photos":["img/p59.jpg"],"use":"หน้ากากแบบใช้ซ้ำ ต้องใส่คู่กับตลับกรองที่เลือกให้ตรงกับอันตราย","how":["ตรวจว่ามีตลับกรองและชนิดตลับตรงกับอันตรายที่จะเจอ","ใส่ให้คลุมจมูกและคาง รัดสายล่างและสายบน ทำ Fit check ทุกครั้ง","ผู้มีหนวดเคราหนา หน้ากากจะแนบไม่สนิท","ถ้าไม่ทราบชนิดตลับ ให้ดูรหัสสีมาตรฐานของตลับ ดำ = ไอสารอินทรีย์, ขาว = ก๊าซกรด, เหลือง = ไอสารอินทรีย์และก๊าซกรด, ม่วงแดง = ฝุ่นละออง P100 แล้วตรวจรหัสรุ่นบนตลับซ้ำอีกครั้ง"],"care":["ล้างตัวหน้ากากด้วยน้ำสบู่อ่อน ตากแห้ง เก็บในถุงซิป","เปลี่ยนตลับเมื่อหายใจฝืด ได้กลิ่นเคมี หรือถึงอายุที่ระบุ"],"confirm":"ยังไม่ทราบชนิดไส้กรอง ถ่ายรูปตลับกรองส่งมาได้เลย น้องมายด์จะช่วยอ่านรหัสให้","dq":1,"dp":1300,"iv":180},{"id":"ppe2","sec":"ppe","name":"หน้ากากกันก๊าซ 308 PLUS (防毒口罩) ตลับคู่","qty":"1 ชุด","photos":["img/p82.jpg"],"use":"หน้ากากแบบสองตลับ ใช้กับสารเคมีตามที่ตลับระบุ","how":["อ่านชนิดตลับบนกล่อง ว่ารองรับสารเคมีชนิดใด","ทำ Fit check ก่อนใช้ทุกครั้ง","เมื่อใช้เสร็จ ปิดซีลตลับด้วยถุงหรือฝาที่มากับชุด"],"care":["ตลับกรองที่เปิดซีลแล้วจะเสื่อมตามเวลา จดวันที่เปิดใช้","เก็บให้พ้นความร้อนและความชื้น"],"confirm":"","dq":1,"dp":500,"iv":180},{"id":"ppe3","sec":"ppe","name":"หน้ากากอนามัย Watsons","qty":"แพ็กละ 3 ชิ้น","photos":["img/p60.jpg"],"use":"ป้องกันละอองฝอยจากการไอจาม ไม่ใช่หน้ากากสำหรับฝุ่นละเอียดหรือเคมี","how":["ด้านสีเข้มอยู่ด้านนอก ดัดลวดตามสันจมูก ดึงขอบล่างคลุมคาง"],"care":["ใช้แล้วทิ้ง ไม่ซักซ้ำ เก็บในซองปิดจนกว่าจะใช้"],"confirm":"","dq":1,"dp":80,"iv":365},{"id":"ppe4","sec":"ppe","name":"หน้ากากกันลมพร้อมแว่น (เลนส์เหลือง)","qty":"1 ชุด","photos":["img/p33.jpg"],"use":"ป้องกันดวงตาและใบหน้าจากฝุ่น ลม และเศษกระเด็นขณะทำงานหรือเดินทาง เลนส์เหลืองช่วยให้เห็นคมชัดขึ้นในแสงน้อย","how":["ปรับสายคาดให้แน่นพอดี ไม่กดจมูก","ไม่ใช้กับสารเคมีที่เป็นไอ เพราะไม่ใช่หน้ากากกรอง"],"care":["เช็ดเลนส์ด้วยผ้าไมโครไฟเบอร์ ไม่ใช้ผ้าหยาบ ไม่ทิ้งไว้บนที่ร้อนจัด"],"confirm":"","dq":1,"dp":500,"iv":365},{"id":"ppe5","sec":"ppe","name":"หมวกปีกกว้างกันแดด","qty":"2 ใบ (เขียวอ่อน / กรมท่า)","photos":["img/p92.jpg"],"use":"กันแดด ฝนพรำ และแมลงระหว่างปฏิบัติงานกลางแจ้ง","how":["รัดสายคางเมื่อลมแรง","ทาครีมกันแดดที่หน้าและคอก่อนออกแดด"],"care":["ซักด้วยมือ ตากร่มให้แห้ง"],"confirm":"","dq":2,"dp":250,"iv":0},{"id":"ppe6","sec":"ppe","name":"หมวกนิรภัย","qty":"3 ใบ (จักรยาน / สเก็ต / ทรงยุทธวิธีติดไฟฉาย)","photos":["img/p67.jpg"],"use":"ป้องกันศีรษะจากของตกหล่นหรือการกระแทกขณะอพยพ","how":["ปรับให้ขอบหมวกอยู่เหนือคิ้วประมาณ 1–2 นิ้ว","สายคาดคางให้พอดีนิ้วสอดได้ 1–2 นิ้ว"],"care":["ถ้าเคยกระแทกแรงหรือมีรอยร้าว ให้เปลี่ยนใบใหม่","ล้างด้วยน้ำสบู่อ่อน ไม่ใช้ตัวทำละลาย"],"confirm":"","dq":3,"dp":1233,"iv":365},{"id":"med1","sec":"med","name":"กระเป๋าปฐมพยาบาล","qty":"1 ใบ (สีแดง)","photos":["img/p77.jpg","img/p78.jpg"],"use":"มีชุดทำแผล พลาสเตอร์จำนวนมาก ผ้าก๊อซ ผ้ายืดพัน แผ่นทำความสะอาดแผล กรรไกร ไม้พันสำลี และอุปกรณ์อื่น ๆ อีกมาก","how":["ติดรายการของข้างกระเป๋า","ผ้ายืดพันจากปลายมือหรือเท้าเข้าหาลำตัว ไม่แน่นจนปลายนิ้วซีด","แผลสะอาดแล้วปิดด้วยผ้าก๊อซหรือพลาสเตอร์ เปลี่ยนเมื่อเปียก"],"care":["ตรวจวันหมดอายุทุก 6 เดือน และเติมของที่ใช้หมด","เก็บให้พ้นความร้อนและความชื้น"],"confirm":"","dq":1,"dp":900,"iv":180},{"id":"med2","sec":"med","name":"ทิชชู่และแอลกอฮอล์","qty":"ทิชชู่หลายห่อ และแอลกอฮอล์ 1 ขวด ในถุงเก็บความเย็น","photos":["img/p38.jpg"],"use":"ทำความสะอาดมือและผิว เช็ดอุปกรณ์ และใช้ในการดูแลสุขอนามัยเมื่อน้ำประปาใช้ไม่ได้","how":["เช็ดมือด้วยแอลกอฮอล์เมื่อไม่มีน้ำและสบู่ ถูให้ทั่วจนแห้ง","ตรวจฉลากความเข้มข้น เอทิลแอลกอฮอล์ประมาณ 70% เหมาะกับฆ่าเชื้อที่ผิวหนังและเครื่องมือ","ไม่ใช้เทลงแผลลึก ให้ล้างแผลด้วยน้ำสะอาดก่อน"],"care":["แอลกอฮอล์ติดไฟง่าย เก็บห่างเตาแก๊ส ไฟแช็ก และความร้อน ปิดฝาให้สนิท","เก็บทิชชู่ในถุงซิปให้แห้ง"],"confirm":"ความเข้มข้นของแอลกอฮอล์บนฉลาก","dq":1,"dp":300,"iv":180},{"id":"tool1","sec":"tool","name":"ขวานพก","qty":"1 เล่ม","photos":["img/p79.jpg"],"use":"ตัดกิ่งไม้ ผ่าฟืนเล็ก หรือเปิดทางที่มีสิ่งกีดขวาง","how":["ยืนแยกเท้ากว้างเท่าไหล่ ตัดห่างจากขา","ถือด้ามให้มั่น ใช้แรงจากแขนและลำตัวไม่ฟันสุดแรง","เมื่อพักให้ปักใบไว้ในท่อนไม้หรือใส่ปลอก"],"care":["เช็ดให้แห้ง เคลือบน้ำมันบาง ๆ หลังใช้ในที่ชื้น","ลับใบเมื่อทู่ และเก็บให้พ้นเด็ก"],"confirm":"","dq":1,"dp":600,"iv":180},{"id":"tool2","sec":"tool","name":"มีดใบเลื่อยพร้อมปลอก","qty":"1 เล่ม","photos":["img/p81.jpg"],"use":"ตัดเชือก ผ้า และกิ่งไม้ขนาดเล็ก ด้านใบเลื่อยใช้เลื่อยกิ่งหรือท่อพลาสติก","how":["ถือด้วยมือถนัด อีกมือถือวัตถุที่ตัดให้ห่างใบ","ตัดไกลตัว ไม่ตัดเข้าหาตัว","ส่งต่อโดยยื่นด้ามให้ผู้รับ"],"care":["เช็ดน้ำและโคลนให้แห้ง ทาน้ำมันบาง ๆ เก็บในปลอก ลับเมื่อทู่"],"confirm":"","dq":1,"dp":600,"iv":180},{"id":"tool3","sec":"tool","name":"เชือกพาราคอร์ดและเทปพัน","qty":"ม้วนน้ำเงิน และเชือกเขียวหลายเส้น","photos":["img/p82.jpg"],"use":"ผูกของ ซ่อมอุปกรณ์ ขึงผ้าใบ ทำสายรัด","how":["ตัดปลายแล้วลนไฟเบา ๆ ให้ปลายไม่คลาย","ใช้เงื่อนพื้นฐานตามหมวดน้ำท่วม"],"care":["ตากแห้งก่อนเก็บ เก็บเป็นม้วนหลวมในถุงตาข่าย"],"confirm":"","dq":1,"dp":150,"iv":365},{"id":"tool4","sec":"tool","name":"เป้ยุทธวิธีพร้อมถุงน้ำดื่ม (Hydration Bladder)","qty":"1 ใบ","photos":["img/p83.jpg"],"use":"เป้สะพายหลังสำหรับขนอุปกรณ์ มีถุงน้ำดื่มพร้อมสายดูด ดื่มได้ระหว่างเดินโดยไม่ต้องหยุดหยิบขวด","how":["จัดของหนักไว้ใกล้หลัง ปรับสายรัดอกและเอวให้ถ่ายน้ำหนักลงสะโพก","จัดแบ่งช่องเอกสาร ยา ไฟฉาย ไว้ด้านนอกหยิบง่าย","ถุงน้ำใส่เฉพาะน้ำสะอาด ไม่ใส่น้ำหวานหรือเครื่องดื่มชนิดอื่น ปล่อยลมออกจากถุงก่อนปิดฝา"],"care":["ล้างและตากแห้ง ตรวจซิปและหัวเข็มขัด","ล้างถุงน้ำด้วยน้ำสบู่อ่อน กางปากถุงให้แห้งสนิทก่อนเก็บ ถ้าเก็บนานให้ใส่ช่องแช่แข็งกันเชื้อรา"],"confirm":"","dq":1,"dp":1100,"iv":180},{"id":"tool5","sec":"tool","name":"เสื้อกั๊กยุทธวิธีแบบ MOLLE","qty":"1 ตัว","photos":["img/p84.jpg"],"use":"ช่องกระเป๋าช่วยให้พกวิทยุ ไฟฉาย และเครื่องมือชิ้นเล็กโดยมือว่าง","how":["จัดวางของใช้บ่อยไว้ด้านหน้า","ปรับสายให้พอดีตัว ไม่กดซี่โครง"],"care":["ซักด้วยมือ ตากร่ม ตรวจแถบตีนตุ๊กแกไม่ให้ขนหรือฝุ่นติด"],"confirm":"","dq":1,"dp":900,"iv":365},{"id":"tool6","sec":"tool","name":"หนังสือคู่มือเอาชีวิตรอด","qty":"2 เล่ม","photos":["img/p73.jpg","img/p66.jpg"],"use":"คู่มือ \"DK เอาชีวิตรอด\" และ \"100 เทคนิคลับของหน่วย SEAL\" สำหรับเปิดค้นเทคนิคเมื่อไม่มีสัญญาณอินเทอร์เน็ต","how":["อ่านล่วงหน้าและทำเครื่องหมายหน้าที่สำคัญ","ฝึกเทคนิคเล็ก ๆ จริงอย่างน้อยปีละครั้ง"],"care":["เก็บในถุงซิปกันน้ำ ไม่วางใกล้พื้นที่ชื้น"],"confirm":"","dq":2,"dp":550,"iv":0}],"scen":[{"t":"น้ำท่วมและต้องอพยพ","steps":["ปิดเบรกเกอร์ชั้นล่าง ยกของและเอกสารขึ้นที่สูง","สวมชูชีพ หมวกนิรภัย และรองเท้าหุ้มส้น","ใส่เอกสารและยาใน Dry Bag และเคสกันน้ำ","ออกตามเส้นทางที่ตกลงไว้ ใช้เรือเป่าลมและไม้พายเมื่อน้ำลึก","หลังลุยน้ำ ล้างเท้าและแผลให้สะอาด สังเกตไข้และปวดน่อง"],"gear":"เสื้อชูชีพ · เรือคายัคและไม้พาย · เชือก · Dry Bag · เคสกันน้ำ · หมวกนิรภัย · เสื้อกันฝน"},{"t":"ไฟดับหลายวัน","steps":["เปิดไฟฉายไดนาโมและโคมโซลาร์ ไม่ใช้เทียนใกล้วัสดุติดไฟ","นำโคมและแผงโซลาร์ออกรับแดดทุกเช้า","ใช้ Power Station เฉพาะมือถือ วิทยุ และอุปกรณ์จำเป็น","ฟังประกาศจากวิทยุ ปภ. และกรมอุตุนิยมวิทยา","ปรุงอาหารด้วยเตาแก๊สในที่โล่งเท่านั้น"],"gear":"ไฟฉายไดนาโม · โคมไฟโซลาร์ · Power Station · แผงโซลาร์ · วิทยุ PX-777 · เตาแก๊ส"},{"t":"พายุและลมแรง","steps":["อยู่ในอาคารมั่นคง ห่างจากหน้าต่างและกระจก","เก็บสิ่งของนอกบ้านและยึดของที่ปลิวง่าย","สวมหมวกนิรภัยเมื่อต้องออกนอกอาคาร","เตรียมไฟฉาย วิทยุ และอุปกรณ์ชาร์จก่อนพายุเข้า","หลังพายุ ระวังสายไฟขาด ต้นไม้ล้ม และน้ำท่วมขัง"],"gear":"หมวกนิรภัย · วิทยุ PX-777 · ไฟฉายไดนาโม · เสื้อกันฝน · เชือก · ขวาน"},{"t":"ไฟไหม้และควัน","steps":["ออกจากพื้นที่ทันที คลานต่ำ ใช้ผ้าชื้นปิดจมูก","หน้ากากกรองไม่กรองก๊าซคาร์บอนมอนอกไซด์ ห้ามใช้เป็นเหตุให้อยู่ต่อ","โทร 199 และไม่กลับเข้าไปเอาของ","แผลไหม้ล้างด้วยน้ำสะอาดไหลผ่านประมาณ 10–20 นาที แล้วปิดด้วยผ้าสะอาด"],"gear":"กระเป๋าปฐมพยาบาล · ผ้าห่มฉุกเฉิน · นกหวีด · วิทยุสื่อสาร"},{"t":"ฝุ่นละออง สารเคมีรั่ว กลิ่นผิดปกติ","steps":["ออกจากบริเวณต้นลม ไปที่สูงและห่างแหล่งกลิ่น","ปิดหน้าต่าง ใส่หน้ากากให้ตรงกับชนิดตลับกรอง ทำ Fit check","สวมแว่นป้องกันตา","มีอาการแสบตา หายใจลำบาก ให้โทร 1669"],"gear":"หน้ากากครึ่งหน้า 3M · หน้ากาก 308 PLUS · แว่น · หน้ากากอนามัย"},{"t":"รอความช่วยเหลือที่พักชั่วคราว","steps":["กางเต็นท์บนพื้นสูงและแห้ง","เปลี่ยนเป็นเสื้อผ้าแห้ง ห่มผ้าฉุกเฉินหรือใช้ถุงนอน","ใช้นกหวีด 3 ครั้งสั้น ๆ ซ้ำเป็นระยะ ส่องไฟฉายหรือกระจก","นัดเวลาเปิดวิทยุสื่อสารกับสมาชิกเป็นรอบ","ดื่มน้ำที่กรองและต้มแล้ว ไม่ดื่มน้ำท่วมโดยตรง"],"gear":"เต็นท์ · ถุงนอน · ผ้าห่มฉุกเฉิน · วิทยุสื่อสาร · เครื่องกรองน้ำ · ถุงน้ำ"},{"t":"กระเป๋าอพยพ (Go Bag) ที่ควรพร้อมตลอด","steps":["เป้ยุทธวิธีพร้อมถุงน้ำดื่ม","ไฟฉายไดนาโม วิทยุ และแผงโซลาร์พับชาร์จ","ชุดปฐมพยาบาลและยาประจำตัวอย่างน้อย 7 วัน","เอกสารสำคัญใน Dry Bag และเคสกันน้ำ","ผ้าห่มฉุกเฉิน นกหวีด หมวก และหน้ากาก"],"gear":"เป้ยุทธวิธี · ไฟฉายไดนาโม · แผงโซลาร์พับ · กระเป๋าปฐมพยาบาล · Dry Bag"}],"maint":[{"t":"ทุกเดือน","list":["ตากโคมไฟโซลาร์และชาร์จให้เต็ม","ทดสอบไฟฉายไดนาโมและวิทยุ PX-777","เช็กแก๊สกระป๋องและไฟแช็ก"]},{"t":"ทุก 3 เดือน","list":["ชาร์จ Power Station เติมให้เต็ม","ชาร์จวิทยุสื่อสารและทดลองสื่อสารกับสมาชิก","เปลี่ยนน้ำในถุงน้ำสำรอง","ตรวจเชือก สายรัด และเสื้อชูชีพ"]},{"t":"ทุก 6 เดือน","list":["ตรวจวันหมดอายุของกระเป๋าปฐมพยาบาลและยาประจำตัว","ตรวจตลับกรองหน้ากาก ไส้กรองน้ำ","กางเต็นท์ทดลองและตากให้แห้ง"]},{"t":"ก่อนฤดูฝนและฤดูน้ำหลาก","list":["ซ้อมอพยพทั้งครอบครัวหนึ่งรอบ","เติมสัมภาระในเป้อพยพ และตรวจเส้นทางอพยพ","ถ่ายรูปเอกสารสำคัญและเก็บในถุงกันน้ำ"]}]};
+const PASS_HASH = 61866114990399;
+const APP_VER = "1.0", APP_DATE = "2026-11-01";
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => Number(n || 0).toLocaleString('th-TH', {maximumFractionDigits: 1});
+const ITEMS = Object.fromEntries(D.items.map(i => [i.id, i]));
+const SECS = Object.fromEntries(D.sections.map(s => [s.id, s]));
+const STATUS = {ready:'พร้อมใช้', check:'ต้องตรวจ', repair:'ซ่อม/เปลี่ยน', missing:'ขาด/ไม่พบ'};
+function cyrb(str){let h1=0xdeadbeef,h2=0x41c6ce57;for(let i=0;i<str.length;i++){const c=str.charCodeAt(i);h1=Math.imul(h1^c,2654435761);h2=Math.imul(h2^c,1597334677)}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0)}
+/* ---------- state ---------- */
+const defaults = () => ({settings:{theme:'auto',font:1}, inv:{}, fam:{members:[],addr:'',meet:'',route:'',radio:'',notes:''}, shelters:[], bag:{checked:{},w:{},body:''}, scen:{}});
+function load(){try{const j=JSON.parse(localStorage.getItem('hg_v1')||'{}');const d=defaults();return {...d,...j,settings:{...d.settings,...(j.settings||{})},fam:{...d.fam,...(j.fam||{})},bag:{...d.bag,...(j.bag||{})}}}catch(e){return defaults()}}
+let S = load();
+function save(){try{localStorage.setItem('hg_v1',JSON.stringify(S))}catch(e){}}
+function applySettings(){const r=document.documentElement;r.dataset.theme=S.settings.theme;r.style.setProperty('--fs',S.settings.font)}
+/* ---------- inventory helpers ---------- */
+const todayD = () => {const d=new Date();d.setHours(0,0,0,0);return d};
+const iso = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+function inv(id){const it=ITEMS[id],u=S.inv[id]||{};return {qty:u.qty??it.dq,unit:u.unit??it.dp,buy:u.buy||'',last:u.last||'',iv:u.iv??it.iv,loc:u.loc||'',status:u.status||'ready',note:u.note||''}}
+function setInv(id,k,v){S.inv[id]=S.inv[id]||{};S.inv[id][k]=v;save()}
+function dueInfo(id){const v=inv(id);if(!v.iv)return null;const base=v.last||v.buy;let due;if(!base){due=todayD()}else{due=new Date(base+'T00:00:00');due.setDate(due.getDate()+Number(v.iv))}return {due,days:Math.round((due-todayD())/864e5),never:!base}}
+function dueText(di){if(!di)return 'ไม่มีรอบตรวจ';if(di.never)return 'ยังไม่เคยตรวจ';if(di.days<0)return 'เลยกำหนด '+(-di.days)+' วัน';if(di.days===0)return 'ครบกำหนดวันนี้';return 'อีก '+di.days+' วัน'}
+function stats(){let val=0,due=0,bad=0;D.items.forEach(i=>{const v=inv(i.id);val+=v.qty*v.unit;const d=dueInfo(i.id);if(d&&d.days<=0)due++;if(v.status!=='ready')bad++});return {val,due,bad,n:D.items.length}}
+/* ---------- router ---------- */
+const view = $('#view');
+function parts(){return location.hash.replace(/^#/,'').split('/').filter(Boolean).map(decodeURIComponent)}
+function go(h){location.hash=h}
+const TABMAP={home:'home',scen:'home',gear:'gear',item:'gear',inv:'inv',tools:'tools',calc:'tools',more:'more',bag:'more',family:'more',links:'more',about:'more'};
+function route(){
+  const p=parts(); const r=p[0]||'home';
+  closeOverlay();
+  $$('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.t===TABMAP[r]));
+  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vTools,calc:vCalc,more:vMore,bag:vBag,family:vFamily,links:vLinks,about:vAbout}[r]||vHome;
+  view.innerHTML=f(p); window.scrollTo(0,0);
+  const after=view.querySelector('[data-after]');
+  if(typeof f.after==='function')f.after(p);
+}
+window.addEventListener('hashchange',route);
+/* ---------- views ---------- */
+function vHome(){
+  const st=stats();
+  const dues=D.items.map(i=>({i,d:dueInfo(i.id)})).filter(x=>x.d&&x.d.days<=7).sort((a,b)=>a.d.days-b.d.days).slice(0,4);
+  return `<div class="stack">
+  <div><h2 class="h2">เกิดเหตุ เลือกสถานการณ์</h2><p class="sub">แตะเพื่อดูขั้นตอนทีละข้อ ตัวใหญ่ ติ๊กทำเสร็จได้</p></div>
+  <div class="list">${D.scen.map((s,i)=>`<a class="big" href="#scen/${i}"><i>${i+1}</i><span>${esc(s.t)}<small>${s.steps.length} ขั้นตอน</small></span></a>`).join('')}</div>
+  <div class="stat"><div><b>${st.n}</b><span>รายการอุปกรณ์</span></div><div><b>${fmt(st.val)}</b><span>มูลค่ารวม (บาท)</span></div><div><b style="color:${st.due?'var(--danger)':'var(--ok)'}">${st.due}</b><span>ถึงกำหนดตรวจ</span></div><div><b style="color:${st.bad?'var(--warn)':'var(--ok)'}">${st.bad}</b><span>ต้องตรวจ/ซ่อม/ขาด</span></div></div>
+  ${dues.length?`<div class="card"><h3>ถึงกำหนดตรวจ</h3><div class="list" style="margin-top:8px">${dues.map(x=>`<a class="item" href="#item/${x.i.id}" style="grid-template-columns:1fr"><div><h4>${esc(x.i.name)}</h4><p>${dueText(x.d)}</p></div></a>`).join('')}</div><div class="row" style="margin-top:10px"><a class="btn sm" href="#inv">ดูทะเบียนทั้งหมด</a></div></div>`:''}
+  <div class="grid2">
+    <a class="big" href="#tools"><i>⚡</i><span>เครื่องมือเร่งด่วน<small>ไฟฉายจอ CPR นกหวีด</small></span></a>
+    <a class="big" href="#family"><i>♥</i><span>บัตรครอบครัว<small>ยา จุดนัดพบ เส้นทาง</small></span></a>
+    <a class="big" href="#bag"><i>🎒</i><span>เช็กลิสต์กระเป๋าอพยพ<small>ติ๊กของ รวมน้ำหนัก</small></span></a>
+    <a class="big" href="#calc"><i>∑</i><span>ตัวคำนวณ<small>ไฟ น้ำ คลอรีน ยา</small></span></a>
+  </div></div>`;
+}
+function vScen(p){
+  const i=+p[1]||0,s=D.scen[i];if(!s)return '<p>ไม่พบสถานการณ์</p>';
+  const ck=S.scen[i]||[];const done=ck.filter(Boolean).length;
+  return `<div class="stack"><a class="btn sm" href="#home">← กลับ</a>
+  <h2 class="h2" style="color:var(--danger)">${esc(s.t)}</h2>
+  <div class="prog"><i style="width:${done/s.steps.length*100}%"></i></div><p class="note">ทำแล้ว ${done} จาก ${s.steps.length} ขั้นตอน</p>
+  <div class="steps">${s.steps.map((t,k)=>`<button class="${ck[k]?'done':''}" data-act="tick" data-i="${i}" data-k="${k}"><b>${ck[k]?'✓':k+1}</b><span style="font-size:1.12rem">${esc(t)}</span></button>`).join('')}</div>
+  <div class="card"><h3>อุปกรณ์ที่ใช้</h3><div class="chips" style="flex-wrap:wrap;margin-top:8px">${s.gear.split(' · ').map(g=>`<a class="chip" href="#gear/q/${encodeURIComponent(g.split(' ')[0].replace(/[()]/g,''))}">${esc(g)}</a>`).join('')}</div></div>
+  <div class="row"><button class="btn sm" data-act="resetScen" data-i="${i}">ล้างการติ๊ก</button></div></div>`;
+}
+function vGear(p){
+  let q='',sec='';if(p[1]==='q')q=p[2]||'';if(p[1]==='sec')sec=p[2]||'';
+  return `<div class="stack"><h2 class="h2">อุปกรณ์ทั้งหมด</h2>
+  <input type="search" id="gq" placeholder="ค้นหา เช่น ชูชีพ ไฟ น้ำ" value="${esc(q)}">
+  <div class="chips"><a class="chip ${!sec?'on':''}" href="#gear">ทั้งหมด</a>${D.sections.map(s=>`<a class="chip ${sec===s.id?'on':''}" href="#gear/sec/${s.id}">${esc(s.tag.split(' · ')[0])}</a>`).join('')}</div>
+  <div class="list" id="glist"></div></div>`;
+}
+vGear.after=function(p){
+  let sec=p[1]==='sec'?p[2]:'';const qi=$('#gq');
+  const draw=()=>{const q=qi.value.trim().toLowerCase();
+    const arr=D.items.filter(i=>(!sec||i.sec===sec)&&(!q||(i.name+' '+i.use+' '+i.qty+' '+SECS[i.sec].tag).toLowerCase().includes(q)));
+    $('#glist').innerHTML=arr.length?arr.map(itemRow).join(''):'<p class="sub">ไม่พบรายการที่ค้นหา</p>'};
+  qi.addEventListener('input',draw);draw();
+};
+function itemRow(i){const v=inv(i.id),d=dueInfo(i.id);return `<a class="item" href="#item/${i.id}" style="--sec:var(--c-${SECS[i.sec].color})"><img src="${i.photos[0]}" alt="" loading="lazy"><div><h4>${esc(i.name)}</h4><p>${esc(i.qty)}</p><div class="m"><span class="badge">${esc(SECS[i.sec].tag.split(' · ')[0])}</span><span class="badge ${v.status}">${STATUS[v.status]}</span>${d&&d.days<=0?'<span class="badge repair">ถึงกำหนดตรวจ</span>':''}</div></div></a>`}
+function vItem(p){
+  const i=ITEMS[p[1]];if(!i)return '<p>ไม่พบรายการ</p>';const v=inv(i.id),d=dueInfo(i.id),sc=SECS[i.sec];
+  return `<div class="stack" style="--sec:var(--c-${sc.color})"><a class="btn sm" href="#gear">← กลับ</a>
+  <div class="photos">${i.photos.map(x=>`<img src="${x}" alt="${esc(i.name)}">`).join('')}</div>
+  <div><span class="badge">${esc(sc.tag)}</span><h2 class="h2" style="margin-top:8px">${esc(i.name)}</h2><p class="sub">${esc(i.qty)}</p></div>
+  <div class="card"><h3>ใช้เพื่อ</h3><p style="margin:6px 0 0">${esc(i.use)}</p></div>
+  <div class="card"><h3>วิธีใช้</h3><ul class="p">${i.how.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><h3 style="margin-top:14px">การดูแล</h3><ul class="p">${i.care.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+  ${i.confirm?`<div class="warn"><b>รอยืนยัน:</b> ${esc(i.confirm)}</div>`:''}
+  <div class="card"><h3>ทะเบียนของฉัน</h3><p class="sub">${dueText(d)}</p>
+   <div class="two"><div><label class="f">จำนวนจริง</label><input type="number" min="0" data-f="qty" data-id="${i.id}" value="${v.qty}"></div><div><label class="f">ราคาต่อหน่วย (บาท)</label><input type="number" min="0" data-f="unit" data-id="${i.id}" value="${v.unit}"></div></div>
+   <div class="two"><div><label class="f">วันที่ซื้อ</label><input type="date" data-f="buy" data-id="${i.id}" value="${v.buy}"></div><div><label class="f">ตรวจล่าสุด</label><input type="date" data-f="last" data-id="${i.id}" value="${v.last}"></div></div>
+   <div class="two"><div><label class="f">รอบตรวจ (วัน, 0 = ไม่มี)</label><input type="number" min="0" data-f="iv" data-id="${i.id}" value="${v.iv}"></div><div><label class="f">สถานะ</label><select data-f="status" data-id="${i.id}">${Object.entries(STATUS).map(([k,t])=>`<option value="${k}" ${v.status===k?'selected':''}>${t}</option>`).join('')}</select></div></div>
+   <label class="f">ที่เก็บ (ห้อง / ชั้น / กล่อง)</label><input type="text" data-f="loc" data-id="${i.id}" value="${esc(v.loc)}" placeholder="เช่น กล่อง A ชั้น 2">
+   <label class="f">หมายเหตุ</label><textarea data-f="note" data-id="${i.id}">${esc(v.note)}</textarea>
+   <div class="row" style="margin-top:12px"><button class="btn p" data-act="checked" data-id="${i.id}">ตรวจแล้ววันนี้</button></div></div></div>`;
+}
+function vInv(p){
+  const st=stats();let locF=p[1]==='loc'?p[2]:'';
+  const arr=D.items.filter(i=>!locF||inv(i.id).loc===locF);
+  return `<div class="stack"><h2 class="h2">ทะเบียนอุปกรณ์</h2>
+  <div class="stat"><div><b>${st.n}</b><span>รายการ</span></div><div><b>${fmt(st.val)}</b><span>มูลค่ารวม (บาท)</span></div><div><b>${st.due}</b><span>ถึงกำหนดตรวจ</span></div><div><b>${st.bad}</b><span>ต้องตรวจ/ซ่อม/ขาด</span></div></div>
+  <div class="row"><button class="btn sm" data-act="csv">ส่งออก Excel (CSV)</button><button class="btn sm" data-act="ics">ไฟล์เตือนปฏิทิน (.ics)</button><button class="btn sm" data-act="qr">พิมพ์ป้าย QR กล่อง</button></div>
+  <div class="row"><button class="btn sm" data-act="backup">สำรองข้อมูล</button><label class="btn sm" style="cursor:pointer">กู้คืนข้อมูล<input type="file" accept=".json,application/json" id="restore" hidden></label></div>
+  ${locF?`<div class="warn">กรองตามที่เก็บ: <b>${esc(locF)}</b> <a href="#inv">ล้างตัวกรอง</a></div>`:''}
+  <div class="card scroll"><table class="t"><thead><tr><th>รายการ</th><th>จำนวน</th><th>รวม (บาท)</th><th>สถานะ</th><th>ตรวจ</th></tr></thead><tbody>
+  ${arr.map(i=>{const v=inv(i.id),d=dueInfo(i.id);return `<tr><td><a href="#item/${i.id}">${esc(i.name)}</a>${v.loc?`<br><small class="note">${esc(v.loc)}</small>`:''}</td><td>${fmt(v.qty)}</td><td>${fmt(v.qty*v.unit)}</td><td><span class="badge ${v.status}">${STATUS[v.status]}</span></td><td style="color:${d&&d.days<=0?'var(--danger)':'inherit'}">${d?dueText(d):'-'}</td></tr>`}).join('')}
+  </tbody></table></div>
+  <p class="note">ราคาเริ่มต้นเป็นราคาประมาณ แก้ไขให้ตรงกับของจริงได้ในหน้ารายการ ข้อมูลทั้งหมดเก็บในเครื่องนี้</p></div>`;
+}
+vInv.after=function(){const r=$('#restore');if(r)r.addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const fr=new FileReader();fr.onload=()=>{try{const j=JSON.parse(fr.result);if(!j||typeof j!=='object'||!j.inv)throw 0;S={...defaults(),...j};save();applySettings();toast('กู้คืนข้อมูลแล้ว');route()}catch(_){toast('ไฟล์สำรองไม่ถูกต้อง')}};fr.readAsText(f)})};
+function vTools(){
+  return `<div class="stack"><h2 class="h2">เครื่องมือเร่งด่วน</h2>
+  <div class="grid2">
+    <button class="big" data-act="tool" data-n="light"><i>☀</i><span>ไฟฉายจอ<small>ขาว แดง และสัญญาณ SOS</small></span></button>
+    <button class="big" data-act="tool" data-n="cpr"><i>♥</i><span>จังหวะ CPR<small>110 ครั้งต่อนาที พร้อมเสียง</small></span></button>
+    <button class="big" data-act="tool" data-n="siren"><i>♪</i><span>นกหวีดและไซเรน<small>เรียกความสนใจ ขอความช่วยเหลือ</small></span></button>
+    <button class="big" data-act="tool" data-n="knots"><i>∞</i><span>เงื่อนเชือก<small>บ่วงสายธนู ผูกกระหวัด พิรอด</small></span></button>
+    <a class="big" href="#calc"><i>∑</i><span>ตัวคำนวณ<small>ไฟ น้ำ คลอรีน ยา</small></span></a>
+    <a class="big" href="#bag"><i>🎒</i><span>กระเป๋าอพยพ<small>เช็กลิสต์และน้ำหนัก</small></span></a>
+  </div>
+  <div class="card"><h3>เทคนิคตามประเภทภัย</h3><div class="list" style="margin-top:8px">${D.sections.map(s=>`<a class="big" style="min-height:52px;--sec:var(--c-${s.color})" href="#more/tech/${s.id}"><i style="background:var(--c-${s.color})">${s.id[0].toUpperCase()}</i><span>${esc(s.tag.split(' · ')[0])}<small>${esc(s.tech_title)}</small></span></a>`).join('')}</div></div></div>`;
+}
+function vTech(p){const s=SECS[p[2]];if(!s)return '<p>ไม่พบ</p>';return `<div class="stack" style="--sec:var(--c-${s.color})"><a class="btn sm" href="#tools">← กลับ</a><div><span class="badge">${esc(s.tag)}</span><h2 class="h2" style="margin-top:8px">${esc(s.tech_title)}</h2><p class="sub">${esc(s.intro)}</p></div>${s.tech.map(t=>`<div class="card"><h3>${esc(t[0])}</h3><p style="margin:6px 0 0">${esc(t[1])}</p></div>`).join('')}<a class="btn" href="#gear/sec/${s.id}">ดูอุปกรณ์ในหมวดนี้</a></div>`}
+function vMore(p){
+  if(p[1]==='tech')return vTech(p);
+  return `<div class="stack"><h2 class="h2">เพิ่มเติม</h2><div class="list">
+  <a class="big" href="#family"><i>♥</i><span>บัตรครอบครัวและแผนอพยพ<small>สมาชิก ยา จุดนัดพบ ศูนย์พักพิง</small></span></a>
+  <a class="big" href="#bag"><i>🎒</i><span>กระเป๋าอพยพ<small>ติ๊กของ รวมน้ำหนัก</small></span></a>
+  <a class="big" href="#calc"><i>∑</i><span>ตัวคำนวณ<small>แบตสำรอง น้ำ คลอรีน ยา</small></span></a>
+  <a class="big" href="#links"><i>↗</i><span>ข้อมูลสถานการณ์และลิงก์<small>น้ำ ฝน ปภ. กรมอุตุฯ</small></span></a>
+  <a class="big" href="#about"><i>i</i><span>เกี่ยวกับ ติดตั้ง ใช้ออฟไลน์<small>เวอร์ชัน แหล่งอ้างอิง พิมพ์</small></span></a></div></div>`;
+}
+function vBag(){
+  const BAG=[['เป้ยุทธวิธีพร้อมถุงน้ำดื่ม',1.5],['น้ำดื่มสำรอง 2 ลิตร',2],['ไฟฉายไดนาโม',.2],['วิทยุ PX-777',.6],['แผงโซลาร์พับ + สาย USB',.4],['วิทยุสื่อสาร + แบตสำรอง',.5],['กระเป๋าปฐมพยาบาล',.8],['เอกสารสำคัญใน Dry Bag + เคสกันน้ำ',.7],['ยาประจำตัวอย่างน้อย 7 วัน',.3],['ผ้าห่มฉุกเฉิน',.1],['นกหวีด + ไฟแช็ก',.1],['หน้ากาก + แว่น',.4],['หมวกปีกกว้าง',.15],['เสื้อกันฝน',.3],['เสื้อผ้าสำรอง 1 ชุด',.8],['อาหารแห้ง (เตรียมแยกไว้แล้ว)',1]];
+  const w=i=>S.bag.w[i]??BAG[i][1];
+  let tot=0;BAG.forEach((b,i)=>{if(S.bag.checked[i])tot+=+w(i)});
+  const body=+S.bag.body;const pct=body?tot/body*100:0;
+  return `<div class="stack"><a class="btn sm" href="#more">← กลับ</a><h2 class="h2">เช็กลิสต์กระเป๋าอพยพ</h2>
+  <div class="card"><div class="stat"><div><b id="bagtot">${fmt(tot)}</b><span>กก. ที่ติ๊กแล้ว</span></div><div><b>${BAG.filter((b,i)=>S.bag.checked[i]).length}/${BAG.length}</b><span>รายการ</span></div></div>
+  <label class="f">น้ำหนักตัวผู้แบก (กก.)</label><input type="number" min="0" data-bag="body" value="${esc(S.bag.body)}" placeholder="เช่น 60">
+  ${body?`<p class="${pct>25?'warn':'note'}" style="margin:8px 0 0">${fmt(pct)}% ของน้ำหนักตัว ${pct>25?'หนักเกิน 25% ควรลดหรือแบ่งคนช่วยแบก':'อยู่ในเกณฑ์ที่เดินได้'}</p>`:''}</div>
+  <div class="steps">${BAG.map((b,i)=>`<button class="${S.bag.checked[i]?'done':''}" data-act="bagtick" data-i="${i}"><b>${S.bag.checked[i]?'✓':''}</b><span style="flex:1">${esc(b[0])}</span><span class="note">${fmt(w(i))} กก.</span></button>`).join('')}</div>
+  <p class="note">น้ำหนักแต่ละชิ้นเป็นค่าประมาณ ปรับตามของจริงได้ที่ปุ่ม "ปรับน้ำหนัก"</p>
+  <div class="row"><button class="btn sm" data-act="bagw">ปรับน้ำหนัก</button><button class="btn sm" data-act="bagreset">ล้างการติ๊ก</button></div></div>`;
+}
+function vFamily(){
+  const f=S.fam;
+  return `<div class="stack"><a class="btn sm" href="#more">← กลับ</a><h2 class="h2">บัตรครอบครัวและแผนอพยพ</h2>
+  <div class="warn">ข้อมูลสุขภาพเก็บเฉพาะในเครื่องนี้ ไม่ส่งขึ้นอินเทอร์เน็ต อย่าแชร์ภาพบัตรให้คนที่ไม่เกี่ยวข้อง</div>
+  <div class="card"><h3>สมาชิก</h3><div id="mem">${f.members.map((m,k)=>memberForm(m,k)).join('')}</div><div class="row" style="margin-top:10px"><button class="btn sm" data-act="addmem">+ เพิ่มสมาชิก</button></div></div>
+  <div class="card"><h3>แผนอพยพ</h3>
+    <label class="f">ที่อยู่บ้าน</label><textarea data-fam="addr">${esc(f.addr)}</textarea>
+    <label class="f">จุดนัดพบ</label><textarea data-fam="meet">${esc(f.meet)}</textarea>
+    <label class="f">เส้นทางอพยพ</label><textarea data-fam="route">${esc(f.route)}</textarea>
+    <label class="f">ช่องวิทยุและเวลานัดเปิดเครื่อง</label><textarea data-fam="radio">${esc(f.radio)}</textarea>
+    <label class="f">หมายเหตุ</label><textarea data-fam="notes">${esc(f.notes)}</textarea></div>
+  <div class="card"><h3>ศูนย์พักพิง / จุดอพยพใกล้บ้าน</h3><p class="sub">ใส่ข้อมูลที่ตรวจสอบกับหน่วยงานแล้วเท่านั้น</p>
+    <div id="shl">${S.shelters.map((s,k)=>`<div class="two" style="margin-top:8px"><input type="text" data-sh="${k}" data-k="n" value="${esc(s.n)}" placeholder="ชื่อสถานที่"><input type="text" data-sh="${k}" data-k="t" value="${esc(s.t)}" placeholder="เบอร์ / ลิงก์แผนที่"></div>`).join('')}</div>
+    <div class="row" style="margin-top:10px"><button class="btn sm" data-act="addsh">+ เพิ่มสถานที่</button></div></div>
+  <div class="row"><button class="btn p" data-act="famcard">สร้างบัตรฉุกเฉิน</button></div></div>`;
+}
+const memberForm=(m,k)=>`<div style="border-top:1px solid var(--line);padding-top:8px;margin-top:8px"><div class="two"><div><label class="f">ชื่อ</label><input type="text" data-mem="${k}" data-k="n" value="${esc(m.n)}"></div><div><label class="f">อายุ / กรุ๊ปเลือด</label><input type="text" data-mem="${k}" data-k="a" value="${esc(m.a)}"></div></div><label class="f">โรคประจำตัว / แพ้ยา</label><input type="text" data-mem="${k}" data-k="c" value="${esc(m.c)}"><label class="f">ยาที่ใช้ประจำ</label><input type="text" data-mem="${k}" data-k="d" value="${esc(m.d)}"><label class="f">เบอร์ติดต่อ</label><input type="text" data-mem="${k}" data-k="p" value="${esc(m.p)}"><div class="row" style="margin-top:6px"><button class="btn sm" data-act="delmem" data-k="${k}">ลบ</button></div></div>`;
+function vCalc(){
+  const bags=inv('water3').qty*8;
+  return `<div class="stack"><a class="btn sm" href="#tools">← กลับ</a><h2 class="h2">ตัวคำนวณ</h2>
+  <div class="card"><h3>1. ไฟสำรอง: ใช้ได้กี่ชั่วโมง</h3>
+    <div class="two"><div><label class="f">ความจุแบต (Wh)</label><input type="number" id="pw_wh" min="0" placeholder="ดูที่ป้ายเครื่อง"></div><div><label class="f">กำลังไฟอุปกรณ์ (W)</label><input type="number" id="pw_w" min="0" placeholder="เช่น 10"></div></div>
+    <label class="f">เลือกอุปกรณ์ทั่วไป</label><select id="pw_dev"><option value="">เลือกเพื่อกรอกวัตต์</option><option value="10">ชาร์จมือถือ ~10 W</option><option value="5">วิทยุ ~5 W</option><option value="10">โคมไฟ LED ~10 W</option><option value="40">พัดลมตั้งโต๊ะ ~40 W</option><option value="60">ชาร์จโน้ตบุ๊ก ~60 W</option><option value="40">เครื่องช่วยหายใจ/ออกซิเจนขนาดเล็ก ~40 W (ดูป้ายเครื่อง)</option></select>
+    <p id="pw_out" class="note" style="margin-top:8px">ใส่ค่าเพื่อคำนวณ (คิดประสิทธิภาพ 85%)</p></div>
+  <div class="card"><h3>2. น้ำสำรอง</h3>
+    <div class="two"><div><label class="f">จำนวนคน</label><input type="number" id="wt_p" min="0" value="3"></div><div><label class="f">จำนวนวัน</label><input type="number" id="wt_d" min="0" value="3"></div></div>
+    <div class="two"><div><label class="f">ลิตร/คน/วัน</label><input type="number" id="wt_l" min="0" step=".5" value="4"></div><div><label class="f">สัตว์เลี้ยง (ตัว, 1 ลิตร/วัน)</label><input type="number" id="wt_a" min="0" value="0"></div></div>
+    <p id="wt_out" class="note" style="margin-top:8px"></p><p class="note">ความจุถุงน้ำ 8 ลิตรตามทะเบียน: ${fmt(bags)} ลิตร</p></div>
+  <div class="card"><h3>3. ฆ่าเชื้อน้ำด้วยคลอรีน</h3>
+    <div class="two"><div><label class="f">ปริมาณน้ำ (ลิตร)</label><input type="number" id="cl_v" min="0" value="20"></div><div><label class="f">ความเข้มข้นฟอกขาว (%)</label><input type="number" id="cl_c" min="0" step=".1" value="6"></div></div>
+    <div class="two"><div><label class="f">คลอรีนเป้าหมาย (mg/ลิตร)</label><input type="number" id="cl_t" min="0" step=".5" value="5"></div><div><label class="f">น้ำขุ่น?</label><select id="cl_x"><option value="1">ใส</option><option value="2">ขุ่น (ใช้ 2 เท่า)</option></select></div></div>
+    <p id="cl_out" class="note" style="margin-top:8px"></p>
+    <div class="warn" style="margin-top:8px">กรองตะกอนก่อน ใช้ฟอกขาวที่ไม่มีน้ำหอมหรือสารเติมแต่ง กวนให้เข้ากัน รอ 30 นาที ควรมีกลิ่นคลอรีนจาง ๆ ถ้าไม่มีกลิ่นให้เติมอีกครึ่งเท่าแล้วรออีก 15 นาที ฉลากผลิตภัณฑ์เป็นหลักเมื่อต่างกัน</div></div>
+  <div class="card"><h3>4. ยาประจำตัวเหลือกี่วัน</h3>
+    <div class="two"><div><label class="f">จำนวนเม็ดที่เหลือ</label><input type="number" id="md_n" min="0"></div><div><label class="f">ใช้วันละ (เม็ด)</label><input type="number" id="md_p" min="0" step=".5"></div></div>
+    <p id="md_out" class="note" style="margin-top:8px">ใส่ค่าเพื่อคำนวณ</p></div></div>`;
+}
+vCalc.after=function(){
+  const q=id=>$('#'+id);const n=id=>+q(id).value||0;
+  const pw=()=>{const wh=n('pw_wh'),w=n('pw_w');q('pw_out').innerHTML=wh&&w?`ใช้ได้ประมาณ <b>${fmt(wh*.85/w)}</b> ชั่วโมง${w<=15?` (ชาร์จมือถือแบต 12 Wh ได้ ~${Math.floor(wh*.85/12)} ครั้ง)`:''}`:'ใส่ค่าเพื่อคำนวณ (คิดประสิทธิภาพ 85%)'};
+  ['pw_wh','pw_w'].forEach(i=>q(i).addEventListener('input',pw));q('pw_dev').addEventListener('change',e=>{if(e.target.value){q('pw_w').value=e.target.value;pw()}});
+  const wt=()=>{const t=(n('wt_p')*n('wt_l')+n('wt_a'))*n('wt_d');q('wt_out').innerHTML=`ต้องมีอย่างน้อย <b>${fmt(t)}</b> ลิตร (ประมาณ ${Math.ceil(t/8)} ถุงขนาด 8 ลิตร)`};
+  ['wt_p','wt_d','wt_l','wt_a'].forEach(i=>q(i).addEventListener('input',wt));wt();
+  const cl=()=>{const v=n('cl_v'),c=n('cl_c'),t=n('cl_t')*n('cl_x');if(!(v&&c&&t)){q('cl_out').textContent='ใส่ค่าให้ครบ';return}const ml=v*t/(c*10);q('cl_out').innerHTML=`ใช้ฟอกขาว <b>${ml<1?fmt(ml):fmt(ml)} มล.</b> (ประมาณ <b>${fmt(ml*20)}</b> หยด) ต่อน้ำ ${fmt(v)} ลิตร`};
+  ['cl_v','cl_c','cl_t','cl_x'].forEach(i=>q(i).addEventListener('input',cl));cl();
+  const md=()=>{const a=n('md_n'),b=n('md_p');if(!(a&&b)){q('md_out').textContent='ใส่ค่าเพื่อคำนวณ';return}const d=Math.floor(a/b);const e=new Date();e.setDate(e.getDate()+d);q('md_out').innerHTML=`พอใช้ <b>${fmt(d)}</b> วัน (ถึงประมาณ ${e.toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'})})`};
+  ['md_n','md_p'].forEach(i=>q(i).addEventListener('input',md));
+};
+function vLinks(){
+  const L=[['สถานการณ์น้ำ สมุทรปราการ','https://jeerapat2010-cpu.github.io/my-html-app/samutprakan-pump-app.html','สถานีสูบน้ำ ระดับน้ำคลอง แนวโน้มน้ำท่วม'],['เฝ้าน้องฝน สมุทรปราการ','https://jeerapat2010-cpu.github.io/nongfon-samutprakan/','เรดาร์ฝน ภาพดาวเทียม และแจ้งเตือน'],['Area Ready เตรียมพร้อมรับภัยตามพื้นที่','https://jeerapat2010-cpu.github.io/my-html-app/DiasterPlan.html','วางแผนเตรียมความพร้อมตามพื้นที่'],['กรมอุตุนิยมวิทยา','https://www.tmd.go.th','พยากรณ์อากาศและเตือนภัย'],['กรมป้องกันและบรรเทาสาธารณภัย (ปภ.)','https://www.disaster.go.th','ประกาศเตือนภัย ศูนย์พักพิง สายด่วน 1784'],['กรมควบคุมโรค','https://ddc.moph.go.th','ข้อมูลโรคหลังน้ำท่วม เช่น ฉี่หนู']];
+  return `<div class="stack"><a class="btn sm" href="#more">← กลับ</a><h2 class="h2">ข้อมูลสถานการณ์และลิงก์</h2><div class="warn">ลิงก์ในหน้านี้ต้องใช้อินเทอร์เน็ต เมื่อออฟไลน์ให้ใช้วิทยุ FM/AM ฟังประกาศ</div><div class="list">${L.map(l=>`<a class="big" href="${l[1]}" target="_blank" rel="noopener"><i>↗</i><span>${esc(l[0])}<small>${esc(l[2])}</small></span></a>`).join('')}</div>
+  <div class="card"><h3>ศูนย์พักพิงใกล้บ้าน (จากบัตรครอบครัว)</h3>${S.shelters.length?`<ul class="p">${S.shelters.map(s=>`<li>${esc(s.n)} ${esc(s.t)}</li>`).join('')}</ul>`:'<p class="sub">ยังไม่ได้เพิ่ม ไปที่ <a href="#family">บัตรครอบครัว</a></p>'}</div></div>`;
+}
+function vAbout(){
+  const R=['กรมป้องกันและบรรเทาสาธารณภัย (disaster.go.th)','กรมอุตุนิยมวิทยา (tmd.go.th)','กรมควบคุมโรค กระทรวงสาธารณสุข (ddc.moph.go.th) เรื่องโรคฉี่หนูและการดูแลหลังน้ำท่วม','American Heart Association: จังหวะกดหน้าอก 100–120 ครั้งต่อนาที','WHO และ US CDC: การฆ่าเชื้อน้ำดื่มด้วยคลอรีนในภาวะฉุกเฉิน','NIOSH: รหัสสีตลับกรองหน้ากากครึ่งหน้า','คู่มือของผู้ผลิตอุปกรณ์แต่ละชิ้น (ยึดคู่มือผู้ผลิตก่อนเสมอ)'];
+  return `<div class="stack"><a class="btn sm" href="#more">← กลับ</a><h2 class="h2">เกี่ยวกับแอป</h2>
+  <div class="card"><h3>คู่มืออุปกรณ์สู้ภัยประจำบ้าน</h3><p class="sub">เวอร์ชัน ${APP_VER} · ปรับปรุงล่าสุด ${APP_DATE}<br>จัดทำสำหรับ ภก.จีรภัทร พลายงาม</p></div>
+  <div class="card"><h3>ใช้งานออฟไลน์</h3><ul class="p"><li id="offst">กำลังตรวจสอบการเก็บข้อมูลออฟไลน์…</li><li>เปิดแอปครั้งแรกขณะมีอินเทอร์เน็ต แล้วระบบจะเก็บทุกหน้าและรูปไว้ในเครื่อง</li></ul>
+   <div class="row" style="margin-top:10px"><button class="btn p" id="btnInstall" hidden>ติดตั้งแอปลงหน้าจอ</button><button class="btn" data-act="saveoff">บันทึกเป็นไฟล์ออฟไลน์ (HTML เดียว)</button></div>
+   <p class="note" id="iosHint" hidden style="margin-top:8px">iPhone: แตะปุ่มแชร์ แล้วเลือก "เพิ่มไปยังหน้าจอโฮม"</p></div>
+  <div class="card"><h3>ฉบับพิมพ์</h3><div class="row"><button class="btn" data-act="print">พิมพ์หน้านี้ / ทะเบียน</button><a class="btn" href="HomeGear-Manual.pdf" target="_blank" rel="noopener">เปิดคู่มือ PDF เต็มเล่ม (A4)</a></div></div>
+  <div class="card"><h3>แหล่งอ้างอิง</h3><ul class="p">${R.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div>
+  <div class="warn">ข้อมูลเป็นแนวทางทั่วไปจากรูปถ่ายและความรู้เบื้องต้น ไม่ใช่คำแนะนำทางการแพทย์เฉพาะบุคคล เมื่อมีเหตุรุนแรงให้โทร 1669 ก่อนเสมอ รหัสผ่านหน้าแรกเป็นการกันเปิดโดยไม่ตั้งใจ ไม่ใช่ระบบความปลอดภัยระดับสูง</div>
+  <div class="card"><h3>ตั้งค่า</h3><div class="row"><button class="btn sm" data-act="lockagain">ล็อกแอป</button><button class="btn sm" data-act="wipe">ล้างข้อมูลในเครื่อง</button></div></div></div>`;
+}
+vAbout.after=function(){
+  const o=$('#offst');if(o){if('serviceWorker' in navigator&&location.protocol.startsWith('http')){navigator.serviceWorker.getRegistration().then(r=>{o.textContent=r&&r.active?'พร้อมใช้ออฟไลน์ ✓ (เก็บหน้าและรูปในเครื่องแล้ว)':'ยังไม่พร้อม ให้เปิดแอปทิ้งไว้ขณะมีอินเทอร์เน็ตสักครู่'})}else o.textContent='เปิดจากไฟล์ในเครื่อง ใช้ออฟไลน์ได้อยู่แล้ว'}
+  if(/iphone|ipad/i.test(navigator.userAgent))$('#iosHint').hidden=false;
+  if(deferredPrompt)$('#btnInstall').hidden=false;
+};
+/* ---------- overlays / tools ---------- */
+const ov=$('#overlay');let stopFn=null;
+function openOverlay(html,cls){ov.className='overlay '+(cls||'');ov.innerHTML=html;ov.hidden=false;ov.scrollTop=0}
+function closeOverlay(){if(stopFn){try{stopFn()}catch(e){}stopFn=null}ov.hidden=true;ov.innerHTML=''}
+let ac=null;const actx=()=>{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();return ac};
+function beep(f,ms,vol=.4,type='sine'){const a=actx(),o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;g.gain.value=vol;o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+ms/1000)}
+async function wake(){try{const w=await navigator.wakeLock.request('screen');return()=>w.release()}catch(e){return()=>{}}}
+function tool(n){
+  if(n==='light'){
+    openOverlay(`<div style="height:100%;display:flex;flex-direction:column;justify-content:space-between;min-height:100vh;margin:-12px -14px -30px;padding:14px" id="lt"><div class="row"><button class="btn sm" data-act="ltw">ขาว</button><button class="btn sm" data-act="ltr">แดง</button><button class="btn sm" data-act="lts">SOS</button><button class="btn sm d" data-act="closeov">ปิด</button></div><p class="note" id="ltn" style="text-align:center">แตะปุ่มด้านบนเพื่อเลือกโหมด (SOS เป็นแสงกะพริบ ระวังผู้ไวต่อแสงกะพริบ)</p></div>`,'');
+    const el=$('#lt');let t=null,rel=()=>{};wake().then(r=>rel=r);
+    const set=(bg,fg)=>{el.style.background=bg;el.style.color=fg;ov.style.background=bg};
+    const stop=()=>{clearTimeout(t);t=null};
+    window.__lt={w:()=>{stop();set('#fff','#000')},r:()=>{stop();set('#400','#f88')},s:()=>{stop();const P=[200,200,200,200,200,600,600,200,600,200,600,600,200,200,200,200,200,1400];let k=0,on=false;const step=()=>{on=!on;set(on?'#fff':'#000',on?'#000':'#fff');t=setTimeout(step,P[k%P.length]);k++};step()}};
+    stopFn=()=>{stop();rel();ov.style.background=''};
+  }
+  if(n==='cpr'){
+    openOverlay(`<h2 style="color:var(--danger)">จังหวะ CPR 110/นาที</h2><div class="pulse" id="pc">0</div><p id="pm" style="font-size:1.15rem;max-width:22em">โทร 1669 ก่อน วางส้นมือกลางอก กดลึก 5–6 ซม. ปล่อยให้อกคืนตัว</p><div class="row"><button class="btn p" id="pstart">เริ่ม</button><button class="btn" data-act="closeov">ปิด</button></div>`,'full');
+    let timer=null,c=0,rel=()=>{};const pc=$('#pc');
+    $('#pstart').onclick=async e=>{if(timer){clearInterval(timer);timer=null;e.target.textContent='เริ่ม';return}rel=await wake();actx();e.target.textContent='หยุด';c=0;timer=setInterval(()=>{c++;const k=((c-1)%30)+1;pc.textContent=k;pc.classList.remove('beat');void pc.offsetWidth;pc.classList.add('beat');beep(k===30?660:880,70,.5);$('#pm').textContent=k===30?'ครบ 30 ครั้ง: ถ้าเคยฝึกให้เป่าปาก 2 ครั้ง แล้วกดต่อทันที ถ้าไม่เคยให้กดต่อเนื่อง':'กดต่อเนื่อง ไม่หยุดเกิน 10 วินาที'},60000/110)};
+    stopFn=()=>{clearInterval(timer);rel()};
+  }
+  if(n==='siren'){
+    openOverlay(`<h2>นกหวีดและไซเรน</h2><p>ลดเสียงมือถือเมื่อใช้ใกล้ตัว ใช้เมื่อต้องการให้คนได้ยิน</p><div class="row" style="justify-content:center"><button class="btn p" id="swh">นกหวีด 3 ครั้ง ซ้ำ</button><button class="btn p" id="ssr">ไซเรน</button></div><div class="row"><button class="btn d" id="sst">หยุดเสียง</button><button class="btn" data-act="closeov">ปิด</button></div>`,'full');
+    let iv=null;const stopS=()=>{clearInterval(iv);iv=null};
+    $('#swh').onclick=()=>{stopS();const go=()=>[0,450,900].forEach(d=>setTimeout(()=>beep(2800,260,.6,'square'),d));go();iv=setInterval(go,4500)};
+    $('#ssr').onclick=()=>{stopS();let up=true,f=600;iv=setInterval(()=>{f+=up?60:-60;if(f>1300)up=false;if(f<600)up=true;beep(f,90,.5,'sawtooth')},80)};
+    $('#sst').onclick=stopS;stopFn=stopS;
+  }
+  if(n==='knots'){
+    const K=[['เงื่อนบ่วงสายธนู (Bowline)','ทำห่วงที่ไม่รูด ใช้คล้องตัวผู้ถูกช่วย หรือผูกเรือ',['ทำบ่วงเล็กบนสายเชือกให้ปลายอยู่ด้านบน (เรียกว่า "รู")','ปลายเชือกคือ "กระต่าย" ให้ลอดขึ้นจากรูด้านล่าง','พาดไปด้านหลังสายหลัก ("ต้นไม้") ที่อยู่ด้านบน','ให้กระต่ายกลับเข้ารูเดิมจากด้านบนลงล่าง','ดึงสายหลักและปลายให้แน่น เหลือปลายอย่างน้อย 10 ซม.']],['ผูกกระหวัด (Clove Hitch)','ผูกเชือกกับเสา หลัก หรือราวอย่างเร็ว ปรับความยาวง่าย',['พันเชือกรอบเสาหนึ่งรอบให้ปลายพาดไขว้สายหลัก','พันรอบเสาอีกรอบทิศทางเดิม','สอดปลายลอดใต้รอบที่สอง ดึงให้แน่น','ถ้าใช้ยึดนาน ให้เติมเงื่อนกันหลุดอีกหนึ่งเงื่อน']],['เงื่อนพิรอด (Reef Knot)','ต่อเชือกขนาดเท่ากัน ผูกผ้าพัน',['ใช้ปลายขวาพาดทับซ้ายแล้วสอดลอด ดึงให้แน่น','เปลี่ยนเป็นปลายซ้ายพาดทับขวาแล้วสอดลอด','ดึงให้เรียบ ถ้าเป็นเงื่อนตายต้องแก้ใหม่','ไม่ใช้ผูกรับน้ำหนักคนหรือเชือกต่างขนาด']],['เงื่อนกันปลายหลุด (Figure-eight)','กันปลายเชือกหลุดจากห่วงหรือรอก',['ทำห่วงเล็กที่ปลายเชือก','พันปลายอ้อมสายหลักหนึ่งรอบ ให้เป็นเลข 8','สอดปลายผ่านห่วงแรกกลับลงมา','ดึงให้แน่นและเรียบ']]];
+    openOverlay(`<a class="btn sm" data-act="closeov">← ปิด</a><h2 style="margin:12px 0">เงื่อนเชือก</h2>${K.map(k=>`<div class="card" style="margin-bottom:10px"><h3>${esc(k[0])}</h3><p class="sub">${esc(k[1])}</p><ol class="p">${k[2].map(s=>`<li>${esc(s)}</li>`).join('')}</ol></div>`).join('')}<p class="note">ฝึกกับเชือกจริงก่อนวันเกิดเหตุ เชือกที่ใช้ช่วยคนต้องรับน้ำหนักได้ตามที่ผู้ผลิตระบุ</p>`,'');
+  }
+}
+/* ---------- family card ---------- */
+function famCard(){
+  const f=S.fam,L=[];
+  L.push(['คู่มืออุปกรณ์สู้ภัยประจำบ้าน · บัตรฉุกเฉินครอบครัว','h']);
+  if(f.addr)L.push(['ที่อยู่: '+f.addr]);
+  f.members.forEach(m=>{L.push([(m.n||'-')+(m.a?' ('+m.a+')':''),'b']);if(m.c)L.push(['โรค/แพ้ยา: '+m.c]);if(m.d)L.push(['ยาประจำ: '+m.d]);if(m.p)L.push(['โทร: '+m.p])});
+  if(f.meet)L.push(['จุดนัดพบ: '+f.meet,'b']);if(f.route)L.push(['เส้นทางอพยพ: '+f.route]);if(f.radio)L.push(['วิทยุ: '+f.radio]);
+  if(S.shelters.length)L.push(['ศูนย์พักพิง: '+S.shelters.map(s=>s.n+' '+s.t).join(' | ')]);
+  L.push(['ฉุกเฉิน 1669 · ปภ. 1784 · เพลิงไหม้ 199 · เหตุด่วน 191','b']);
+  openOverlay(`<a class="btn sm" data-act="closeov">← ปิด</a><h2 style="margin:12px 0">บัตรฉุกเฉิน</h2><canvas id="famcv"></canvas><div class="row" style="margin-top:12px"><button class="btn p" id="fpng">บันทึกเป็นรูป</button><button class="btn" id="fprint">พิมพ์</button></div>`,'');
+  const W=1080,pad=48,cv=$('#famcv'),c=cv.getContext('2d');
+  const wrap=(t,w,font)=>{c.font=font;const out=[];let line='';for(const ch of t){if(c.measureText(line+ch).width>w){out.push(line);line=ch}else line+=ch}out.push(line);return out};
+  cv.width=W;cv.height=4000;let y=pad,lines=[];
+  c.font='700 34px Prompt, sans-serif';
+  L.forEach(([t,k])=>{const font=k==='h'?'700 40px Prompt, sans-serif':k==='b'?'600 32px Sarabun, sans-serif':'400 30px Sarabun, sans-serif';wrap(t,W-pad*2,font).forEach(l=>{lines.push([l,font,k])})});
+  const H=pad*2+lines.length*46+20;cv.height=H;
+  c.fillStyle='#fff';c.fillRect(0,0,W,H);c.fillStyle='#C62828';c.fillRect(0,0,W,16);
+  y=pad+30;lines.forEach(([l,font,k])=>{c.font=font;c.fillStyle=k==='h'?'#C62828':'#12222B';c.fillText(l,pad,y);y+=46});
+  $('#fpng').onclick=()=>cv.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='emergency-card.png';a.click()});
+  $('#fprint').onclick=()=>printHTML(`<h2>บัตรฉุกเฉินครอบครัว</h2><img src="${cv.toDataURL()}" style="max-width:100%;filter:none">`);
+}
+function printHTML(h){const pa=$('#printArea');pa.innerHTML=h;document.body.classList.add('printing');const done=()=>{document.body.classList.remove('printing');pa.innerHTML='';window.removeEventListener('afterprint',done)};window.addEventListener('afterprint',done);setTimeout(()=>window.print(),100)}
+/* ---------- export ---------- */
+function dl(name,text,type){const b=new Blob([text],{type});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},800)}
+function csv(){
+  const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+  const H=['รหัส','หมวด','รายการ','จำนวน','ราคาต่อหน่วย','รวม','วันที่ซื้อ','ตรวจล่าสุด','รอบตรวจ(วัน)','ครบกำหนดตรวจ','ที่เก็บ','สถานะ','หมายเหตุ'];
+  const rows=D.items.map(i=>{const v=inv(i.id),d=dueInfo(i.id);return [i.id,SECS[i.sec].tag.split(' · ')[0],i.name,v.qty,v.unit,v.qty*v.unit,v.buy,v.last,v.iv,d?iso(d.due):'',v.loc,STATUS[v.status],v.note].map(q).join(',')});
+  dl('ทะเบียนอุปกรณ์สู้ภัย-'+iso(new Date())+'.csv','\ufeff'+[H.map(q).join(','),...rows].join('\r\n'),'text/csv;charset=utf-8');
+}
+function ics(){
+  const pd=d=>iso(d).replace(/-/g,''),stamp=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
+  const E=[];const ev=(uid,date,sum,desc,rr)=>E.push(['BEGIN:VEVENT','UID:hg-'+uid+'@homegear','DTSTAMP:'+stamp,'DTSTART;VALUE=DATE:'+pd(date),rr?'RRULE:'+rr:'','SUMMARY:'+sum,'DESCRIPTION:'+String(desc).replace(/\n/g,'\\n'),'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+sum,'TRIGGER:PT8H','END:VALARM','END:VEVENT'].filter(Boolean).join('\r\n'));
+  const nm=new Date();nm.setDate(1);nm.setMonth(nm.getMonth()+1);
+  const yr=m=>{const d=new Date();d.setMonth(m-1,1);if(d<todayD())d.setFullYear(d.getFullYear()+1);return d};
+  ev('m1',nm,'สู้ภัย: ตรวจอุปกรณ์รายเดือน',D.maint[0].list.join('\n'),'FREQ=MONTHLY;INTERVAL=1');
+  ev('m3',nm,'สู้ภัย: ตรวจอุปกรณ์ราย 3 เดือน',D.maint[1].list.join('\n'),'FREQ=MONTHLY;INTERVAL=3');
+  ev('m6',nm,'สู้ภัย: ตรวจอุปกรณ์ราย 6 เดือน',D.maint[2].list.join('\n'),'FREQ=MONTHLY;INTERVAL=6');
+  ev('y5',yr(5),'สู้ภัย: เตรียมก่อนฤดูฝน',D.maint[3].list.join('\n'),'FREQ=YEARLY');
+  ev('y9',yr(9),'สู้ภัย: เตรียมก่อนฤดูน้ำหลาก',D.maint[3].list.join('\n'),'FREQ=YEARLY');
+  D.items.forEach(i=>{const d=dueInfo(i.id);if(d&&!d.never&&d.days>=0)ev('i-'+i.id,d.due,'ครบกำหนดตรวจ: '+i.name,'ตรวจตามทะเบียนอุปกรณ์สู้ภัย')});
+  dl('เตือนตรวจอุปกรณ์สู้ภัย.ics',['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//HomeGear//TH',...E,'END:VCALENDAR'].join('\r\n'),'text/calendar;charset=utf-8');
+  toast('ดาวน์โหลดไฟล์ปฏิทินแล้ว เปิดไฟล์เพื่อเพิ่มลงปฏิทิน');
+}
+function qrLabels(){
+  const locs={};D.items.forEach(i=>{const l=inv(i.id).loc.trim();if(l)(locs[l]=locs[l]||[]).push(i.name)});
+  const ks=Object.keys(locs);if(!ks.length){toast('ยังไม่ได้ใส่ "ที่เก็บ" ในรายการ');return}
+  const base=location.href.split('#')[0];
+  const lab=ks.map(k=>{const q=qrcode(0,'M');q.addData(base+'#inv/loc/'+encodeURIComponent(k));q.make();return `<div class="qrl">${q.createSvgTag(4,2)}<b>${esc(k)}</b><small>${locs[k].length} รายการ</small></div>`}).join('');
+  openOverlay(`<a class="btn sm" data-act="closeov">← ปิด</a><h2 style="margin:12px 0">ป้าย QR กล่อง</h2><p class="sub">สแกนด้วยกล้องมือถือเพื่อเปิดรายการของกล่องนั้น ต้องเปิดแอปที่ติดตั้งไว้แล้วบนมือถือที่สแกน</p><div class="qrgrid">${lab}</div><div class="row" style="margin-top:12px"><button class="btn p" id="qprint">พิมพ์</button></div>`,'');
+  $('#qprint').onclick=()=>printHTML(`<div class="qrgrid">${lab}</div>`);
+}
+async function saveOffline(){
+  try{toast('กำลังรวมไฟล์ รอสักครู่…');let t=await (await fetch(location.href.split('#')[0])).text();
+    const urls=[...new Set(t.match(/(?:img|fonts)\/[\w.\-]+\.(?:jpg|woff2)/g)||[])];
+    for(const u of urls){const b=await (await fetch(u)).blob();const d=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(b)});t=t.split(u).join(d)}
+    dl('HomeGear-offline.html',t,'text/html;charset=utf-8');toast('บันทึกไฟล์ออฟไลน์แล้ว');
+  }catch(e){toast('บันทึกไม่สำเร็จ ลองขณะมีอินเทอร์เน็ต')}
+}
+/* ---------- events ---------- */
+function toast(m){let t=$('#toast');if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#12222B;color:#fff;padding:10px 16px;border-radius:12px;z-index:200;max-width:88vw;font:600 .9rem var(--f-d)';document.body.appendChild(t)}t.textContent=m;t.hidden=false;clearTimeout(t._t);t._t=setTimeout(()=>t.hidden=true,2600)}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act,i=+b.dataset.i,k=+b.dataset.k;
+  if(a==='tick'){S.scen[i]=S.scen[i]||[];S.scen[i][k]=!S.scen[i][k];save();route()}
+  else if(a==='resetScen'){S.scen[i]=[];save();route()}
+  else if(a==='checked'){setInv(b.dataset.id,'last',iso(new Date()));setInv(b.dataset.id,'status','ready');toast('บันทึกวันตรวจแล้ว');route()}
+  else if(a==='csv')csv();else if(a==='ics')ics();else if(a==='qr')qrLabels();
+  else if(a==='backup')dl('homegear-backup-'+iso(new Date())+'.json',JSON.stringify(S),'application/json');
+  else if(a==='tool'){tool(b.dataset.n)}
+  else if(a==='closeov'){closeOverlay()}
+  else if(a==='ltw')window.__lt.w();else if(a==='ltr')window.__lt.r();else if(a==='lts')window.__lt.s();
+  else if(a==='bagtick'){S.bag.checked[i]=!S.bag.checked[i];save();route()}
+  else if(a==='bagreset'){S.bag.checked={};save();route()}
+  else if(a==='bagw'){const v=prompt?null:null;const w=window.prompt('ใส่น้ำหนักเป็นกก. คั่นด้วยจุลภาค ตามลำดับรายการ (เว้นว่าง = ค่าเดิม)');if(w!==null){w.split(',').forEach((x,j)=>{if(x.trim()!==''&&!isNaN(+x))S.bag.w[j]=+x});save();route()}}
+  else if(a==='addmem'){S.fam.members.push({n:'',a:'',c:'',d:'',p:''});save();route()}
+  else if(a==='delmem'){S.fam.members.splice(k,1);save();route()}
+  else if(a==='addsh'){S.shelters.push({n:'',t:''});save();route()}
+  else if(a==='famcard')famCard();
+  else if(a==='print')printHTML(view.innerHTML);
+  else if(a==='saveoff')saveOffline();
+  else if(a==='lockagain'){localStorage.removeItem('hg_ok');sessionStorage.removeItem('hg_ok');location.reload()}
+  else if(a==='wipe'){if(window.confirm('ล้างข้อมูลทะเบียน บัตรครอบครัว และการตั้งค่าในเครื่องนี้ทั้งหมด?')){localStorage.removeItem('hg_v1');S=defaults();applySettings();route()}}
+});
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.dataset.f){const id=t.dataset.id,f=t.dataset.f;let v=t.value;if(['qty','unit','iv'].includes(f))v=Math.max(0,+v||0);setInv(id,f,v)}
+  else if(t.dataset.fam){S.fam[t.dataset.fam]=t.value;save()}
+  else if(t.dataset.mem!==undefined){S.fam.members[+t.dataset.mem][t.dataset.k]=t.value;save()}
+  else if(t.dataset.sh!==undefined){S.shelters[+t.dataset.sh][t.dataset.k]=t.value;save()}
+  else if(t.dataset.bag==='body'){S.bag.body=t.value;save()}
+});
+$('#btnTheme').onclick=()=>{const o=['auto','light','dark','night'],n={auto:'ตามเครื่อง',light:'สว่าง',dark:'มืด',night:'กลางคืน (แดง)'};S.settings.theme=o[(o.indexOf(S.settings.theme)+1)%4];save();applySettings();toast('โหมด: '+n[S.settings.theme])};
+$('#btnFont').onclick=()=>{const o=[1,1.15,1.3,.9];S.settings.font=o[(o.indexOf(S.settings.font)+1)%4];save();applySettings()};
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;const b=$('#btnInstall');if(b)b.hidden=false});
+document.addEventListener('click',e=>{if(e.target.id==='btnInstall'&&deferredPrompt){deferredPrompt.prompt();deferredPrompt=null;e.target.hidden=true}});
+function netState(){const n=$('#net');n.className='st '+(navigator.onLine?'on':'off');n.textContent=navigator.onLine?'ออนไลน์':'ออฟไลน์'}
+window.addEventListener('online',netState);window.addEventListener('offline',netState);
+/* ---------- lock ---------- */
+(function(){
+  const ok=()=>{try{return localStorage.getItem('hg_ok')===String(PASS_HASH)||sessionStorage.getItem('hg_ok')===String(PASS_HASH)}catch(e){return false}};
+  const start=()=>{$('#lock').hidden=true;$('#app').hidden=false;applySettings();netState();$('#verline').textContent='v'+APP_VER+' · '+APP_DATE;route()};
+  if(ok()){start();return}
+  applySettings();
+  let buf='';const dots=$$('#dots i'),msg=$('#lockmsg');
+  $('#pad').innerHTML=[1,2,3,4,5,6,7,8,9,'⌫',0,'✓'].map(k=>`<button data-k="${k}">${k}</button>`).join('');
+  $('#pad').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const k=b.dataset.k;msg.textContent='';
+    if(k==='⌫')buf=buf.slice(0,-1);else if(k==='✓'){check()}else if(buf.length<4){buf+=k}
+    dots.forEach((d,i)=>d.classList.toggle('on',i<buf.length));if(buf.length===4&&k!=='⌫'&&k!=='✓')check()});
+  function check(){if(buf.length<4)return;if(cyrb('hg:'+buf)===PASS_HASH){try{($('#remember').checked?localStorage:sessionStorage).setItem('hg_ok',String(PASS_HASH))}catch(e){}start()}else{msg.textContent='รหัสไม่ถูกต้อง';$('#dots').classList.add('shake');setTimeout(()=>$('#dots').classList.remove('shake'),400);buf='';dots.forEach(d=>d.classList.remove('on'))}}
+  document.addEventListener('keydown',e=>{if($('#lock').hidden)return;if(/^\d$/.test(e.key)&&buf.length<4){buf+=e.key;dots.forEach((d,i)=>d.classList.toggle('on',i<buf.length));if(buf.length===4)check()}else if(e.key==='Backspace'){buf=buf.slice(0,-1);dots.forEach((d,i)=>d.classList.toggle('on',i<buf.length))}});
+})();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
