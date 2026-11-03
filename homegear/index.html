@@ -2548,7 +2548,7 @@ const SECS = Object.fromEntries(D.sections.map(s => [s.id, s]));
 const STATUS = {ready:'พร้อมใช้', check:'ต้องตรวจ', repair:'ซ่อม/เปลี่ยน', missing:'ขาด/ไม่พบ'};
 function cyrb(str){let h1=0xdeadbeef,h2=0x41c6ce57;for(let i=0;i<str.length;i++){const c=str.charCodeAt(i);h1=Math.imul(h1^c,2654435761);h2=Math.imul(h2^c,1597334677)}h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);return 4294967296*(2097151&h2)+(h1>>>0)}
 /* ---------- state ---------- */
-const defaults = () => ({settings:{theme:'auto',font:1}, inv:{}, fam:{members:[],addr:'',meet:'',route:'',radio:'',notes:''}, shelters:[], bag:{checked:{},w:{},body:''}, stock:{n:4,days:7,c:{},e:{}}, scen:{}});
+const defaults = () => ({settings:{theme:'auto',font:1}, inv:{}, fam:{members:[],addr:'',meet:'',route:'',radio:'',notes:''}, shelters:[], bag:{checked:{},w:{},body:''}, stock:{n:4,days:7,c:{},e:{}}, scen:{},shop:{have:{},skip:{}},recv:[]});
 function load(){try{const j=JSON.parse(localStorage.getItem('hg_v1')||'{}');const d=defaults();return {...d,...j,settings:{...d.settings,...(j.settings||{})},fam:{...d.fam,...(j.fam||{})},bag:{...d.bag,...(j.bag||{})}}}catch(e){return defaults()}}
 let S = load();
 function save(){try{localStorage.setItem('hg_v1',JSON.stringify(S))}catch(e){}}
@@ -2565,12 +2565,12 @@ function stats(){let val=0,due=0,bad=0;D.items.forEach(i=>{const v=inv(i.id);val
 const view = $('#view');
 function parts(){return location.hash.replace(/^#/,'').split('/').filter(Boolean).map(decodeURIComponent)}
 function go(h){location.hash=h}
-const TABMAP={home:'home',sos:'sos',scen:'sos',tools:'sos',prep:'prep',go:'prep',stock:'prep',bag:'prep',family:'prep',gear:'gear',item:'gear',inv:'gear',more:'more',calc:'more',links:'more',about:'more'};
+const TABMAP={home:'home',sos:'sos',scen:'sos',tools:'sos',prep:'prep',go:'prep',stock:'prep',bag:'prep',family:'prep',shop:'prep',recv:'prep',gear:'gear',item:'gear',inv:'gear',more:'more',calc:'more',links:'more',about:'more'};
 function route(){
   const p=parts(); const r=p[0]||'home';
   closeOverlay();
   $$('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.t===TABMAP[r]));
-  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vSos,sos:vSos,prep:vPrep,calc:vCalc,more:vMore,bag:vBag,go:vGo,stock:vStock,family:vFamily,links:vLinks,about:vAbout}[r]||vHome;
+  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vSos,sos:vSos,prep:vPrep,calc:vCalc,more:vMore,bag:vBag,go:vGo,stock:vStock,family:vFamily,shop:vShop,recv:vRecv,links:vLinks,about:vAbout}[r]||vHome;
   view.innerHTML=f(p); window.scrollTo(0,0);
   const after=view.querySelector('[data-after]');
   if(typeof f.after==='function')f.after(p);
@@ -2589,6 +2589,8 @@ function vHome(){
     <a class="big" href="#stock"><i>🥫</i><span>อาหารและยา<small>คำนวณตามจำนวนคน</small></span></a>
     <a class="big" href="#family"><i>♥</i><span>บัตรครอบครัว<small>ยา จุดนัดพบ เส้นทาง</small></span></a>
     <a class="big" href="#inv"><i>✓</i><span>ตรวจอุปกรณ์<small>ทะเบียน วันตรวจ ปฏิทินเตือน</small></span></a>
+    <a class="big" href="#shop"><i>🛒</i><span>จัดหาเพิ่ม<small>ของที่ควรซื้อ พร้อมงบประมาณ</small></span></a>
+    <a class="big" href="#recv"><i>📥</i><span>รับเข้าของ<small>ถ่ายรูป บันทึกรายละเอียด</small></span></a>
   </div>
   <div class="stat"><div><b>${st.n}</b><span>รายการอุปกรณ์</span></div><div><b>${fmt(st.val)}</b><span>มูลค่ารวม (บาท)</span></div><div><b style="color:${st.due?'var(--danger)':'var(--ok)'}">${st.due}</b><span>ถึงกำหนดตรวจ</span></div><div><b style="color:${st.bad?'var(--danger)':'var(--ok)'}">${st.bad}</b><span>ต้องซ่อม/ขาด</span></div></div>
   ${dues.length?`<div class="card"><h3>ถึงกำหนดตรวจ</h3><div class="list" style="margin-top:8px">${dues.map(x=>`<a class="item" href="#item/${x.i.id}" style="grid-template-columns:1fr"><div><h4>${esc(x.i.name)}</h4><p>${dueText(x.d)}</p></div></a>`).join('')}</div><div class="row" style="margin-top:10px"><a class="btn sm" href="#inv">ไปที่ทะเบียน</a></div></div>`:''}
@@ -2644,6 +2646,7 @@ function vInv(p){
   PDFB.inv=()=>pdfDoc('ทะเบียนอุปกรณ์สู้ภัย',st.n+' รายการ · มูลค่า '+fmt(st.val)+' บาท'+(locF?' · ที่เก็บ '+locF:''),'<table><tr><th>รายการ</th><th>จำนวน</th><th>รวม (บาท)</th><th>สถานะ</th><th>ที่เก็บ</th><th>ตรวจล่าสุด</th></tr>'+arr.map(i=>{const v=inv(i.id);return `<tr><td>${esc(i.name)}</td><td>${fmt(v.qty)}</td><td>${fmt(v.qty*v.unit)}</td><td>${esc(STATUS[v.status]||'')}</td><td>${esc(v.loc||'')}</td><td>${esc(v.last||'')}</td></tr>`}).join('')+'</table>');
   return `<div class="stack"><div class="seg"><a href="#gear">ดูอุปกรณ์</a><a class="on" href="#inv">ทะเบียนและตรวจ</a></div><h2 class="h2">ทะเบียนอุปกรณ์</h2>
   <div class="stat"><div><b>${st.n}</b><span>รายการ</span></div><div><b>${fmt(st.val)}</b><span>มูลค่ารวม (บาท)</span></div><div><b>${st.due}</b><span>ถึงกำหนดตรวจ</span></div><div><b>${st.bad}</b><span>ต้องตรวจ/ซ่อม/ขาด</span></div></div>
+  <div class="row"><a class="btn" href="#recv">📥 รับเข้าใหม่ (${(S.recv||[]).length})</a></div>
   <div class="row"><button class="btn p" data-act="pdf" data-w="inv">📄 ส่งออก PDF</button><button class="btn sm" data-act="csv">ส่งออก Excel (CSV)</button><button class="btn sm" data-act="ics">ไฟล์เตือนปฏิทิน (.ics)</button><button class="btn sm" data-act="qr">พิมพ์ป้าย QR กล่อง</button></div>
   <div class="row"><button class="btn sm" data-act="backup">สำรองข้อมูล</button><label class="btn sm" style="cursor:pointer">กู้คืนข้อมูล<input type="file" accept=".json,application/json" id="restore" hidden></label></div>
   ${locF?`<div class="warn">กรองตามที่เก็บ: <b>${esc(locF)}</b> <a href="#inv">ล้างตัวกรอง</a></div>`:''}
@@ -2652,7 +2655,7 @@ function vInv(p){
   </tbody></table></div>
   <p class="note">ราคาเริ่มต้นเป็นราคาประมาณ แก้ไขให้ตรงกับของจริงได้ในหน้ารายการ ข้อมูลทั้งหมดเก็บในเครื่องนี้</p></div>`;
 }
-vInv.after=function(){const r=$('#restore');if(r)r.addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const fr=new FileReader();fr.onload=()=>{try{const j=JSON.parse(fr.result);if(!j||typeof j!=='object'||!j.inv)throw 0;S={...defaults(),...j};save();applySettings();toast('กู้คืนข้อมูลแล้ว');route()}catch(_){toast('ไฟล์สำรองไม่ถูกต้อง')}};fr.readAsText(f)})};
+vInv.after=function(){const r=$('#restore');if(r)r.addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const fr=new FileReader();fr.onload=()=>{try{const j=JSON.parse(fr.result);if(!j||typeof j!=='object'||!j.inv)throw 0;S={...defaults(),...j};if(S._ph){PH=S._ph;delete S._ph;savePH()}save();applySettings();toast('กู้คืนข้อมูลแล้ว');route()}catch(_){toast('ไฟล์สำรองไม่ถูกต้อง')}};fr.readAsText(f)})};
 function vSos(){
   return `<div class="stack">
   <div><h2 class="h2" style="border-left-color:var(--danger)">เกิดเหตุ เลือกสถานการณ์</h2><p class="sub">แตะเพื่อดูขั้นตอนทีละข้อ ตัวใหญ่ ติ๊กทำเสร็จได้</p></div>
@@ -2682,7 +2685,9 @@ function vPrep(){
   <div class="list"><a class="big" href="#stock"><i>🥫</i><span>เช็กลิสต์อาหารและยา<small>คำนวณตามคน/วัน ใส่วันหมดอายุ</small></span></a></div>
   <div class="grp">3 · วางแผนครอบครัว</div>
   <div class="list"><a class="big" href="#family"><i>♥</i><span>บัตรครอบครัวและแผนอพยพ<small>สมาชิก ยา จุดนัดพบ ศูนย์พักพิง พิมพ์บัตร</small></span></a></div>
-  <div class="grp">4 · ตรวจและดูแลอุปกรณ์</div>
+  <div class="grp">4 · จัดหาเพิ่มและรับเข้า</div>
+  <div class="list"><a class="big" href="#shop"><i>🛒</i><span>รายการที่ควรจัดหาเพิ่ม<small>เรียงตามความสำคัญ มีงบโดยประมาณ</small></span></a><a class="big" href="#recv"><i>📥</i><span>รับเข้าอุปกรณ์<small>บันทึกรูป ร้านที่ซื้อ วันหมดอายุ ที่เก็บ</small></span></a></div>
+  <div class="grp">5 · ตรวจและดูแลอุปกรณ์</div>
   <div class="list"><a class="big" href="#inv"><i>✓</i><span>ทะเบียนและการตรวจ<small>${st.due?`ถึงกำหนดตรวจ ${st.due} รายการ`:'ยังไม่มีรายการถึงกำหนด'} · ส่งออก Excel · ปฏิทินเตือน</small></span></a></div>
   </div>`;
 }
@@ -3069,10 +3074,123 @@ function famCard(){
   $('#fpng').onclick=()=>cv.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='emergency-card.png';a.click()});
   $('#fprint').onclick=()=>printHTML(`<h2>บัตรฉุกเฉินครอบครัว</h2><img src="${cv.toDataURL()}" style="max-width:100%;filter:none">`);
 }
+/* ---------- จัดหาเพิ่ม + รับเข้า ---------- */
+const SHOP_CATS=['ไฟและพลังงาน','ตรวจจับภัยและดับเพลิง','น้ำท่วมและซ่อมบ้าน','สุขอนามัยและสุขาภิบาล','ป้องกันตัวและทางเดินหายใจ','เครื่องมือและสัญญาณช่วยชีวิต','สุขภาพ เด็ก ผู้สูงอายุ สัตว์เลี้ยง','เสื้อผ้าและที่นอน'];
+const SHOP_PRI={1:'ต้องมี',2:'ควรมี',3:'เสริม'};
+/* [id, หมวด, ชื่อ, ความสำคัญ, จำนวนแนะนำ, หน่วย, ราคาประมาณ/หน่วย, รอบตรวจ(วัน), เหตุผล, สิ่งที่ควรดูตอนซื้อ] */
+const SHOP=[
+['s01',0,'ไฟฉาย LED แบบชาร์จได้ (คนละดวง)',1,3,'ดวง',400,90,'ไฟดับหลายวัน ต้องมีไฟคนละดวง ไม่ต้องแย่งกัน','กันน้ำ IPX4 ขึ้นไป ชาร์จ USB-C ความสว่าง 300–1,000 ลูเมนก็พอ มีโหมดไฟกะพริบ'],
+['s02',0,'ไฟคาดหัว (Headlamp)',2,3,'ดวง',250,90,'ใช้สองมือขณะลุยน้ำ ขนของ หรือปฐมพยาบาลในที่มืด','เบา ปรับมุมได้ กันน้ำ ใช้ถ่านที่หาง่ายหรือชาร์จได้'],
+['s03',0,'ถ่านชาร์จซ้ำ AA/AAA พร้อมเครื่องชาร์จ และถ่านอัลคาไลน์สำรอง',2,1,'ชุด',450,180,'วิทยุ ไฟฉาย ไมค์ใช้ถ่าน ไฟดับหลายวันถ่านหมดเร็ว','ถ่าน Ni-MH แบบเก็บประจุนาน (Low self-discharge) ถ้าไฟฉายใช้ 18650 ให้ซื้อรุ่นเดียวกัน เก็บที่แห้งและเย็น'],
+['s04',0,'แบตเตอรี่สำรอง 20,000 mAh',1,2,'ก้อน',700,90,'ชาร์จมือถือเมื่อ Power Station หมดหรือต้องพกไปศูนย์พักพิง','มีฉลากความจุ ชาร์จเร็ว PD 20W ขึ้นไป พอร์ต USB-C ชาร์จให้เต็มทุก 3 เดือน'],
+['s05',0,'สายชาร์จสำรอง (USB-C / Lightning) และหัวชาร์จ 20W',2,1,'ชุด',350,0,'สายเสียเป็นสาเหตุที่ชาร์จไม่ได้บ่อยที่สุด','สายหนาแข็งแรง ยาว 1–2 เมตร ตรงกับมือถือทุกคนในบ้าน'],
+['s10',1,'ถังดับเพลิงผงเคมีแห้ง 10 ปอนด์',1,1,'ถัง',1200,30,'ดับไฟเริ่มต้นจากไฟฟ้า น้ำมัน ครัว ก่อนลามทั้งบ้าน','ชนิด ABC มีฉลากมาตรฐาน เกจชี้โซนเขียว ติดผนังใกล้ทางออก ตรวจเกจทุกเดือน อัดซ้ำตามฉลากผู้ผลิต'],
+['s11',1,'ผ้าห่มดับเพลิง',2,1,'ผืน',350,0,'คลุมไฟในกระทะหรือห่อตัวคนที่ไฟไหม้เสื้อผ้า','ขนาดอย่างน้อย 1.2×1.2 ม. เก็บไว้ในครัวที่หยิบง่าย'],
+['s12',1,'เครื่องตรวจจับควัน (Smoke Alarm)',1,2,'ตัว',400,30,'ไฟไหม้ตอนหลับ ควันมาก่อนไฟ เสียงเตือนช่วยชีวิตได้','ใช้แบตเตอรี่ในตัว ติดเพดานหน้าห้องนอนและชั้นล่าง กดทดสอบทุกเดือน'],
+['s13',1,'เครื่องตรวจจับแก๊สรั่ว LPG',2,1,'ตัว',600,90,'แก๊สถังรั่วในบ้านใช้ตอนไฟดับ เตาแคมป์ปิ้ง','ติดต่ำใกล้ถังแก๊ส ห่างเตา 1.5 ม. ใช้ปลั๊กหรือแบตสำรอง'],
+['s14',1,'เครื่องตรวจจับก๊าซคาร์บอนมอนอกไซด์ (CO)',2,1,'ตัว',700,30,'ใช้เตาถ่าน เตาแก๊ส หรือเครื่องปั่นไฟในที่อับ เสี่ยงก๊าซพิษที่ไม่มีกลิ่น','มีเสียงเตือนและค่าตัวเลข ห้ามใช้เตาหรือเครื่องปั่นไฟในห้องปิด'],
+['s15',1,'เครื่องวัดคุณภาพอากาศ PM2.5',3,1,'เครื่อง',1500,90,'ดูว่าฝุ่นหรือควันในบ้านสูงจนต้องสวมหน้ากากหรือไม่','วัด PM2.5 ได้ มีจอตัวเลข ชาร์จได้ ปรับเทียบตามคู่มือ'],
+['s20',2,'ปั๊มจุ่มน้ำ พร้อมสายยาง',2,1,'ชุด',1500,90,'สูบน้ำท่วมขังในบ้านหรือชั้นล่าง','เลือกกำลังไฟให้ Power Station รับไหว ใช้เบรกเกอร์กันดูด ห้ามจับปั๊มขณะยืนในน้ำที่มีไฟเปิดอยู่'],
+['s21',2,'กระสอบทรายหรือแผ่นกั้นน้ำหน้าประตู',2,20,'ใบ',30,0,'ชะลอน้ำเข้าบ้านช่วงน้ำล้นหรือหนุนสูง','วางซ้อนสลับแนว ปูพลาสติกด้านน้ำก่อนวาง เก็บขณะแห้ง'],
+['s22',2,'รองเท้าบูทยางกันน้ำ และถุงมือยางหนา',1,3,'คู่',350,0,'ลุยน้ำสกปรกเสี่ยงโรคฉี่หนูและของมีคมใต้น้ำ','พื้นหนากันลื่นและทะลุ ไซส์ตรงทุกคน ล้างและตากให้แห้งหลังใช้'],
+['s23',2,'ผ้าใบหรือพลาสติกคลุมหนา พร้อมเทปผ้า',2,1,'ชุด',450,0,'ซ่อมหลังคารั่วชั่วคราว ห่อของกันน้ำ และปิดช่องลมเวลาต้องอยู่ในอาคาร','หนาอย่างน้อย 0.15 มม. กว้างพอคลุมหน้าต่างหรือประตู'],
+['s24',2,'ประแจปิดวาล์วน้ำและแก๊ส พร้อมคีม',2,1,'ชุด',500,0,'ปิดแก๊สหรือน้ำเมื่อท่อแตกหลังแผ่นดินไหวหรือน้ำท่วม','รู้ตำแหน่งวาล์วหลักของบ้านและฝึกปิดเปิดก่อน ผูกไว้ใกล้วาล์ว'],
+['s25',2,'ชุดปะซ่อมเรือยางและที่สูบลม',2,1,'ชุด',450,180,'เรือคายัคและห่วงยางที่มีอาจรั่วหรือลมตก ต้องซ่อมและเติมลมได้','กาวและแผ่นปะตรงวัสดุ PVC ที่สูบมือหรือเท้าเหยียบ ทดสอบเติมลมก่อนฤดูน้ำ'],
+['s26',2,'ถังเก็บน้ำมีก๊อก 20 ลิตร',1,4,'ใบ',250,90,'สำรองน้ำใช้และน้ำล้างเมื่อประปาขาดหรือน้ำเค็มรุก','พลาสติกเกรดอาหาร (ฝาปิดสนิท) ล้างและเปลี่ยนน้ำทุก 3–6 เดือน'],
+['s30',3,'ถุงสุขาฉุกเฉินพร้อมสารดูดซับ',1,20,'ถุง',20,0,'ส้วมใช้ไม่ได้เมื่อท่อตันหรือไม่มีน้ำ ป้องกันโรคท้องร่วง','มีสารดูดซับของเหลวและถุงชั้นนอก ผูกปากแน่นก่อนทิ้ง'],
+['s31',3,'ถุงขยะดำหนา และถุงซิปล็อก',1,1,'ชุด',200,0,'เก็บขยะ แยกเสื้อผ้าเปื้อน กันน้ำให้ของ','ถุงหนา เหนียว ขนาดใหญ่และเล็กอย่างละหลายใบ'],
+['s32',3,'สบู่ เจลล้างมือ ทิชชู่เปียก ผ้าอนามัย ผ้าอ้อมเด็ก/ผู้ใหญ่',1,1,'ชุด',500,90,'สุขอนามัยเมื่อน้ำน้อย ลดเสี่ยงท้องร่วงและโรคผิวหนัง','ซื้อตามจำนวนวันและคนในบ้าน รวมของเด็กและผู้สูงอายุ'],
+['s33',3,'แปรงสีฟัน ยาสีฟัน ผ้าขนหนูไมโครไฟเบอร์',3,3,'ชุด',150,0,'ของใช้ประจำตัวระหว่างอยู่ศูนย์พักพิง','ผ้าแห้งเร็ว เบา แยกถุงรายคน'],
+['s40',4,'หน้ากาก N95 / KN95 สำรอง',1,20,'ชิ้น',15,180,'กันควันไฟ ฝุ่น และเชื้อโรคทางอากาศ (กันอนุภาค ไม่กันก๊าซ)','มีสายรัดสองเส้น ผ่านมาตรฐาน เก็บในกล่องสะอาดแห้ง เลิกใช้ถ้าเปียกหรือขาด'],
+['s41',4,'ตลับกรองสำรองตรงรุ่นหน้ากากกันก๊าซ',1,2,'คู่',600,180,'ตลับใช้แล้วหรือหมดอายุกรองไม่ได้ ต้องมีของสำรองสำหรับสารเคมีรั่ว','ต้องยืนยันรุ่นและชนิดตลับของหน้ากากที่มีก่อน (ตรวจชนิดสารที่กันและวันหมดอายุ) ตลับที่แกะแล้วเก็บในถุงปิดสนิท'],
+['s42',4,'แว่นนิรภัยครอบตา',2,3,'อัน',150,0,'กันฝุ่น เศษวัสดุ และสารเคมีกระเด็น','ครอบตาแนบหน้า มีรูระบายอากาศกันฝ้า ใส่ทับแว่นสายตาได้'],
+['s43',4,'แท่งเรืองแสง (Glow stick)',3,10,'แท่ง',15,0,'ไฟสัญญาณและไฟส่องทางโดยไม่ต้องใช้แบตเตอรี่','สีเขียวสว่างนาน 8–12 ชม. เก็บในกล่องกันแสงและความร้อน'],
+['s50',5,'นกหวีดฉุกเฉิน',1,4,'อัน',60,0,'เรียกคนช่วยเมื่อติดซากอาคารหรือน้ำท่วมโดยไม่ต้องใช้เสียง','เสียงดัง ไม่มีลูกกลม ผูกกับกระเป๋าหรือเสื้อชูชีพ คนละอัน'],
+['s51',5,'ค้อนทุบกระจกและที่ตัดสายเข็มขัดนิรภัย (ติดรถ)',2,2,'อัน',200,0,'หนีออกจากรถที่ติดในน้ำท่วม','วางในที่หยิบถึงจากที่นั่งคนขับ ไม่ใช่ในกระเป๋าท้ายรถ'],
+['s52',5,'แผนที่กระดาษ เข็มทิศ ปากกากันน้ำ และสมุดโน้ต',3,1,'ชุด',300,0,'ใช้นำทางและจดข้อมูลเมื่อมือถือใช้ไม่ได้','แผนที่เขตบ้านและเส้นทางศูนย์พักพิง เก็บในซองกันน้ำ'],
+['s60',6,'เครื่องวัดออกซิเจนปลายนิ้ว และปรอทวัดไข้ดิจิทัล',2,1,'ชุด',600,180,'ประเมินอาการเบื้องต้นเมื่อเข้าถึงสถานพยาบาลไม่ได้','รุ่นมีจอชัด ใช้ถ่านที่หาง่าย ค่าที่ต่ำหรือผิดปกติให้พบแพทย์ ไม่ใช้แทนการวินิจฉัย'],
+['s61',6,'เครื่องวัดความดันโลหิตแบบพกพา (ถ้ามีผู้สูงอายุ/ผู้ป่วยความดัน)',3,1,'เครื่อง',1200,180,'ตรวจติดตามระหว่างอพยพโดยเฉพาะผู้ป่วยความดันหรือหัวใจ','แบบต้นแขน ผ่านการรับรอง ใช้ถ่านสำรอง'],
+['s62',6,'สายรัดข้อมือหรือป้ายชื่อติดต่อ (เด็ก ผู้สูงอายุ สัตว์เลี้ยง)',2,4,'ชิ้น',100,0,'ช่วยให้หน่วยกู้ภัยติดต่อครอบครัวได้หากพลัดหลง','กันน้ำ มีชื่อ เบอร์โทร โรคประจำตัว ข้อมูลแพ้ยา'],
+['s63',6,'กรงหรือกระเป๋าพกสัตว์เลี้ยง สายจูง ชามพับ',2,1,'ชุด',600,0,'ศูนย์พักพิงมักรับสัตว์เลี้ยงเมื่อมีกรงและสมุดวัคซีน','ขนาดพอดีตัว ล็อกแน่น ใส่ป้ายชื่อและเบอร์โทรเจ้าของ'],
+['s70',7,'ชุดเสื้อผ้าเปลี่ยน ถุงเท้า ชุดชั้นใน คนละ 2 ชุด ในถุงกันน้ำ',1,3,'ชุด',600,180,'เสื้อผ้าเปียกนานเสี่ยงโรคผิวหนังและตัวเย็น','ผ้าแห้งเร็ว เลือกไซส์ใช้งานจริง ซักและผึ่งก่อนเก็บ'],
+['s71',7,'เสื่อรองนอนโฟมหรือที่นอนเป่าลม',2,3,'ผืน',450,0,'พื้นศูนย์พักพิงเย็นและแข็ง ช่วยให้หลับและไม่สูญเสียความร้อน','พับเก็บเล็ก เบา ซ่อมง่ายหากเป็นแบบเป่าลม']];
+const SHOPI=Object.fromEntries(SHOP.map(s=>[s[0],s]));
+let PH=(()=>{try{return JSON.parse(localStorage.getItem('hg_ph')||'{}')}catch(e){return {}}})();
+function savePH(){try{localStorage.setItem('hg_ph',JSON.stringify(PH))}catch(e){toast('พื้นที่เก็บรูปเต็ม ลองลบรูปเก่าออก')}}
+let RT={rid:'',photos:[]};
+function shopSt(){S.shop=S.shop||{have:{},skip:{}};S.shop.have=S.shop.have||{};S.shop.skip=S.shop.skip||{};S.recv=S.recv||[];return S.shop}
+function haveRid(sid){const st=shopSt();const r=st.have[sid];return r&&S.recv.find(x=>x.id===r)?r:''}
+function vShop(p){
+  const st=shopSt(),f=+p[1]||0;
+  const list=SHOP.filter(s=>!f||s[3]===f);
+  const got=SHOP.filter(s=>haveRid(s[0])).length,skip=SHOP.filter(s=>!haveRid(s[0])&&st.skip[s[0]]).length;
+  const need=SHOP.filter(s=>!haveRid(s[0])&&!st.skip[s[0]]);
+  const cost=need.reduce((a,s)=>a+s[4]*s[6],0);
+  const card=s=>{const rid=haveRid(s[0]),sk=st.skip[s[0]];
+    return `<div class="card" style="${rid?'opacity:.75':''}"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="badge ${s[3]===1?'repair':s[3]===2?'check':'ready'}">${SHOP_PRI[s[3]]}</span><b>${esc(s[2])}</b></div>
+    <p class="sub" style="margin:6px 0 0">${esc(s[8])}</p>
+    <p class="note" style="margin:6px 0 0"><b>ดูตอนซื้อ:</b> ${esc(s[9])}</p>
+    <p class="note" style="margin:6px 0 0">แนะนำ ${s[4]} ${esc(s[5])} · ราคาประมาณ ${fmt(s[6])} บาท/${esc(s[5])} (ราคาจริงต่างกันตามร้าน)</p>
+    <div class="row" style="margin-top:8px">${rid?`<a class="btn sm" href="#recv/${rid}">✓ รับเข้าแล้ว ดูรายละเอียด</a>`:`<a class="btn p sm" href="#recv/new/${s[0]}">📥 รับเข้า (ซื้อมาแล้ว)</a><button class="btn sm" data-act="shopskip" data-id="${s[0]}">${sk?'↩ กลับมาอยู่ในรายการ':'ไม่จำเป็น / ข้าม'}</button>`}</div></div>`};
+  return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">จัดหาเพิ่ม</h2><p class="sub">ของที่แนะนำให้เตรียมเพิ่ม นอกเหนือจากอาหาร ยา เงินสด เอกสาร และของที่มีในทะเบียนแล้ว ซื้อมาแล้วกด "รับเข้า" เพื่อบันทึกรูปและรายละเอียด</p>
+  <div class="stat"><div><b>${got}</b><span>รับเข้าแล้ว</span></div><div><b>${need.length}</b><span>ยังต้องจัดหา</span></div><div><b>${fmt(cost)}</b><span>งบโดยประมาณ (บาท)</span></div><div><b>${skip}</b><span>ข้าม</span></div></div>
+  <div class="seg"><a class="${f===0?'on':''}" href="#shop">ทั้งหมด</a><a class="${f===1?'on':''}" href="#shop/1">ต้องมี</a><a class="${f===2?'on':''}" href="#shop/2">ควรมี</a><a class="${f===3?'on':''}" href="#shop/3">เสริม</a></div>
+  <div class="row"><button class="btn p" data-act="pdf" data-w="shop">📄 ส่งออกรายการซื้อ PDF</button><a class="btn" href="#recv">ดูของที่รับเข้าแล้ว</a></div>
+  ${SHOP_CATS.map((c,ci)=>{const L=list.filter(s=>s[1]===ci);return L.length?`<div class="grp">${esc(c)}</div>${L.map(card).join('')}`:''}).join('')}
+  <p class="note">รายการและราคาเป็นข้อแนะนำทั่วไป เลือกตามบ้าน จำนวนคน และงบของพี่จี ของที่เกี่ยวกับไฟฟ้า แก๊ส และสารเคมี อ่านคู่มือผู้ผลิตก่อนใช้ทุกครั้ง</p></div>`;
+}
+function rFlag(o){const t=todayD();if(o.exp){const d=Math.round((new Date(o.exp+'T00:00:00')-t)/864e5);if(d<0)return ['หมดอายุแล้ว','repair'];if(d<=60)return ['ใกล้หมดอายุ '+d+' วัน','check']}if(o.iv){const b=o.last||o.date;if(b){const d=new Date(b+'T00:00:00');d.setDate(d.getDate()+(+o.iv));if(Math.round((d-t)/864e5)<=0)return ['ถึงรอบตรวจ','check']}}return null}
+const rTot=()=>(S.recv||[]).reduce((a,o)=>a+(+o.qty||0)*(+o.price||0),0);
+function rphHtml(){return RT.photos.map((u,k)=>`<div style="position:relative"><img src="${u}" alt="" style="width:100%;border:2px solid var(--line);display:block"><button class="btn sm" data-act="rph" data-k="${k}" style="position:absolute;top:4px;right:4px">ลบ</button></div>`).join('')||'<p class="note">ยังไม่มีรูป</p>'}
+function vRecv(p){
+  shopSt();
+  if(p[1]==='new'||(p[1]&&S.recv.find(x=>x.id===p[1]))){
+    const ed=p[1]!=='new'?S.recv.find(x=>x.id===p[1]):null,cs=p[1]==='new'&&p[2]?SHOPI[p[2]]:null;
+    const o=ed||(cs?{from:cs[0],name:cs[2],cat:cs[1],qty:cs[4],unit:cs[5],price:cs[6],iv:cs[7],status:'ready'}:{cat:0,qty:1,status:'ready'});
+    RT={rid:ed?ed.id:'',photos:ed?(PH[ed.id]||[]).slice():[],from:o.from||''};
+    const v=(k,d='')=>esc(o[k]==null||o[k]===''?d:o[k]);
+    return `<div class="stack"><a class="btn sm" href="${ed?'#recv':(cs?'#shop':'#recv')}">← กลับ</a><h2 class="h2">${ed?'แก้ไขรายการรับเข้า':'รับเข้าอุปกรณ์'}</h2>
+    ${cs?`<div class="warn"><b>${esc(cs[2])}</b><br>ดูตอนซื้อ: ${esc(cs[9])}</div>`:''}
+    <div class="card"><h3>รูปถ่าย</h3><div id="rf_prev" class="two" style="margin:8px 0">${rphHtml()}</div>
+     <div class="row"><label class="btn p" style="cursor:pointer">📷 ถ่ายรูป<input type="file" accept="image/*" capture="environment" id="rf_cam" hidden></label><label class="btn" style="cursor:pointer">🖼 เลือกรูป<input type="file" accept="image/*" id="rf_pick" multiple hidden></label></div><p class="note">เก็บได้สูงสุด 3 รูปต่อรายการ ย่อขนาดอัตโนมัติ เก็บในเครื่องนี้เท่านั้น</p></div>
+    <div class="card"><h3>รายละเอียด</h3>
+    <label class="f">ชื่ออุปกรณ์ *</label><input type="text" id="rf_n" value="${v('name')}">
+    <label class="f">หมวด</label><select id="rf_c">${SHOP_CATS.map((c,i)=>`<option value="${i}" ${+o.cat===i?'selected':''}>${esc(c)}</option>`).join('')}</select>
+    <div class="two"><div><label class="f">จำนวน</label><input type="number" min="1" id="rf_q" value="${v('qty',1)}"></div><div><label class="f">หน่วย</label><input type="text" id="rf_u" value="${v('unit')}" placeholder="ชิ้น ดวง ชุด"></div></div>
+    <div class="two"><div><label class="f">ราคาต่อหน่วย (บาท)</label><input type="number" min="0" id="rf_p" value="${v('price',0)}"></div><div><label class="f">วันที่รับเข้า</label><input type="date" id="rf_d" value="${v('date',iso(new Date()))}"></div></div>
+    <label class="f">ร้าน / แหล่งซื้อ (เช่น Lazada, TikTok, ร้าน ...)</label><input type="text" id="rf_s" value="${v('store')}">
+    <div class="two"><div><label class="f">ยี่ห้อ / รุ่น</label><input type="text" id="rf_m" value="${v('model')}"></div><div><label class="f">เลขเครื่อง / ล็อต</label><input type="text" id="rf_sn" value="${v('serial')}"></div></div>
+    <div class="two"><div><label class="f">วันหมดอายุ (ถ้ามี)</label><input type="date" id="rf_e" value="${v('exp')}"></div><div><label class="f">รอบตรวจ (วัน, 0 = ไม่มี)</label><input type="number" min="0" id="rf_i" value="${v('iv',0)}"></div></div>
+    <div class="two"><div><label class="f">ตรวจล่าสุด</label><input type="date" id="rf_l" value="${v('last')}"></div><div><label class="f">สถานะ</label><select id="rf_st">${Object.entries(STATUS).map(([k,t])=>`<option value="${k}" ${o.status===k?'selected':''}>${t}</option>`).join('')}</select></div></div>
+    <label class="f">ที่เก็บ (ห้อง / ชั้น / กล่อง)</label><input type="text" id="rf_loc" value="${v('loc')}">
+    <label class="f">หมายเหตุ / วิธีใช้ / การรับประกัน</label><textarea id="rf_note">${v('note')}</textarea></div>
+    <div class="row"><button class="btn p" data-act="rsave">บันทึกรับเข้า</button>${ed?'<button class="btn" data-act="rdel">ลบรายการ</button>':''}</div></div>`;
+  }
+  const L=S.recv.slice().reverse();
+  return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">รับเข้าอุปกรณ์</h2><p class="sub">บันทึกของที่จัดหามาเพิ่ม พร้อมรูปและรายละเอียด</p>
+  <div class="stat"><div><b>${S.recv.length}</b><span>รายการ</span></div><div><b>${fmt(rTot())}</b><span>มูลค่า (บาท)</span></div><div><b>${S.recv.filter(o=>rFlag(o)).length}</b><span>ต้องดูแล</span></div></div>
+  <div class="row"><a class="btn p" href="#recv/new">+ รับเข้าของใหม่</a><a class="btn" href="#shop">รายการที่ควรจัดหา</a><button class="btn sm" data-act="pdf" data-w="recv">📄 ส่งออก PDF</button><button class="btn sm" data-act="rcsv">Excel (CSV)</button></div>
+  ${L.length?L.map(o=>{const ph=(PH[o.id]||[])[0],fl=rFlag(o);return `<a class="item" href="#recv/${o.id}" style="grid-template-columns:72px 1fr">${ph?`<img src="${ph}" alt="" style="width:72px;height:72px;object-fit:cover;border:2px solid var(--line)">`:'<div style="width:72px;height:72px;background:var(--line);display:grid;place-items:center">📦</div>'}<div><h4>${esc(o.name)}</h4><p>${fmt(o.qty)} ${esc(o.unit||'')} · ${fmt((+o.qty||0)*(+o.price||0))} บาท${o.store?' · '+esc(o.store):''}${o.loc?'<br>ที่เก็บ: '+esc(o.loc):''}</p>${fl?`<span class="badge ${fl[1]}">${esc(fl[0])}</span>`:''}</div></a>`}).join(''):'<div class="card"><p class="sub">ยังไม่มีรายการ กด "รับเข้าของใหม่" หรือเลือกจากรายการจัดหาเพิ่ม</p></div>'}</div>`;
+}
+vRecv.after=function(){
+  const add=files=>{[...files].forEach(f=>{if(RT.photos.length>=3){toast('ครบ 3 รูปแล้ว');return}readPhoto(f,u=>{if(RT.photos.length<3){RT.photos.push(u);const pv=$('#rf_prev');if(pv)pv.innerHTML=rphHtml()}})})};
+  ['rf_cam','rf_pick'].forEach(id=>{const e=$('#'+id);if(e)e.addEventListener('change',()=>{add(e.files);e.value=''})});
+};
+function readPhoto(file,cb){const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const m=560,s=Math.min(1,m/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.62))};im.onerror=()=>toast('อ่านรูปไม่ได้');im.src=fr.result};fr.readAsDataURL(file)}
+function recvSave(){
+  const g=id=>$('#'+id).value;const name=g('rf_n').trim();if(!name){toast('ใส่ชื่ออุปกรณ์ก่อน');return}
+  const o={id:RT.rid||'r'+Date.now().toString(36),from:RT.from||'',name,cat:+g('rf_c')||0,qty:+g('rf_q')||1,unit:g('rf_u').trim(),price:+g('rf_p')||0,date:g('rf_d'),store:g('rf_s').trim(),model:g('rf_m').trim(),serial:g('rf_sn').trim(),exp:g('rf_e'),iv:+g('rf_i')||0,last:g('rf_l'),status:g('rf_st'),loc:g('rf_loc').trim(),note:g('rf_note').trim()};
+  shopSt();const k=S.recv.findIndex(x=>x.id===o.id);if(k>=0)S.recv[k]=o;else S.recv.push(o);
+  if(o.from)S.shop.have[o.from]=o.id;
+  PH[o.id]=RT.photos.slice();savePH();save();toast('บันทึกรับเข้าแล้ว');go('#recv')}
+function recvDel(){if(!RT.rid||!window.confirm('ลบรายการรับเข้านี้?'))return;S.recv=S.recv.filter(x=>x.id!==RT.rid);Object.keys(S.shop.have).forEach(k=>{if(S.shop.have[k]===RT.rid)delete S.shop.have[k]});delete PH[RT.rid];savePH();save();go('#recv')}
+function recvCsv(){const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';const rows=[['ชื่อ','หมวด','จำนวน','หน่วย','ราคา/หน่วย','รวม','วันที่รับเข้า','ร้าน','ยี่ห้อ/รุ่น','เลขเครื่อง','หมดอายุ','ที่เก็บ','สถานะ','หมายเหตุ']].concat(S.recv.map(o=>[o.name,SHOP_CATS[o.cat]||'',o.qty,o.unit,o.price,(+o.qty||0)*(+o.price||0),o.date,o.store,o.model,o.serial,o.exp,o.loc,STATUS[o.status]||'',o.note]));dl('homegear-recv-'+iso(new Date())+'.csv','﻿'+rows.map(r=>r.map(q).join(',')).join('\r\n'),'text/csv;charset=utf-8')}
 function pdfDoc(title,sub,body){return `<style>.pd{font:11pt/1.45 Sarabun,sans-serif;color:#000;background:#fff}.pd h1{font:700 19pt Prompt,sans-serif;margin:0 0 2pt;color:#8a0f0f}.pd .s{color:#444;margin:0 0 10pt;font-size:10pt}.pd h2{font:600 13pt Prompt,sans-serif;margin:12pt 0 4pt;border-bottom:1.5pt solid #8a0f0f}.pd table{border-collapse:collapse;width:100%}.pd td,.pd th{border:.6pt solid #666;padding:3pt 5pt;text-align:left;vertical-align:top;font-size:10pt}.pd th{background:#eee}.pd tr{break-inside:avoid}.pd .bx{display:inline-block;width:11pt;height:11pt;border:1.2pt solid #000;vertical-align:-2pt}.pd .ck{background:#000}.pd ol,.pd ul{padding:0;list-style:none}.pd li{margin:5pt 0;break-inside:avoid}.pd .f{margin-top:12pt;font-size:9pt;color:#555}.pd img{max-width:55%;height:auto}</style><div class="pd"><h1>${esc(title)}</h1><p class="s">${esc(sub)} · พิมพ์เมื่อ ${new Date().toLocaleDateString('th-TH',{dateStyle:'long'})}</p>${body}<p class="f">คู่มืออุปกรณ์สู้ภัยประจำบ้าน · แนวทางทั่วไป เหตุรุนแรงโทร 1669 · ปภ. 1784</p></div>`}
 function pdfOut(h){toast('เลือก "บันทึกเป็น PDF" ที่ปลายทางในหน้าต่างพิมพ์');printHTML(h)}
 function pdfGo(w,i,id){
   if(w==='scen'){const s=D.scen[+i],ck=S.scen[+i]||[];pdfOut(pdfDoc(s.t,'ขั้นตอนเมื่อเกิดเหตุ','<ol>'+s.steps.map((x,k)=>`<li><span class="bx ${ck[k]?'ck':''}"></span> <b>${k+1}.</b> ${esc(x)}</li>`).join('')+'</ol><h2>อุปกรณ์ที่ใช้</h2><p>'+esc(s.gear)+'</p>'))}
+  else if(w==='shop'){const st=shopSt();pdfOut(pdfDoc('รายการจัดหาเพิ่ม','ของที่ควรเตรียมนอกเหนือจากอาหาร ยา เงินสด เอกสาร','<table><tr><th></th><th>รายการ</th><th>ระดับ</th><th>จำนวน</th><th>ราคาประมาณ</th></tr>'+SHOP.filter(s=>!st.skip[s[0]]).map(s=>`<tr><td><span class="bx ${haveRid(s[0])?'ck':''}"></span></td><td><b>${esc(s[2])}</b><br><small>${esc(s[9])}</small></td><td>${SHOP_PRI[s[3]]}</td><td>${s[4]} ${esc(s[5])}</td><td>${fmt(s[4]*s[6])}</td></tr>`).join('')+'</table>'))}
+  else if(w==='recv'){pdfOut(pdfDoc('ทะเบียนรับเข้าอุปกรณ์',S.recv.length+' รายการ · มูลค่า '+fmt(rTot())+' บาท','<table><tr><th>รูป</th><th>รายการ</th><th>จำนวน</th><th>รวม (บาท)</th><th>ซื้อจาก / วันที่</th><th>หมดอายุ</th><th>ที่เก็บ</th></tr>'+S.recv.map(o=>{const ph=(PH[o.id]||[])[0];return `<tr><td style="width:60pt">${ph?`<img src="${ph}" style="width:56pt">`:''}</td><td><b>${esc(o.name)}</b><br><small>${esc([o.model,o.serial].filter(Boolean).join(' · '))}</small><br><small>${esc(o.note||'')}</small></td><td>${fmt(o.qty)} ${esc(o.unit||'')}</td><td>${fmt((+o.qty||0)*(+o.price||0))}</td><td>${esc(o.store||'')}<br><small>${esc(o.date||'')}</small></td><td>${esc(o.exp||'')}</td><td>${esc(o.loc||'')}</td></tr>`}).join('')+'</table>'))}
   else if(w==='stock'&&PDFB.stock)pdfOut(PDFB.stock());
   else if(w==='inv'&&PDFB.inv)pdfOut(PDFB.inv());
   else if(w==='fam'){const f=S.fam;pdfOut(pdfDoc('บัตรครอบครัวและแผนอพยพ','ข้อมูลส่วนบุคคล เก็บให้ปลอดภัย','<h2>สมาชิก</h2><table><tr><th>ชื่อ</th><th>อายุ</th><th>โรคประจำตัว / แพ้ยา</th><th>ยาที่ใช้ประจำ</th><th>เบอร์ติดต่อ</th></tr>'+f.members.map(m=>`<tr><td>${esc(m.n)}</td><td>${esc(m.a)}</td><td>${esc(m.c)}</td><td>${esc(m.d)}</td><td>${esc(m.p)}</td></tr>`).join('')+'</table><h2>แผนอพยพ</h2><table>'+[['ที่อยู่บ้าน',f.addr],['จุดนัดพบ',f.meet],['เส้นทางอพยพ',f.route],['ช่องวิทยุ / เวลานัด',f.radio],['หมายเหตุ',f.notes]].map(r=>`<tr><th style="width:28%">${r[0]}</th><td>${esc(r[1]||'')}</td></tr>`).join('')+'</table><h2>ศูนย์พักพิง</h2><table>'+S.shelters.map(s=>`<tr><td>${esc(s.n)}</td><td>${esc(s.t)}</td></tr>`).join('')+'</table>'))}
@@ -3124,7 +3242,7 @@ document.addEventListener('click',e=>{
   else if(a==='resetScen'){S.scen[i]=[];save();route()}
   else if(a==='checked'){setInv(b.dataset.id,'last',iso(new Date()));setInv(b.dataset.id,'status','ready');toast('บันทึกวันตรวจแล้ว');route()}
   else if(a==='csv')csv();else if(a==='ics')ics();else if(a==='qr')qrLabels();
-  else if(a==='backup')dl('homegear-backup-'+iso(new Date())+'.json',JSON.stringify(S),'application/json');
+  else if(a==='backup')dl('homegear-backup-'+iso(new Date())+'.json',JSON.stringify({...S,_ph:PH}),'application/json');
   else if(a==='tool'){tool(b.dataset.n)}
   else if(a==='closeov'){closeOverlay()}
   else if(a==='ltw')window.__lt.w();else if(a==='ltr')window.__lt.r();else if(a==='lts')window.__lt.s();
@@ -3151,11 +3269,16 @@ document.addEventListener('click',e=>{
   else if(a==='delmem'){S.fam.members.splice(k,1);save();route()}
   else if(a==='addsh'){S.shelters.push({n:'',t:''});save();route()}
   else if(a==='famcard')famCard();
+  else if(a==='shopskip'){const st=shopSt();if(st.skip[b.dataset.id])delete st.skip[b.dataset.id];else st.skip[b.dataset.id]=1;save();route()}
+  else if(a==='rsave')recvSave();
+  else if(a==='rdel')recvDel();
+  else if(a==='rcsv')recvCsv();
+  else if(a==='rph'){RT.photos.splice(+b.dataset.k,1);const pv=$('#rf_prev');if(pv)pv.innerHTML=rphHtml()}
   else if(a==='pdf')pdfGo(b.dataset.w,b.dataset.i,b.dataset.id);
   else if(a==='print')printHTML(view.innerHTML);
   else if(a==='saveoff')saveOffline();
   else if(a==='lockagain'){localStorage.removeItem('hg_ok');sessionStorage.removeItem('hg_ok');location.reload()}
-  else if(a==='wipe'){if(window.confirm('ล้างข้อมูลทะเบียน บัตรครอบครัว และการตั้งค่าในเครื่องนี้ทั้งหมด?')){localStorage.removeItem('hg_v1');S=defaults();applySettings();route()}}
+  else if(a==='wipe'){if(window.confirm('ล้างข้อมูลทะเบียน บัตรครอบครัว และการตั้งค่าในเครื่องนี้ทั้งหมด?')){localStorage.removeItem('hg_v1');localStorage.removeItem('hg_ph');PH={};S=defaults();applySettings();route()}}
 });
 document.addEventListener('change',e=>{if(e.target.dataset&&(e.target.dataset.stk||e.target.dataset.stkn||e.target.dataset.go||e.target.dataset.gob!==undefined))route()});
 document.addEventListener('input',e=>{
