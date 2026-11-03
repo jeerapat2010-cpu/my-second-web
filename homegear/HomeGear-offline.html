@@ -2711,14 +2711,14 @@ function vStock(){
   const n=Math.max(1,+st.n||1),days=Math.max(1,+st.days||1);
   const FOOD=[
   ['ข้าวสารหรือข้าวหุงสำเร็จรูป',.15,'กก.','ข้าวสาร 1 กก. พอ 6–7 คนต่อมื้อ ข้าวสำเร็จรูปไม่ต้องใช้น้ำหุง'],
-  ['บะหมี่กึ่งสำเร็จรูป / ข้าวต้มซอง',1,'ซอง','กินได้เมื่อมีน้ำร้อน ระวังโซเดียมสูง'],
-  ['ปลากระป๋อง / อาหารกระป๋องพร้อมกิน',1,'กระป๋อง','เลือกฝาดึง เปิดง่าย ไม่ต้องใช้อุปกรณ์'],
-  ['ผักหรือผลไม้กระป๋อง / ผลไม้แห้ง',.5,'ถุง','เสริมวิตามินและเส้นใย ช่วยลดท้องผูก'],
+  ['บะหมี่กึ่งสำเร็จรูป / ข้าวต้มซอง',.5,'ซอง','กินได้เมื่อมีน้ำร้อน โซเดียมสูง ควรกินน้อยและไม่ซดน้ำ ผู้ควบคุมความดันหรือโรคไตเลือกข้าวสำเร็จรูปแทน'],
+  ['ปลากระป๋อง / อาหารกระป๋องพร้อมกิน',1,'กระป๋อง','เลือกฝาดึง เปิดง่าย ควรเลือกแบบโซเดียมต่ำหรือในน้ำแร่'],
+  ['ผักหรือผลไม้กระป๋อง / ผลไม้แห้ง',.5,'ถุง','เสริมวิตามินและเส้นใย ช่วยลดท้องผูก ผู้มีโรคไตควรจำกัดผลไม้แห้งและผลไม้ที่โพแทสเซียมสูง ถามแพทย์'],
   ['บิสกิต ขนมปังกรอบ ซีเรียลบาร์',2,'ชิ้น','พลังงานสูง พกง่าย ใช้ระหว่างอพยพ'],
   ['ถั่ว / เมล็ดธัญพืช / เนยถั่ว',.3,'ถุง','โปรตีนและไขมันดี เก็บได้นาน'],
   ['นมกล่อง UHT หรือนมผง',.5,'กล่อง','เด็กเล็กและผู้สูงอายุ'],
   ['เกลือแร่ ORS / น้ำตาล / เกลือ',.5,'ซอง','ใช้ทดแทนน้ำเมื่อท้องเสียหรืออ่อนเพลีย'],
-  ['เครื่องปรุง ซอสพริก น้ำพริกกระป๋อง',.1,'ชุด','ช่วยให้กินข้าวได้ในช่วงเครียด'],
+  ['เครื่องปรุง ซอสพริก น้ำพริกกระป๋อง',.05,'ชุด','ช่วยให้กินข้าวได้ในช่วงเครียด โซเดียมสูง ใช้น้อย'],
   ['กาแฟ ชา ซองชงดื่ม',.5,'ซอง','ช่วยให้อบอุ่นและผ่อนคลาย'],
   ['อาหารเด็กอ่อน / นมผง (ถ้ามี)',1,'มื้อ','เตรียมเฉพาะบ้านที่มีเด็ก พร้อมขวดนมและน้ำต้มสุก'],
   ['อาหารเค็มน้อย หวานน้อย (ข้าวกล้องสำเร็จรูป ถั่ว ปลากระป๋องแบบโซเดียมต่ำ)',.5,'ชุด','เหมาะกับผู้ที่ต้องควบคุมความดัน น้ำตาล ไขมัน และโรคไต ดูฉลากโซเดียมและน้ำตาลก่อนซื้อ'],
@@ -2776,9 +2776,9 @@ const GO_ITEMS=[
 ['w1',1,'น้ำดื่มขวด/ถุง','water',1,'ลิตร',1,1,'','','ตามจำนวนลิตรที่ตั้งไว้ และพกตัวกรอง/เม็ดฆ่าเชื้อเพื่อหาน้ำเพิ่ม'],
 ['w2',1,'หลอดกรองน้ำ PACOONE หรือเม็ดฆ่าเชื้อน้ำ','f',2,'ชุด',.1,.2,'','dup','มีในทะเบียน แยกใส่ใบละชุด'],
 ['w3',1,'ถุงน้ำพับได้ (เติมน้ำปลายทาง)','f',2,'ใบ',.1,.5,'','dup','มีในทะเบียน'],
-['f1',2,'ข้าวสำเร็จรูป ข้าวต้มซอง บะหมี่กึ่งสำเร็จรูป','pd',2,'มื้อ',.2,.4,'','',''],
+['f1',2,'ข้าวสำเร็จรูป ข้าวต้มซอง (บะหมี่กึ่งสำเร็จรูปให้น้อยที่สุด โซเดียมสูง)','pd',2,'มื้อ',.2,.4,'','',''],
 ['f2',2,'อาหารกระป๋อง/ซองพร้อมกิน (ฝาดึง)','pd',1,'กระป๋อง',.25,.3,'','',''],
-['f3',2,'ขนมพลังงาน บิสกิต ถั่ว ผลไม้แห้ง','pd',1,'ถุง',.15,.3,'','',''],
+['f3',2,'ขนมพลังงาน บิสกิต ถั่ว ผลไม้แห้ง','pd',1,'ถุง',.15,.3,'','','ผู้มีเบาหวานหรือโรคไตเลือกชนิดไม่หวาน ระวังผลไม้แห้ง'],
 ['f4',2,'เกลือแร่ ORS','p',3,'ซอง',.02,.02,'','',''],
 ['f5',2,'ช้อนส้อม แก้ว/ชามพับ','p',1,'ชุด',.1,.3,'','',''],
 ['f6',2,'ที่เปิดกระป๋อง','f',1,'อัน',.05,.05,'','',''],
@@ -2826,7 +2826,7 @@ const GO_ITEMS=[
 ['hf3',8,'เคสมือถือกันน้ำ','p',1,'ใบ',.05,.05,'flood','','มีในทะเบียน'],
 ['hf4',8,'เชือกยาว 15–20 เมตร (ช่วยเหลือ/ผูกกัน)','f',1,'เส้น',.5,.6,'flood','',''],
 ['hf5',8,'ยากันยุง','f',1,'ขวด',.1,.2,'flood','',''],
-['hf6',8,'รองเท้าบูทยาง/รองเท้าลุยน้ำหุ้มส้น','p',1,'คู่',.8,0,'flood','ext','สวมใส่ ไม่ต้องใส่ในกระเป๋า'],
+['hf6',8,'รองเท้าบูทยาง/รองเท้าลุยน้ำหุ้มส้น','p',1,'คู่',.8,0,'flood','ext wear','สวมใส่ ไม่ต้องใส่ในกระเป๋า'],
 ['hr1',8,'หน้ากาก N95','p',4,'ชิ้น',.01,.02,'fire|chem|rad','',''],
 ['hr2',8,'แว่นครอบตากันควัน/ฝุ่น','p',1,'อัน',.1,.3,'fire|chem|storm','',''],
 ['hr3',8,'น้ำเกลือล้างตา','f',1,'หลอด',.1,.2,'fire|chem','',''],
@@ -2853,14 +2853,14 @@ const GO_ITEMS=[
 ['e3',9,'ไม้เท้า/อุปกรณ์ช่วยเดิน','eld',1,'อัน',.5,1,'elders','ext',''],
 ['e4',9,'ผ้าอ้อมผู้ใหญ่/แผ่นรองซับ','eldd',2,'ชิ้น',.08,.3,'elders','opt',''],
 ['p1',9,'อาหารสัตว์เลี้ยง','petd',1,'มื้อ',.15,.3,'pets','',''],
-['p2',9,'น้ำสำหรับสัตว์เลี้ยง','petd',.5,'ลิตร',1,1,'pets','',''],
+['p2',9,'น้ำสำหรับสัตว์เลี้ยง','petd',.3,'ลิตร',1,1,'pets','',''],
 ['p3',9,'สายจูง/กรงพก/ที่นอนเล็ก','pet',1,'ชุด',.5,3,'pets','',''],
 ['p4',9,'เสื้อชูชีพสัตว์เลี้ยง + ชามพับ','pet',1,'ชุด',.3,1,'pets','','มีในทะเบียน 2 ตัว'],
 ['p5',9,'สมุดวัคซีน ถุงเก็บมูล','pet',1,'ชุด',.1,.3,'pets','',''],
 ['x1',9,'ยา 14 วัน + กล่องเก็บความเย็น (เช่น อินซูลิน)','med',1,'ชุด',.6,2,'med','pin1',''],
-['x2',9,'เครื่องวัดความดัน/น้ำตาล + ถ่านสำรอง','med',1,'ชุด',.3,.5,'med','',''],
+['x2',9,'เครื่องวัดความดัน/น้ำตาล + ถ่านสำรอง','f',1,'ชุด',.3,.5,'med','',''],
 ['x3',9,'ใบรับรองแพทย์/สรุปประวัติการรักษา','med',1,'ชุด',.01,.02,'med','pin1',''],
-['x4',9,'สายชาร์จ/แบตสำรองของอุปกรณ์การแพทย์','med',1,'ชุด',.3,.5,'med','',''],
+['x4',9,'สายชาร์จ/แบตสำรองของอุปกรณ์การแพทย์','f',1,'ชุด',.3,.5,'med','',''],
 ];
 const GO_PRE=[
  {k:'flood',l:'น้ำท่วมใหญ่ → ไปศูนย์พักพิง',mode:'walk',hz:['flood'],on:[]},
@@ -2874,8 +2874,8 @@ const GO_PRE=[
  {k:'blackout',l:'ไฟดับหลายวัน',mode:'walk',hz:[],on:['c8','c9','f7']},
  {k:'camp',l:'ค้างแรมกลางแจ้ง / อพยพไกล',mode:'car',hz:[],on:['b4','b5','b8','f7','c8','c9','c10']},
  {k:'custom',l:'กำหนดเอง (ล้างค่า)',mode:'walk',hz:[],on:[]}];
-const GO_DEF=()=>({pre:'',n:3,days:3,wl:1,mode:'walk',kids:0,infants:0,elders:0,pets:2,med:2,hz:{flood:1},body:[100,88],off:{},on:{},ov:{},c:{},x:[],t:0});
-function applyProfile(){if(S._prof)return;S._prof=1;const g=S.go;if(!g||(!g.pre&&!(+g.pets)&&!(+g.med)&&!Object.keys(g.hz||{}).length)){const d=GO_DEF();S.go=Object.assign({},d,g||{},{n:3,pets:2,med:2,hz:d.hz,body:d.body})}const st=S.stock;if(st&&st.n===4&&st.days===7&&!Object.keys(st.c||{}).length)st.n=3;if(!S.fam.members||!S.fam.members.length)S.fam.members=defaults().fam.members;save()}
+const GO_DEF=()=>({pre:'',n:3,days:3,wl:1,mode:'walk',kids:0,infants:0,elders:0,pets:2,med:2,hz:{flood:1},body:[100,88],pct:[25,20],off:{},on:{},ov:{},c:{},x:[],t:0});
+function applyProfile(){if(S._prof>=2)return;const was=S._prof;S._prof=2;if(was){if(S.go&&!S.go.pct)S.go.pct=[25,20];save();return}const g=S.go;if(!g||(!g.pre&&!(+g.pets)&&!(+g.med)&&!Object.keys(g.hz||{}).length)){const d=GO_DEF();S.go=Object.assign({},d,g||{},{n:3,pets:2,med:2,hz:d.hz,body:d.body})}const st=S.stock;if(st&&st.n===4&&st.days===7&&!Object.keys(st.c||{}).length)st.n=3;if(!S.fam.members||!S.fam.members.length)S.fam.members=defaults().fam.members;save()}
 function goS(){S.go=Object.assign(GO_DEF(),S.go||{});S.go.hz=S.go.hz||{};S.go.off=S.go.off||{};S.go.on=S.go.on||{};S.go.ov=S.go.ov||{};S.go.c=S.go.c||{};S.go.x=S.go.x||[];S.go.body=S.go.body||[70,70];return S.go}
 function goCond(w,g){if(!w||!w.trim())return true;return w.split('|').some(k=>{k=k.trim();if(GO_HZ[k])return !!g.hz[k];if(k==='car')return g.mode==='car';return (+g[k]||0)>0})}
 function goQty(r,g){const n=Math.max(1,+g.n||1),d=Math.max(1,+g.days||1);const q=r[4];const m={f:q,p:q*n,pd:q*n*d,d:q*d,water:(+g.wl||0)*n*d,kid:q*g.kids,kidd:q*g.kids*d,inf:q*g.infants,infd:q*g.infants*d,eld:q*g.elders,eldd:q*g.elders*d,pet:q*g.pets,petd:q*g.pets*d,med:q*g.med};return Math.max(0,Math.ceil((m[r[3]]??0)-1e-9))}
@@ -2887,17 +2887,17 @@ function goPlan(){
     act.push({id:r[0],cat:r[1],name:r[2],q,unit:r[5],kg:r[6],L:r[7],fl,note:r[10]})});
   g.x.forEach((x,i)=>act.push({id:'x_'+i,cat:(x.c==null?10:+x.c),name:x.n,q:Math.max(1,+x.q||1),unit:x.u||'ชิ้น',kg:+x.kg||0,L:+x.L||0,fl:[],note:'',custom:i,pinBag:+x.b||0}));
   const bags=[{kg:0,L:0,rows:{}},{kg:0,L:0,rows:{}}];
-  const put=(a,b,u)=>{bags[b].rows[a.id]=(bags[b].rows[a.id]||0)+u;bags[b].kg+=a.kg*u;if(!a.fl.includes('ext'))bags[b].L+=a.L*u};
+  const put=(a,b,u)=>{bags[b].rows[a.id]=(bags[b].rows[a.id]||0)+u;if(!a.fl.includes('wear'))bags[b].kg+=a.kg*u;if(!a.fl.includes('ext'))bags[b].L+=a.L*u};
   const rest=[];
   act.forEach(a=>{let f=g.ov[a.id];if(!f&&a.pinBag)f=a.pinBag;if(!f)f=a.fl.includes('pin1')?1:a.fl.includes('pin2')?2:0;
     if(f){put(a,f-1,a.q);return}
     if(a.fl.includes('dup')&&a.q>=2){put(a,0,Math.ceil(a.q/2));put(a,1,Math.floor(a.q/2));return}
     rest.push(a)});
   rest.sort((a,b)=>b.kg-a.kg);
-  rest.forEach(a=>{const one=a.fl.includes('one');for(let u=0;u<a.q;u++){const w0=+g.body[0]||75,w1=+g.body[1]||75;const b=bags[0].kg/w0<=bags[1].kg/w1?0:1;put(a,b,1);if(one)break}});
+  rest.forEach(a=>{const one=a.fl.includes('one');for(let u=0;u<a.q;u++){const pc=g.pct||[25,25],w0=(+g.body[0]||75)*(+pc[0]||25),w1=(+g.body[1]||75)*(+pc[1]||25);const b=bags[0].kg/w0<=bags[1].kg/w1?0:1;put(a,b,1);if(one)break}});
   return {act,bags,optList,offList,g}
 }
-function goTotals(b,g,i){const lim=g.mode==='walk'?(+g.body[i]||0)*.25:0;return {kg:b.kg,L:b.L*1.15,lim}}
+function goTotals(b,g,i){const lim=g.mode==='walk'?(+g.body[i]||0)*((+(g.pct||[25,25])[i]||25)/100):0;return {kg:b.kg,L:b.L*1.15,lim}}
 function goRows(a,bi,p){return GO_CATS.map((c,ci)=>{const rs=p.act.filter(a=>a.cat===ci&&p.bags[bi].rows[a.id]);return rs.length?{c,ci,rs}:null}).filter(Boolean)}
 function goDate(){const d=new Date();return d.toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric'})}
 function vGo(){
@@ -2920,7 +2920,7 @@ function vGo(){
   <label class="f">วิธีอพยพ</label><div class="row">${chip(g.mode==='walk','gomode','walk','เดินเท้า/ขนส่งสาธารณะ')}${chip(g.mode==='car','gomode','car','ขับรถ (เพิ่มของหนักได้)')}</div>
   <label class="f">ภัยที่เตรียมรับ (เลือกได้หลายอย่าง)</label><div class="row">${Object.keys(GO_HZ).map(k=>chip(g.hz[k],'gohz',k,GO_HZ[k])).join('')}</div>
   <label class="f">สมาชิกพิเศษ (จำนวนคนในกลุ่มนี้)</label><div class="grid2">${Object.keys(GO_SP).map(k=>`<div><span class="note">${GO_SP[k]}</span>${stp(k,0,+g.n||1)}</div>`).join('')}</div>
-  <label class="f">น้ำหนักตัวผู้แบก (กก.) ใช้คำนวณเกณฑ์ ≤ 25%</label><div class="grid2"><div><input type="number" min="0" data-gob="0" value="${esc(g.body[0])}" aria-label="ผู้แบกใบ 1"></div><div><input type="number" min="0" data-gob="1" value="${esc(g.body[1])}" aria-label="ผู้แบกใบ 2"></div></div></div>
+  <label class="f">น้ำหนักตัวผู้แบก (กก.) และสัดส่วนที่แบกได้ (% ของน้ำหนักตัว)</label><div class="grid2"><div><input type="number" min="0" data-gob="0" value="${esc(g.body[0])}" aria-label="ผู้แบกใบ 1"></div><div><input type="number" min="0" data-gob="1" value="${esc(g.body[1])}" aria-label="ผู้แบกใบ 2"></div></div><div class="grid2" style="margin-top:6px"><div><input type="number" min="5" max="30" data-gop="0" value="${esc((g.pct||[25,25])[0])}" aria-label="เปอร์เซ็นต์ผู้แบกใบ 1"></div><div><input type="number" min="5" max="30" data-gop="1" value="${esc((g.pct||[25,25])[1])}" aria-label="เปอร์เซ็นต์ผู้แบกใบ 2"></div></div><p class="note" style="margin:4px 0 0">ปกติไม่เกิน 25% ผู้สูงอายุ ผู้มีโรคประจำตัว หรือต้องเดินไกลควรลดเป็น 10–20%</p></div>
   <div class="grid2">${sum}</div>
   <div class="row"><button class="btn p" data-act="goprint">📄 ส่งออก PDF / พิมพ์ A4</button><button class="btn sm" data-act="goreset">ล้างการติ๊ก</button><button class="btn sm" data-act="gofull">ตั้งค่าเริ่มต้นใหม่</button></div>
   ${bagCard(0)}${bagCard(1)}
@@ -3286,7 +3286,7 @@ document.addEventListener('click',e=>{
   else if(a==='lockagain'){localStorage.removeItem('hg_ok');sessionStorage.removeItem('hg_ok');location.reload()}
   else if(a==='wipe'){if(window.confirm('ล้างข้อมูลทะเบียน บัตรครอบครัว และการตั้งค่าในเครื่องนี้ทั้งหมด?')){localStorage.removeItem('hg_v1');localStorage.removeItem('hg_ph');PH={};S=defaults();applySettings();route()}}
 });
-document.addEventListener('change',e=>{if(e.target.dataset&&(e.target.dataset.stk||e.target.dataset.stkn||e.target.dataset.go||e.target.dataset.gob!==undefined))route()});
+document.addEventListener('change',e=>{if(e.target.dataset&&(e.target.dataset.stk||e.target.dataset.stkn||e.target.dataset.go||e.target.dataset.gob!==undefined||e.target.dataset.gop!==undefined))route()});
 document.addEventListener('input',e=>{
   const t=e.target;
   if(t.dataset.f){const id=t.dataset.id,f=t.dataset.f;let v=t.value;if(['qty','unit','iv'].includes(f))v=Math.max(0,+v||0);setInv(id,f,v)}
@@ -3295,6 +3295,7 @@ document.addEventListener('input',e=>{
   else if(t.dataset.sh!==undefined){S.shelters[+t.dataset.sh][t.dataset.k]=t.value;save()}
   else if(t.dataset.go){const g=goS();g[t.dataset.go]=+t.value;save()}
   else if(t.dataset.gob!==undefined){const g=goS();g.body[+t.dataset.gob]=+t.value;save()}
+  else if(t.dataset.gop!==undefined){const g=goS();g.pct=g.pct||[25,25];g.pct[+t.dataset.gop]=+t.value;save()}
   else if(t.dataset.stk){S.stock.e[t.dataset.stk]=t.value;save()}
   else if(t.dataset.stkn){S.stock[t.dataset.stkn]=t.value;save()}
   else if(t.dataset.bag==='body'){S.bag.body=t.value;save()}
