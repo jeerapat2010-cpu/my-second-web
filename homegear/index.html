@@ -2551,12 +2551,12 @@ function stats(){let val=0,due=0,bad=0;D.items.forEach(i=>{const v=inv(i.id);val
 const view = $('#view');
 function parts(){return location.hash.replace(/^#/,'').split('/').filter(Boolean).map(decodeURIComponent)}
 function go(h){location.hash=h}
-const TABMAP={home:'home',scen:'home',gear:'gear',item:'gear',inv:'inv',tools:'tools',calc:'tools',more:'more',bag:'more',stock:'more',family:'more',links:'more',about:'more'};
+const TABMAP={home:'home',scen:'home',gear:'gear',item:'gear',inv:'inv',tools:'tools',calc:'tools',more:'more',bag:'more',go:'more',stock:'more',family:'more',links:'more',about:'more'};
 function route(){
   const p=parts(); const r=p[0]||'home';
   closeOverlay();
   $$('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.t===TABMAP[r]));
-  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vTools,calc:vCalc,more:vMore,bag:vBag,stock:vStock,family:vFamily,links:vLinks,about:vAbout}[r]||vHome;
+  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vTools,calc:vCalc,more:vMore,bag:vBag,go:vGo,stock:vStock,family:vFamily,links:vLinks,about:vAbout}[r]||vHome;
   view.innerHTML=f(p); window.scrollTo(0,0);
   const after=view.querySelector('[data-after]');
   if(typeof f.after==='function')f.after(p);
@@ -2574,7 +2574,8 @@ function vHome(){
   <div class="grid2">
     <a class="big" href="#tools"><i>⚡</i><span>เครื่องมือเร่งด่วน<small>ไฟฉายจอ CPR นกหวีด</small></span></a>
     <a class="big" href="#family"><i>♥</i><span>บัตรครอบครัว<small>ยา จุดนัดพบ เส้นทาง</small></span></a>
-    <a class="big" href="#stock"><i>🥫</i><span>เช็กลิสต์อาหารและยา<small>คำนวณตามจำนวนคน ติ๊ก วันหมดอายุ</small></span></a>
+    <a class="big" href="#go"><i>🎒</i><span>รายการกระเป๋าอพยพ 80 ลิตร ×2<small>3 คน 3 วัน ปรับตามภัยและสมาชิก พิมพ์เช็กลิสต์ A4</small></span></a>
+  <a class="big" href="#stock"><i>🥫</i><span>เช็กลิสต์อาหารและยา<small>คำนวณตามจำนวนคน ติ๊ก วันหมดอายุ</small></span></a>
   <a class="big" href="#bag"><i>🎒</i><span>เช็กลิสต์กระเป๋าอพยพ<small>ติ๊กของ รวมน้ำหนัก</small></span></a>
     <a class="big" href="#calc"><i>∑</i><span>ตัวคำนวณ<small>ไฟ น้ำ คลอรีน ยา</small></span></a>
   </div></div>`;
@@ -2708,6 +2709,164 @@ function vStock(){
   <p class="note">ข้อมูลยาเป็นแนวทางทั่วไป ไม่ใช่การสั่งใช้ยา อ่านฉลากทุกครั้ง ผู้แพ้ยา หญิงตั้งครรภ์ เด็ก และผู้สูงอายุควรปรึกษาเภสัชกรหรือแพทย์ ยาที่เป็นยาควบคุมต้องได้รับตามสิทธิ์เท่านั้น</p>
   <div class="row"><button class="btn sm" data-act="stkreset">ล้างการติ๊ก</button></div></div>`;
 }
+/* ---------- กระเป๋าอพยพ 80 ลิตร ×2 ---------- */
+const GO_CATS=['เอกสารและเงิน','น้ำดื่ม','อาหาร','ยาและปฐมพยาบาล','สุขอนามัย','ไฟ สื่อสาร พลังงาน','เสื้อผ้าและเครื่องนอน','เครื่องมือ','เฉพาะภัย','สมาชิกพิเศษ','เพิ่มเอง'];
+const GO_HZ={flood:'น้ำท่วม',fire:'ไฟไหม้ ควัน ฝุ่น',storm:'พายุ ลมแรง',chem:'สารเคมีรั่ว',quake:'แผ่นดินไหว'};
+const GO_SP={kids:'เด็ก',infants:'ทารก',elders:'ผู้สูงอายุ',pets:'สัตว์เลี้ยง',med:'ผู้ป่วยต้องใช้ยา/อุปกรณ์'};
+/* [id, หมวด(index), ชื่อ, ต่อ(f/p/pd/d/water/kid/kidd/inf/infd/eld/eldd/pet/petd/med), จำนวน, หน่วย, กก./หน่วย, ลิตร/หน่วย, เงื่อนไข, flags(opt pin1 pin2 dup ext), หมายเหตุ] */
+const GO_ITEMS=[
+['d1',0,'ซองกันน้ำใส่เอกสารตัวจริง/สำเนา (บัตรประชาชน ทะเบียนบ้าน/โฉนด กรมธรรม์ ใบสั่งยา)','f',1,'ซอง',.3,1,'','pin1',''],
+['d2',0,'เงินสดธนบัตรย่อย และบัตร ATM','f',1,'ชุด',.1,.1,'','pin1','ตู้ ATM อาจใช้ไม่ได้ช่วงภัยพิบัติ'],
+['d3',0,'ถ่ายรูปเอกสารเก็บในมือถือและ USB','f',1,'ชุด',.02,.02,'','',''],
+['d4',0,'ป้ายชื่อ-เบอร์ฉุกเฉิน-หมู่เลือดประจำตัว (พิมพ์จากแอป)','p',1,'ใบ',.01,.01,'','',''],
+['d5',0,'แผนที่ สมุดเบอร์ฉุกเฉิน ปากกา กระดาษ','f',1,'ชุด',.15,.5,'','',''],
+['w1',1,'น้ำดื่มขวด/ถุง','water',1,'ลิตร',1,1,'','','ตามจำนวนลิตรที่ตั้งไว้ และพกตัวกรอง/เม็ดฆ่าเชื้อเพื่อหาน้ำเพิ่ม'],
+['w2',1,'หลอดกรองน้ำ PACOONE หรือเม็ดฆ่าเชื้อน้ำ','f',2,'ชุด',.1,.2,'','dup','มีในทะเบียน แยกใส่ใบละชุด'],
+['w3',1,'ถุงน้ำพับได้ (เติมน้ำปลายทาง)','f',2,'ใบ',.1,.5,'','dup','มีในทะเบียน'],
+['f1',2,'ข้าวสำเร็จรูป ข้าวต้มซอง บะหมี่กึ่งสำเร็จรูป','pd',2,'มื้อ',.2,.4,'','',''],
+['f2',2,'อาหารกระป๋อง/ซองพร้อมกิน (ฝาดึง)','pd',1,'กระป๋อง',.25,.3,'','',''],
+['f3',2,'ขนมพลังงาน บิสกิต ถั่ว ผลไม้แห้ง','pd',1,'ถุง',.15,.3,'','',''],
+['f4',2,'เกลือแร่ ORS','p',3,'ซอง',.02,.02,'','',''],
+['f5',2,'ช้อนส้อม แก้ว/ชามพับ','p',1,'ชุด',.1,.3,'','',''],
+['f6',2,'ที่เปิดกระป๋อง','f',1,'อัน',.05,.05,'','',''],
+['f7',2,'เตาแก๊สพกพา + ก๊าซกระป๋อง + หม้อเล็ก','f',1,'ชุด',1.2,3,'','opt','มีในทะเบียน (Apelee AP-9000) เพิ่มถ้าอยากต้มน้ำ/อุ่นอาหาร'],
+['m1',3,'ชุดปฐมพยาบาลใหญ่ (184 ชิ้น)','f',1,'ชุด',.9,3,'','pin1 one','มีในทะเบียน'],
+['m2',3,'ชุดปฐมพยาบาลเล็ก (พลาสเตอร์ ผ้าก๊อซ ผ้ายืด แอลกอฮอล์)','f',1,'ชุด',.2,.5,'','pin2',''],
+['m3',3,'ยาประจำตัวของแต่ละคน (ซองซิป ติดชื่อ) เตรียม 7 วันขึ้นไป','p',1,'ชุด',.15,.3,'','pin1','ใส่ชื่อยาและขนาดไว้ในซอง'],
+['m4',3,'ยาสามัญ: พาราเซตามอล แก้แพ้ ท้องเสีย ธาตุน้ำขาว แก้เมา','f',1,'ชุด',.15,.3,'','pin2','ใช้ตามฉลาก'],
+['m5',3,'ยาทาแก้คัน เชื้อรา แผลสด และโพวิโดน-ไอโอดีน','f',1,'ชุด',.15,.3,'','',''],
+['m6',3,'แอลกอฮอล์ 75% / เจลล้างมือ','f',1,'ขวด',.2,.3,'','','มีในทะเบียน'],
+['m7',3,'หน้ากากอนามัย','p',4,'ชิ้น',.005,.01,'','',''],
+['m8',3,'ปรอทวัดไข้','f',1,'อัน',.03,.05,'','',''],
+['m9',3,'ถุงมือยางใช้ครั้งเดียว','p',2,'คู่',.01,.01,'','',''],
+['h1',4,'แปรงสีฟัน ยาสีฟัน สบู่ก้อน','p',1,'ชุด',.15,.5,'','',''],
+['h2',4,'ทิชชู่เปียกและทิชชู่ม้วนแบน','p',2,'ห่อ',.1,.3,'','',''],
+['h3',4,'ผ้าอนามัยและของใช้ส่วนตัวเผื่อ','f',1,'ชุด',.15,.5,'','',''],
+['h4',4,'ถุงขยะดำใหญ่ (กันฝน ใส่ขยะ ห้องน้ำฉุกเฉิน)','p',3,'ใบ',.02,.05,'','',''],
+['h5',4,'ถุงขับถ่ายฉุกเฉิน','pd',2,'ใบ',.03,.05,'','',''],
+['h6',4,'ถุงซิป/ถุงกันน้ำแยกหมวดของ','f',6,'ใบ',.03,.05,'','',''],
+['h7',4,'ผ้าขนหนูเร็วแห้ง','p',1,'ผืน',.2,.6,'','',''],
+['c1',5,'ไฟฉายคาดหัว + ถ่านสำรอง','p',1,'ชุด',.15,.3,'','',''],
+['c2',5,'ไฟฉายไดนาโมแบบบีบ','f',2,'กระบอก',.2,.3,'','dup','มีในทะเบียน'],
+['c3',5,'วิทยุไดนาโม PX-777','f',1,'เครื่อง',.6,1.5,'','pin1','มีในทะเบียน'],
+['c4',5,'แบตสำรอง 10000–20000 mAh + สายชาร์จ','p',1,'ชุด',.35,.4,'','','ชาร์จเต็มก่อนออกเดินทาง'],
+['c5',5,'วิทยุสื่อสาร BAOFENG UV-5R + แบตสำรอง','f',2,'เครื่อง',.3,.5,'','dup','มีในทะเบียน ใช้เฉพาะย่านที่กฎหมายอนุญาต'],
+['c6',5,'นกหวีด','p',1,'อัน',.02,.02,'','','ห้อยคอทุกคน'],
+['c7',5,'ไฟแช็ก/ไม้ขีดกันน้ำ','f',2,'อัน',.03,.03,'','dup',''],
+['c8',5,'โคมไฟโซลาร์ LED พับได้','f',1,'โคม',.8,1.5,'','opt','มีในทะเบียน'],
+['c9',5,'แผงโซลาร์พับ + สาย USB','f',1,'ชุด',.8,2,'','opt','มีในทะเบียน'],
+['c10',5,'Power Station เครื่องเล็ก (ใช้เมื่ออพยพด้วยรถ)','f',1,'เครื่อง',4.5,6,'car','one','มีในทะเบียน 2 เครื่อง'],
+['b1',6,'เสื้อผ้า 2 ชุด/คน (เสื้อ กางเกง ชั้นใน ถุงเท้า) ซักสลับ','p',2,'ชุด',.35,1.2,'','',''],
+['b2',6,'เสื้อกันฝน/โปนโช','p',1,'ตัว',.25,1,'','','มีในทะเบียน'],
+['b3',6,'ผ้าห่มฉุกเฉินฟอยล์','p',1,'ผืน',.06,.3,'','','มีในทะเบียน'],
+['b4',6,'ถุงนอนน้ำหนักเบา','p',1,'ใบ',1.1,8,'','opt','มีในทะเบียน 3 ใบ เพิ่มเมื่อไม่ไปศูนย์พักพิง หรือค้างแรมกลางแจ้ง'],
+['b5',6,'เสื่อพับ/แผ่นรองนอน','p',1,'ผืน',.4,4,'','opt',''],
+['b6',6,'รองเท้าลุยน้ำ/รองเท้าสำรอง','p',1,'คู่',.4,2,'','',''],
+['b7',6,'หมวกปีกกว้างกันแดด','p',1,'ใบ',.1,1,'','','มีในทะเบียน'],
+['b8',6,'เต็นท์นอน 2–3 คน','f',1,'หลัง',2.5,8,'','opt one','มีในทะเบียน 3 หลัง เหมาะกับอพยพด้วยรถ'],
+['t1',7,'มีดพับ/เครื่องมืออเนกประสงค์','f',1,'อัน',.2,.2,'','',''],
+['t2',7,'เทปกาวผ้า','f',1,'ม้วน',.25,.3,'','',''],
+['t3',7,'เชือกพาราคอร์ด 15 เมตร','f',1,'ม้วน',.15,.2,'','','มีในทะเบียน'],
+['t4',7,'ถุงมือทำงาน','p',1,'คู่',.1,.2,'','',''],
+['hf1',8,'เสื้อชูชีพ (สวมเมื่อน้ำสูง ผูกไว้นอกกระเป๋า)','p',1,'ตัว',1,0,'flood','ext','มีในทะเบียน'],
+['hf2',8,'ถุงกันน้ำ Dry Bag 25–30 ลิตร (ใช้บุในกระเป๋า)','f',2,'ใบ',.5,.5,'flood','','มีในทะเบียน 2 ใบ'],
+['hf3',8,'เคสมือถือกันน้ำ','p',1,'ใบ',.05,.05,'flood','','มีในทะเบียน'],
+['hf4',8,'เชือกยาว 15–20 เมตร (ช่วยเหลือ/ผูกกัน)','f',1,'เส้น',.5,.6,'flood','',''],
+['hf5',8,'ยากันยุง','f',1,'ขวด',.1,.2,'flood','',''],
+['hf6',8,'รองเท้าบูทยาง/รองเท้าลุยน้ำหุ้มส้น','p',1,'คู่',.8,0,'flood','ext','สวมใส่ ไม่ต้องใส่ในกระเป๋า'],
+['hr1',8,'หน้ากาก N95','p',4,'ชิ้น',.01,.02,'fire|chem',' ',''],
+['hr2',8,'แว่นครอบตากันควัน/ฝุ่น','p',1,'อัน',.1,.3,'fire|chem|storm','',''],
+['hr3',8,'น้ำเกลือล้างตา','f',1,'หลอด',.1,.2,'fire|chem','',''],
+['hr4',8,'ผ้าคลุมกันไฟ (Fire blanket)','f',1,'ผืน',.5,.6,'fire','opt',''],
+['hs1',8,'หมวกนิรภัย','p',1,'ใบ',.45,3,'storm|quake','','มีในทะเบียน'],
+['hs2',8,'ผ้าใบกันฝน (Tarp)','f',1,'ผืน',.7,2,'storm','',''],
+['hc1',8,'หน้ากากกันก๊าซ 308 + ตลับกรอง','p',1,'ชุด',.5,2,'chem','','มีในทะเบียน ตรวจชนิดตลับให้ตรงสารเคมีก่อนใช้'],
+['hc2',8,'ถุงหนาใส่เสื้อผ้าปนเปื้อน','p',2,'ใบ',.03,.1,'chem','',''],
+['hc3',8,'เม็ดโพแทสเซียมไอโอไดด์ (KI)','f',1,'ชุด',.02,.02,'chem','opt','ใช้เฉพาะเมื่อมีประกาศทางการเท่านั้น ห้ามกินเอง'],
+['hq1',8,'ถุงมือหนังกันบาด','p',1,'คู่',.2,.4,'quake','',''],
+['hq2',8,'ชะแลงเล็ก/ค้อน','f',1,'อัน',.5,.5,'quake','opt',''],
+['k1',9,'ของเล่น/หนังสือ/ผ้าห่มผืนโปรดของเด็ก','kid',1,'ชุด',.2,1,'kids','',''],
+['k2',9,'ป้ายข้อมือเด็ก (ชื่อ เบอร์ผู้ปกครอง รูปล่าสุด)','kid',1,'ชุด',.01,.01,'kids','',''],
+['k3',9,'ขนมเด็ก ผลไม้แห้ง','kidd',1,'ถุง',.1,.2,'kids','',''],
+['k4',9,'ยาเด็ก (พาราเซตามอลเด็ก ORS เด็ก) ตามน้ำหนักและฉลาก','kid',1,'ชุด',.1,.2,'kids','',''],
+['i1',9,'นมผง/อาหารเด็กอ่อน','infd',1,'ชุด',.3,.5,'infants','',''],
+['i2',9,'ผ้าอ้อมสำเร็จรูป','infd',8,'ชิ้น',.04,.2,'infants','',''],
+['i3',9,'ขวดนม + น้ำต้มสุก','inf',2,'ขวด',.1,.4,'infants','',''],
+['i4',9,'เสื้อผ้า/ผ้าห่มเด็กอ่อน','infd',2,'ชุด',.1,.5,'infants','',''],
+['e1',9,'ยาประจำตัวผู้สูงอายุ เพิ่มสำรอง + ใบสั่งยา','eld',1,'ชุด',.15,.3,'elders','pin1',''],
+['e2',9,'แว่นตาสำรอง ฟันปลอม+กล่อง เครื่องช่วยฟัง+ถ่าน','eld',1,'ชุด',.15,.3,'elders','',''],
+['e3',9,'ไม้เท้า/อุปกรณ์ช่วยเดิน','eld',1,'อัน',.5,1,'elders','ext',''],
+['e4',9,'ผ้าอ้อมผู้ใหญ่/แผ่นรองซับ','eldd',2,'ชิ้น',.08,.3,'elders','opt',''],
+['p1',9,'อาหารสัตว์เลี้ยง','petd',1,'มื้อ',.15,.3,'pets','',''],
+['p2',9,'น้ำสำหรับสัตว์เลี้ยง','petd',.5,'ลิตร',1,1,'pets','',''],
+['p3',9,'สายจูง/กรงพก/ที่นอนเล็ก','pet',1,'ชุด',.5,3,'pets','',''],
+['p4',9,'เสื้อชูชีพสัตว์เลี้ยง + ชามพับ','pet',1,'ชุด',.3,1,'pets','','มีในทะเบียน 2 ตัว'],
+['p5',9,'สมุดวัคซีน ถุงเก็บมูล','pet',1,'ชุด',.1,.3,'pets','',''],
+['x1',9,'ยา 14 วัน + กล่องเก็บความเย็น (เช่น อินซูลิน)','med',1,'ชุด',.6,2,'med','pin1',''],
+['x2',9,'เครื่องวัดความดัน/น้ำตาล + ถ่านสำรอง','med',1,'ชุด',.3,.5,'med','',''],
+['x3',9,'ใบรับรองแพทย์/สรุปประวัติการรักษา','med',1,'ชุด',.01,.02,'med','pin1',''],
+['x4',9,'สายชาร์จ/แบตสำรองของอุปกรณ์การแพทย์','med',1,'ชุด',.3,.5,'med','',''],
+];
+const GO_DEF=()=>({n:3,days:3,wl:1.5,mode:'walk',kids:0,infants:0,elders:0,pets:0,med:0,hz:{},body:[75,75],off:{},on:{},ov:{},c:{},x:[],t:0});
+function goS(){S.go=Object.assign(GO_DEF(),S.go||{});S.go.hz=S.go.hz||{};S.go.off=S.go.off||{};S.go.on=S.go.on||{};S.go.ov=S.go.ov||{};S.go.c=S.go.c||{};S.go.x=S.go.x||[];S.go.body=S.go.body||[70,70];return S.go}
+function goCond(w,g){if(!w||!w.trim())return true;return w.split('|').some(k=>{k=k.trim();if(GO_HZ[k])return !!g.hz[k];if(k==='car')return g.mode==='car';return (+g[k]||0)>0})}
+function goQty(r,g){const n=Math.max(1,+g.n||1),d=Math.max(1,+g.days||1);const q=r[4];const m={f:q,p:q*n,pd:q*n*d,d:q*d,water:(+g.wl||0)*n*d,kid:q*g.kids,kidd:q*g.kids*d,inf:q*g.infants,infd:q*g.infants*d,eld:q*g.elders,eldd:q*g.elders*d,pet:q*g.pets,petd:q*g.pets*d,med:q*g.med};return Math.max(0,Math.ceil((m[r[3]]??0)-1e-9))}
+function goPlan(){
+  const g=goS();const act=[];const optList=[],offList=[];
+  GO_ITEMS.forEach(r=>{const fl=(r[9]||'').split(/\s+/);if(!goCond(r[8],g))return;const q=goQty(r,g);if(!q)return;
+    const isOpt=fl.includes('opt');const on=isOpt?!!g.on[r[0]]:!g.off[r[0]];
+    if(!on){(isOpt?optList:offList).push(r);return}
+    act.push({id:r[0],cat:r[1],name:r[2],q,unit:r[5],kg:r[6],L:r[7],fl,note:r[10]})});
+  g.x.forEach((x,i)=>act.push({id:'x_'+i,cat:10,name:x.n,q:1,unit:'ชิ้น',kg:+x.kg||0,L:+x.L||0,fl:[],note:'',custom:i,pinBag:x.b}));
+  const bags=[{kg:0,L:0,rows:{}},{kg:0,L:0,rows:{}}];
+  const put=(a,b,u)=>{bags[b].rows[a.id]=(bags[b].rows[a.id]||0)+u;bags[b].kg+=a.kg*u;if(!a.fl.includes('ext'))bags[b].L+=a.L*u};
+  const rest=[];
+  act.forEach(a=>{let f=g.ov[a.id];if(!f&&a.pinBag)f=a.pinBag;if(!f)f=a.fl.includes('pin1')?1:a.fl.includes('pin2')?2:0;
+    if(f){put(a,f-1,a.q);return}
+    if(a.fl.includes('dup')&&a.q>=2){put(a,0,Math.ceil(a.q/2));put(a,1,Math.floor(a.q/2));return}
+    rest.push(a)});
+  rest.sort((a,b)=>b.kg-a.kg);
+  rest.forEach(a=>{const one=a.fl.includes('one');for(let u=0;u<a.q;u++){const b=bags[0].kg<=bags[1].kg?0:1;put(a,b,1);if(one)break}});
+  return {act,bags,optList,offList,g}
+}
+function goTotals(b,g,i){const lim=g.mode==='walk'?(+g.body[i]||0)*.25:0;return {kg:b.kg,L:b.L*1.15,lim}}
+function goRows(a,bi,p){return GO_CATS.map((c,ci)=>{const rs=p.act.filter(a=>a.cat===ci&&p.bags[bi].rows[a.id]);return rs.length?{c,ci,rs}:null}).filter(Boolean)}
+function goDate(){const d=new Date();return d.toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric'})}
+function vGo(){
+  const p=goPlan(),g=p.g;
+  const chip=(on,act,k,l)=>`<button class="chip ${on?'on':''}" data-act="${act}" data-k="${k}" style="${on?'background:var(--accent-bg);color:#fff;border-color:var(--accent-bg)':''}">${on?'✓ ':''}${esc(l)}</button>`;
+  const inp=(k,l,min=0,step=1)=>`<div><label class="f">${l}</label><input type="number" min="${min}" step="${step}" data-go="${k}" value="${esc(g[k])}"></div>`;
+  const sum=[0,1].map(i=>{const t=goTotals(p.bags[i],g,i);const over=t.lim&&t.kg>t.lim;const full=t.L>80;
+    return `<div class="card" style="padding:10px"><b>กระเป๋า ${i+1}</b><div class="stat" style="margin-top:6px"><div><b>${fmt(t.kg)}</b><span>กก.${t.lim?` (เกณฑ์ ≤ ${fmt(t.lim)})`:''}</span></div><div><b>${fmt(t.L)}</b><span>ลิตร จาก 80</span></div></div>${over?'<p class="warn" style="margin:6px 0 0">หนักเกิน 25% ของน้ำหนักผู้แบก ลดน้ำ/ของเสริม หรือย้ายไปใบอื่น</p>':''}${full?'<p class="warn" style="margin:6px 0 0">ปริมาตรเกิน 80 ลิตร ถอดของเสริมออก</p>':''}</div>`}).join('');
+  const bagCard=bi=>{const rows=goRows(null,bi,p);
+    return `<div class="card"><h3>กระเป๋าใบที่ ${bi+1} · 80 ลิตร</h3>${rows.map(r=>`<h4 style="margin:12px 0 4px;font-size:.95rem;color:var(--accent)">${esc(r.c)}</h4>`+r.rs.map(a=>{const q=p.bags[bi].rows[a.id],key=a.id+'_'+bi,done=!!g.c[key];
+      return `<div class="gorow" style="display:flex;gap:6px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--line)"><button data-act="gotick" data-id="${a.id}" data-b="${bi}" style="all:unset;cursor:pointer;display:flex;gap:8px;flex:1;min-width:0"><b style="min-width:22px;height:22px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:19px;flex:none">${done?'✓':''}</b><span style="${done?'opacity:.55;text-decoration:line-through':''}">${esc(a.name)} <b>×${q} ${esc(a.unit)}</b>${a.note?`<br><span class="note">${esc(a.note)}</span>`:''}</span></button><span class="note" style="white-space:nowrap">${fmt(a.kg*q)} กก.</span><button class="chip" data-act="gomove" data-id="${a.id}" data-b="${bi}" title="ย้ายไปอีกใบ">⇄</button><button class="chip" data-act="gooff" data-id="${a.id}" title="ถอดออก">✕</button></div>`}).join('')).join('')||'<p class="note">ยังไม่มีรายการ</p>'}</div>`};
+  const extra=p.optList.concat(p.offList);
+  return `<div class="stack"><a class="btn sm" href="#more">← กลับ</a><h2 class="h2">รายการกระเป๋าอพยพ 80 ลิตร × 2</h2>
+  <p class="sub">ตั้งจำนวนคน วัน และสถานการณ์ แอปจะคำนวณรายการและแบ่งน้ำหนักสองใบให้ ติ๊กเมื่อใส่แล้ว ย้ายหรือถอดของได้ และพิมพ์เป็นเช็กลิสต์ได้</p>
+  <div class="card"><div class="grid2">${inp('n','จำนวนคน',1)}${inp('days','จำนวนวัน',1)}${inp('wl','น้ำดื่ม ลิตร/คน/วัน',0,.5)}</div>
+  <label class="f">วิธีอพยพ</label><div class="row">${chip(g.mode==='walk','gomode','walk','เดินเท้า/ขนส่งสาธารณะ')}${chip(g.mode==='car','gomode','car','ขับรถ (เพิ่มของหนักได้)')}</div>
+  <label class="f">ภัยที่เตรียมรับ (เลือกได้หลายอย่าง)</label><div class="row">${Object.keys(GO_HZ).map(k=>chip(g.hz[k],'gohz',k,GO_HZ[k])).join('')}</div>
+  <label class="f">สมาชิกพิเศษ (จำนวนคนในกลุ่มนี้)</label><div class="grid2">${Object.keys(GO_SP).map(k=>inp(k,GO_SP[k])).join('')}</div>
+  <label class="f">น้ำหนักตัวผู้แบก (กก.) ใช้คำนวณเกณฑ์ ≤ 25%</label><div class="grid2"><div><input type="number" min="0" data-gob="0" value="${esc(g.body[0])}" aria-label="ผู้แบกใบ 1"></div><div><input type="number" min="0" data-gob="1" value="${esc(g.body[1])}" aria-label="ผู้แบกใบ 2"></div></div></div>
+  <div class="grid2">${sum}</div>
+  <div class="row"><button class="btn p" data-act="goprint">🖨 พิมพ์เช็กลิสต์ A4</button><button class="btn sm" data-act="goreset">ล้างการติ๊ก</button><button class="btn sm" data-act="gofull">ตั้งค่าเริ่มต้นใหม่</button></div>
+  ${bagCard(0)}${bagCard(1)}
+  ${extra.length?`<div class="card"><h3>รายการเสริมและที่ถอดออก</h3><p class="note">แตะเพื่อเพิ่มเข้ากระเป๋า</p><div class="row" style="margin-top:6px">${extra.map(r=>`<button class="chip" data-act="goon" data-id="${r[0]}">＋ ${esc(r[2].slice(0,34))}</button>`).join('')}</div></div>`:''}
+  <div class="card"><h3>เพิ่มของเอง</h3><div class="grid2"><div><label class="f">ชื่อของ</label><input id="gx_n" placeholder="เช่น ยานวด"></div><div><label class="f">น้ำหนัก (กก.)</label><input id="gx_k" type="number" min="0" step=".05" value="0.2"></div><div><label class="f">ปริมาตร (ลิตร)</label><input id="gx_l" type="number" min="0" step=".1" value="0.3"></div><div><label class="f">ใส่ใบที่</label><select id="gx_b"><option value="1">1</option><option value="2">2</option></select></div></div><div class="row" style="margin-top:8px"><button class="btn sm p" data-act="goadd">เพิ่มรายการ</button></div>${g.x.length?`<div class="row" style="margin-top:8px">${g.x.map((x,i)=>`<button class="chip" data-act="godelx" data-k="${i}">✕ ${esc(x.n)}</button>`).join('')}</div>`:''}</div>
+  <p class="note">น้ำหนักและปริมาตรเป็นค่าประมาณเพื่อวางแผน ปริมาตรคิดเผื่อ 15% สำหรับช่องว่างตอนจัดกระเป๋า ของที่มีในทะเบียนมีหมายเหตุกำกับ ตรวจจำนวนจริงอีกครั้งก่อนออกเดินทาง</p></div>`;
+}
+function goPrint(){
+  const p=goPlan(),g=p.g;const hz=Object.keys(GO_HZ).filter(k=>g.hz[k]).map(k=>GO_HZ[k]);const sp=Object.keys(GO_SP).filter(k=>+g[k]>0).map(k=>GO_SP[k]+' '+g[k]);
+  const head=`<div class="gp-h"><h1>รายการใส่กระเป๋าอพยพ</h1><p>${esc(g.n)} คน · ${esc(g.days)} วัน · ${g.mode==='car'?'ขับรถ':'เดินเท้า'}${hz.length?' · ภัย: '+esc(hz.join(', ')):''}${sp.length?' · '+esc(sp.join(', ')):''} · วันที่พิมพ์ ${esc(goDate())}</p></div>`;
+  const bagPage=bi=>{const t=goTotals(p.bags[bi],g,bi);const rows=goRows(null,bi,p);
+    return `<section class="gp-pg">${head}<h2>กระเป๋าใบที่ ${bi+1} (80 ลิตร) ผู้แบก: ______________ น้ำหนักรวมประมาณ ${fmt(t.kg)} กก. · ปริมาตรประมาณ ${fmt(t.L)} ลิตร</h2><div class="gp-cols">${rows.map(r=>`<div class="gp-c"><h3>${esc(r.c)}</h3>${r.rs.map(a=>{const q=p.bags[bi].rows[a.id];return `<div class="gp-r"><span class="gp-b"></span><span>${esc(a.name)} <b>×${q} ${esc(a.unit)}</b></span></div>`}).join('')}</div>`).join('')}</div><div class="gp-f">ตรวจโดย ______________ วันที่ ____/____/______ &nbsp; ตรวจซ้ำทุก 3 เดือน เปลี่ยนน้ำ อาหาร ยา ที่ใกล้หมดอายุ</div></section>`};
+  const f=S.fam||{};const before=['ปิดแก๊ส ปิดเมนไฟ ปิดน้ำ','ถอดปลั๊กเครื่องใช้ไฟฟ้า ยกของมีค่าขึ้นที่สูง','ล็อกประตู หน้าต่าง','ชาร์จมือถือ แบตสำรอง วิทยุ ไฟฉาย ให้เต็ม','ตรวจเอกสาร เงินสด ยาประจำตัว','ให้อาหารสัตว์เลี้ยง/เตรียมสัตว์เลี้ยงไปด้วย','แจ้งญาติหรือเพื่อนบ้านว่าจะไปที่ไหน','ถ่ายรูปบ้านและทรัพย์สินเก็บไว้','ตรวจเส้นทางอพยพและข่าวล่าสุดก่อนออก'];
+  const page3=`<section class="gp-pg">${head}<h2>ก่อนออกจากบ้าน</h2><div class="gp-c">${before.map(x=>`<div class="gp-r"><span class="gp-b"></span><span>${esc(x)}</span></div>`).join('')}</div><h2>ข้อมูลฉุกเฉิน</h2><div class="gp-c"><p>เบอร์ฉุกเฉิน: การแพทย์ฉุกเฉิน 1669 · ตำรวจ 191 · ดับเพลิง 199 · ปภ. 1784 · ศูนย์พิษ 1367</p><p>จุดนัดพบ: ${f.meet?esc(f.meet):'______________________________'}</p><p>เส้นทางอพยพ: ${f.route?esc(f.route):'______________________________'}</p><p>ศูนย์พักพิง: ______________________________</p><p>ญาติ/ผู้ติดต่อ: ______________________________</p></div></section>`;
+  printHTML(`<style>.gp-pg{page-break-after:always;font:11pt/1.4 Sarabun,sans-serif;color:#000}.gp-pg:last-child{page-break-after:auto}.gp-h h1{font:700 18pt Prompt,sans-serif;margin:0}.gp-h p{margin:2px 0 8px;font-size:10pt}.gp-pg h2{font:700 12pt Prompt,sans-serif;border-bottom:2px solid #000;padding-bottom:3px;margin:8px 0}.gp-cols{column-count:2;column-gap:14px}.gp-c{break-inside:avoid;margin:0 0 8px}.gp-c h3{font:700 10.5pt Prompt,sans-serif;background:#ddd;padding:1px 6px;margin:0 0 3px}.gp-r{display:flex;gap:6px;align-items:flex-start;padding:2px 0;font-size:10pt;break-inside:avoid}.gp-b{width:13px;height:13px;border:1.5px solid #000;flex:none;margin-top:2px}.gp-f{margin-top:12px;font-size:10pt;border-top:1px solid #000;padding-top:6px}@page{size:A4;margin:12mm}</style>${bagPage(0)}${bagPage(1)}${page3}`);
+}
+vGo.after=function(){};
+
 function vBag(){
   const BAG=[['เป้ยุทธวิธีพร้อมถุงน้ำดื่ม',1.5],['น้ำดื่มสำรอง 2 ลิตร',2],['ไฟฉายไดนาโม',.2],['วิทยุ PX-777',.6],['แผงโซลาร์พับ + สาย USB',.4],['วิทยุสื่อสาร + แบตสำรอง',.5],['กระเป๋าปฐมพยาบาล',.8],['เอกสารสำคัญใน Dry Bag + เคสกันน้ำ',.7],['ยาประจำตัวอย่างน้อย 7 วัน',.3],['ผ้าห่มฉุกเฉิน',.1],['นกหวีด + ไฟแช็ก',.1],['หน้ากาก + แว่น',.4],['หมวกปีกกว้าง',.15],['เสื้อกันฝน',.3],['เสื้อผ้าสำรอง 1 ชุด',.8],['อาหารแห้ง (เตรียมแยกไว้แล้ว)',1]];
   const w=i=>S.bag.w[i]??BAG[i][1];
@@ -2896,6 +3055,17 @@ document.addEventListener('click',e=>{
   else if(a==='tool'){tool(b.dataset.n)}
   else if(a==='closeov'){closeOverlay()}
   else if(a==='ltw')window.__lt.w();else if(a==='ltr')window.__lt.r();else if(a==='lts')window.__lt.s();
+  else if(a==='gotick'){const g=goS();const k=b.dataset.id+'_'+b.dataset.b;g.c[k]=!g.c[k];save();route()}
+  else if(a==='gomove'){const g=goS();const cur=+b.dataset.b+1;g.ov[b.dataset.id]=cur===1?2:1;save();route()}
+  else if(a==='gooff'){const g=goS();const id=b.dataset.id;const r=GO_ITEMS.find(x=>x[0]===id);if(id.startsWith('x_')){g.x.splice(+id.slice(2),1)}else if(r&&(r[9]||'').includes('opt')){g.on[id]=false}else{g.off[id]=true}save();route()}
+  else if(a==='goon'){const g=goS();const id=b.dataset.id;const r=GO_ITEMS.find(x=>x[0]===id);if(r&&(r[9]||'').includes('opt'))g.on[id]=true;else delete g.off[id];save();route()}
+  else if(a==='gohz'){const g=goS();g.hz[b.dataset.k]=!g.hz[b.dataset.k];save();route()}
+  else if(a==='gomode'){const g=goS();g.mode=b.dataset.k;save();route()}
+  else if(a==='goreset'){goS().c={};save();route()}
+  else if(a==='gofull'){if(window.confirm('ตั้งค่ารายการกระเป๋าอพยพกลับเป็นค่าเริ่มต้น (3 คน 3 วัน)?')){S.go=GO_DEF();save();route()}}
+  else if(a==='goprint'){goPrint()}
+  else if(a==='goadd'){const g=goS();const n=($('#gx_n').value||'').trim();if(!n){toast('ใส่ชื่อของก่อน');return}g.x.push({n,kg:+$('#gx_k').value||0,L:+$('#gx_l').value||0,b:+$('#gx_b').value||1});save();route()}
+  else if(a==='godelx'){const g=goS();g.x.splice(+b.dataset.k,1);save();route()}
   else if(a==='stk'){S.stock.c[b.dataset.id]=!S.stock.c[b.dataset.id];save();route()}
   else if(a==='stkreset'){S.stock.c={};save();route()}
   else if(a==='bagtick'){S.bag.checked[i]=!S.bag.checked[i];save();route()}
@@ -2910,13 +3080,15 @@ document.addEventListener('click',e=>{
   else if(a==='lockagain'){localStorage.removeItem('hg_ok');sessionStorage.removeItem('hg_ok');location.reload()}
   else if(a==='wipe'){if(window.confirm('ล้างข้อมูลทะเบียน บัตรครอบครัว และการตั้งค่าในเครื่องนี้ทั้งหมด?')){localStorage.removeItem('hg_v1');S=defaults();applySettings();route()}}
 });
-document.addEventListener('change',e=>{if(e.target.dataset&&(e.target.dataset.stk||e.target.dataset.stkn))route()});
+document.addEventListener('change',e=>{if(e.target.dataset&&(e.target.dataset.stk||e.target.dataset.stkn||e.target.dataset.go||e.target.dataset.gob!==undefined))route()});
 document.addEventListener('input',e=>{
   const t=e.target;
   if(t.dataset.f){const id=t.dataset.id,f=t.dataset.f;let v=t.value;if(['qty','unit','iv'].includes(f))v=Math.max(0,+v||0);setInv(id,f,v)}
   else if(t.dataset.fam){S.fam[t.dataset.fam]=t.value;save()}
   else if(t.dataset.mem!==undefined){S.fam.members[+t.dataset.mem][t.dataset.k]=t.value;save()}
   else if(t.dataset.sh!==undefined){S.shelters[+t.dataset.sh][t.dataset.k]=t.value;save()}
+  else if(t.dataset.go){const g=goS();g[t.dataset.go]=+t.value;save()}
+  else if(t.dataset.gob!==undefined){const g=goS();g.body[+t.dataset.gob]=+t.value;save()}
   else if(t.dataset.stk){S.stock.e[t.dataset.stk]=t.value;save()}
   else if(t.dataset.stkn){S.stock[t.dataset.stkn]=t.value;save()}
   else if(t.dataset.bag==='body'){S.bag.body=t.value;save()}
