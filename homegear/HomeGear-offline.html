@@ -186,6 +186,19 @@ canvas#famcv{max-width:100%;border:1px solid var(--line);border-radius:8px}
 .brand{text-transform:uppercase;letter-spacing:.04em}
 .tabs{border-top-color:#D50000;box-shadow:0 -4px 16px rgba(213,0,0,.3)}
 .sos{background:linear-gradient(90deg,#8C0000,#E10600,#8C0000)}
+
+/* nav v2 */
+.grp{font:700 .8rem var(--f-d);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:20px 0 8px;padding-bottom:5px;border-bottom:2px solid var(--line)}
+.stack>.grp:first-child{margin-top:4px}
+.sosbig{display:flex;align-items:center;gap:14px;padding:18px 16px;text-decoration:none;color:#fff;background:linear-gradient(180deg,#F01000,#8C0000);border:2px solid #5A0000;font:700 1.35rem var(--f-d);clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));box-shadow:0 0 18px rgba(213,0,0,.45)}
+.sosbig i{flex:none;width:52px;height:52px;border-radius:50%;background:#fff;color:#C00000;display:grid;place-items:center;font:900 2rem var(--f-d);font-style:normal}
+.sosbig small{display:block;font:400 .9rem var(--f-b);opacity:.92}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tiles .big{flex-direction:column;text-align:center;padding:14px 8px;gap:8px;border-left-width:2px;border-top:6px solid var(--accent-bg);font-size:.98rem}.tiles .big small{font-size:.74rem}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.big.tl{flex-direction:column;text-align:center;padding:12px 6px;gap:6px;border-left-width:2px;border-top:6px solid var(--accent-bg)}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--line);margin-bottom:6px}
+.seg a{text-align:center;padding:10px 6px;text-decoration:none;color:var(--ink);font:700 .92rem var(--f-d);background:var(--surface)}
+.seg a.on{background:var(--accent-bg);color:#fff}
+.tabs a{font-size:.68rem}
 </style>
 </head>
 <body>
@@ -214,10 +227,10 @@ canvas#famcv{max-width:100%;border:1px solid var(--line);border-radius:8px}
   <main class="wrap" id="view"></main>
   <nav class="tabs" id="tabs"><div class="wrap">
     <a href="#home" data-t="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h14V10"/></svg>หน้าแรก</a>
+    <a href="#sos" data-t="sos"><svg viewBox="0 0 24 24"><path d="M12 3l10 18H2zM12 10v5M12 18v.5"/></svg>เกิดเหตุ</a>
+    <a href="#prep" data-t="prep"><svg viewBox="0 0 24 24"><path d="M8 6a4 4 0 018 0M6 6h12v15H6zM9 13h6M9 17h6"/></svg>เตรียมพร้อม</a>
     <a href="#gear" data-t="gear"><svg viewBox="0 0 24 24"><path d="M4 7h16v13H4zM9 7V4h6v3"/></svg>อุปกรณ์</a>
-    <a href="#inv" data-t="inv"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 9h6M9 13h6M9 17h3"/></svg>ทะเบียน</a>
-    <a href="#tools" data-t="tools"><svg viewBox="0 0 24 24"><path d="M14 4l6 6-3 3-6-6zM11 7L4 14l-1 6 6-1 7-7"/></svg>เครื่องมือ</a>
-    <a href="#more" data-t="more"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>เพิ่มเติม</a>
+    <a href="#more" data-t="more"><svg viewBox="0 0 24 24"><path d="M4 5h7a3 3 0 013 3v12a2 2 0 00-2-2H4zM20 5h-6M20 5v13h-6"/></svg>คู่มือ</a>
   </div></nav>
 </div>
 <div id="overlay" class="overlay" hidden></div>
@@ -2551,12 +2564,12 @@ function stats(){let val=0,due=0,bad=0;D.items.forEach(i=>{const v=inv(i.id);val
 const view = $('#view');
 function parts(){return location.hash.replace(/^#/,'').split('/').filter(Boolean).map(decodeURIComponent)}
 function go(h){location.hash=h}
-const TABMAP={home:'home',scen:'home',gear:'gear',item:'gear',inv:'inv',tools:'tools',calc:'tools',more:'more',bag:'more',go:'more',stock:'more',family:'more',links:'more',about:'more'};
+const TABMAP={home:'home',sos:'sos',scen:'sos',tools:'sos',prep:'prep',go:'prep',stock:'prep',bag:'prep',family:'prep',gear:'gear',item:'gear',inv:'gear',more:'more',calc:'more',links:'more',about:'more'};
 function route(){
   const p=parts(); const r=p[0]||'home';
   closeOverlay();
   $$('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.t===TABMAP[r]));
-  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vTools,calc:vCalc,more:vMore,bag:vBag,go:vGo,stock:vStock,family:vFamily,links:vLinks,about:vAbout}[r]||vHome;
+  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vSos,sos:vSos,prep:vPrep,calc:vCalc,more:vMore,bag:vBag,go:vGo,stock:vStock,family:vFamily,links:vLinks,about:vAbout}[r]||vHome;
   view.innerHTML=f(p); window.scrollTo(0,0);
   const after=view.querySelector('[data-after]');
   if(typeof f.after==='function')f.after(p);
@@ -2567,23 +2580,24 @@ function vHome(){
   const st=stats();
   const dues=D.items.map(i=>({i,d:dueInfo(i.id)})).filter(x=>x.d&&x.d.days<=7).sort((a,b)=>a.d.days-b.d.days).slice(0,4);
   return `<div class="stack">
-  <div><h2 class="h2">เกิดเหตุ เลือกสถานการณ์</h2><p class="sub">แตะเพื่อดูขั้นตอนทีละข้อ ตัวใหญ่ ติ๊กทำเสร็จได้</p></div>
-  <div class="list">${D.scen.map((s,i)=>`<a class="big" href="#scen/${i}"><i>${i+1}</i><span>${esc(s.t)}<small>${s.steps.length} ขั้นตอน</small></span></a>`).join('')}</div>
-  <div class="stat"><div><b>${st.n}</b><span>รายการอุปกรณ์</span></div><div><b>${fmt(st.val)}</b><span>มูลค่ารวม (บาท)</span></div><div><b style="color:${st.due?'var(--danger)':'var(--ok)'}">${st.due}</b><span>ถึงกำหนดตรวจ</span></div><div><b style="color:${st.bad?'var(--warn)':'var(--ok)'}">${st.bad}</b><span>ต้องตรวจ/ซ่อม/ขาด</span></div></div>
-  ${dues.length?`<div class="card"><h3>ถึงกำหนดตรวจ</h3><div class="list" style="margin-top:8px">${dues.map(x=>`<a class="item" href="#item/${x.i.id}" style="grid-template-columns:1fr"><div><h4>${esc(x.i.name)}</h4><p>${dueText(x.d)}</p></div></a>`).join('')}</div><div class="row" style="margin-top:10px"><a class="btn sm" href="#inv">ดูทะเบียนทั้งหมด</a></div></div>`:''}
-  <div class="grid2">
-    <a class="big" href="#tools"><i>⚡</i><span>เครื่องมือเร่งด่วน<small>ไฟฉายจอ CPR นกหวีด</small></span></a>
+  <a class="sosbig" href="#sos"><i>!</i><span>เกิดเหตุตอนนี้<small>เลือกสถานการณ์ แล้วทำตามขั้นตอนทีละข้อ</small></span></a>
+  <div class="grp">เตรียมพร้อมก่อนเกิดเหตุ</div>
+  <div class="tiles">
+    <a class="big" href="#go"><i>🎒</i><span>จัดกระเป๋าอพยพ<small>80 ลิตร ×2 พิมพ์เช็กลิสต์ได้</small></span></a>
+    <a class="big" href="#stock"><i>🥫</i><span>อาหารและยา<small>คำนวณตามจำนวนคน</small></span></a>
     <a class="big" href="#family"><i>♥</i><span>บัตรครอบครัว<small>ยา จุดนัดพบ เส้นทาง</small></span></a>
-    <a class="big" href="#go"><i>🎒</i><span>รายการกระเป๋าอพยพ 80 ลิตร ×2<small>3 คน 3 วัน ปรับตามภัยและสมาชิก พิมพ์เช็กลิสต์ A4</small></span></a>
-  <a class="big" href="#stock"><i>🥫</i><span>เช็กลิสต์อาหารและยา<small>คำนวณตามจำนวนคน ติ๊ก วันหมดอายุ</small></span></a>
-  <a class="big" href="#bag"><i>🎒</i><span>เช็กลิสต์กระเป๋าอพยพ<small>ติ๊กของ รวมน้ำหนัก</small></span></a>
-    <a class="big" href="#calc"><i>∑</i><span>ตัวคำนวณ<small>ไฟ น้ำ คลอรีน ยา</small></span></a>
-  </div></div>`;
+    <a class="big" href="#inv"><i>✓</i><span>ตรวจอุปกรณ์<small>ทะเบียน วันตรวจ ปฏิทินเตือน</small></span></a>
+  </div>
+  <div class="stat"><div><b>${st.n}</b><span>รายการอุปกรณ์</span></div><div><b>${fmt(st.val)}</b><span>มูลค่ารวม (บาท)</span></div><div><b style="color:${st.due?'var(--danger)':'var(--ok)'}">${st.due}</b><span>ถึงกำหนดตรวจ</span></div><div><b style="color:${st.bad?'var(--danger)':'var(--ok)'}">${st.bad}</b><span>ต้องซ่อม/ขาด</span></div></div>
+  ${dues.length?`<div class="card"><h3>ถึงกำหนดตรวจ</h3><div class="list" style="margin-top:8px">${dues.map(x=>`<a class="item" href="#item/${x.i.id}" style="grid-template-columns:1fr"><div><h4>${esc(x.i.name)}</h4><p>${dueText(x.d)}</p></div></a>`).join('')}</div><div class="row" style="margin-top:10px"><a class="btn sm" href="#inv">ไปที่ทะเบียน</a></div></div>`:''}
+  <div class="grp">เครื่องมือด่วน</div>
+  <div class="grid3"><button class="big tl" data-act="tool" data-n="light"><i>☀</i><span>ไฟฉายจอ</span></button><button class="big tl" data-act="tool" data-n="cpr"><i>♥</i><span>จังหวะ CPR</span></button><button class="big tl" data-act="tool" data-n="siren"><i>♪</i><span>นกหวีด</span></button></div>
+  </div>`;
 }
 function vScen(p){
   const i=+p[1]||0,s=D.scen[i];if(!s)return '<p>ไม่พบสถานการณ์</p>';
   const ck=S.scen[i]||[];const done=ck.filter(Boolean).length;
-  return `<div class="stack"><a class="btn sm" href="#home">← กลับ</a>
+  return `<div class="stack"><a class="btn sm" href="#sos">← กลับ</a>
   <h2 class="h2" style="color:var(--danger)">${esc(s.t)}</h2>
   <div class="prog"><i style="width:${done/s.steps.length*100}%"></i></div><p class="note">ทำแล้ว ${done} จาก ${s.steps.length} ขั้นตอน</p>
   <div class="steps">${s.steps.map((t,k)=>`<button class="${ck[k]?'done':''}" data-act="tick" data-i="${i}" data-k="${k}"><b>${ck[k]?'✓':k+1}</b><span style="font-size:1.12rem">${esc(t)}</span></button>`).join('')}</div>
@@ -2592,7 +2606,7 @@ function vScen(p){
 }
 function vGear(p){
   let q='',sec='';if(p[1]==='q')q=p[2]||'';if(p[1]==='sec')sec=p[2]||'';
-  return `<div class="stack"><h2 class="h2">อุปกรณ์ทั้งหมด</h2>
+  return `<div class="stack"><div class="seg"><a class="on" href="#gear">ดูอุปกรณ์</a><a href="#inv">ทะเบียนและตรวจ</a></div><h2 class="h2">อุปกรณ์ทั้งหมด</h2>
   <input type="search" id="gq" placeholder="ค้นหา เช่น ชูชีพ ไฟ น้ำ" value="${esc(q)}">
   <div class="chips"><a class="chip ${!sec?'on':''}" href="#gear">ทั้งหมด</a>${D.sections.map(s=>`<a class="chip ${sec===s.id?'on':''}" href="#gear/sec/${s.id}">${esc(s.tag.split(' · ')[0])}</a>`).join('')}</div>
   <div class="list" id="glist"></div></div>`;
@@ -2624,7 +2638,7 @@ function vItem(p){
 function vInv(p){
   const st=stats();let locF=p[1]==='loc'?p[2]:'';
   const arr=D.items.filter(i=>!locF||inv(i.id).loc===locF);
-  return `<div class="stack"><h2 class="h2">ทะเบียนอุปกรณ์</h2>
+  return `<div class="stack"><div class="seg"><a href="#gear">ดูอุปกรณ์</a><a class="on" href="#inv">ทะเบียนและตรวจ</a></div><h2 class="h2">ทะเบียนอุปกรณ์</h2>
   <div class="stat"><div><b>${st.n}</b><span>รายการ</span></div><div><b>${fmt(st.val)}</b><span>มูลค่ารวม (บาท)</span></div><div><b>${st.due}</b><span>ถึงกำหนดตรวจ</span></div><div><b>${st.bad}</b><span>ต้องตรวจ/ซ่อม/ขาด</span></div></div>
   <div class="row"><button class="btn sm" data-act="csv">ส่งออก Excel (CSV)</button><button class="btn sm" data-act="ics">ไฟล์เตือนปฏิทิน (.ics)</button><button class="btn sm" data-act="qr">พิมพ์ป้าย QR กล่อง</button></div>
   <div class="row"><button class="btn sm" data-act="backup">สำรองข้อมูล</button><label class="btn sm" style="cursor:pointer">กู้คืนข้อมูล<input type="file" accept=".json,application/json" id="restore" hidden></label></div>
@@ -2635,28 +2649,54 @@ function vInv(p){
   <p class="note">ราคาเริ่มต้นเป็นราคาประมาณ แก้ไขให้ตรงกับของจริงได้ในหน้ารายการ ข้อมูลทั้งหมดเก็บในเครื่องนี้</p></div>`;
 }
 vInv.after=function(){const r=$('#restore');if(r)r.addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const fr=new FileReader();fr.onload=()=>{try{const j=JSON.parse(fr.result);if(!j||typeof j!=='object'||!j.inv)throw 0;S={...defaults(),...j};save();applySettings();toast('กู้คืนข้อมูลแล้ว');route()}catch(_){toast('ไฟล์สำรองไม่ถูกต้อง')}};fr.readAsText(f)})};
-function vTools(){
-  return `<div class="stack"><h2 class="h2">เครื่องมือเร่งด่วน</h2>
-  <div class="grid2">
+function vSos(){
+  return `<div class="stack">
+  <div><h2 class="h2" style="border-left-color:var(--danger)">เกิดเหตุ เลือกสถานการณ์</h2><p class="sub">แตะเพื่อดูขั้นตอนทีละข้อ ตัวใหญ่ ติ๊กทำเสร็จได้</p></div>
+  <div class="list">${D.scen.map((s,i)=>`<a class="big" href="#scen/${i}"><i>${i+1}</i><span>${esc(s.t)}<small>${s.steps.length} ขั้นตอน</small></span></a>`).join('')}</div>
+  <div class="grp">เครื่องมือด่วน</div>
+  <div class="tiles">
     <button class="big" data-act="tool" data-n="light"><i>☀</i><span>ไฟฉายจอ<small>ขาว แดง และสัญญาณ SOS</small></span></button>
     <button class="big" data-act="tool" data-n="cpr"><i>♥</i><span>จังหวะ CPR<small>110 ครั้งต่อนาที พร้อมเสียง</small></span></button>
     <button class="big" data-act="tool" data-n="siren"><i>♪</i><span>นกหวีดและไซเรน<small>เรียกความสนใจ ขอความช่วยเหลือ</small></span></button>
     <button class="big" data-act="tool" data-n="knots"><i>∞</i><span>เงื่อนเชือก<small>บ่วงสายธนู ผูกกระหวัด พิรอด</small></span></button>
-    <a class="big" href="#calc"><i>∑</i><span>ตัวคำนวณ<small>ไฟ น้ำ คลอรีน ยา</small></span></a>
-    <a class="big" href="#bag"><i>🎒</i><span>กระเป๋าอพยพ<small>เช็กลิสต์และน้ำหนัก</small></span></a>
   </div>
-  <div class="card"><h3>เทคนิคตามประเภทภัย</h3><div class="list" style="margin-top:8px">${D.sections.map(s=>`<a class="big" style="min-height:52px;--sec:var(--c-${s.color})" href="#more/tech/${s.id}"><i style="background:var(--c-${s.color})">${s.id[0].toUpperCase()}</i><span>${esc(s.tag.split(' · ')[0])}<small>${esc(s.tech_title)}</small></span></a>`).join('')}</div></div></div>`;
+  <div class="grp">โทรด่วน</div>
+  <div class="row"><a class="btn d" href="tel:1669">1669 การแพทย์ฉุกเฉิน</a><a class="btn d" href="tel:199">199 เพลิงไหม้</a><a class="btn d" href="tel:191">191 เหตุด่วน</a><a class="btn d" href="tel:1784">1784 ปภ.</a><a class="btn d" href="tel:1367">1367 ศูนย์พิษ</a></div>
+  <div class="grp">ข้อมูลครอบครัว</div>
+  <a class="big" href="#family"><i>♥</i><span>บัตรครอบครัวและแผนอพยพ<small>สมาชิก ยา จุดนัดพบ เส้นทาง ศูนย์พักพิง</small></span></a>
+  </div>`;
 }
-function vTech(p){const s=SECS[p[2]];if(!s)return '<p>ไม่พบ</p>';return `<div class="stack" style="--sec:var(--c-${s.color})"><a class="btn sm" href="#tools">← กลับ</a><div><span class="badge">${esc(s.tag)}</span><h2 class="h2" style="margin-top:8px">${esc(s.tech_title)}</h2><p class="sub">${esc(s.intro)}</p></div>${s.tech.map(t=>`<div class="card"><h3>${esc(t[0])}</h3><p style="margin:6px 0 0">${esc(t[1])}</p></div>`).join('')}<a class="btn" href="#gear/sec/${s.id}">ดูอุปกรณ์ในหมวดนี้</a></div>`}
+function vPrep(){
+  const st=stats();
+  return `<div class="stack"><h2 class="h2">เตรียมพร้อม</h2><p class="sub">จัดของ วางแผน และตรวจอุปกรณ์ล่วงหน้า</p>
+  <div class="grp">1 · จัดกระเป๋าอพยพ</div>
+  <div class="list">
+    <a class="big" href="#go"><i>🎒</i><span>รายการกระเป๋า 80 ลิตร ×2<small>เลือกสถานการณ์ จำนวนคน เพิ่มของเอง พิมพ์ A4</small></span></a>
+    <a class="big" href="#bag"><i>⚖</i><span>เช็กลิสต์เป้ใบเดียว<small>ติ๊กของ รวมน้ำหนัก เทียบน้ำหนักตัว</small></span></a>
+  </div>
+  <div class="grp">2 · อาหารและยา</div>
+  <div class="list"><a class="big" href="#stock"><i>🥫</i><span>เช็กลิสต์อาหารและยา<small>คำนวณตามคน/วัน ใส่วันหมดอายุ</small></span></a></div>
+  <div class="grp">3 · วางแผนครอบครัว</div>
+  <div class="list"><a class="big" href="#family"><i>♥</i><span>บัตรครอบครัวและแผนอพยพ<small>สมาชิก ยา จุดนัดพบ ศูนย์พักพิง พิมพ์บัตร</small></span></a></div>
+  <div class="grp">4 · ตรวจและดูแลอุปกรณ์</div>
+  <div class="list"><a class="big" href="#inv"><i>✓</i><span>ทะเบียนและการตรวจ<small>${st.due?`ถึงกำหนดตรวจ ${st.due} รายการ`:'ยังไม่มีรายการถึงกำหนด'} · ส่งออก Excel · ปฏิทินเตือน</small></span></a></div>
+  </div>`;
+}
+
+function vTech(p){const s=SECS[p[2]];if(!s)return '<p>ไม่พบ</p>';return `<div class="stack" style="--sec:var(--c-${s.color})"><a class="btn sm" href="#more">← กลับ</a><div><span class="badge">${esc(s.tag)}</span><h2 class="h2" style="margin-top:8px">${esc(s.tech_title)}</h2><p class="sub">${esc(s.intro)}</p></div>${s.tech.map(t=>`<div class="card"><h3>${esc(t[0])}</h3><p style="margin:6px 0 0">${esc(t[1])}</p></div>`).join('')}<a class="btn" href="#gear/sec/${s.id}">ดูอุปกรณ์ในหมวดนี้</a></div>`}
 function vMore(p){
   if(p[1]==='tech')return vTech(p);
-  return `<div class="stack"><h2 class="h2">เพิ่มเติม</h2><div class="list">
-  <a class="big" href="#family"><i>♥</i><span>บัตรครอบครัวและแผนอพยพ<small>สมาชิก ยา จุดนัดพบ ศูนย์พักพิง</small></span></a>
-  <a class="big" href="#bag"><i>🎒</i><span>กระเป๋าอพยพ<small>ติ๊กของ รวมน้ำหนัก</small></span></a>
-  <a class="big" href="#calc"><i>∑</i><span>ตัวคำนวณ<small>แบตสำรอง น้ำ คลอรีน ยา</small></span></a>
-  <a class="big" href="#links"><i>↗</i><span>ข้อมูลสถานการณ์และลิงก์<small>น้ำ ฝน ปภ. กรมอุตุฯ</small></span></a>
-  <a class="big" href="#about"><i>i</i><span>เกี่ยวกับ ติดตั้ง ใช้ออฟไลน์<small>เวอร์ชัน แหล่งอ้างอิง พิมพ์</small></span></a></div></div>`;
+  return `<div class="stack"><h2 class="h2">คู่มือและข้อมูล</h2>
+  <div class="grp">เทคนิคตามประเภทภัย</div>
+  <div class="list">${D.sections.map(s=>`<a class="big" style="--sec:var(--c-${s.color})" href="#more/tech/${s.id}"><i style="background:var(--c-${s.color})">${s.id[0].toUpperCase()}</i><span>${esc(s.tech_title)}<small>${esc(s.tag.split(' · ')[0])}</small></span></a>`).join('')}</div>
+  <div class="grp">เครื่องคำนวณ</div>
+  <div class="list"><a class="big" href="#calc"><i>∑</i><span>ตัวคำนวณ<small>แบตสำรอง น้ำ คลอรีน ยา</small></span></a></div>
+  <div class="grp">ข้อมูลสถานการณ์</div>
+  <div class="list"><a class="big" href="#links"><i>↗</i><span>ข้อมูลสถานการณ์และลิงก์<small>น้ำ ฝน ปภ. กรมอุตุฯ ศูนย์พักพิง</small></span></a></div>
+  <div class="grp">เกี่ยวกับแอป</div>
+  <div class="list"><a class="big" href="#about"><i>i</i><span>ติดตั้ง ใช้ออฟไลน์ พิมพ์<small>เวอร์ชัน แหล่งอ้างอิง บันทึกไฟล์ออฟไลน์</small></span></a></div></div>`;
 }
+
 function vStock(){
   const st=S.stock=Object.assign({n:4,days:7,c:{},e:{}},S.stock||{});
   const n=Math.max(1,+st.n||1),days=Math.max(1,+st.days||1);
@@ -2700,7 +2740,7 @@ function vStock(){
     return `<div class="card" style="padding:10px 12px"><button class="${st.c[id]?'done':''}" data-act="stk" data-id="${id}" style="all:unset;display:flex;gap:10px;align-items:flex-start;cursor:pointer;width:100%"><b style="min-width:22px;height:22px;border:2px solid currentColor;border-radius:5px;text-align:center;line-height:20px">${st.c[id]?'✓':''}</b><span style="flex:1"><b>${esc(x[0])}</b>${need?`<br><span class="note">ควรมี ≈ ${need} ${x[2]}</span>`:''}<br><span class="note">${esc(x[3])}</span></span></button>
     <label class="f" style="margin-top:6px">วันหมดอายุ</label><input type="date" data-stk="${id}" value="${esc(ex)}">${late?'<p class="warn" style="margin:6px 0 0">หมดอายุแล้ว ควรเปลี่ยน</p>':''}</div>`}).join('');
   const done=(k,l)=>l.filter((x,i)=>st.c[k+i]).length;
-  return `<div class="stack"><a class="btn sm" href="#more">← กลับ</a><h2 class="h2">เช็กลิสต์อาหารและยา</h2>
+  return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">เช็กลิสต์อาหารและยา</h2>
   <div class="card"><label class="f">จำนวนคนในบ้าน</label><input type="number" min="1" data-stkn="n" value="${esc(st.n)}">
   <label class="f">จำนวนวันที่เตรียม</label><input type="number" min="1" data-stkn="days" value="${esc(st.days)}">
   <p class="note" style="margin:8px 0 0">แนะนำอย่างน้อย 3 วัน และควร 7 วัน ปริมาณที่แสดงเป็นค่าประมาณตั้งต้น ปรับตามคนในบ้านได้</p></div>
@@ -2853,7 +2893,7 @@ function vGo(){
     return `<div class="card"><h3>กระเป๋าใบที่ ${bi+1} · 80 ลิตร</h3>${rows.map(r=>`<h4 style="margin:12px 0 4px;font-size:.95rem;color:var(--accent)">${esc(r.c)}</h4>`+r.rs.map(a=>{const q=p.bags[bi].rows[a.id],key=a.id+'_'+bi,done=!!g.c[key];
       return `<div class="gorow" style="display:flex;gap:6px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--line)"><button data-act="gotick" data-id="${a.id}" data-b="${bi}" style="all:unset;cursor:pointer;display:flex;gap:8px;flex:1;min-width:0"><b style="min-width:22px;height:22px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:19px;flex:none">${done?'✓':''}</b><span style="${done?'opacity:.55;text-decoration:line-through':''}">${esc(a.name)} <b>×${q} ${esc(a.unit)}</b>${a.note?`<br><span class="note">${esc(a.note)}</span>`:''}</span></button><span class="note" style="white-space:nowrap">${fmt(a.kg*q)} กก.</span><button class="chip" data-act="gomove" data-id="${a.id}" data-b="${bi}" title="ย้ายไปอีกใบ">⇄</button><button class="chip" data-act="gooff" data-id="${a.id}" title="ถอดออก">✕</button></div>`}).join('')).join('')||'<p class="note">ยังไม่มีรายการ</p>'}</div>`};
   const extra=p.optList.concat(p.offList);
-  return `<div class="stack"><a class="btn sm" href="#more">← กลับ</a><h2 class="h2">รายการกระเป๋าอพยพ 80 ลิตร × 2</h2>
+  return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">รายการกระเป๋าอพยพ 80 ลิตร × 2</h2>
   <p class="sub">ตั้งจำนวนคน วัน และสถานการณ์ แอปจะคำนวณรายการและแบ่งน้ำหนักสองใบให้ ติ๊กเมื่อใส่แล้ว ย้ายหรือถอดของได้ และพิมพ์เป็นเช็กลิสต์ได้</p>
   <div class="card"><label class="f">1) เลือกสถานการณ์ (แตะแล้วแอปจัดรายการให้ ปรับต่อได้)</label><div class="row">${GO_PRE.map(x=>chip(g.pre===x.k,'gopre',x.k,x.l)).join('')}</div>
   <label class="f">2) จำนวนคนที่อพยพ</label>${stp('n',1,12)}<div class="row" style="margin-top:6px">${[1,2,3,4,5,6,7,8].map(v=>chip(+g.n===v,'goset','n',v+' คน').replace('data-k="n"','data-k="n" data-v="'+v+'"')).join('')}</div>
@@ -2886,7 +2926,7 @@ function vBag(){
   const w=i=>S.bag.w[i]??BAG[i][1];
   let tot=0;BAG.forEach((b,i)=>{if(S.bag.checked[i])tot+=+w(i)});
   const body=+S.bag.body;const pct=body?tot/body*100:0;
-  return `<div class="stack"><a class="btn sm" href="#more">← กลับ</a><h2 class="h2">เช็กลิสต์กระเป๋าอพยพ</h2>
+  return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">เช็กลิสต์กระเป๋าอพยพ</h2>
   <div class="card"><div class="stat"><div><b id="bagtot">${fmt(tot)}</b><span>กก. ที่ติ๊กแล้ว</span></div><div><b>${BAG.filter((b,i)=>S.bag.checked[i]).length}/${BAG.length}</b><span>รายการ</span></div></div>
   <label class="f">น้ำหนักตัวผู้แบก (กก.)</label><input type="number" min="0" data-bag="body" value="${esc(S.bag.body)}" placeholder="เช่น 60">
   ${body?`<p class="${pct>25?'warn':'note'}" style="margin:8px 0 0">${fmt(pct)}% ของน้ำหนักตัว ${pct>25?'หนักเกิน 25% ควรลดหรือแบ่งคนช่วยแบก':'อยู่ในเกณฑ์ที่เดินได้'}</p>`:''}</div>
@@ -2896,7 +2936,7 @@ function vBag(){
 }
 function vFamily(){
   const f=S.fam;
-  return `<div class="stack"><a class="btn sm" href="#more">← กลับ</a><h2 class="h2">บัตรครอบครัวและแผนอพยพ</h2>
+  return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">บัตรครอบครัวและแผนอพยพ</h2>
   <div class="warn">ข้อมูลสุขภาพเก็บเฉพาะในเครื่องนี้ ไม่ส่งขึ้นอินเทอร์เน็ต อย่าแชร์ภาพบัตรให้คนที่ไม่เกี่ยวข้อง</div>
   <div class="card"><h3>สมาชิก</h3><div id="mem">${f.members.map((m,k)=>memberForm(m,k)).join('')}</div><div class="row" style="margin-top:10px"><button class="btn sm" data-act="addmem">+ เพิ่มสมาชิก</button></div></div>
   <div class="card"><h3>แผนอพยพ</h3>
@@ -2913,7 +2953,7 @@ function vFamily(){
 const memberForm=(m,k)=>`<div style="border-top:1px solid var(--line);padding-top:8px;margin-top:8px"><div class="two"><div><label class="f">ชื่อ</label><input type="text" data-mem="${k}" data-k="n" value="${esc(m.n)}"></div><div><label class="f">อายุ / กรุ๊ปเลือด</label><input type="text" data-mem="${k}" data-k="a" value="${esc(m.a)}"></div></div><label class="f">โรคประจำตัว / แพ้ยา</label><input type="text" data-mem="${k}" data-k="c" value="${esc(m.c)}"><label class="f">ยาที่ใช้ประจำ</label><input type="text" data-mem="${k}" data-k="d" value="${esc(m.d)}"><label class="f">เบอร์ติดต่อ</label><input type="text" data-mem="${k}" data-k="p" value="${esc(m.p)}"><div class="row" style="margin-top:6px"><button class="btn sm" data-act="delmem" data-k="${k}">ลบ</button></div></div>`;
 function vCalc(){
   const bags=inv('water3').qty*8;
-  return `<div class="stack"><a class="btn sm" href="#tools">← กลับ</a><h2 class="h2">ตัวคำนวณ</h2>
+  return `<div class="stack"><a class="btn sm" href="#more">← กลับ</a><h2 class="h2">ตัวคำนวณ</h2>
   <div class="card"><h3>1. ไฟสำรอง: ใช้ได้กี่ชั่วโมง</h3>
     <div class="two"><div><label class="f">ความจุแบต (Wh)</label><input type="number" id="pw_wh" min="0" placeholder="ดูที่ป้ายเครื่อง"></div><div><label class="f">กำลังไฟอุปกรณ์ (W)</label><input type="number" id="pw_w" min="0" placeholder="เช่น 10"></div></div>
     <label class="f">เลือกอุปกรณ์ทั่วไป</label><select id="pw_dev"><option value="">เลือกเพื่อกรอกวัตต์</option><option value="10">ชาร์จมือถือ ~10 W</option><option value="5">วิทยุ ~5 W</option><option value="10">โคมไฟ LED ~10 W</option><option value="40">พัดลมตั้งโต๊ะ ~40 W</option><option value="60">ชาร์จโน้ตบุ๊ก ~60 W</option><option value="40">เครื่องช่วยหายใจ/ออกซิเจนขนาดเล็ก ~40 W (ดูป้ายเครื่อง)</option></select>
