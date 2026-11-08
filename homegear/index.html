@@ -2572,12 +2572,12 @@ function stats(){let val=0,due=0,bad=0;D.items.forEach(i=>{const v=inv(i.id);val
 const view = $('#view');
 function parts(){return location.hash.replace(/^#/,'').split('/').filter(Boolean).map(decodeURIComponent)}
 function go(h){location.hash=h}
-const TABMAP={home:'home',sos:'sos',scen:'sos',tools:'sos',prep:'prep',go:'prep',stock:'prep',bag:'prep',family:'prep',shop:'prep',recv:'prep',gear:'gear',item:'gear',inv:'gear',more:'more',calc:'more',links:'more',about:'more'};
+const TABMAP={home:'home',sos:'sos',scen:'sos',tools:'sos',prep:'prep',go:'prep',stock:'prep',bag:'prep',family:'prep',shop:'prep',recv:'prep',pack:'prep',gear:'gear',item:'gear',inv:'gear',more:'more',calc:'more',links:'more',about:'more'};
 function route(){
   const p=parts(); const r=p[0]||'home';
   closeOverlay();
   $$('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.t===TABMAP[r]));
-  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vSos,sos:vSos,prep:vPrep,calc:vCalc,more:vMore,bag:vBag,go:vGo,stock:vStock,family:vFamily,shop:vShop,recv:vRecv,links:vLinks,about:vAbout}[r]||vHome;
+  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vSos,sos:vSos,prep:vPrep,calc:vCalc,more:vMore,bag:vPack,go:vGo,stock:vStock,family:vFamily,shop:vShop,recv:vRecv,pack:vPack,links:vLinks,about:vAbout}[r]||vHome;
   view.innerHTML=f(p); window.scrollTo(0,0);const sc=$('#scroller');if(sc)sc.scrollTop=0;
   const after=view.querySelector('[data-after]');
   if(typeof f.after==='function')f.after(p);
@@ -2592,7 +2592,7 @@ function vHome(){
   ${(matchMedia('(display-mode: standalone)').matches||navigator.standalone)?'':`<div class="card" style="border-color:var(--danger)"><h3>📲 ติดตั้งแอป · ใช้งานออฟไลน์</h3><p class="sub">ติดตั้งแล้วเปิดได้แม้ไม่มีเน็ตหรือไฟดับ</p><div class="row" style="margin-top:8px"><button class="btn p" id="btnInstall" hidden>ติดตั้งแอปลงหน้าจอ</button><button class="btn" data-act="saveoff">⬇ ดาวน์โหลดไฟล์ออฟไลน์ (HTML)</button></div><p class="note" style="margin:8px 0 0">${/iphone|ipad|ipod/i.test(navigator.userAgent)?'iPhone: แตะปุ่มแชร์ แล้วเลือก "เพิ่มไปยังหน้าจอโฮม"':'ไม่เห็นปุ่มติดตั้ง? ใช้เมนูเบราว์เซอร์ → "ติดตั้งแอป" หรือ "เพิ่มไปยังหน้าจอหลัก"'}</p></div>`}
   <div class="grp">เตรียมพร้อมก่อนเกิดเหตุ</div>
   <div class="tiles">
-    <a class="big" href="#go"><i>🎒</i><span>จัดกระเป๋าอพยพ<small>80 ลิตร ×2 พิมพ์เช็กลิสต์ได้</small></span></a>
+    <a class="big" href="#pack"><i>🎒</i><span>จัดกระเป๋าจริงของฉัน<small>6 ใบ แบ่งของตามความจุ 3/7 วัน เดินเท้า/รถ ติ๊กเช็ก PDF</small></span></a>
     <a class="big" href="#stock"><i>🥫</i><span>อาหารและยา<small>คำนวณตามจำนวนคน</small></span></a>
     <a class="big" href="#family"><i>♥</i><span>บัตรครอบครัว<small>ยา จุดนัดพบ เส้นทาง</small></span></a>
     <a class="big" href="#inv"><i>✓</i><span>ตรวจอุปกรณ์<small>ทะเบียน วันตรวจ ปฏิทินเตือน</small></span></a>
@@ -2685,8 +2685,7 @@ function vPrep(){
   return `<div class="stack"><h2 class="h2">เตรียมพร้อม</h2><p class="sub">จัดของ วางแผน และตรวจอุปกรณ์ล่วงหน้า</p>
   <div class="grp">1 · จัดกระเป๋าอพยพ</div>
   <div class="list">
-    <a class="big" href="#go"><i>🎒</i><span>รายการกระเป๋า 80 ลิตร ×2<small>เลือกสถานการณ์ จำนวนคน เพิ่มของเอง พิมพ์ A4</small></span></a>
-    <a class="big" href="#bag"><i>⚖</i><span>เช็กลิสต์เป้ใบเดียว<small>ติ๊กของ รวมน้ำหนัก เทียบน้ำหนักตัว</small></span></a>
+    <a class="big" href="#pack"><i>🎒</i><span>จัดกระเป๋าจริงของฉัน<small>แบ่งของลงกระเป๋าแต่ละใบ ติ๊กเช็ก พิมพ์ PDF ป้ายติดกระเป๋า</small></span></a>
   </div>
   <div class="grp">2 · อาหารและยา</div>
   <div class="list"><a class="big" href="#stock"><i>🥫</i><span>เช็กลิสต์อาหารและยา<small>คำนวณตามคน/วัน ใส่วันหมดอายุ</small></span></a></div>
@@ -2912,14 +2911,9 @@ function vGo(){
   const chip=(on,act,k,l)=>`<button class="chip ${on?'on':''}" data-act="${act}" data-k="${k}" style="${on?'background:var(--accent-bg);color:#fff;border-color:var(--accent-bg)':''}">${on?'✓ ':''}${esc(l)}</button>`;
   const stp=(k,mn,mx)=>`<div class="row" style="align-items:center;gap:10px"><button class="chip" data-act="gostep" data-k="${k}" data-d="-1" aria-label="ลด" style="min-width:44px;font-size:1.2rem">−</button><b style="min-width:2.2ch;text-align:center;font:700 1.4rem var(--f-d)">${esc(g[k])}</b><button class="chip" data-act="gostep" data-k="${k}" data-d="1" aria-label="เพิ่ม" style="min-width:44px;font-size:1.2rem">＋</button></div>`;
   const inp=(k,l,min=0,step=1)=>`<div><label class="f">${l}</label><input type="number" min="${min}" step="${step}" data-go="${k}" value="${esc(g[k])}"></div>`;
-  const sum=[0,1].map(i=>{const t=goTotals(p.bags[i],g,i);const over=t.lim&&t.kg>t.lim;const full=t.L>80;
-    return `<div class="card" style="padding:10px"><b>กระเป๋า ${i+1}</b><div class="stat" style="margin-top:6px"><div><b>${fmt(t.kg)}</b><span>กก.${t.lim?` (เกณฑ์ ≤ ${fmt(t.lim)})`:''}</span></div><div><b>${fmt(t.L)}</b><span>ลิตร จาก 80</span></div></div>${over?'<p class="warn" style="margin:6px 0 0">หนักเกิน 25% ของน้ำหนักผู้แบก ลดน้ำ/ของเสริม หรือย้ายไปใบอื่น</p>':''}${full?'<p class="warn" style="margin:6px 0 0">ปริมาตรเกิน 80 ลิตร ถอดของเสริมออก</p>':''}</div>`}).join('');
-  const bagCard=bi=>{const rows=goRows(null,bi,p);
-    return `<div class="card"><h3>กระเป๋าใบที่ ${bi+1} · 80 ลิตร</h3>${rows.map(r=>`<h4 style="margin:12px 0 4px;font-size:.95rem;color:var(--accent)">${esc(r.c)}</h4>`+r.rs.map(a=>{const q=p.bags[bi].rows[a.id],key=a.id+'_'+bi,done=!!g.c[key];
-      return `<div class="gorow" style="display:flex;gap:6px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--line)"><button data-act="gotick" data-id="${a.id}" data-b="${bi}" style="all:unset;cursor:pointer;display:flex;gap:8px;flex:1;min-width:0"><b style="min-width:22px;height:22px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:19px;flex:none">${done?'✓':''}</b><span style="${done?'opacity:.55;text-decoration:line-through':''}">${esc(a.name)} <b>×${q} ${esc(a.unit)}</b>${a.note?`<br><span class="note">${esc(a.note)}</span>`:''}</span></button><span class="note" style="white-space:nowrap">${fmt(a.kg*q)} กก.</span><button class="chip" data-act="gomove" data-id="${a.id}" data-b="${bi}" title="ย้ายไปอีกใบ">⇄</button><button class="chip" data-act="gooff" data-id="${a.id}" title="ถอดออก">✕</button></div>`}).join('')).join('')||'<p class="note">ยังไม่มีรายการ</p>'}</div>`};
   const extra=p.optList.concat(p.offList);
-  return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">รายการกระเป๋าอพยพ 80 ลิตร × 2</h2>
-  <p class="sub">ตั้งจำนวนคน วัน และสถานการณ์ แอปจะคำนวณรายการและแบ่งน้ำหนักสองใบให้ ติ๊กเมื่อใส่แล้ว ย้ายหรือถอดของได้ และพิมพ์เป็นเช็กลิสต์ได้</p>
+  return `<div class="stack"><a class="btn sm" href="#pack">← กลับไปจัดกระเป๋า</a><h2 class="h2">ตั้งค่ารายการกระเป๋า</h2>
+  <p class="sub">เลือกสถานการณ์ จำนวนคน วัน น้ำ และภัยที่เตรียมรับ แล้วกลับไปหน้าจัดกระเป๋า แอปจะแบ่งของลงกระเป๋าแต่ละใบให้</p>
   <div class="card"><label class="f">1) เลือกสถานการณ์ (แตะแล้วแอปจัดรายการให้ ปรับต่อได้)</label><div class="row">${GO_PRE.map(x=>chip(g.pre===x.k,'gopre',x.k,x.l)).join('')}</div>
   <label class="f">2) จำนวนคนที่อพยพ</label>${stp('n',1,12)}<div class="row" style="margin-top:6px">${[1,2,3,4,5,6,7,8].map(v=>chip(+g.n===v,'goset','n',v+' คน').replace('data-k="n"','data-k="n" data-v="'+v+'"')).join('')}</div>
   <label class="f">จำนวนวัน</label>${stp('days',1,30)}<div class="row" style="margin-top:6px">${[1,2,3,5,7,14].map(v=>chip(+g.days===v,'goset','days',v+' วัน').replace('data-k="days"','data-k="days" data-v="'+v+'"')).join('')}</div>
@@ -2927,10 +2921,8 @@ function vGo(){
   <label class="f">วิธีอพยพ</label><div class="row">${chip(g.mode==='walk','gomode','walk','เดินเท้า/ขนส่งสาธารณะ')}${chip(g.mode==='car','gomode','car','ขับรถ (เพิ่มของหนักได้)')}</div>
   <label class="f">ภัยที่เตรียมรับ (เลือกได้หลายอย่าง)</label><div class="row">${Object.keys(GO_HZ).map(k=>chip(g.hz[k],'gohz',k,GO_HZ[k])).join('')}</div>
   <label class="f">สมาชิกพิเศษ (จำนวนคนในกลุ่มนี้)</label><div class="grid2">${Object.keys(GO_SP).map(k=>`<div><span class="note">${GO_SP[k]}</span>${stp(k,0,+g.n||1)}</div>`).join('')}</div>
-  <label class="f">น้ำหนักตัวผู้แบก (กก.) และสัดส่วนที่แบกได้ (% ของน้ำหนักตัว)</label><div class="grid2"><div><input type="number" min="0" data-gob="0" value="${esc(g.body[0])}" aria-label="ผู้แบกใบ 1"></div><div><input type="number" min="0" data-gob="1" value="${esc(g.body[1])}" aria-label="ผู้แบกใบ 2"></div></div><div class="grid2" style="margin-top:6px"><div><input type="number" min="5" max="30" data-gop="0" value="${esc((g.pct||[25,25])[0])}" aria-label="เปอร์เซ็นต์ผู้แบกใบ 1"></div><div><input type="number" min="5" max="30" data-gop="1" value="${esc((g.pct||[25,25])[1])}" aria-label="เปอร์เซ็นต์ผู้แบกใบ 2"></div></div><p class="note" style="margin:4px 0 0">ปกติไม่เกิน 25% ผู้สูงอายุ ผู้มีโรคประจำตัว หรือต้องเดินไกลควรลดเป็น 10–20%</p></div>
-  <div class="grid2">${sum}</div>
-  <div class="row"><button class="btn p" data-act="goprint">📄 ส่งออก PDF / พิมพ์ A4</button><button class="btn sm" data-act="goreset">ล้างการติ๊ก</button><button class="btn sm" data-act="gofull">ตั้งค่าเริ่มต้นใหม่</button></div>
-  ${bagCard(0)}${bagCard(1)}
+  <div class="row" style="margin-top:10px"><a class="btn p" href="#pack">🎒 ไปจัดลงกระเป๋าจริง →</a></div></div>
+  <div class="row"><button class="btn sm" data-act="gofull">ตั้งค่าเริ่มต้นใหม่</button></div>
   ${extra.length?`<div class="card"><h3>รายการเสริมและที่ถอดออก</h3><p class="note">แตะเพื่อเพิ่มเข้ากระเป๋า</p><div class="row" style="margin-top:6px">${extra.map(r=>`<button class="chip" data-act="goon" data-id="${r[0]}">＋ ${esc(r[2].slice(0,34))}</button>`).join('')}</div></div>`:''}
   <div class="card" id="gxcard"><h3>＋ เพิ่มของเอง (นอกเหนือจากรายการในแอป)</h3><p class="note">ใส่ได้ทุกอย่าง จะถูกนับน้ำหนัก ปริมาตร และแสดงในเช็กลิสต์ที่พิมพ์</p><div class="grid2"><div><label class="f">ชื่อของ</label><input id="gx_n" placeholder="เช่น ยานวด ของเล่น ขนมโปรด"></div><div><label class="f">จำนวน</label><input id="gx_q" type="number" min="1" step="1" value="1"></div><div><label class="f">หน่วย</label><input id="gx_u" placeholder="ชิ้น" value="ชิ้น"></div><div><label class="f">น้ำหนักต่อหน่วย (กก.)</label><input id="gx_k" type="number" min="0" step=".05" value="0.2"></div><div><label class="f">ปริมาตรต่อหน่วย (ลิตร)</label><input id="gx_l" type="number" min="0" step=".1" value="0.3"></div><div><label class="f">หมวด</label><select id="gx_c">${GO_CATS.map((c,i)=>`<option value="${i}"${i===10?' selected':''}>${esc(c)}</option>`).join('')}</select></div><div><label class="f">ใส่กระเป๋า</label><select id="gx_b"><option value="0">ให้แอปจัดให้</option><option value="1">ใบที่ 1</option><option value="2">ใบที่ 2</option></select></div></div><div class="row" style="margin-top:8px"><button class="btn sm p" data-act="goadd">เพิ่มรายการ</button></div>${g.x.length?`<div class="row" style="margin-top:8px">${g.x.map((x,i)=>`<button class="chip" data-act="godelx" data-k="${i}">✕ ${esc(x.n)} ×${esc(x.q||1)}</button>`).join('')}</div>`:''}</div>
   <p class="note">น้ำหนักและปริมาตรเป็นค่าประมาณเพื่อวางแผน ปริมาตรคิดเผื่อ 15% สำหรับช่องว่างตอนจัดกระเป๋า ของที่มีในทะเบียนมีหมายเหตุกำกับ ตรวจจำนวนจริงอีกครั้งก่อนออกเดินทาง</p></div>`;
@@ -3198,6 +3190,137 @@ function recvSave(){
   PH[o.id]=RT.photos.slice();savePH();save();toast('บันทึกรับเข้าแล้ว');go('#recv')}
 function recvDel(){if(!RT.rid||!window.confirm('ลบรายการรับเข้านี้?'))return;S.recv=S.recv.filter(x=>x.id!==RT.rid);Object.keys(S.shop.have).forEach(k=>{if(S.shop.have[k]===RT.rid)delete S.shop.have[k]});delete PH[RT.rid];savePH();save();go('#recv')}
 function recvCsv(){const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';const rows=[['ชื่อ','หมวด','จำนวน','หน่วย','ราคา/หน่วย','รวม','วันที่รับเข้า','ร้าน','ยี่ห้อ/รุ่น','เลขเครื่อง','หมดอายุ','ที่เก็บ','สถานะ','หมายเหตุ']].concat(S.recv.map(o=>[o.name,SHOP_CATS[o.cat]||'',o.qty,o.unit,o.price,(+o.qty||0)*(+o.price||0),o.date,o.store,o.model,o.serial,o.exp,o.loc,STATUS[o.status]||'',o.note]));dl('homegear-recv-'+iso(new Date())+'.csv','﻿'+rows.map(r=>r.map(q).join(',')).join('\r\n'),'text/csv;charset=utf-8')}
+/* ---------- จัดกระเป๋าจริง ---------- */
+const PK_IMG={camo:'img/s_bag_camo.jpg',olive:'img/s_bag_olive.jpg',red:'img/s_bag_red.jpg',org:'img/s_bag_org.jpg'};
+const PK_Z=['ผูกด้านนอก','หยิบเร็ว (ช่องบน ช่องหน้า)','กลางแนบหลัง (ของหนัก)','ก้นกระเป๋า (เบา เทอะทะ)'];
+function keepRoute(){const s=$('#scroller'),y=s?s.scrollTop:0;route();if(s)s.scrollTop=y}
+function pkDefBags(){return [
+ {id:'b1',n:'เป้พรางดิจิทัล #1',l:80,img:'camo',who:0},
+ {id:'b2',n:'เป้พรางดิจิทัล #2',l:80,img:'camo',who:-1},
+ {id:'b3',n:'เป้เขียว',l:60,img:'olive',who:2},
+ {id:'b4',n:'กระเป๋าแดง (ปฐมพยาบาล)',l:30,img:'red',who:2,grab:1},
+ {id:'b5',n:'เป้ส้ม EVEVEME #1',l:80,img:'org',who:1},
+ {id:'b6',n:'เป้ส้ม EVEVEME #2',l:80,img:'org',who:-1}]}
+function packS(){
+  if(!S.pack)S.pack={};const P=S.pack;
+  if(!P.carriers)P.carriers=[{n:'ลูก',kg:100,pct:25},{n:'พ่อ',kg:88,pct:20},{n:'แม่',kg:46,pct:25}];
+  if(!P.bags)P.bags=pkDefBags();
+  P.mv=P.mv||{};P.c=P.c||{};P.w=P.w||{};P.date=P.date||'';P.q=P.q||0;return P}
+const pkGrab=a=>a.fl.includes('pin1')||a.cat===0||a.cat===3||/^x\d/.test(a.id)||['c3','c6','c1'].includes(a.id);
+const pkTier=a=>pkGrab(a)?0:a.fl.includes('opt')?3:(a.cat===1||a.cat===2)?2:1;
+function pkZone(a){
+  if(a.fl.includes('ext'))return 0;
+  if(pkGrab(a)||['b2','b3','b7','hr1','hr2','hr3'].includes(a.id))return 1;
+  if(a.cat===6||a.id==='hf2')return 3;
+  if(a.cat===5&&a.kg<1.5)return 1;
+  return 2}
+function pkPlan(){
+  const g=goS(),P=packS(),p=goPlan(),walk=g.mode==='walk';
+  const ok=b=>!walk||(b.who>=0&&P.carriers[b.who]);
+  const bags=P.bags.filter(ok).map(b=>({b,id:b.id,kg:0,L:0,rows:{},who:walk?b.who:-1}));
+  const carry=P.carriers.map(()=>0);
+  const lim=ci=>(+P.carriers[ci].kg||0)*(+P.carriers[ci].pct||25)/100;
+  const kgOf=a=>a.fl.includes('wear')?0:a.kg,lOf=a=>a.fl.includes('ext')?0:a.L*1.15;
+  const put=(a,x)=>{x.rows[a.id]=(x.rows[a.id]||0)+1;const k=kgOf(a);x.kg+=k;if(x.who>=0)carry[x.who]+=k;x.L+=lOf(a)};
+  const fits=(a,x)=>{if(x.L+lOf(a)>x.b.l+1e-9)return false;const k=kgOf(a);if(x.who>=0)return carry[x.who]+k<=lim(x.who)+1e-9;if(!walk)return x.kg+k<=x.b.l*.3+1e-9;return true};
+  const score=x=>x.who>=0?carry[x.who]/(lim(x.who)||1):x.kg/(x.b.l*.3);
+  const units=[];let needKg=0,needL=0;
+  p.act.forEach(a=>{const n=a.fl.includes('one')?1:Math.max(1,Math.ceil(a.q));for(let i=0;i<n;i++){units.push({a,t:pkTier(a)});needKg+=kgOf(a);needL+=lOf(a)}});
+  units.sort((m,n)=>m.t-n.t||n.a.kg-m.a.kg);
+  const un={};
+  units.forEach(u=>{const a=u.a;let x=null;const mv=P.mv[a.id];if(mv)x=bags.find(y=>y.id===mv)||null;
+    if(!x&&u.t===0){const gb=bags.find(y=>y.b.grab);if(gb&&fits(a,gb))x=gb}
+    if(!x){const c=bags.filter(y=>fits(a,y));if(c.length){c.sort((m,n)=>score(m)-score(n)||(n.b.l-n.L)-(m.b.l-m.L));x=c[0]}}
+    if(x)put(a,x);else un[a.id]=(un[a.id]||0)+1});
+  const byId=Object.fromEntries(p.act.map(a=>[a.id,a]));
+  const unList=Object.keys(un).map(id=>({a:byId[id],n:un[id]}));
+  const unKg=unList.reduce((s,u)=>s+kgOf(u.a)*u.n,0);
+  const rowsTot=bags.reduce((s,x)=>s+Object.keys(x.rows).length,0);
+  const ticked=bags.reduce((s,x)=>s+Object.keys(x.rows).filter(id=>P.c[id+'_'+x.id]).length,0);
+  return {g,P,p,walk,bags,carry,lim,un:unList,unKg,needKg,needL,capL:bags.reduce((s,x)=>s+x.b.l,0),rowsTot,ticked,byId,
+    placedKg:bags.reduce((s,x)=>s+x.kg,0),placedL:bags.reduce((s,x)=>s+x.L,0)}
+}
+function pkSvg(pct,uid,w){
+  const c=pct>100?'#E10600':pct>85?'#F2A900':'#2E9E5B';const h=Math.max(0,Math.min(100,pct));const y=114-100*h/100;
+  const sh='M22 30Q22 14 50 14Q78 14 78 30L86 102Q87 114 74 114L26 114Q13 114 14 102Z';
+  return `<svg viewBox="0 0 100 124" width="${w||54}" aria-hidden="true" style="flex:none"><defs><clipPath id="pk${uid}"><path d="${sh}"/></clipPath></defs><path d="M38 14Q38 4 50 4Q62 4 62 14" fill="none" stroke="currentColor" stroke-width="5"/><g clip-path="url(#pk${uid})"><rect width="100" height="124" fill="currentColor" opacity=".12"/><rect x="0" y="${y}" width="100" height="${124-y}" fill="${c}"/></g><path d="${sh}" fill="none" stroke="currentColor" stroke-width="4"/><path d="M30 76H70V102Q70 108 64 108H36Q30 108 30 102Z" fill="none" stroke="currentColor" stroke-width="3" opacity=".6"/></svg>`}
+function pkBar(v,mx,warn){const r=mx?Math.min(100,v/mx*100):0;const c=v>mx?'#E10600':r>85?'#F2A900':'#2E9E5B';return `<div style="height:8px;background:var(--line);border-radius:4px;overflow:hidden"><div style="height:100%;width:${r}%;background:${c}"></div></div>`}
+function pkRowsByZone(R,x){const a=R.p.act.filter(a=>x.rows[a.id]);return PK_Z.map((z,zi)=>({z,zi,rs:a.filter(r=>pkZone(r)===zi).sort((m,n)=>n.kg-m.kg)})).filter(o=>o.rs.length)}
+function vPack(){
+  const R=pkPlan(),{g,P,walk}=R;
+  const chip=(on,act,attrs,l)=>`<button class="chip ${on?'on':''}" data-act="${act}" ${attrs} style="${on?'background:var(--accent-bg);color:#fff;border-color:var(--accent-bg)':''}">${on?'✓ ':''}${esc(l)}</button>`;
+  const days=+g.days;
+  const pre=[[3,'walk','3 วัน เดินเท้า'],[7,'walk','7 วัน เดินเท้า'],[3,'car','3 วัน ขับรถ'],[7,'car','7 วัน ขับรถ']];
+  const pct=R.packedPct=R.rowsTot?Math.round(R.ticked/R.rowsTot*100):0;
+  const cap=R.capL;const vp=cap?R.placedL/cap*100:0;
+  const names=R.bags.map(x=>x.b.n);
+  const carrierRows=walk?R.p&&P.carriers.map((c,i)=>{const l=R.lim(i),k=R.carry[i];const has=R.bags.some(x=>x.who===i);return has?`<div style="margin:6px 0"><div style="display:flex;justify-content:space-between"><b>${esc(c.n)} <small style="font-weight:400">(${R.bags.filter(x=>x.who===i).map(x=>esc(x.b.n)).join(' + ')})</small></b><span class="${k>l?'bad':''}">${fmt(k)} / ${fmt(l)} กก.</span></div>${pkBar(k,l)}</div>`:''}).join(''):'';
+  const tile=x=>{const v=x.b.l?x.L/x.b.l*100:0;return `<button class="pkt" data-act="pkgo" data-id="${x.id}" style="all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;padding:6px;border:2px solid var(--line);min-width:0">${pkSvg(v,'t'+x.id,46)}<b style="font-size:.8rem;line-height:1.2">${esc(x.b.n)}</b><small>${x.b.l} ล. · ${Math.round(v)}%</small></button>`};
+  const spare=P.bags.filter(b=>!R.bags.some(x=>x.id===b.id));
+  const card=x=>{const v=x.b.l?x.L/x.b.l*100:0;const zs=pkRowsByZone(R,x);const keys=Object.keys(x.rows);const tk=keys.filter(id=>P.c[id+'_'+x.id]).length;
+    const wl=x.who>=0?R.lim(x.who):x.b.l*.3;const wa=+P.w[x.id]||0;
+    return `<div class="card" id="pkc_${x.id}"><div style="display:flex;gap:10px;align-items:flex-start">
+      ${PK_IMG[x.b.img]?`<img src="${PK_IMG[x.b.img]}" alt="${esc(x.b.n)}" style="width:76px;height:100px;object-fit:cover;border:2px solid var(--line);flex:none">`:''}
+      ${pkSvg(v,'c'+x.id,52)}
+      <div style="min-width:0;flex:1"><h3 style="margin:0">${esc(x.b.n)}</h3><p class="note" style="margin:2px 0">${x.b.l} ลิตร · ${x.who>=0?'ผู้แบก: <b>'+esc(P.carriers[x.who].n)+'</b>':'ใส่ท้ายรถ/ยกเข้าที่พัก'}${x.b.grab?' · <span class="badge repair">ใบหยิบเร็ว</span>':''}</p>
+      <p class="note" style="margin:2px 0">ปริมาตร ${fmt(x.L)}/${x.b.l} ล. (${Math.round(v)}%)</p>${pkBar(x.L,x.b.l)}
+      <p class="note" style="margin:6px 0 2px">น้ำหนักแผน ${fmt(x.kg)} กก.${x.who>=0?' · ผู้แบกรวมไม่เกิน '+fmt(wl)+' กก.':' · ไม่เกิน '+fmt(wl)+' กก./ใบ'}</p></div></div>
+      <div style="display:flex;gap:8px;align-items:center;margin-top:8px"><label class="note" style="flex:none">ชั่งจริง (กก.)</label><input type="number" min="0" step=".1" data-pkw="${x.id}" value="${wa||''}" style="max-width:100px">${wa?`<span class="${wa>wl?'bad':'note'}">${wa>wl?'เกินเกณฑ์ '+fmt(wa-wl)+' กก.':'อยู่ในเกณฑ์'}${x.kg?' · ต่างจากแผน '+(wa-x.kg>=0?'+':'')+fmt(wa-x.kg):''}</span>`:''}</div>
+      <div style="margin-top:8px"><div class="note">ใส่แล้ว ${tk}/${keys.length} รายการ</div>${pkBar(tk,keys.length||1)}</div>
+      ${zs.map(o=>`<h4 style="margin:12px 0 4px;font-size:.95rem;color:var(--accent)">${esc(o.z)}</h4>`+o.rs.map(a=>{const u=x.rows[a.id],done=!!P.c[a.id+'_'+x.id];
+        return `<div style="display:flex;gap:6px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--line)"><button data-act="pktick" data-id="${a.id}" data-b="${x.id}" aria-label="ติ๊ก ${esc(a.name)}" style="all:unset;cursor:pointer;display:flex;gap:8px;flex:1;min-width:0"><b style="min-width:22px;height:22px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:18px;flex:none">${done?'✓':''}</b><span style="${done?'opacity:.55;text-decoration:line-through':''}">${esc(a.name)} <small>× ${fmt(u)} ${esc(a.unit)}${a.kg*u>=.05?' · '+fmt(a.kg*u)+' กก.':''}</small></span></button>
+        <select data-pkmv="${a.id}" aria-label="ย้ายไปใบอื่น" style="max-width:74px;font-size:.75rem"><option value="">ย้าย</option><option value="__off">ถอดออก</option>${R.bags.filter(y=>y.id!==x.id).map(y=>`<option value="${y.id}">${esc(y.b.n.slice(0,16))}</option>`).join('')}</select></div>`}).join('')).join('')}
+      <div class="row" style="margin-top:10px"><button class="btn sm" data-act="pkall" data-id="${x.id}">ติ๊กทั้งใบ</button><button class="btn sm" data-act="pkclr" data-id="${x.id}">ล้างติ๊ก</button><button class="btn sm" data-act="pkprint" data-id="${x.id}">📄 PDF ใบนี้</button><button class="btn sm" data-act="pktag" data-id="${x.id}">🏷 ป้ายติดกระเป๋า</button></div></div>`};
+  const grabList=R.p.act.filter(pkGrab).map(a=>{const w=R.bags.filter(x=>x.rows[a.id]).map(x=>x.b.n);return `<li>${esc(a.name)} <small class="note">→ ${w.length?esc(w.join(', ')):'ยังไม่มีที่ใส่'}</small></li>`}).join('');
+  const dsince=P.date?Math.round((todayD()-new Date(P.date+'T00:00:00'))/864e5):null;
+  const old=dsince!=null&&dsince>180;
+  const unHtml=R.un.length?`<div class="warn"><b>⚠ ยังไม่มีที่ใส่ ${R.un.reduce((s,u)=>s+u.n,0)} ชิ้น (ประมาณ ${fmt(R.unKg)} กก.)</b><ul style="margin:6px 0 0;padding-left:18px">${R.un.map(u=>`<li>${esc(u.a.name)} × ${u.n} ${esc(u.a.unit)}</li>`).join('')}</ul><p style="margin:8px 0 4px">ทางแก้:</p><div class="row">${walk?`<button class="btn sm p" data-act="pkpre" data-d="${days}" data-m="car">ขับรถแทน</button><button class="btn sm" data-act="pkwl" data-v=".5">น้ำพกน้อย 0.5 ล./คน/วัน (กรองหรือต้มเติม)</button>`:''}<a class="btn sm" href="#go">ถอดของที่ไม่จำเป็น</a></div>${walk?'<p class="note" style="margin:6px 0 0">เดินเท้าควรพกน้ำน้อยลงแล้วใช้เครื่องกรองหรือต้มน้ำเติมระหว่างทาง ผู้มีโรคที่ต้องจำกัดน้ำให้ถามแพทย์</p>':''}</div>`:'';
+  return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">จัดกระเป๋าจริงของฉัน</h2>
+  <p class="sub">แอปแบ่งของลงกระเป๋าแต่ละใบตามความจุจริงและแรงแบกของแต่ละคน ติ๊กเมื่อใส่แล้ว ย้ายของข้ามใบได้ พิมพ์ PDF และป้ายติดกระเป๋าได้</p>
+  <div class="card"><label class="f">เลือกแผน</label><div class="row">${pre.map(x=>chip(days===x[0]&&g.mode===x[1],'pkpre',`data-d="${x[0]}" data-m="${x[1]}"`,x[2])).join('')}</div>
+  <p class="note" style="margin:8px 0 0">${esc(g.n)} คน · ${esc(g.days)} วัน · ${walk?'แบกเอง':'ขับรถ'} · น้ำ ${esc(g.wl)} ล./คน/วัน · สมาชิกพิเศษและสัตว์เลี้ยงตามที่ตั้งไว้ </p><div class="row"><a class="btn sm" href="#go">⚙ ตั้งค่าสถานการณ์ จำนวนคน และเพิ่มของเอง</a></div>
+  <label class="f">น้ำดื่มที่พก (ลิตร/คน/วัน)</label><div class="row">${[.5,1,1.5,2,3].map(v=>chip(+g.wl===v,'pkwl',`data-v="${v}"`,String(v))).join('')}</div>
+  <label class="f">ภัยที่เตรียมรับ</label><div class="row">${Object.keys(GO_HZ).map(k=>chip(g.hz[k],'gohz',`data-k="${k}"`,GO_HZ[k])).join('')}</div></div>
+  <div class="card"><div style="display:flex;gap:12px;align-items:center"><div style="font:700 2.2rem var(--f-d);min-width:3.2ch">${pct}%</div><div style="flex:1"><b>พร้อมอพยพ</b> <small class="note">ใส่แล้ว ${R.ticked}/${R.rowsTot} รายการ</small>${pkBar(R.ticked,R.rowsTot||1)}</div></div>
+  <div class="stat" style="margin-top:8px"><div><b>${fmt(R.placedKg)}</b><span>กก. ที่พกจริง</span></div><div><b>${fmt(R.placedL)}</b><span>ลิตร จาก ${cap}</span></div><div><b>${R.bags.length}</b><span>ใบที่ใช้</span></div></div>
+  ${walk?`<div style="margin-top:8px"><b>แรงแบกของแต่ละคน</b>${carrierRows}</div>`:'<p class="note" style="margin:8px 0 0">ขับรถ: จำกัดใบละไม่เกิน 30% ของความจุเป็นกิโลกรัม (80 ล. ≈ 24 กก.) เพื่อให้ยกขึ้นลงรถได้</p>'}
+  <p class="note" style="margin:8px 0 0">${P.date?`จัดเสร็จเมื่อ ${esc(P.date)} (${dsince} วันที่แล้ว)${old?' <b class="bad">เกิน 6 เดือน ควรสลับน้ำ อาหาร ยา</b>':''}`:'ยังไม่ได้บันทึกวันที่จัดเสร็จ'}</p>
+  <div class="row"><button class="btn sm p" data-act="pkdate">✓ จัดเสร็จวันนี้</button><button class="btn sm" data-act="pkics">⏰ เตือนสลับของทุก 6 เดือน</button></div></div>
+  ${unHtml}
+  <div class="grid3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${R.bags.map(tile).join('')}</div>
+  ${spare.length?`<p class="note">ไม่ได้ใช้ตอนเดินเท้า: ${spare.map(b=>esc(b.n+' '+b.l+' ล.')).join(', ')} (ใช้เมื่อขับรถ หรือเปลี่ยนผู้แบกในตั้งค่า)</p>`:''}
+  <div class="row"><button class="btn p" data-act="pkprint" data-id="all">📄 ส่งออก PDF ทุกใบ</button><button class="btn" data-act="pktag" data-id="all">🏷 ป้ายติดทุกใบ</button><button class="btn sm" data-act="pkq">${P.q?'ซ่อน':'โหมดหยิบด่วน 5 นาที'}</button></div>
+  ${P.q?`<div class="card" style="border-color:var(--danger)"><h3>โหมดหยิบด่วน (มีเวลาน้อย)</h3><p class="note">หยิบของสำคัญเหล่านี้ก่อน เริ่มจากใบหยิบเร็ว แล้วคว้ากระเป๋าที่เหลือ</p><ul style="padding-left:18px;margin:6px 0">${grabList}</ul></div>`:''}
+  ${R.bags.map(card).join('')}
+  ${R.p.optList.length+R.p.offList.length?`<details class="card"><summary><b>ของเสริมและที่ถอดออก</b> <small class="note">(แตะเพื่อเพิ่มเข้ากระเป๋า)</small></summary><div class="row" style="margin-top:6px">${R.p.optList.concat(R.p.offList).map(r=>`<button class="chip" data-act="goon" data-id="${r[0]}">＋ ${esc(r[2].slice(0,34))}</button>`).join('')}</div></details>`:''}
+  <details class="card"><summary><b>ตั้งค่ากระเป๋าและผู้แบก</b></summary>
+   <p class="note">ปรับชื่อ ความจุ และคนแบกของกระเป๋าแต่ละใบ ค่าเริ่มต้นตั้งจากกระเป๋าที่มี</p>
+   <h4>ผู้แบก (กก. และ % ของน้ำหนักตัวที่แบกได้)</h4>${P.carriers.map((c,i)=>`<div class="grid3" style="display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:6px;margin:4px 0"><input type="text" data-pkc="${i}" data-k="n" value="${esc(c.n)}" aria-label="ชื่อ"><input type="number" min="0" data-pkc="${i}" data-k="kg" value="${esc(c.kg)}" aria-label="น้ำหนักตัว กก."><input type="number" min="5" max="30" data-pkc="${i}" data-k="pct" value="${esc(c.pct)}" aria-label="เปอร์เซ็นต์"></div>`).join('')}
+   <p class="note">ปกติไม่เกิน 25% ผู้สูงอายุหรือมีโรคประจำตัวควรลดเป็น 10-20%</p>
+   <h4>กระเป๋า</h4>${P.bags.map(b=>`<div class="card" style="padding:8px;margin:6px 0"><div class="grid3" style="display:grid;grid-template-columns:2fr 1fr;gap:6px"><input type="text" data-pkb="${b.id}" data-k="n" value="${esc(b.n)}" aria-label="ชื่อ"><input type="number" min="5" data-pkb="${b.id}" data-k="l" value="${esc(b.l)}" aria-label="ลิตร"></div>
+    <div class="row" style="margin-top:6px"><select data-pkwho="${b.id}" aria-label="ผู้แบก"><option value="-1" ${b.who<0?'selected':''}>ไม่ใช้ตอนเดินเท้า (สำรอง/รถ)</option>${P.carriers.map((c,i)=>`<option value="${i}" ${b.who===i?'selected':''}>${esc(c.n)} แบก</option>`).join('')}</select><button class="chip ${b.grab?'on':''}" data-act="pkgrab" data-id="${b.id}">${b.grab?'✓ ':''}ใบหยิบเร็ว</button><button class="btn sm" data-act="pkrm" data-id="${b.id}">ลบ</button></div></div>`).join('')}
+   <div class="row"><button class="btn sm" data-act="pkadd">＋ เพิ่มกระเป๋า</button><button class="btn sm" data-act="pkdef">คืนค่าเริ่มต้น</button><button class="btn sm" data-act="pkmvclr">ล้างการย้ายของ</button></div></details>
+  <p class="note">น้ำหนักและปริมาตรเป็นค่าประมาณ ปริมาตรคิดเผื่อช่องว่าง 15% ของหนักไว้ใกล้หลัง ของเบาไว้ก้นกระเป๋า ของที่ต้องใช้ก่อนไว้ช่องบนและช่องหน้า ห่อของที่กลัวเปียกด้วยถุงกันน้ำ</p></div>`;
+}
+function pkSum(R){return `${R.g.n} คน · ${R.g.days} วัน · ${R.walk?'แบกเอง':'ขับรถ'} · น้ำ ${R.g.wl} ล./คน/วัน`}
+function pkBagPrint(R,x){
+  const zs=pkRowsByZone(R,x);
+  return `<h2>${esc(x.b.n)} (${x.b.l} ลิตร) · ${x.who>=0?'ผู้แบก '+esc(R.P.carriers[x.who].n):'ท้ายรถ'}${x.b.grab?' · ใบหยิบเร็ว':''}</h2><p class="s">น้ำหนักแผน ${fmt(x.kg)} กก. · ปริมาตร ${fmt(x.L)} ลิตร</p>`+
+   zs.map(o=>`<h2 style="font-size:11pt;border:0;margin:6pt 0 2pt">${esc(o.z)}</h2><table>`+o.rs.map(a=>`<tr><td style="width:16pt"><span class="bx ${R.P.c[a.id+'_'+x.id]?'ck':''}"></span></td><td>${esc(a.name)}${a.note?'<br><small>'+esc(a.note)+'</small>':''}</td><td style="width:70pt">${fmt(x.rows[a.id])} ${esc(a.unit)}</td><td style="width:44pt">${a.kg*x.rows[a.id]>=.05?fmt(a.kg*x.rows[a.id])+' กก.':''}</td></tr>`).join('')+'</table>').join('')}
+function pkPrint(id){
+  const R=pkPlan();const L=id==='all'?R.bags:R.bags.filter(x=>x.id===id);if(!L.length)return;
+  let body=L.map((x,i)=>`<div style="${i<L.length-1?'page-break-after:always':''}">${pkBagPrint(R,x)}</div>`).join('');
+  if(R.un.length)body+=`<h2>ยังไม่มีที่ใส่</h2><table>${R.un.map(u=>`<tr><td>${esc(u.a.name)}</td><td>${u.n} ${esc(u.a.unit)}</td></tr>`).join('')}</table>`;
+  pdfOut(pdfDoc('เช็กลิสต์จัดกระเป๋าอพยพ',pkSum(R),body))}
+function pkTag(id){
+  const R=pkPlan();const L=id==='all'?R.bags:R.bags.filter(x=>x.id===id);if(!L.length)return;
+  const tag=x=>{const items=R.p.act.filter(a=>x.rows[a.id]).sort((m,n)=>pkTier(m)-pkTier(n)||n.kg-m.kg).slice(0,10);
+    return `<div style="border:4pt solid #000;padding:10pt;margin:0 0 12pt;break-inside:avoid"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font:700 22pt Prompt,sans-serif">${esc(x.b.n)}</b><b style="font:700 16pt Prompt,sans-serif">${x.b.l} ล.</b></div><p style="margin:2pt 0;font-size:12pt">${x.who>=0?'ผู้แบก: <b>'+esc(R.P.carriers[x.who].n)+'</b>':'ใส่ท้ายรถ'}${x.b.grab?' · <b>ใบหยิบเร็ว (ปฐมพยาบาล เอกสาร ยา)</b>':''} · ${esc(R.g.days)} วัน · ${fmt(x.kg)} กก.</p><p style="margin:4pt 0;font-size:10.5pt"><b>มีอะไรข้างใน:</b> ${items.map(a=>esc(a.name.replace(/\s*\(.*$/,''))).join(' · ')}</p><p style="margin:4pt 0;font-size:10.5pt">ฉุกเฉิน 1669 · ปภ. 1784 · เพลิงไหม้ 199 · ตำรวจ 191 &nbsp; จัดเมื่อ: ${R.P.date?esc(R.P.date):'_____'} &nbsp; สลับของครั้งต่อไป: _________</p></div>`};
+  pdfOut(pdfDoc('ป้ายติดกระเป๋าอพยพ','ตัดแล้วติดหรือใส่ซองใสที่หน้ากระเป๋า',L.map(tag).join('')))}
+function pkIcs(){
+  const d=new Date();d.setDate(d.getDate()+180);const pd=iso(d).replace(/-/g,''),stamp=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
+  dl('เตือนสลับของในกระเป๋าอพยพ.ics',['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//HomeGear//TH','BEGIN:VEVENT','UID:hg-pack@homegear','DTSTAMP:'+stamp,'DTSTART;VALUE=DATE:'+pd,'RRULE:FREQ=MONTHLY;INTERVAL=6','SUMMARY:สู้ภัย: สลับน้ำ อาหาร ยา ในกระเป๋าอพยพ','DESCRIPTION:เปลี่ยนน้ำดื่ม ตรวจวันหมดอายุอาหารและยา ชาร์จแบตสำรอง ตรวจเสื้อผ้าและขนาดของเด็ก','END:VEVENT','END:VCALENDAR'].join('\r\n'),'text/calendar;charset=utf-8');
+  toast('ดาวน์โหลดไฟล์ปฏิทินแล้ว เปิดไฟล์เพื่อเพิ่มลงปฏิทิน')}
 function pdfDoc(title,sub,body){return `<style>.pd{font:11pt/1.45 Sarabun,sans-serif;color:#000;background:#fff}.pd h1{font:700 19pt Prompt,sans-serif;margin:0 0 2pt;color:#8a0f0f}.pd .s{color:#444;margin:0 0 10pt;font-size:10pt}.pd h2{font:600 13pt Prompt,sans-serif;margin:12pt 0 4pt;border-bottom:1.5pt solid #8a0f0f}.pd table{border-collapse:collapse;width:100%}.pd td,.pd th{border:.6pt solid #666;padding:3pt 5pt;text-align:left;vertical-align:top;font-size:10pt}.pd th{background:#eee}.pd tr{break-inside:avoid}.pd .bx{display:inline-block;width:11pt;height:11pt;border:1.2pt solid #000;vertical-align:-2pt}.pd .ck{background:#000}.pd ol,.pd ul{padding:0;list-style:none}.pd li{margin:5pt 0;break-inside:avoid}.pd .f{margin-top:12pt;font-size:9pt;color:#555}.pd img{max-width:55%;height:auto}</style><div class="pd"><h1>${esc(title)}</h1><p class="s">${esc(sub)} · พิมพ์เมื่อ ${new Date().toLocaleDateString('th-TH',{dateStyle:'long'})}</p>${body}<p class="f">คู่มืออุปกรณ์สู้ภัยประจำบ้าน · แนวทางทั่วไป เหตุรุนแรงโทร 1669 · ปภ. 1784</p></div>`}
 function pdfOut(h){toast('เลือก "บันทึกเป็น PDF" ที่ปลายทางในหน้าต่างพิมพ์');printHTML(h)}
 function pdfGo(w,i,id){
@@ -3259,22 +3382,22 @@ document.addEventListener('click',e=>{
   else if(a==='tool'){tool(b.dataset.n)}
   else if(a==='closeov'){closeOverlay()}
   else if(a==='ltw')window.__lt.w();else if(a==='ltr')window.__lt.r();else if(a==='lts')window.__lt.s();
-  else if(a==='gotick'){const g=goS();const k=b.dataset.id+'_'+b.dataset.b;g.c[k]=!g.c[k];save();route()}
+  else if(a==='gotick'){const g=goS();const k=b.dataset.id+'_'+b.dataset.b;g.c[k]=!g.c[k];save();keepRoute()}
   else if(a==='gomove'){const g=goS();const cur=+b.dataset.b+1;g.ov[b.dataset.id]=cur===1?2:1;save();route()}
-  else if(a==='gooff'){const g=goS();const id=b.dataset.id;const r=GO_ITEMS.find(x=>x[0]===id);if(id.startsWith('x_')){g.x.splice(+id.slice(2),1)}else if(r&&(r[9]||'').includes('opt')){g.on[id]=false}else{g.off[id]=true}save();route()}
-  else if(a==='goon'){const g=goS();const id=b.dataset.id;const r=GO_ITEMS.find(x=>x[0]===id);if(r&&(r[9]||'').includes('opt'))g.on[id]=true;else delete g.off[id];save();route()}
-  else if(a==='gohz'){const g=goS();g.hz[b.dataset.k]=!g.hz[b.dataset.k];g.pre='custom';save();route()}
+  else if(a==='gooff'){const g=goS();const id=b.dataset.id;const r=GO_ITEMS.find(x=>x[0]===id);if(id.startsWith('x_')){g.x.splice(+id.slice(2),1)}else if(r&&(r[9]||'').includes('opt')){g.on[id]=false}else{g.off[id]=true}save();keepRoute()}
+  else if(a==='goon'){const g=goS();const id=b.dataset.id;const r=GO_ITEMS.find(x=>x[0]===id);if(r&&(r[9]||'').includes('opt'))g.on[id]=true;else delete g.off[id];save();keepRoute()}
+  else if(a==='gohz'){const g=goS();g.hz[b.dataset.k]=!g.hz[b.dataset.k];g.pre='custom';save();keepRoute()}
   else if(a==='gopre'){const g=goS();const x=GO_PRE.find(y=>y.k===b.dataset.k);if(x){g.pre=x.k;g.mode=x.mode;g.hz={};x.hz.forEach(k=>g.hz[k]=true);g.on={};x.on.forEach(k=>g.on[k]=true);g.off={};g.ov={};g.c={}}save();route()}
-  else if(a==='gostep'){const g=goS();const k=b.dataset.k;const mx=k==='n'?12:k==='days'?30:Math.max(0,+g.n||1);const mn=(k==='n'||k==='days')?1:0;g[k]=Math.min(mx,Math.max(mn,(+g[k]||0)+(+b.dataset.d)));if(k==='n')['kids','infants','elders','pets','med'].forEach(s=>{if(g[s]>g.n)g[s]=g.n});save();route()}
-  else if(a==='goset'){const g=goS();const k=b.dataset.k;g[k]=+b.dataset.v;if(k==='n')['kids','infants','elders','pets','med'].forEach(s=>{if(g[s]>g.n)g[s]=g.n});save();route()}
-  else if(a==='gomode'){const g=goS();g.mode=b.dataset.k;g.pre='custom';save();route()}
+  else if(a==='gostep'){const g=goS();const k=b.dataset.k;const mx=k==='n'?12:k==='days'?30:Math.max(0,+g.n||1);const mn=(k==='n'||k==='days')?1:0;g[k]=Math.min(mx,Math.max(mn,(+g[k]||0)+(+b.dataset.d)));if(k==='n')['kids','infants','elders','pets','med'].forEach(s=>{if(g[s]>g.n)g[s]=g.n});save();keepRoute()}
+  else if(a==='goset'){const g=goS();const k=b.dataset.k;g[k]=+b.dataset.v;if(k==='n')['kids','infants','elders','pets','med'].forEach(s=>{if(g[s]>g.n)g[s]=g.n});save();keepRoute()}
+  else if(a==='gomode'){const g=goS();g.mode=b.dataset.k;g.pre='custom';save();keepRoute()}
   else if(a==='goreset'){goS().c={};save();route()}
   else if(a==='gofull'){if(window.confirm('ตั้งค่ารายการกระเป๋าอพยพกลับเป็นค่าเริ่มต้น (3 คน 3 วัน)?')){S.go=GO_DEF();save();route()}}
   else if(a==='goprint'){goPrint()}
   else if(a==='goadd'){const g=goS();const n=($('#gx_n').value||'').trim();if(!n){toast('ใส่ชื่อของก่อน');return}g.x.push({n,q:Math.max(1,+$('#gx_q').value||1),u:($('#gx_u').value||'ชิ้น').trim(),kg:+$('#gx_k').value||0,L:+$('#gx_l').value||0,c:+$('#gx_c').value,b:+$('#gx_b').value||0});toast('เพิ่ม '+n+' แล้ว');save();route()}
   else if(a==='godelx'){const g=goS();g.x.splice(+b.dataset.k,1);save();route()}
-  else if(a==='stk'){S.stock.c[b.dataset.id]=!S.stock.c[b.dataset.id];save();route()}
-  else if(a==='stkreset'){S.stock.c={};save();route()}
+  else if(a==='stk'){S.stock.c[b.dataset.id]=!S.stock.c[b.dataset.id];save();keepRoute()}
+  else if(a==='stkreset'){S.stock.c={};save();keepRoute()}
   else if(a==='bagtick'){S.bag.checked[i]=!S.bag.checked[i];save();route()}
   else if(a==='bagreset'){S.bag.checked={};save();route()}
   else if(a==='bagw'){const v=prompt?null:null;const w=window.prompt('ใส่น้ำหนักเป็นกก. คั่นด้วยจุลภาค ตามลำดับรายการ (เว้นว่าง = ค่าเดิม)');if(w!==null){w.split(',').forEach((x,j)=>{if(x.trim()!==''&&!isNaN(+x))S.bag.w[j]=+x});save();route()}}
@@ -3287,19 +3410,37 @@ document.addEventListener('click',e=>{
   else if(a==='rdel')recvDel();
   else if(a==='rcsv')recvCsv();
   else if(a==='rph'){RT.photos.splice(+b.dataset.k,1);const pv=$('#rf_prev');if(pv)pv.innerHTML=rphHtml()}
+  else if(a==='pkpre'){const g=goS();const d=+b.dataset.d,m=b.dataset.m;g.days=d;g.mode=m;g.pre='custom';g.wl=m==='car'?2:1;g.on={};if(m==='car'){['f7','c8','c9','c10'].forEach(k=>g.on[k]=true);if(d>=7)['b4','b5','b8'].forEach(k=>g.on[k]=true)}else if(d>=7)g.on.f7=true;save();keepRoute()}
+  else if(a==='pkwl'){const g=goS();g.wl=+b.dataset.v;save();keepRoute()}
+  else if(a==='pktick'){const P=packS();const k=b.dataset.id+'_'+b.dataset.b;if(P.c[k])delete P.c[k];else P.c[k]=1;save();keepRoute()}
+  else if(a==='pkall'||a==='pkclr'){const P=packS(),R=pkPlan();const x=R.bags.find(y=>y.id===b.dataset.id);if(x)Object.keys(x.rows).forEach(id=>{if(a==='pkall')P.c[id+'_'+x.id]=1;else delete P.c[id+'_'+x.id]});save();keepRoute()}
+  else if(a==='pkgo'){const e=document.getElementById('pkc_'+b.dataset.id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}
+  else if(a==='pkprint')pkPrint(b.dataset.id);
+  else if(a==='pktag')pkTag(b.dataset.id);
+  else if(a==='pkdate'){packS().date=iso(new Date());save();toast('บันทึกวันที่จัดเสร็จแล้ว');keepRoute()}
+  else if(a==='pkics')pkIcs();
+  else if(a==='pkq'){const P=packS();P.q=P.q?0:1;save();keepRoute()}
+  else if(a==='pkgrab'){const P=packS();P.bags.forEach(x=>{if(x.id===b.dataset.id)x.grab=x.grab?0:1;else x.grab=0});save();keepRoute()}
+  else if(a==='pkadd'){const P=packS();P.bags.push({id:'b'+Date.now().toString(36),n:'กระเป๋าใหม่',l:40,img:'',who:-1});save();keepRoute()}
+  else if(a==='pkrm'){const P=packS();if(window.confirm('ลบกระเป๋าใบนี้ออกจากรายการ?')){P.bags=P.bags.filter(x=>x.id!==b.dataset.id);Object.keys(P.mv).forEach(k=>{if(P.mv[k]===b.dataset.id)delete P.mv[k]});save();keepRoute()}}
+  else if(a==='pkdef'){const P=packS();if(window.confirm('คืนค่าเริ่มต้นของกระเป๋าและผู้แบก?')){P.bags=pkDefBags();P.carriers=null;P.mv={};packS();save();keepRoute()}}
+  else if(a==='pkmvclr'){packS().mv={};save();keepRoute()}
   else if(a==='pdf')pdfGo(b.dataset.w,b.dataset.i,b.dataset.id);
   else if(a==='print')printHTML(view.innerHTML);
   else if(a==='saveoff')saveOffline();
   else if(a==='lockagain'){localStorage.removeItem('hg_ok');sessionStorage.removeItem('hg_ok');location.reload()}
   else if(a==='wipe'){if(window.confirm('ล้างข้อมูลทะเบียน บัตรครอบครัว และการตั้งค่าในเครื่องนี้ทั้งหมด?')){localStorage.removeItem('hg_v1');localStorage.removeItem('hg_ph');PH={};S=defaults();applySettings();route()}}
 });
-document.addEventListener('change',e=>{if(e.target.dataset&&(e.target.dataset.stk||e.target.dataset.stkn||e.target.dataset.go||e.target.dataset.gob!==undefined||e.target.dataset.gop!==undefined))route()});
+document.addEventListener('change',e=>{if(e.target.dataset&&(e.target.dataset.stk||e.target.dataset.stkn||e.target.dataset.go||e.target.dataset.gob!==undefined||e.target.dataset.gop!==undefined))route();const d=e.target.dataset||{};if(d.pkmv!==undefined){const v=e.target.value;if(v==='__off'){const g=goS(),id=d.pkmv;if(/^x_/.test(id))g.x.splice(+id.slice(2),1);else{const it=GO_ITEMS.find(r=>r[0]===id);if(it&&(it[9]||'').split(/\s+/).includes('opt'))delete g.on[id];else g.off[id]=true}save()}else if(v){packS().mv[d.pkmv]=v;save()}keepRoute()}else if(d.pkwho!==undefined){const x=packS().bags.find(y=>y.id===d.pkwho);if(x){x.who=+e.target.value;save();keepRoute()}}else if(d.pkw!==undefined||(d.pkb!==undefined&&d.k!=='n')||(d.pkc!==undefined&&d.k!=='n'))keepRoute()});
 document.addEventListener('input',e=>{
   const t=e.target;
   if(t.dataset.f){const id=t.dataset.id,f=t.dataset.f;let v=t.value;if(['qty','unit','iv'].includes(f))v=Math.max(0,+v||0);setInv(id,f,v)}
   else if(t.dataset.fam){S.fam[t.dataset.fam]=t.value;save()}
   else if(t.dataset.mem!==undefined){S.fam.members[+t.dataset.mem][t.dataset.k]=t.value;save()}
   else if(t.dataset.sh!==undefined){S.shelters[+t.dataset.sh][t.dataset.k]=t.value;save()}
+  else if(t.dataset.pkw!==undefined){packS().w[t.dataset.pkw]=+t.value||0;save()}
+  else if(t.dataset.pkb!==undefined){const x=packS().bags.find(y=>y.id===t.dataset.pkb);if(x){x[t.dataset.k]=t.dataset.k==='n'?t.value:(+t.value||0);save()}}
+  else if(t.dataset.pkc!==undefined){const c=packS().carriers[+t.dataset.pkc];if(c){c[t.dataset.k]=t.dataset.k==='n'?t.value:(+t.value||0);save()}}
   else if(t.dataset.go){const g=goS();g[t.dataset.go]=+t.value;save()}
   else if(t.dataset.gob!==undefined){const g=goS();g.body[+t.dataset.gob]=+t.value;save()}
   else if(t.dataset.gop!==undefined){const g=goS();g.pct=g.pct||[25,25];g.pct[+t.dataset.gop]=+t.value;save()}
