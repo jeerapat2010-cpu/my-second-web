@@ -2769,7 +2769,7 @@ function vStock(){
   <div class="row"><button class="btn p" data-act="pdf" data-w="stock">📄 ส่งออก PDF</button><button class="btn sm" data-act="stkreset">ล้างการติ๊ก</button></div></div>`;
 }
 /* ---------- กระเป๋าอพยพ 80 ลิตร ×2 ---------- */
-const GO_CATS=['เอกสารและเงิน','น้ำดื่ม','อาหาร','ยาและปฐมพยาบาล','สุขอนามัย','ไฟ สื่อสาร พลังงาน','เสื้อผ้าและเครื่องนอน','เครื่องมือ','เฉพาะภัย','สมาชิกพิเศษ','เพิ่มเอง'];
+const GO_CATS=['เอกสารและเงิน','น้ำดื่ม','อาหาร','ยาและปฐมพยาบาล','สุขอนามัย','ไฟ สื่อสาร พลังงาน','เสื้อผ้าและเครื่องนอน','เครื่องมือ','เฉพาะภัย','สมาชิกพิเศษ','เพิ่มเอง','ของติดตัว'];
 const GO_HZ={flood:'น้ำท่วม',fire:'ไฟไหม้ ควัน ฝุ่น',storm:'พายุ ลมแรง',chem:'สารเคมีรั่ว',quake:'แผ่นดินไหว',rad:'นิวเคลียร์/รังสี'};
 const GO_SP={kids:'เด็ก',infants:'ทารก',elders:'ผู้สูงอายุ',pets:'สัตว์เลี้ยง',med:'ผู้ป่วยต้องใช้ยา/อุปกรณ์'};
 /* [id, หมวด(index), ชื่อ, ต่อ(f/p/pd/d/water/kid/kidd/inf/infd/eld/eldd/pet/petd/med), จำนวน, หน่วย, กก./หน่วย, ลิตร/หน่วย, เงื่อนไข, flags(opt pin1 pin2 dup ext), หมายเหตุ] */
@@ -2809,7 +2809,7 @@ const GO_ITEMS=[
 ['c2',5,'ไฟฉายไดนาโมแบบบีบ','f',2,'กระบอก',.2,.3,'','dup','มีในทะเบียน'],
 ['c3',5,'วิทยุไดนาโม PX-777','f',1,'เครื่อง',.6,1.5,'','pin1','มีในทะเบียน'],
 ['c4',5,'แบตสำรอง 10000–20000 mAh + สายชาร์จ','p',1,'ชุด',.35,.4,'','','ชาร์จเต็มก่อนออกเดินทาง'],
-['c5',5,'วิทยุสื่อสาร BAOFENG UV-5R + แบตสำรอง','f',2,'เครื่อง',.3,.5,'','dup','มีในทะเบียน ใช้เฉพาะย่านที่กฎหมายอนุญาต'],
+['c5',5,'วิทยุสื่อสาร BAOFENG UV-5R + แบตสำรอง','f',3,'เครื่อง',.3,.5,'','dup','มีในทะเบียน ใช้เฉพาะย่านที่กฎหมายอนุญาต'],
 ['c6',5,'นกหวีด','p',1,'อัน',.02,.02,'','','ห้อยคอทุกคน'],
 ['c7',5,'ไฟแช็ก/ไม้ขีดกันน้ำ','f',2,'อัน',.03,.03,'','dup',''],
 ['c8',5,'โคมไฟโซลาร์ LED พับได้','f',1,'โคม',.8,1.5,'','opt','มีในทะเบียน'],
@@ -2863,6 +2863,11 @@ const GO_ITEMS=[
 ['p3',9,'สายจูง/กรงพก/ที่นอนเล็ก','pet',1,'ชุด',.5,3,'pets','',''],
 ['p4',9,'เสื้อชูชีพสัตว์เลี้ยง + ชามพับ','pet',1,'ชุด',.3,1,'pets','','มีในทะเบียน 2 ตัว'],
 ['p5',9,'สมุดวัคซีน ถุงเก็บมูล','pet',1,'ชุด',.1,.3,'pets','',''],
+['r1',11,'ยาประจำตัว 1 วัน + ยาฉุกเฉินส่วนตัว (ซองซิปติดชื่อ)','p',1,'ชุด',.05,.1,'','','ยาที่กินทุกวันต้องติดตัวเสมอ ส่วนที่เหลือเก็บในใบหยิบเร็ว'],
+['r2',11,'น้ำตาลเม็ดหรือเจลกลูโคส (ติดตัวทุกคน)','p',1,'ซอง',.03,.03,'','',''],
+['r3',11,'มือถือประจำตัว + สายชาร์จสั้น (ใส่ซองกันน้ำ)','p',1,'เครื่อง',.25,.3,'','',''],
+['r5',11,'บัตรประชาชน บัตรสิทธิรักษา และเงินสดย่อย (ซองกันน้ำ)','p',1,'ซอง',.05,.05,'','',''],
+['r6',11,'ชุดปฐมพยาบาลจิ๋ว (พลาสเตอร์ ผ้าก๊อซ แอลกอฮอล์สเปรย์)','p',1,'ชุด',.1,.15,'','',''],
 ['x1',9,'ยา 14 วัน + กล่องเก็บความเย็น (เช่น อินซูลิน)','med',1,'ชุด',.6,2,'med','pin1',''],
 ['x2',9,'เครื่องวัดความดัน/น้ำตาล + ถ่านสำรอง','f',1,'ชุด',.3,.5,'med','',''],
 ['x3',9,'ใบรับรองแพทย์/สรุปประวัติการรักษา','med',1,'ชุด',.01,.02,'med','pin1',''],
@@ -3191,10 +3196,16 @@ function recvSave(){
 function recvDel(){if(!RT.rid||!window.confirm('ลบรายการรับเข้านี้?'))return;S.recv=S.recv.filter(x=>x.id!==RT.rid);Object.keys(S.shop.have).forEach(k=>{if(S.shop.have[k]===RT.rid)delete S.shop.have[k]});delete PH[RT.rid];savePH();save();go('#recv')}
 function recvCsv(){const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';const rows=[['ชื่อ','หมวด','จำนวน','หน่วย','ราคา/หน่วย','รวม','วันที่รับเข้า','ร้าน','ยี่ห้อ/รุ่น','เลขเครื่อง','หมดอายุ','ที่เก็บ','สถานะ','หมายเหตุ']].concat(S.recv.map(o=>[o.name,SHOP_CATS[o.cat]||'',o.qty,o.unit,o.price,(+o.qty||0)*(+o.price||0),o.date,o.store,o.model,o.serial,o.exp,o.loc,STATUS[o.status]||'',o.note]));dl('homegear-recv-'+iso(new Date())+'.csv','﻿'+rows.map(r=>r.map(q).join(',')).join('\r\n'),'text/csv;charset=utf-8')}
 /* ---------- จัดกระเป๋าจริง ---------- */
-const PK_IMG={camo:'img/s_bag_camo.jpg',olive:'img/s_bag_olive.jpg',red:'img/s_bag_red.jpg',org:'img/s_bag_org.jpg'};
+const PK_IMG={camo:'img/s_bag_camo.jpg',olive:'img/s_bag_olive.jpg',red:'img/s_bag_red.jpg',org:'img/s_bag_org.jpg',rig:'img/s_bag_rig.jpg'};
+const PK_RZ=['ช่องข้าง (ขวดน้ำซ้าย-ขวา)','ช่องหน้า (หยิบเร็ว)','ช่องซิปหลัก (เอกสาร ยา ของเล็ก)'];
+const PK_RIG=[['r3',1],['r5',1],['r1',1],['c5',1],['c4',1],['c1',1],['c6',1],['r2',1],['w1',1],['d4',1],['hf3',1],['m7',2],['hr1',2],['r6',1],['c7',1],['m9',1],['m6',1],['d1',1]];
+const PK_FIT=['ปรับสายรัดอกและบ่าให้แนบตัว ไม่หลวมจนแกว่ง','ผูกสายคล้อง/เชือกกันตกกับมือถือและวิทยุ','ล็อกซิปทุกช่องด้วยเชือกเส้นเล็กหรือห่วงปลายซิป','ใส่เอกสารและมือถือในซองกันน้ำ ปิดซิปสนิท','ลองเดินเร็ว ก้มตัว กระโดดเบาๆ 10 ครั้ง ของต้องไม่หลุดหรือเด้ง','ฝึกปลดหัวเข็มขัดด้วยมือเดียว เผื่อต้องถอดเร็วเมื่อลงน้ำลึก'];
 const PK_Z=['ผูกด้านนอก','หยิบเร็ว (ช่องบน ช่องหน้า)','กลางแนบหลัง (ของหนัก)','ก้นกระเป๋า (เบา เทอะทะ)'];
 function keepRoute(){const s=$('#scroller'),y=s?s.scrollTop:0;route();if(s)s.scrollTop=y}
 function pkDefBags(){return [
+ {id:'r1',n:'ใบติดตัว (ลูก)',l:8,img:'rig',who:0,rig:1},
+ {id:'r2',n:'ใบติดตัว (พ่อ)',l:8,img:'rig',who:1,rig:1},
+ {id:'r3',n:'ใบติดตัว (แม่)',l:8,img:'rig',who:2,rig:1},
  {id:'b1',n:'เป้พรางดิจิทัล #1',l:80,img:'camo',who:0},
  {id:'b2',n:'เป้พรางดิจิทัล #2',l:80,img:'camo',who:-1},
  {id:'b3',n:'เป้เขียว',l:60,img:'olive',who:2},
@@ -3205,6 +3216,8 @@ function packS(){
   if(!S.pack)S.pack={};const P=S.pack;
   if(!P.carriers)P.carriers=[{n:'ลูก',kg:100,pct:25},{n:'พ่อ',kg:88,pct:20},{n:'แม่',kg:46,pct:25}];
   if(!P.bags)P.bags=pkDefBags();
+  if(!P.rigAdded){P.rigAdded=1;if(!P.bags.some(b=>b.rig))P.bags=pkDefBags().filter(b=>b.rig).concat(P.bags)}
+  P.fit=P.fit||{};
   P.mv=P.mv||{};P.c=P.c||{};P.w=P.w||{};P.date=P.date||'';P.q=P.q||0;return P}
 const pkGrab=a=>a.fl.includes('pin1')||a.cat===0||a.cat===3||/^x\d/.test(a.id)||['c3','c6','c1'].includes(a.id);
 const pkTier=a=>pkGrab(a)?0:a.fl.includes('opt')?3:(a.cat===1||a.cat===2)?2:1;
@@ -3212,12 +3225,13 @@ function pkZone(a){
   if(a.fl.includes('ext'))return 0;
   if(pkGrab(a)||['b2','b3','b7','hr1','hr2','hr3'].includes(a.id))return 1;
   if(a.cat===6||a.id==='hf2')return 3;
+  if(a.cat===11)return 1;
   if(a.cat===5&&a.kg<1.5)return 1;
   return 2}
 function pkPlan(){
   const g=goS(),P=packS(),p=goPlan(),walk=g.mode==='walk';
   const ok=b=>!walk||(b.who>=0&&P.carriers[b.who]);
-  const bags=P.bags.filter(ok).map(b=>({b,id:b.id,kg:0,L:0,rows:{},who:walk?b.who:-1}));
+  const bags=P.bags.filter(b=>b.rig?(P.carriers[b.who]):ok(b)).map(b=>({b,id:b.id,kg:0,L:0,rows:{},who:(walk||b.rig)?b.who:-1}));
   const carry=P.carriers.map(()=>0);
   const lim=ci=>(+P.carriers[ci].kg||0)*(+P.carriers[ci].pct||25)/100;
   const kgOf=a=>a.fl.includes('wear')?0:a.kg,lOf=a=>a.fl.includes('ext')?0:a.L*1.15;
@@ -3226,11 +3240,17 @@ function pkPlan(){
   const score=x=>x.who>=0?carry[x.who]/(lim(x.who)||1):x.kg/(x.b.l*.3);
   const units=[];let needKg=0,needL=0;
   p.act.forEach(a=>{const n=a.fl.includes('one')?1:Math.max(1,Math.ceil(a.q));for(let i=0;i<n;i++){units.push({a,t:pkTier(a)});needKg+=kgOf(a);needL+=lOf(a)}});
-  units.sort((m,n)=>m.t-n.t||n.a.kg-m.a.kg);
   const un={};
-  units.forEach(u=>{const a=u.a;let x=null;const mv=P.mv[a.id];if(mv)x=bags.find(y=>y.id===mv)||null;
+  const rigs=bags.filter(x=>x.b.rig);const rigMax=Object.fromEntries(PK_RIG);
+  const rigU=[],genU=[];
+  PK_RIG.forEach(([id])=>{});
+  units.forEach(u=>{(rigs.length&&rigMax[u.a.id]&&!P.mv[u.a.id]?rigU:genU).push(u)});
+  rigU.sort((m,n)=>PK_RIG.findIndex(r=>r[0]===m.a.id)-PK_RIG.findIndex(r=>r[0]===n.a.id));
+  rigU.forEach(u=>{const a=u.a;const c=rigs.filter(y=>(y.rows[a.id]||0)<rigMax[a.id]&&fits(a,y));if(c.length){c.sort((m,n)=>(m.rows[a.id]||0)-(n.rows[a.id]||0));put(a,c[0])}else genU.push(u)});
+  genU.sort((m,n)=>m.t-n.t||n.a.kg-m.a.kg);
+  genU.forEach(u=>{const a=u.a;let x=null;const mv=P.mv[a.id];if(mv)x=bags.find(y=>y.id===mv)||null;
     if(!x&&u.t===0){const gb=bags.find(y=>y.b.grab);if(gb&&fits(a,gb))x=gb}
-    if(!x){const c=bags.filter(y=>fits(a,y));if(c.length){c.sort((m,n)=>score(m)-score(n)||(n.b.l-n.L)-(m.b.l-m.L));x=c[0]}}
+    if(!x){const c=bags.filter(y=>!y.b.rig&&fits(a,y));if(c.length){c.sort((m,n)=>score(m)-score(n)||(n.b.l-n.L)-(m.b.l-m.L));x=c[0]}}
     if(x)put(a,x);else un[a.id]=(un[a.id]||0)+1});
   const byId=Object.fromEntries(p.act.map(a=>[a.id,a]));
   const unList=Object.keys(un).map(id=>({a:byId[id],n:un[id]}));
@@ -3245,7 +3265,8 @@ function pkSvg(pct,uid,w){
   const sh='M22 30Q22 14 50 14Q78 14 78 30L86 102Q87 114 74 114L26 114Q13 114 14 102Z';
   return `<svg viewBox="0 0 100 124" width="${w||54}" aria-hidden="true" style="flex:none"><defs><clipPath id="pk${uid}"><path d="${sh}"/></clipPath></defs><path d="M38 14Q38 4 50 4Q62 4 62 14" fill="none" stroke="currentColor" stroke-width="5"/><g clip-path="url(#pk${uid})"><rect width="100" height="124" fill="currentColor" opacity=".12"/><rect x="0" y="${y}" width="100" height="${124-y}" fill="${c}"/></g><path d="${sh}" fill="none" stroke="currentColor" stroke-width="4"/><path d="M30 76H70V102Q70 108 64 108H36Q30 108 30 102Z" fill="none" stroke="currentColor" stroke-width="3" opacity=".6"/></svg>`}
 function pkBar(v,mx,warn){const r=mx?Math.min(100,v/mx*100):0;const c=v>mx?'#E10600':r>85?'#F2A900':'#2E9E5B';return `<div style="height:8px;background:var(--line);border-radius:4px;overflow:hidden"><div style="height:100%;width:${r}%;background:${c}"></div></div>`}
-function pkRowsByZone(R,x){const a=R.p.act.filter(a=>x.rows[a.id]);return PK_Z.map((z,zi)=>({z,zi,rs:a.filter(r=>pkZone(r)===zi).sort((m,n)=>n.kg-m.kg)})).filter(o=>o.rs.length)}
+function pkRigZone(a){return a.id==='w1'?0:['r3','c5','c6','c1','c4','c7','hf3'].includes(a.id)?1:2}
+function pkRowsByZone(R,x){const a=R.p.act.filter(a=>x.rows[a.id]);const rig=x.b.rig,ZZ=rig?PK_RZ:PK_Z,zf=rig?pkRigZone:pkZone;return ZZ.map((z,zi)=>({z,zi,rs:a.filter(r=>zf(r)===zi).sort((m,n)=>n.kg-m.kg)})).filter(o=>o.rs.length)}
 function vPack(){
   const R=pkPlan(),{g,P,walk}=R;
   const chip=(on,act,attrs,l)=>`<button class="chip ${on?'on':''}" data-act="${act}" ${attrs} style="${on?'background:var(--accent-bg);color:#fff;border-color:var(--accent-bg)':''}">${on?'✓ ':''}${esc(l)}</button>`;
@@ -3262,7 +3283,7 @@ function vPack(){
     return `<div class="card" id="pkc_${x.id}"><div style="display:flex;gap:10px;align-items:flex-start">
       ${PK_IMG[x.b.img]?`<img src="${PK_IMG[x.b.img]}" alt="${esc(x.b.n)}" style="width:76px;height:100px;object-fit:cover;border:2px solid var(--line);flex:none">`:''}
       ${pkSvg(v,'c'+x.id,52)}
-      <div style="min-width:0;flex:1"><h3 style="margin:0">${esc(x.b.n)}</h3><p class="note" style="margin:2px 0">${x.b.l} ลิตร · ${x.who>=0?'ผู้แบก: <b>'+esc(P.carriers[x.who].n)+'</b>':'ใส่ท้ายรถ/ยกเข้าที่พัก'}${x.b.grab?' · <span class="badge repair">ใบหยิบเร็ว</span>':''}</p>
+      <div style="min-width:0;flex:1"><h3 style="margin:0">${esc(x.b.n)}</h3><p class="note" style="margin:2px 0">${x.b.l} ลิตร · ${x.b.rig?'<span class="badge ready">สะพายอก ติดตัวตลอด</span> ':''}${x.who>=0?(x.b.rig?'ของ: ':'ผู้แบก: ')+'<b>'+esc(P.carriers[x.who].n)+'</b>':'ใส่ท้ายรถ/ยกเข้าที่พัก'}${x.b.grab?' · <span class="badge repair">ใบหยิบเร็ว</span>':''}</p>
       <p class="note" style="margin:2px 0">ปริมาตร ${fmt(x.L)}/${x.b.l} ล. (${Math.round(v)}%)</p>${pkBar(x.L,x.b.l)}
       <p class="note" style="margin:6px 0 2px">น้ำหนักแผน ${fmt(x.kg)} กก.${x.who>=0?' · ผู้แบกรวมไม่เกิน '+fmt(wl)+' กก.':' · ไม่เกิน '+fmt(wl)+' กก./ใบ'}</p></div></div>
       <div style="display:flex;gap:8px;align-items:center;margin-top:8px"><label class="note" style="flex:none">ชั่งจริง (กก.)</label><input type="number" min="0" step=".1" data-pkw="${x.id}" value="${wa||''}" style="max-width:100px">${wa?`<span class="${wa>wl?'bad':'note'}">${wa>wl?'เกินเกณฑ์ '+fmt(wa-wl)+' กก.':'อยู่ในเกณฑ์'}${x.kg?' · ต่างจากแผน '+(wa-x.kg>=0?'+':'')+fmt(wa-x.kg):''}</span>`:''}</div>
@@ -3270,6 +3291,7 @@ function vPack(){
       ${zs.map(o=>`<h4 style="margin:12px 0 4px;font-size:.95rem;color:var(--accent)">${esc(o.z)}</h4>`+o.rs.map(a=>{const u=x.rows[a.id],done=!!P.c[a.id+'_'+x.id];
         return `<div style="display:flex;gap:6px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--line)"><button data-act="pktick" data-id="${a.id}" data-b="${x.id}" aria-label="ติ๊ก ${esc(a.name)}" style="all:unset;cursor:pointer;display:flex;gap:8px;flex:1;min-width:0"><b style="min-width:22px;height:22px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:18px;flex:none">${done?'✓':''}</b><span style="${done?'opacity:.55;text-decoration:line-through':''}">${esc(a.name)} <small>× ${fmt(u)} ${esc(a.unit)}${a.kg*u>=.05?' · '+fmt(a.kg*u)+' กก.':''}</small></span></button>
         <select data-pkmv="${a.id}" aria-label="ย้ายไปใบอื่น" style="max-width:74px;font-size:.75rem"><option value="">ย้าย</option><option value="__off">ถอดออก</option>${R.bags.filter(y=>y.id!==x.id).map(y=>`<option value="${y.id}">${esc(y.b.n.slice(0,16))}</option>`).join('')}</select></div>`}).join('')).join('')}
+      ${x.b.rig?`<div class="card" style="padding:8px;margin-top:10px"><b>ตรวจการสวมใส่ (กันหลุด)</b>${PK_FIT.map((f,fi)=>{const k=x.id+'_f'+fi,d=!!P.fit[k];return `<button data-act="pkfit" data-k="${k}" style="all:unset;cursor:pointer;display:flex;gap:8px;align-items:flex-start;padding:4px 0"><b style="min-width:20px;height:20px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:16px;flex:none">${d?'✓':''}</b><span style="${d?'opacity:.55':''}">${esc(f)}</span></button>`}).join('')}</div>`:''}
       <div class="row" style="margin-top:10px"><button class="btn sm" data-act="pkall" data-id="${x.id}">ติ๊กทั้งใบ</button><button class="btn sm" data-act="pkclr" data-id="${x.id}">ล้างติ๊ก</button><button class="btn sm" data-act="pkprint" data-id="${x.id}">📄 PDF ใบนี้</button><button class="btn sm" data-act="pktag" data-id="${x.id}">🏷 ป้ายติดกระเป๋า</button></div></div>`};
   const grabList=R.p.act.filter(pkGrab).map(a=>{const w=R.bags.filter(x=>x.rows[a.id]).map(x=>x.b.n);return `<li>${esc(a.name)} <small class="note">→ ${w.length?esc(w.join(', ')):'ยังไม่มีที่ใส่'}</small></li>`}).join('');
   const dsince=P.date?Math.round((todayD()-new Date(P.date+'T00:00:00'))/864e5):null;
@@ -3414,6 +3436,7 @@ document.addEventListener('click',e=>{
   else if(a==='pkwl'){const g=goS();g.wl=+b.dataset.v;save();keepRoute()}
   else if(a==='pktick'){const P=packS();const k=b.dataset.id+'_'+b.dataset.b;if(P.c[k])delete P.c[k];else P.c[k]=1;save();keepRoute()}
   else if(a==='pkall'||a==='pkclr'){const P=packS(),R=pkPlan();const x=R.bags.find(y=>y.id===b.dataset.id);if(x)Object.keys(x.rows).forEach(id=>{if(a==='pkall')P.c[id+'_'+x.id]=1;else delete P.c[id+'_'+x.id]});save();keepRoute()}
+  else if(a==='pkfit'){const P=packS();const k=b.dataset.k;if(P.fit[k])delete P.fit[k];else P.fit[k]=1;save();keepRoute()}
   else if(a==='pkgo'){const e=document.getElementById('pkc_'+b.dataset.id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}
   else if(a==='pkprint')pkPrint(b.dataset.id);
   else if(a==='pktag')pkTag(b.dataset.id);
