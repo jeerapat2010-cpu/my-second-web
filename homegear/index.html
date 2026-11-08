@@ -3210,14 +3210,15 @@ function pkDefBags(){return [
  {id:'b2',n:'เป้พรางดิจิทัล #2',l:80,img:'camo',who:-1},
  {id:'b3',n:'เป้เขียว',l:60,img:'olive',who:2},
  {id:'b4',n:'กระเป๋าแดง (ปฐมพยาบาล)',l:30,img:'red',who:2,grab:1},
- {id:'b5',n:'เป้ส้ม EVEVEME #1',l:80,img:'org',who:1},
- {id:'b6',n:'เป้ส้ม EVEVEME #2',l:80,img:'org',who:-1}]}
+ {id:'b5',n:'เป้สีส้ม ใบหนึ่ง',l:80,img:'org',who:1},
+ {id:'b6',n:'เป้สีส้ม ใบที่สอง',l:80,img:'org',who:-1}]}
 function packS(){
   if(!S.pack)S.pack={};const P=S.pack;
   if(!P.carriers)P.carriers=[{n:'ลูก',kg:100,pct:25},{n:'พ่อ',kg:88,pct:20},{n:'แม่',kg:46,pct:25}];
   if(!P.bags)P.bags=pkDefBags();
   if(!P.rigAdded){P.rigAdded=1;if(!P.bags.some(b=>b.rig))P.bags=pkDefBags().filter(b=>b.rig).concat(P.bags)}
   P.fit=P.fit||{};
+  P.bags.forEach(b=>{if(b.id==='b5'&&/EVEVEME/.test(b.n))b.n='เป้สีส้ม ใบหนึ่ง';if(b.id==='b6'&&/EVEVEME/.test(b.n))b.n='เป้สีส้ม ใบที่สอง'});
   P.mv=P.mv||{};P.c=P.c||{};P.w=P.w||{};P.date=P.date||'';P.q=P.q||0;return P}
 const pkGrab=a=>a.fl.includes('pin1')||a.cat===0||a.cat===3||/^x\d/.test(a.id)||['c3','c6','c1'].includes(a.id);
 const pkTier=a=>pkGrab(a)?0:a.fl.includes('opt')?3:(a.cat===1||a.cat===2)?2:1;
