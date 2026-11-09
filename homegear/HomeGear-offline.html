@@ -2583,12 +2583,12 @@ function stats(){let val=0,due=0,bad=0;D.items.forEach(i=>{const v=inv(i.id);val
 const view = $('#view');
 function parts(){return location.hash.replace(/^#/,'').split('/').filter(Boolean).map(decodeURIComponent)}
 function go(h){location.hash=h}
-const TABMAP={home:'home',sos:'sos',scen:'sos',tools:'sos',prep:'prep',go:'prep',stock:'prep',bag:'prep',family:'prep',shop:'prep',recv:'prep',pack:'prep',gear:'gear',item:'gear',inv:'gear',more:'more',calc:'more',links:'more',about:'more'};
+const TABMAP={home:'home',sos:'sos',scen:'sos',tools:'sos',prep:'prep',go:'prep',stock:'prep',bag:'prep',family:'prep',shop:'prep',recv:'prep',pack:'prep',carkit:'prep',gear:'gear',item:'gear',inv:'gear',more:'more',calc:'more',links:'more',about:'more'};
 function route(){
   const p=parts(); const r=p[0]||'home';
   closeOverlay();
   $$('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.t===TABMAP[r]));
-  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vSos,sos:vSos,prep:vPrep,calc:vCalc,more:vMore,bag:vPack,go:vGo,stock:vStock,family:vFamily,shop:vShop,recv:vRecv,pack:vPack,links:vLinks,about:vAbout}[r]||vHome;
+  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vSos,sos:vSos,prep:vPrep,calc:vCalc,more:vMore,bag:vPack,go:vGo,stock:vStock,family:vFamily,shop:vShop,recv:vRecv,pack:vPack,carkit:vCarKit,links:vLinks,about:vAbout}[r]||vHome;
   view.innerHTML=f(p); window.scrollTo(0,0);const sc=$('#scroller');if(sc)sc.scrollTop=0;
   const after=view.querySelector('[data-after]');
   if(typeof f.after==='function')f.after(p);
@@ -2604,6 +2604,7 @@ function vHome(){
   <div class="grp">เตรียมพร้อมก่อนเกิดเหตุ</div>
   <div class="tiles">
     <a class="big" href="#pack"><i>🎒</i><span>จัดกระเป๋าจริงของฉัน<small>6 ใบ แบ่งของตามความจุ 3/7 วัน เดินเท้า/รถ ติ๊กเช็ก PDF</small></span></a>
+    <a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ของเบา เติมก่อนออกจากบ้าน</small></span></a>
     <a class="big" href="#stock"><i>🥫</i><span>อาหารและยา<small>คำนวณตามจำนวนคน</small></span></a>
     <a class="big" href="#family"><i>♥</i><span>บัตรครอบครัว<small>ยา จุดนัดพบ เส้นทาง</small></span></a>
     <a class="big" href="#inv"><i>✓</i><span>ตรวจอุปกรณ์<small>ทะเบียน วันตรวจ ปฏิทินเตือน</small></span></a>
@@ -2697,6 +2698,7 @@ function vPrep(){
   <div class="grp">1 · จัดกระเป๋าอพยพ</div>
   <div class="list">
     <a class="big" href="#pack"><i>🎒</i><span>จัดกระเป๋าจริงของฉัน<small>แบ่งของลงกระเป๋าแต่ละใบ ติ๊กเช็ก พิมพ์ PDF ป้ายติดกระเป๋า</small></span></a>
+    <a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ของเบา เติมก่อนออกจากบ้าน</small></span></a>
   </div>
   <div class="grp">2 · อาหารและยา</div>
   <div class="list"><a class="big" href="#stock"><i>🥫</i><span>เช็กลิสต์อาหารและยา<small>คำนวณตามคน/วัน ใส่วันหมดอายุ</small></span></a></div>
@@ -3310,6 +3312,7 @@ function vPack(){
   const old=dsince!=null&&dsince>180;
   const unHtml=R.un.length?`<div class="warn"><b>⚠ ยังไม่มีที่ใส่ ${R.un.reduce((s,u)=>s+u.n,0)} ชิ้น (ประมาณ ${fmt(R.unKg)} กก.)</b><ul style="margin:6px 0 0;padding-left:18px">${R.un.map(u=>`<li>${esc(u.a.name)} × ${u.n} ${esc(u.a.unit)}</li>`).join('')}</ul><p style="margin:8px 0 4px">ทางแก้:</p><div class="row">${walk?`<button class="btn sm p" data-act="pkpre" data-d="${days}" data-m="car">ขับรถแทน</button><button class="btn sm" data-act="pkwl" data-v=".5">น้ำพกน้อย 0.5 ล./คน/วัน (กรองหรือต้มเติม)</button>`:''}<a class="btn sm" href="#go">ถอดของที่ไม่จำเป็น</a></div>${walk?'<p class="note" style="margin:6px 0 0">เดินเท้าควรพกน้ำน้อยลงแล้วใช้เครื่องกรองหรือต้มน้ำเติมระหว่างทาง ผู้มีโรคที่ต้องจำกัดน้ำให้ถามแพทย์</p>':''}</div>`:'';
   return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">จัดกระเป๋าจริงของฉัน</h2>
+  <div class="list"><a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (รถ 2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ไม่ต้องเตรียมเต็มที่ มีข้อควรระวังรถร้อน</small></span></a></div>
   <p class="sub">แอปแบ่งของลงกระเป๋าแต่ละใบตามความจุจริงและแรงแบกของแต่ละคน ติ๊กเมื่อใส่แล้ว ย้ายของข้ามใบได้ พิมพ์ PDF และป้ายติดกระเป๋าได้</p>
   <div class="card"><label class="f">เลือกแผน</label><div class="row">${pre.map(x=>chip(days===x[0]&&g.mode===x[1],'pkpre',`data-d="${x[0]}" data-m="${x[1]}"`,x[2])).join('')}</div>
   <p class="note" style="margin:8px 0 0">${esc(g.n)} คน · ${esc(g.days)} วัน · ${walk?'แบกเอง':'ขับรถ'} · น้ำ ${esc(g.wl)} ล./คน/วัน · สมาชิกพิเศษและสัตว์เลี้ยงตามที่ตั้งไว้ </p><div class="row"><a class="btn sm" href="#go">⚙ ตั้งค่าสถานการณ์ จำนวนคน และเพิ่มของเอง</a></div>
@@ -3355,6 +3358,49 @@ function pkIcs(){
   const d=new Date();d.setDate(d.getDate()+180);const pd=iso(d).replace(/-/g,''),stamp=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z';
   dl('เตือนสลับของในกระเป๋าอพยพ.ics',['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//HomeGear//TH','BEGIN:VEVENT','UID:hg-pack@homegear','DTSTAMP:'+stamp,'DTSTART;VALUE=DATE:'+pd,'RRULE:FREQ=MONTHLY;INTERVAL=6','SUMMARY:สู้ภัย: สลับน้ำ อาหาร ยา ในกระเป๋าอพยพ','DESCRIPTION:เปลี่ยนน้ำดื่ม ตรวจวันหมดอายุอาหารและยา ชาร์จแบตสำรอง ตรวจเสื้อผ้าและขนาดของเด็ก','END:VEVENT','END:VCALENDAR'].join('\r\n'),'text/calendar;charset=utf-8');
   toast('ดาวน์โหลดไฟล์ปฏิทินแล้ว เปิดไฟล์เพื่อเพิ่มลงปฏิทิน')}
+
+/* ===== ชุดติดรถประจำวัน (รถ 2 คัน) ===== */
+const CK_STAY=[
+['น้ำดื่มสำรอง 3 ขวด (เปลี่ยนทุก 1-2 เดือน เก็บใต้เบาะ ไม่ให้โดนแดดตรง)','น้ำ'],
+['ชุดปฐมพยาบาลเล็ก (พลาสเตอร์ ผ้าก๊อซ ผ้ายืด ยาล้างแผล)','ปฐมพยาบาล'],
+['ไฟฉาย + ถ่านสำรอง','ไฟ/สื่อสาร'],
+['สายชาร์จ + ที่ชาร์จในรถ','ไฟ/สื่อสาร'],
+['เสื้อกันฝน/โปนโช 2 ตัว','เสื้อผ้า'],
+['ผ้าขนหนู/ผ้าห่มบาง และร่ม/หมวก','เสื้อผ้า'],
+['ค้อนทุบกระจก + ที่ตัดเข็มขัดนิรภัย (วางที่หยิบได้จากที่นั่งคนขับ)','ช่วยชีวิต'],
+['สามเหลี่ยมสะท้อนแสง/เสื้อสะท้อนแสง','ช่วยชีวิต'],
+['สายพ่วงแบตเตอรี่ และที่สูบลมยางไฟฟ้า','เครื่องมือ'],
+['เชือกเส้นเล็ก เทปผ้า ถุงมือ ถุงขยะ','เครื่องมือ'],
+['ขนมพลังงานที่ทนร้อน (บิสกิต ธัญพืช) เปลี่ยนทุก 3 เดือน','อาหาร'],
+['ชามพับ + ขวดน้ำสำหรับสุนัข และสายจูงสำรอง','สัตว์เลี้ยง'],
+['สำเนาเอกสารสำคัญ (บัตร ทะเบียนรถ พ.ร.บ.) ในซองกันน้ำ','เอกสาร']];
+const CK_DAY=[
+['มือถือชาร์จเต็ม + แบตสำรองชาร์จแล้ว','ก่อนออก'],
+['บัตรประชาชน ใบขับขี่ และเงินสดย่อย','ก่อนออก'],
+['ยาประจำตัววันนี้ติดตัวไปด้วย (ไม่ทิ้งยาไว้ในรถตากแดด)','ก่อนออก'],
+['น้ำดื่มเย็นสำหรับวันนี้','ก่อนออก'],
+['เช็กพยากรณ์อากาศ ฝน และสภาพถนนปลายทาง','ก่อนออก'],
+['น้ำมันเกินครึ่งถัง และลมยางปกติ','ก่อนออก'],
+['บอกคนที่บ้านว่าไปไหน กลับกี่โมง','ก่อนออก']];
+const CK_HEAT=['ห้ามทิ้งคนหรือสัตว์เลี้ยงไว้ในรถที่จอดตากแดด แม้เปิดกระจกแง้ม','ไฟแช็ก สเปรย์แอลกอฮอล์ ก๊าซกระป๋อง และแบตสำรอง ห้ามทิ้งไว้ในรถร้อน (เสี่ยงระเบิด/แบตบวม)','ยาและเกลือแร่ทนความร้อนในรถได้ไม่ดี ให้นำติดตัวหรือเก็บในกระเป๋าเก็บความเย็น','พลาสติกขวดน้ำที่ตากแดดนานควรเปลี่ยนบ่อย อย่าเก็บไว้เกิน 1-2 เดือน','ขนมช็อกโกแลตและของที่ละลายง่าย ไม่ควรเก็บในรถ'];
+function ckS(){const P=packS();if(!P.car)P.car={n:['รถคัน 1','รถคัน 2'],c:{},d:['','']};return P.car}
+function vCarKit(){
+  const K=ckS();const today=todayD();
+  const cats=[...new Set(CK_STAY.map(x=>x[1]))];
+  const kit=ci=>{const done=CK_STAY.filter((x,i)=>K.c['s'+ci+'_'+i]).length,dd=K.d[ci],ds=dd?Math.round((today-new Date(dd+'T00:00:00'))/864e5):null;
+    return `<div class="card"><div style="display:flex;gap:8px;align-items:center"><input type="text" data-ckn="${ci}" value="${esc(K.n[ci])}" aria-label="ชื่อรถ" style="flex:1;font:700 1.05rem var(--f-d)"></div>
+    <p class="note" style="margin:6px 0">ติดรถแล้ว ${done}/${CK_STAY.length} รายการ</p>${pkBar(done,CK_STAY.length)}
+    ${cats.map(c=>`<h4 style="margin:10px 0 2px;font-size:.92rem;color:var(--accent)">${esc(c)}</h4>`+CK_STAY.map((x,i)=>x[1]===c?`<button data-act="ckt" data-k="s${ci}_${i}" style="all:unset;cursor:pointer;display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--line);width:100%"><b style="min-width:22px;height:22px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:18px;flex:none">${K.c['s'+ci+'_'+i]?'✓':''}</b><span style="${K.c['s'+ci+'_'+i]?'opacity:.55':''}">${esc(x[0])}</span></button>`:'').join('')).join('')}
+    <p class="note" style="margin:8px 0 4px">${dd?`ตรวจชุดนี้ล่าสุด ${esc(dd)} (${ds} วันที่แล้ว)${ds>60?' <b class="bad">ควรตรวจและเปลี่ยนของหมดอายุ</b>':''}`:'ยังไม่เคยบันทึกการตรวจ'}</p>
+    <div class="row"><button class="btn sm p" data-act="ckdate" data-i="${ci}">✓ ตรวจชุดนี้วันนี้</button><button class="btn sm" data-act="ckall" data-i="${ci}">ติ๊กทั้งหมด</button><button class="btn sm" data-act="ckclr" data-i="${ci}">ล้าง</button></div></div>`};
+  const day=ci=>`<div class="card"><h4 style="margin:0 0 4px">${esc(K.n[ci])}: ก่อนออกเดินทางวันนี้</h4>${CK_DAY.map((x,i)=>{const k='d'+ci+'_'+i,on=K.c[k];return `<button data-act="ckt" data-k="${k}" style="all:unset;cursor:pointer;display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--line);width:100%"><b style="min-width:22px;height:22px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:18px;flex:none">${on?'✓':''}</b><span style="${on?'opacity:.55':''}">${esc(x[0])}</span></button>`}).join('')}
+    <div class="row" style="margin-top:8px"><button class="btn sm" data-act="ckdayclr" data-i="${ci}">เริ่มรอบใหม่ (ล้างเช็กลิสต์วันนี้)</button></div></div>`;
+  return `<div class="stack"><a class="btn sm" href="#pack">← กลับไปจัดกระเป๋า</a><h2 class="h2">ชุดติดรถประจำวัน (รถ 2 คัน)</h2>
+  <p class="sub">สำหรับการเดินทางไปที่ต่างๆ ในแต่ละวัน ไม่ได้เตรียมเต็มที่ ของเบา เก็บถาวรในรถ แล้วเติมเฉพาะของสำคัญก่อนออกจากบ้านทุกครั้ง ถ้าต้องอพยพจริงให้ใช้ชุดเต็มที่หน้าจัดกระเป๋า</p>
+  <div class="card" style="border-color:var(--danger)"><b>ข้อควรระวังเรื่องรถร้อน</b><ul style="margin:6px 0 0;padding-left:18px">${CK_HEAT.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+  <h3 style="margin:10px 0 0">ของที่เก็บไว้ในรถ</h3>${kit(0)}${kit(1)}
+  <h3 style="margin:10px 0 0">เช็กลิสต์ก่อนออกจากบ้านวันนี้</h3>${day(0)}${day(1)}
+  <p class="note">ถ้าสองคันออกพร้อมกัน ให้แบ่งกัน: คันหนึ่งมีน้ำ/ของกิน อีกคันมีปฐมพยาบาล/เครื่องมือ เผื่อแยกกันแล้วคันใดคันหนึ่งใช้ไม่ได้ ก็ยังมีของจำเป็นครบอย่างน้อยหนึ่งคัน</p></div>`}
 function pdfDoc(title,sub,body){return `<style>.pd{font:11pt/1.45 Sarabun,sans-serif;color:#000;background:#fff}.pd h1{font:700 19pt Prompt,sans-serif;margin:0 0 2pt;color:#8a0f0f}.pd .s{color:#444;margin:0 0 10pt;font-size:10pt}.pd h2{font:600 13pt Prompt,sans-serif;margin:12pt 0 4pt;border-bottom:1.5pt solid #8a0f0f}.pd table{border-collapse:collapse;width:100%}.pd td,.pd th{border:.6pt solid #666;padding:3pt 5pt;text-align:left;vertical-align:top;font-size:10pt}.pd th{background:#eee}.pd tr{break-inside:avoid}.pd .bx{display:inline-block;width:11pt;height:11pt;border:1.2pt solid #000;vertical-align:-2pt}.pd .ck{background:#000}.pd ol,.pd ul{padding:0;list-style:none}.pd li{margin:5pt 0;break-inside:avoid}.pd .f{margin-top:12pt;font-size:9pt;color:#555}.pd img{max-width:55%;height:auto}</style><div class="pd"><h1>${esc(title)}</h1><p class="s">${esc(sub)} · พิมพ์เมื่อ ${new Date().toLocaleDateString('th-TH',{dateStyle:'long'})}</p>${body}<p class="f">คู่มืออุปกรณ์สู้ภัยประจำบ้าน · แนวทางทั่วไป เหตุรุนแรงโทร 1669 · ปภ. 1784</p></div>`}
 function pdfOut(h){toast('เลือก "บันทึกเป็น PDF" ที่ปลายทางในหน้าต่างพิมพ์');printHTML(h)}
 function pdfGo(w,i,id){
@@ -3448,6 +3494,11 @@ document.addEventListener('click',e=>{
   else if(a==='pkwl'){const g=goS();g.wl=+b.dataset.v;save();keepRoute()}
   else if(a==='pktick'){const P=packS();const k=b.dataset.id+'_'+b.dataset.b;if(P.c[k])delete P.c[k];else P.c[k]=1;save();keepRoute()}
   else if(a==='pkall'||a==='pkclr'){const P=packS(),R=pkPlan();const x=R.bags.find(y=>y.id===b.dataset.id);if(x)Object.keys(x.rows).forEach(id=>{if(a==='pkall')P.c[id+'_'+x.id]=1;else delete P.c[id+'_'+x.id]});save();keepRoute()}
+  else if(a==='ckt'){const K=ckS(),k=b.dataset.k;if(K.c[k])delete K.c[k];else K.c[k]=1;save();keepRoute()}
+  else if(a==='ckdate'){const K=ckS();K.d[+b.dataset.i]=new Date().toISOString().slice(0,10);save();keepRoute()}
+  else if(a==='ckall'){const K=ckS(),i=b.dataset.i;CK_STAY.forEach((x,j)=>K.c['s'+i+'_'+j]=1);save();keepRoute()}
+  else if(a==='ckclr'){const K=ckS(),i=b.dataset.i;CK_STAY.forEach((x,j)=>delete K.c['s'+i+'_'+j]);save();keepRoute()}
+  else if(a==='ckdayclr'){const K=ckS(),i=b.dataset.i;CK_DAY.forEach((x,j)=>delete K.c['d'+i+'_'+j]);save();keepRoute()}
   else if(a==='pkfit'){const P=packS();const k=b.dataset.k;if(P.fit[k])delete P.fit[k];else P.fit[k]=1;save();keepRoute()}
   else if(a==='pkgo'){const e=document.getElementById('pkc_'+b.dataset.id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}
   else if(a==='pkprint')pkPrint(b.dataset.id);
@@ -3475,6 +3526,7 @@ document.addEventListener('input',e=>{
   else if(t.dataset.sh!==undefined){S.shelters[+t.dataset.sh][t.dataset.k]=t.value;save()}
   else if(t.dataset.pkw!==undefined){packS().w[t.dataset.pkw]=+t.value||0;save()}
   else if(t.dataset.pkb!==undefined){const x=packS().bags.find(y=>y.id===t.dataset.pkb);if(x){x[t.dataset.k]=t.dataset.k==='n'?t.value:(+t.value||0);save()}}
+  else if(t.dataset.ckn!==undefined){const K=ckS();K.n[+t.dataset.ckn]=t.value.trim()||('รถคัน '+(+t.dataset.ckn+1));save()}
   else if(t.dataset.pkc!==undefined){const c=packS().carriers[+t.dataset.pkc];if(c){c[t.dataset.k]=t.dataset.k==='n'?t.value:(+t.value||0);save()}}
   else if(t.dataset.go){const g=goS();g[t.dataset.go]=+t.value;save()}
   else if(t.dataset.gob!==undefined){const g=goS();g.body[+t.dataset.gob]=+t.value;save()}
