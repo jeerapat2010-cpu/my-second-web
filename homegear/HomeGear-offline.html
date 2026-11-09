@@ -2583,12 +2583,12 @@ function stats(){let val=0,due=0,bad=0;D.items.forEach(i=>{const v=inv(i.id);val
 const view = $('#view');
 function parts(){return location.hash.replace(/^#/,'').split('/').filter(Boolean).map(decodeURIComponent)}
 function go(h){location.hash=h}
-const TABMAP={home:'home',sos:'sos',scen:'sos',tools:'sos',prep:'prep',go:'prep',stock:'prep',bag:'prep',family:'prep',shop:'prep',recv:'prep',pack:'prep',carkit:'prep',gear:'gear',item:'gear',inv:'gear',more:'more',calc:'more',links:'more',about:'more'};
+const TABMAP={home:'home',sos:'sos',scen:'sos',tools:'sos',prep:'prep',go:'prep',stock:'prep',bag:'prep',family:'prep',shop:'prep',recv:'prep',pack:'prep',carkit:'prep',lay:'prep',gear:'gear',item:'gear',inv:'gear',more:'more',calc:'more',links:'more',about:'more'};
 function route(){
   const p=parts(); const r=p[0]||'home';
   closeOverlay();
   $$('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.t===TABMAP[r]));
-  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vSos,sos:vSos,prep:vPrep,calc:vCalc,more:vMore,bag:vPack,go:vGo,stock:vStock,family:vFamily,shop:vShop,recv:vRecv,pack:vPack,carkit:vCarKit,links:vLinks,about:vAbout}[r]||vHome;
+  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vSos,sos:vSos,prep:vPrep,calc:vCalc,more:vMore,bag:vPack,go:vGo,stock:vStock,family:vFamily,shop:vShop,recv:vRecv,pack:vPack,lay:vLay,carkit:vCarKit,links:vLinks,about:vAbout}[r]||vHome;
   view.innerHTML=f(p); window.scrollTo(0,0);const sc=$('#scroller');if(sc)sc.scrollTop=0;
   const after=view.querySelector('[data-after]');
   if(typeof f.after==='function')f.after(p);
@@ -3307,13 +3307,13 @@ function vPack(){
         return `<div style="display:flex;gap:6px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--line)"><button data-act="pktick" data-id="${a.id}" data-b="${x.id}" aria-label="ติ๊ก ${esc(a.name)}" style="all:unset;cursor:pointer;display:flex;gap:8px;flex:1;min-width:0"><b style="min-width:22px;height:22px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:18px;flex:none">${done?'✓':''}</b><span style="${done?'opacity:.55;text-decoration:line-through':''}">${esc(a.name)} <small>× ${fmt(u)} ${esc(a.unit)}${a.kg*u>=.05?' · '+fmt(a.kg*u)+' กก.':''}</small></span></button>
         <select data-pkmv="${a.id}" aria-label="ย้ายไปใบอื่น" style="max-width:74px;font-size:.75rem"><option value="">ย้าย</option><option value="__off">ถอดออก</option>${R.bags.filter(y=>y.id!==x.id).map(y=>`<option value="${y.id}">${esc(y.b.n.slice(0,16))}</option>`).join('')}</select></div>`}).join('')).join('')}
       ${x.b.rig?`<div class="card" style="padding:8px;margin-top:10px"><b>ตรวจการสวมใส่ (กันหลุด)</b>${PK_FIT.map((f,fi)=>{const k=x.id+'_f'+fi,d=!!P.fit[k];return `<button data-act="pkfit" data-k="${k}" style="all:unset;cursor:pointer;display:flex;gap:8px;align-items:flex-start;padding:4px 0"><b style="min-width:20px;height:20px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:16px;flex:none">${d?'✓':''}</b><span style="${d?'opacity:.55':''}">${esc(f)}</span></button>`}).join('')}</div>`:''}
-      <div class="row" style="margin-top:10px"><button class="btn sm" data-act="pkall" data-id="${x.id}">ติ๊กทั้งใบ</button><button class="btn sm" data-act="pkclr" data-id="${x.id}">ล้างติ๊ก</button><button class="btn sm" data-act="pkprint" data-id="${x.id}">📄 PDF ใบนี้</button><button class="btn sm" data-act="pktag" data-id="${x.id}">🏷 ป้ายติดกระเป๋า</button></div></div>`};
+      <div class="row" style="margin-top:10px"><a class="btn sm p" href="#lay/${x.id}">📷 ถ่ายรูปตรวจก่อนใส่</a><button class="btn sm" data-act="pkall" data-id="${x.id}">ติ๊กทั้งใบ</button><button class="btn sm" data-act="pkclr" data-id="${x.id}">ล้างติ๊ก</button><button class="btn sm" data-act="pkprint" data-id="${x.id}">📄 PDF ใบนี้</button><button class="btn sm" data-act="pktag" data-id="${x.id}">🏷 ป้ายติดกระเป๋า</button></div></div>`};
   const grabList=R.p.act.filter(pkGrab).map(a=>{const w=R.bags.filter(x=>x.rows[a.id]).map(x=>x.b.n);return `<li>${esc(a.name)} <small class="note">→ ${w.length?esc(w.join(', ')):'ยังไม่มีที่ใส่'}</small></li>`}).join('');
   const dsince=P.date?Math.round((todayD()-new Date(P.date+'T00:00:00'))/864e5):null;
   const old=dsince!=null&&dsince>180;
   const unHtml=R.un.length?`<div class="warn"><b>⚠ ยังไม่มีที่ใส่ ${R.un.reduce((s,u)=>s+u.n,0)} ชิ้น (ประมาณ ${fmt(R.unKg)} กก.)</b><ul style="margin:6px 0 0;padding-left:18px">${R.un.map(u=>`<li>${esc(u.a.name)} × ${u.n} ${esc(u.a.unit)}</li>`).join('')}</ul><p style="margin:8px 0 4px">ทางแก้:</p><div class="row">${walk?`<button class="btn sm p" data-act="pkpre" data-d="${days}" data-m="car">ขับรถแทน</button><button class="btn sm" data-act="pkwl" data-v=".5">น้ำพกน้อย 0.5 ล./คน/วัน (กรองหรือต้มเติม)</button>`:''}<a class="btn sm" href="#go">ถอดของที่ไม่จำเป็น</a></div>${walk?'<p class="note" style="margin:6px 0 0">เดินเท้าควรพกน้ำน้อยลงแล้วใช้เครื่องกรองหรือต้มน้ำเติมระหว่างทาง ผู้มีโรคที่ต้องจำกัดน้ำให้ถามแพทย์</p>':''}</div>`:'';
   return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">จัดกระเป๋าจริงของฉัน</h2>
-  <div class="list"><a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (รถ 2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ไม่ต้องเตรียมเต็มที่ มีข้อควรระวังรถร้อน</small></span></a></div>
+  <div class="list"><a class="big" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของก่อนใส่กระเป๋า<small>วางของ ถ่ายรูป เทียบรายการ ติ๊กให้ครบ แล้วค่อยใส่</small></span></a><a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (รถ 2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ไม่ต้องเตรียมเต็มที่ มีข้อควรระวังรถร้อน</small></span></a></div>
   <p class="sub">แอปแบ่งของลงกระเป๋าแต่ละใบตามความจุจริงและแรงแบกของแต่ละคน ติ๊กเมื่อใส่แล้ว ย้ายของข้ามใบได้ พิมพ์ PDF และป้ายติดกระเป๋าได้</p>
   <div class="card"><label class="f">เลือกแผน</label><div class="row">${pre.map(x=>chip(days===x[0]&&g.mode===x[1],'pkpre',`data-d="${x[0]}" data-m="${x[1]}"`,x[2])).join('')}</div>
   <p class="note" style="margin:8px 0 0">${esc(g.n)} คน · ${esc(g.days)} วัน · ${walk?'แบกเอง':'ขับรถ'} · น้ำ ${esc(g.wl)} ล./คน/วัน · สมาชิกพิเศษและสัตว์เลี้ยงตามที่ตั้งไว้ </p><div class="row"><a class="btn sm" href="#go">⚙ ตั้งค่าสถานการณ์ จำนวนคน และเพิ่มของเอง</a></div>
@@ -3402,6 +3402,29 @@ function vCarKit(){
   <h3 style="margin:10px 0 0">ของที่เก็บไว้ในรถ</h3>${kit(0)}${kit(1)}
   <h3 style="margin:10px 0 0">เช็กลิสต์ก่อนออกจากบ้านวันนี้</h3>${day(0)}${day(1)}
   <p class="note">ถ้าสองคันออกพร้อมกัน ให้แบ่งกัน: คันหนึ่งมีน้ำ/ของกิน อีกคันมีปฐมพยาบาล/เครื่องมือ เผื่อแยกกันแล้วคันใดคันหนึ่งใช้ไม่ได้ ก็ยังมีของจำเป็นครบอย่างน้อยหนึ่งคัน</p></div>`}
+
+/* ===== ถ่ายรูปตรวจของก่อนใส่กระเป๋า ===== */
+function vLay(p){
+  const R=pkPlan(),P=R.P,id=p[1];
+  const x=R.bags.find(y=>y.id===id);
+  if(!x){return `<div class="stack"><a class="btn sm" href="#pack">← กลับไปจัดกระเป๋า</a><h2 class="h2">📷 ตรวจของก่อนใส่กระเป๋า</h2><p class="sub">เลือกกระเป๋าที่จะตรวจ แล้วถ่ายรูปของที่วางรวมกันบนพื้น เทียบกับรายการ ติ๊กทีละชิ้นจนครบ ก่อนใส่ลงกระเป๋า</p><div class="list">${R.bags.map(y=>{const ks=Object.keys(y.rows),tk=ks.filter(k=>P.c[k+'_'+y.id]).length;return `<a class="big" href="#lay/${y.id}"><i>📷</i><span>${esc(y.b.n)}<small>${y.b.l} ลิตร · ติ๊กแล้ว ${tk}/${ks.length} รายการ${(PH['lay_'+y.id+'_a']||[]).length?' · มีรูปก่อนใส่':''}</small></span></a>`}).join('')}</div></div>`}
+  const keys=Object.keys(x.rows),rows=keys.map(k=>R.p.act.find(a=>a.id===k)).filter(Boolean);
+  const tk=rows.filter(a=>P.c[a.id+'_'+x.id]).length,miss=rows.filter(a=>!P.c[a.id+'_'+x.id]);
+  const ph=(ph_,lab)=>{const k='lay_'+x.id+'_'+ph_,L=PH[k]||[];return `<div class="card"><h3 style="margin:0">${lab}</h3>
+    ${L.map((u,i)=>`<div style="position:relative;margin-top:8px"><img src="${u}" alt="" style="width:100%;border:2px solid var(--line);display:block"><button class="btn sm d" data-act="layrm" data-k="${k}" data-i="${i}" style="position:absolute;right:6px;top:6px">ลบ</button></div>`).join('')}
+    ${L.length<3?`<label class="btn p" style="margin-top:8px;cursor:pointer;display:flex">📷 ถ่ายรูป / เลือกรูป<input type="file" accept="image/*" capture="environment" data-lay="${k}" style="display:none"></label>`:'<p class="note">ครบ 3 รูปแล้ว</p>'}</div>`};
+  return `<div class="stack"><a class="btn sm" href="#lay">← เลือกกระเป๋าอื่น</a><a class="btn sm" href="#pack">กลับจัดกระเป๋า</a>
+  <h2 class="h2">📷 ตรวจ: ${esc(x.b.n)}</h2>
+  <p class="sub">ขั้นที่ 1 วางของทั้งหมดของใบนี้บนพื้นให้เห็นครบ ถ่ายรูป · ขั้นที่ 2 ดูรูปเทียบกับรายการด้านล่าง ติ๊กชิ้นที่เห็นในรูป · ขั้นที่ 3 ใส่กระเป๋า แล้วถ่ายรูปหลังปิดเป็นหลักฐาน</p>
+  <p class="note">แอปไม่ได้ให้ AI อ่านรูปอัตโนมัติ (ใช้ได้โดยไม่ต้องมีเน็ต และรูปเก็บในเครื่องนี้เท่านั้น) ใช้รูปเป็นตัวช่วยให้ตาเห็นชัดขึ้นเวลาไล่ตรวจ</p>
+  ${ph('a','1) รูปของที่วางรวมกัน (ก่อนใส่)')}
+  <div class="card" style="${miss.length?'border-color:var(--danger)':''}"><h3 style="margin:0">2) ติ๊กตามรูป ${tk}/${rows.length}</h3>${pkBar(tk,rows.length||1)}
+   <p style="margin:6px 0"><b class="${miss.length?'bad':''}">${miss.length?'ยังไม่เจอ '+miss.length+' รายการ':'ครบทุกรายการ ✓ ใส่กระเป๋าได้เลย'}</b></p>
+   ${rows.map(a=>{const u=x.rows[a.id],done=!!P.c[a.id+'_'+x.id];return `<button data-act="pktick" data-id="${a.id}" data-b="${x.id}" style="all:unset;cursor:pointer;display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line);width:100%"><b style="min-width:24px;height:24px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:20px;flex:none">${done?'✓':''}</b><span style="${done?'opacity:.55':'font-weight:600'}">${esc(a.name)} <small>× ${fmt(u)} ${esc(a.unit)}</small></span></button>`}).join('')}
+   <div class="row" style="margin-top:8px"><button class="btn sm" data-act="pkall" data-id="${x.id}">ติ๊กทั้งใบ</button><button class="btn sm" data-act="pkclr" data-id="${x.id}">ล้าง</button></div></div>
+  ${ph('b','3) รูปหลังปิดกระเป๋า (บันทึกว่าจัดแล้ว)')}
+  <div class="row"><a class="btn p" href="#pack">เสร็จ กลับไปจัดกระเป๋า</a></div></div>`}
+document.addEventListener('change',e=>{const el=e.target,k=el.dataset&&el.dataset.lay;if(!k||!el.files||!el.files[0])return;readPhoto(el.files[0],u=>{PH[k]=(PH[k]||[]).concat([u]).slice(0,3);savePH();keepRoute()})});
 function pdfDoc(title,sub,body){return `<style>.pd{font:11pt/1.45 Sarabun,sans-serif;color:#000;background:#fff}.pd h1{font:700 19pt Prompt,sans-serif;margin:0 0 2pt;color:#8a0f0f}.pd .s{color:#444;margin:0 0 10pt;font-size:10pt}.pd h2{font:600 13pt Prompt,sans-serif;margin:12pt 0 4pt;border-bottom:1.5pt solid #8a0f0f}.pd table{border-collapse:collapse;width:100%}.pd td,.pd th{border:.6pt solid #666;padding:3pt 5pt;text-align:left;vertical-align:top;font-size:10pt}.pd th{background:#eee}.pd tr{break-inside:avoid}.pd .bx{display:inline-block;width:11pt;height:11pt;border:1.2pt solid #000;vertical-align:-2pt}.pd .ck{background:#000}.pd ol,.pd ul{padding:0;list-style:none}.pd li{margin:5pt 0;break-inside:avoid}.pd .f{margin-top:12pt;font-size:9pt;color:#555}.pd img{max-width:55%;height:auto}</style><div class="pd"><h1>${esc(title)}</h1><p class="s">${esc(sub)} · พิมพ์เมื่อ ${new Date().toLocaleDateString('th-TH',{dateStyle:'long'})}</p>${body}<p class="f">คู่มืออุปกรณ์สู้ภัยประจำบ้าน · แนวทางทั่วไป เหตุรุนแรงโทร 1669 · ปภ. 1784</p></div>`}
 function pdfOut(h){toast('เลือก "บันทึกเป็น PDF" ที่ปลายทางในหน้าต่างพิมพ์');printHTML(h)}
 function pdfGo(w,i,id){
@@ -3500,6 +3523,7 @@ document.addEventListener('click',e=>{
   else if(a==='ckall'){const K=ckS(),i=b.dataset.i;CK_STAY.forEach((x,j)=>K.c['s'+i+'_'+j]=1);save();keepRoute()}
   else if(a==='ckclr'){const K=ckS(),i=b.dataset.i;CK_STAY.forEach((x,j)=>delete K.c['s'+i+'_'+j]);save();keepRoute()}
   else if(a==='ckdayclr'){const K=ckS(),i=b.dataset.i;CK_DAY.forEach((x,j)=>delete K.c['d'+i+'_'+j]);save();keepRoute()}
+  else if(a==='layrm'){const k=b.dataset.k;(PH[k]||[]).splice(+b.dataset.i,1);savePH();keepRoute()}
   else if(a==='pkfit'){const P=packS();const k=b.dataset.k;if(P.fit[k])delete P.fit[k];else P.fit[k]=1;save();keepRoute()}
   else if(a==='pkgo'){const e=document.getElementById('pkc_'+b.dataset.id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}
   else if(a==='pkprint')pkPrint(b.dataset.id);
