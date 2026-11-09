@@ -145,6 +145,10 @@ main{padding-block:16px 24px}
 .list>.big:nth-child(8n+8),.tiles>.big:nth-child(8n+8){--bc:#8A6D00}
 .list>.big,.tiles>.big{border-left-color:var(--bc)}
 .tiles>.big{border-top-color:var(--bc)}
+.blink{animation:blk 1s ease-in-out infinite;position:relative}
+@keyframes blk{0%,100%{box-shadow:0 0 0 0 rgba(255,200,0,.0);filter:brightness(1)}50%{box-shadow:0 0 0 6px rgba(255,200,0,.9),0 0 18px 6px rgba(255,170,0,.8);filter:brightness(1.25)}}
+.blink.big{border-color:#FFB800!important}
+@media (prefers-reduced-motion:reduce){.blink{animation:none;box-shadow:0 0 0 4px #FFB800}}
 .list>.big>i,.tiles>.big>i{background:var(--bc)!important;color:#fff}
 .chip{display:inline-block;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:6px 12px;font:600 .82rem var(--f-d);text-decoration:none;color:var(--ink);cursor:pointer}
 .chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -2604,6 +2608,7 @@ function vHome(){
   <div class="list"><a class="big" href="https://jeerapat2010-cpu.github.io/my-html-app/DiasterPlan.html" target="_blank" rel="noopener"><i>🌐</i><span>เปิดดูภัยรอบตัว<small>เปิดแอปประเมินภัยและเตรียมความพร้อม (Area Ready) ในหน้าต่างใหม่ ต้องมีเน็ต</small></span></a></div>
   <div class="grp">เตรียมพร้อมก่อนเกิดเหตุ</div>
   <div class="tiles">
+    <a class="big blink" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของก่อนใส่กระเป๋า<small>ถ่ายรูปของที่วางไว้ ติ๊กให้ครบ แล้วค่อยใส่</small></span></a>
     <a class="big" href="#pack"><i>🎒</i><span>จัดกระเป๋าจริงของฉัน<small>6 ใบ แบ่งของตามความจุ 3/7 วัน เดินเท้า/รถ ติ๊กเช็ก PDF</small></span></a>
     <a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ของเบา เติมก่อนออกจากบ้าน</small></span></a>
     <a class="big" href="#stock"><i>🥫</i><span>อาหารและยา<small>คำนวณตามจำนวนคน</small></span></a>
@@ -2698,6 +2703,7 @@ function vPrep(){
   return `<div class="stack"><h2 class="h2">เตรียมพร้อม</h2><p class="sub">จัดของ วางแผน และตรวจอุปกรณ์ล่วงหน้า</p>
   <div class="grp">1 · จัดกระเป๋าอพยพ</div>
   <div class="list">
+    <a class="big blink" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของก่อนใส่กระเป๋า<small>ถ่ายรูปของที่วางไว้ ติ๊กให้ครบ แล้วค่อยใส่</small></span></a>
     <a class="big" href="#pack"><i>🎒</i><span>จัดกระเป๋าจริงของฉัน<small>แบ่งของลงกระเป๋าแต่ละใบ ติ๊กเช็ก พิมพ์ PDF ป้ายติดกระเป๋า</small></span></a>
     <a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ของเบา เติมก่อนออกจากบ้าน</small></span></a>
   </div>
@@ -3307,13 +3313,13 @@ function vPack(){
         return `<div style="display:flex;gap:6px;align-items:flex-start;padding:5px 0;border-bottom:1px dashed var(--line)"><button data-act="pktick" data-id="${a.id}" data-b="${x.id}" aria-label="ติ๊ก ${esc(a.name)}" style="all:unset;cursor:pointer;display:flex;gap:8px;flex:1;min-width:0"><b style="min-width:22px;height:22px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:18px;flex:none">${done?'✓':''}</b><span style="${done?'opacity:.55;text-decoration:line-through':''}">${esc(a.name)} <small>× ${fmt(u)} ${esc(a.unit)}${a.kg*u>=.05?' · '+fmt(a.kg*u)+' กก.':''}</small></span></button>
         <select data-pkmv="${a.id}" aria-label="ย้ายไปใบอื่น" style="max-width:74px;font-size:.75rem"><option value="">ย้าย</option><option value="__off">ถอดออก</option>${R.bags.filter(y=>y.id!==x.id).map(y=>`<option value="${y.id}">${esc(y.b.n.slice(0,16))}</option>`).join('')}</select></div>`}).join('')).join('')}
       ${x.b.rig?`<div class="card" style="padding:8px;margin-top:10px"><b>ตรวจการสวมใส่ (กันหลุด)</b>${PK_FIT.map((f,fi)=>{const k=x.id+'_f'+fi,d=!!P.fit[k];return `<button data-act="pkfit" data-k="${k}" style="all:unset;cursor:pointer;display:flex;gap:8px;align-items:flex-start;padding:4px 0"><b style="min-width:20px;height:20px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:16px;flex:none">${d?'✓':''}</b><span style="${d?'opacity:.55':''}">${esc(f)}</span></button>`}).join('')}</div>`:''}
-      <div class="row" style="margin-top:10px"><a class="btn sm p" href="#lay/${x.id}">📷 ถ่ายรูปตรวจก่อนใส่</a><button class="btn sm" data-act="pkall" data-id="${x.id}">ติ๊กทั้งใบ</button><button class="btn sm" data-act="pkclr" data-id="${x.id}">ล้างติ๊ก</button><button class="btn sm" data-act="pkprint" data-id="${x.id}">📄 PDF ใบนี้</button><button class="btn sm" data-act="pktag" data-id="${x.id}">🏷 ป้ายติดกระเป๋า</button></div></div>`};
+      <div class="row" style="margin-top:10px"><a class="btn sm p blink" href="#lay/${x.id}">📷 ถ่ายรูปตรวจก่อนใส่</a><button class="btn sm" data-act="pkall" data-id="${x.id}">ติ๊กทั้งใบ</button><button class="btn sm" data-act="pkclr" data-id="${x.id}">ล้างติ๊ก</button><button class="btn sm" data-act="pkprint" data-id="${x.id}">📄 PDF ใบนี้</button><button class="btn sm" data-act="pktag" data-id="${x.id}">🏷 ป้ายติดกระเป๋า</button></div></div>`};
   const grabList=R.p.act.filter(pkGrab).map(a=>{const w=R.bags.filter(x=>x.rows[a.id]).map(x=>x.b.n);return `<li>${esc(a.name)} <small class="note">→ ${w.length?esc(w.join(', ')):'ยังไม่มีที่ใส่'}</small></li>`}).join('');
   const dsince=P.date?Math.round((todayD()-new Date(P.date+'T00:00:00'))/864e5):null;
   const old=dsince!=null&&dsince>180;
   const unHtml=R.un.length?`<div class="warn"><b>⚠ ยังไม่มีที่ใส่ ${R.un.reduce((s,u)=>s+u.n,0)} ชิ้น (ประมาณ ${fmt(R.unKg)} กก.)</b><ul style="margin:6px 0 0;padding-left:18px">${R.un.map(u=>`<li>${esc(u.a.name)} × ${u.n} ${esc(u.a.unit)}</li>`).join('')}</ul><p style="margin:8px 0 4px">ทางแก้:</p><div class="row">${walk?`<button class="btn sm p" data-act="pkpre" data-d="${days}" data-m="car">ขับรถแทน</button><button class="btn sm" data-act="pkwl" data-v=".5">น้ำพกน้อย 0.5 ล./คน/วัน (กรองหรือต้มเติม)</button>`:''}<a class="btn sm" href="#go">ถอดของที่ไม่จำเป็น</a></div>${walk?'<p class="note" style="margin:6px 0 0">เดินเท้าควรพกน้ำน้อยลงแล้วใช้เครื่องกรองหรือต้มน้ำเติมระหว่างทาง ผู้มีโรคที่ต้องจำกัดน้ำให้ถามแพทย์</p>':''}</div>`:'';
   return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">จัดกระเป๋าจริงของฉัน</h2>
-  <div class="list"><a class="big" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของก่อนใส่กระเป๋า<small>วางของ ถ่ายรูป เทียบรายการ ติ๊กให้ครบ แล้วค่อยใส่</small></span></a><a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (รถ 2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ไม่ต้องเตรียมเต็มที่ มีข้อควรระวังรถร้อน</small></span></a></div>
+  <div class="list"><a class="big blink" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของก่อนใส่กระเป๋า<small>วางของ ถ่ายรูป เทียบรายการ ติ๊กให้ครบ แล้วค่อยใส่</small></span></a><a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (รถ 2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ไม่ต้องเตรียมเต็มที่ มีข้อควรระวังรถร้อน</small></span></a></div>
   <p class="sub">แอปแบ่งของลงกระเป๋าแต่ละใบตามความจุจริงและแรงแบกของแต่ละคน ติ๊กเมื่อใส่แล้ว ย้ายของข้ามใบได้ พิมพ์ PDF และป้ายติดกระเป๋าได้</p>
   <div class="card"><label class="f">เลือกแผน</label><div class="row">${pre.map(x=>chip(days===x[0]&&g.mode===x[1],'pkpre',`data-d="${x[0]}" data-m="${x[1]}"`,x[2])).join('')}</div>
   <p class="note" style="margin:8px 0 0">${esc(g.n)} คน · ${esc(g.days)} วัน · ${walk?'แบกเอง':'ขับรถ'} · น้ำ ${esc(g.wl)} ล./คน/วัน · สมาชิกพิเศษและสัตว์เลี้ยงตามที่ตั้งไว้ </p><div class="row"><a class="btn sm" href="#go">⚙ ตั้งค่าสถานการณ์ จำนวนคน และเพิ่มของเอง</a></div>
@@ -3412,7 +3418,7 @@ function vLay(p){
   const tk=rows.filter(a=>P.c[a.id+'_'+x.id]).length,miss=rows.filter(a=>!P.c[a.id+'_'+x.id]);
   const ph=(ph_,lab)=>{const k='lay_'+x.id+'_'+ph_,L=PH[k]||[];return `<div class="card"><h3 style="margin:0">${lab}</h3>
     ${L.map((u,i)=>`<div style="position:relative;margin-top:8px"><img src="${u}" alt="" style="width:100%;border:2px solid var(--line);display:block"><button class="btn sm d" data-act="layrm" data-k="${k}" data-i="${i}" style="position:absolute;right:6px;top:6px">ลบ</button></div>`).join('')}
-    ${L.length<3?`<label class="btn p" style="margin-top:8px;cursor:pointer;display:flex">📷 ถ่ายรูป / เลือกรูป<input type="file" accept="image/*" capture="environment" data-lay="${k}" style="display:none"></label>`:'<p class="note">ครบ 3 รูปแล้ว</p>'}</div>`};
+    ${L.length<3?`<label class="btn p blink" style="margin-top:8px;cursor:pointer;display:flex">📷 ถ่ายรูป / เลือกรูป<input type="file" accept="image/*" capture="environment" data-lay="${k}" style="display:none"></label>`:'<p class="note">ครบ 3 รูปแล้ว</p>'}</div>`};
   return `<div class="stack"><a class="btn sm" href="#lay">← เลือกกระเป๋าอื่น</a><a class="btn sm" href="#pack">กลับจัดกระเป๋า</a>
   <h2 class="h2">📷 ตรวจ: ${esc(x.b.n)}</h2>
   <p class="sub">ขั้นที่ 1 วางของทั้งหมดของใบนี้บนพื้นให้เห็นครบ ถ่ายรูป · ขั้นที่ 2 ดูรูปเทียบกับรายการด้านล่าง ติ๊กชิ้นที่เห็นในรูป · ขั้นที่ 3 ใส่กระเป๋า แล้วถ่ายรูปหลังปิดเป็นหลักฐาน</p>
