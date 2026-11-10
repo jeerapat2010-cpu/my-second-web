@@ -2587,12 +2587,12 @@ function stats(){let val=0,due=0,bad=0;D.items.forEach(i=>{const v=inv(i.id);val
 const view = $('#view');
 function parts(){return location.hash.replace(/^#/,'').split('/').filter(Boolean).map(decodeURIComponent)}
 function go(h){location.hash=h}
-const TABMAP={home:'home',sos:'sos',scen:'sos',tools:'sos',prep:'prep',go:'prep',stock:'prep',bag:'prep',family:'prep',shop:'prep',recv:'prep',pack:'prep',carkit:'prep',lay:'prep',gear:'gear',item:'gear',inv:'gear',more:'more',calc:'more',links:'more',about:'more'};
+const TABMAP={home:'home',sos:'sos',scen:'sos',tools:'sos',prep:'prep',go:'prep',stock:'prep',bag:'prep',family:'prep',shop:'prep',recv:'prep',pack:'prep',carkit:'prep',pet:'prep',lay:'prep',gear:'gear',item:'gear',inv:'gear',more:'more',calc:'more',links:'more',about:'more'};
 function route(){
   const p=parts(); const r=p[0]||'home';
   closeOverlay();
   $$('#tabs a').forEach(a=>a.classList.toggle('on',a.dataset.t===TABMAP[r]));
-  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vSos,sos:vSos,prep:vPrep,calc:vCalc,more:vMore,bag:vPack,go:vGo,stock:vStock,family:vFamily,shop:vShop,recv:vRecv,pack:vPack,lay:vLay,carkit:vCarKit,links:vLinks,about:vAbout}[r]||vHome;
+  const f={home:vHome,scen:vScen,gear:vGear,item:vItem,inv:vInv,tools:vSos,sos:vSos,prep:vPrep,calc:vCalc,more:vMore,bag:vPack,go:vGo,stock:vStock,family:vFamily,shop:vShop,recv:vRecv,pack:vPack,pet:vPet,lay:vLay,carkit:vCarKit,links:vLinks,about:vAbout}[r]||vHome;
   view.innerHTML=f(p); window.scrollTo(0,0);const sc=$('#scroller');if(sc)sc.scrollTop=0;
   const after=view.querySelector('[data-after]');
   if(typeof f.after==='function')f.after(p);
@@ -2611,6 +2611,7 @@ function vHome(){
     <a class="big blink" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของก่อนใส่กระเป๋า<small>ถ่ายรูปของที่วางไว้ ติ๊กให้ครบ แล้วค่อยใส่</small></span></a>
     <a class="big" href="#pack"><i>🎒</i><span>จัดกระเป๋าจริงของฉัน<small>6 ใบ แบ่งของตามความจุ 3/7 วัน เดินเท้า/รถ ติ๊กเช็ก PDF</small></span></a>
     <a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ของเบา เติมก่อนออกจากบ้าน</small></span></a>
+    <a class="big" href="#pet"><i>🐶</i><span>เช็กลิสต์สัตว์เลี้ยง (ชิวาว่า 2 ตัว)<small>อาหาร น้ำ แผ่นรอง กรง ประวัติ ยา เบอร์ติดต่อ เลือกจำนวนวันได้</small></span></a>
     <a class="big" href="#stock"><i>🥫</i><span>อาหารและยา<small>คำนวณตามจำนวนคน</small></span></a>
     <a class="big" href="#family"><i>♥</i><span>บัตรครอบครัว<small>ยา จุดนัดพบ เส้นทาง</small></span></a>
     <a class="big" href="#inv"><i>✓</i><span>ตรวจอุปกรณ์<small>ทะเบียน วันตรวจ ปฏิทินเตือน</small></span></a>
@@ -2706,6 +2707,7 @@ function vPrep(){
     <a class="big blink" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของก่อนใส่กระเป๋า<small>ถ่ายรูปของที่วางไว้ ติ๊กให้ครบ แล้วค่อยใส่</small></span></a>
     <a class="big" href="#pack"><i>🎒</i><span>จัดกระเป๋าจริงของฉัน<small>แบ่งของลงกระเป๋าแต่ละใบ ติ๊กเช็ก พิมพ์ PDF ป้ายติดกระเป๋า</small></span></a>
     <a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ของเบา เติมก่อนออกจากบ้าน</small></span></a>
+    <a class="big" href="#pet"><i>🐶</i><span>เช็กลิสต์สัตว์เลี้ยง (ชิวาว่า 2 ตัว)<small>อาหาร น้ำ แผ่นรอง กรง ประวัติ ยา เบอร์ติดต่อ เลือกจำนวนวันได้</small></span></a>
   </div>
   <div class="grp">2 · อาหารและยา</div>
   <div class="list"><a class="big" href="#stock"><i>🥫</i><span>เช็กลิสต์อาหารและยา<small>คำนวณตามคน/วัน ใส่วันหมดอายุ</small></span></a></div>
@@ -3319,7 +3321,8 @@ function vPack(){
   const old=dsince!=null&&dsince>180;
   const unHtml=R.un.length?`<div class="warn"><b>⚠ ยังไม่มีที่ใส่ ${R.un.reduce((s,u)=>s+u.n,0)} ชิ้น (ประมาณ ${fmt(R.unKg)} กก.)</b><ul style="margin:6px 0 0;padding-left:18px">${R.un.map(u=>`<li>${esc(u.a.name)} × ${u.n} ${esc(u.a.unit)}</li>`).join('')}</ul><p style="margin:8px 0 4px">ทางแก้:</p><div class="row">${walk?`<button class="btn sm p" data-act="pkpre" data-d="${days}" data-m="car">ขับรถแทน</button><button class="btn sm" data-act="pkwl" data-v=".5">น้ำพกน้อย 0.5 ล./คน/วัน (กรองหรือต้มเติม)</button>`:''}<a class="btn sm" href="#go">ถอดของที่ไม่จำเป็น</a></div>${walk?'<p class="note" style="margin:6px 0 0">เดินเท้าควรพกน้ำน้อยลงแล้วใช้เครื่องกรองหรือต้มน้ำเติมระหว่างทาง ผู้มีโรคที่ต้องจำกัดน้ำให้ถามแพทย์</p>':''}</div>`:'';
   return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">จัดกระเป๋าจริงของฉัน</h2>
-  <div class="list"><a class="big blink" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของก่อนใส่กระเป๋า<small>วางของ ถ่ายรูป เทียบรายการ ติ๊กให้ครบ แล้วค่อยใส่</small></span></a><a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (รถ 2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ไม่ต้องเตรียมเต็มที่ มีข้อควรระวังรถร้อน</small></span></a></div>
+  <div class="list"><a class="big blink" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของก่อนใส่กระเป๋า<small>วางของ ถ่ายรูป เทียบรายการ ติ๊กให้ครบ แล้วค่อยใส่</small></span></a><a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (รถ 2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ไม่ต้องเตรียมเต็มที่ มีข้อควรระวังรถร้อน</small></span></a>
+    <a class="big" href="#pet"><i>🐶</i><span>เช็กลิสต์สัตว์เลี้ยง (ชิวาว่า 2 ตัว)<small>อาหาร น้ำ แผ่นรอง กรง ประวัติ ยา เบอร์ติดต่อ เลือกจำนวนวันได้</small></span></a></div>
   <p class="sub">แอปแบ่งของลงกระเป๋าแต่ละใบตามความจุจริงและแรงแบกของแต่ละคน ติ๊กเมื่อใส่แล้ว ย้ายของข้ามใบได้ พิมพ์ PDF และป้ายติดกระเป๋าได้</p>
   <div class="card"><label class="f">เลือกแผน</label><div class="row">${pre.map(x=>chip(days===x[0]&&g.mode===x[1],'pkpre',`data-d="${x[0]}" data-m="${x[1]}"`,x[2])).join('')}</div>
   <p class="note" style="margin:8px 0 0">${esc(g.n)} คน · ${esc(g.days)} วัน · ${walk?'แบกเอง':'ขับรถ'} · น้ำ ${esc(g.wl)} ล./คน/วัน · สมาชิกพิเศษและสัตว์เลี้ยงตามที่ตั้งไว้ </p><div class="row"><a class="btn sm" href="#go">⚙ ตั้งค่าสถานการณ์ จำนวนคน และเพิ่มของเอง</a></div>
@@ -3431,6 +3434,73 @@ function vLay(p){
   ${ph('b','3) รูปหลังปิดกระเป๋า (บันทึกว่าจัดแล้ว)')}
   <div class="row"><a class="btn p" href="#pack">เสร็จ กลับไปจัดกระเป๋า</a></div></div>`}
 document.addEventListener('change',e=>{const el=e.target,k=el.dataset&&el.dataset.lay;if(!k||!el.files||!el.files[0])return;readPhoto(el.files[0],u=>{PH[k]=(PH[k]||[]).concat([u]).slice(0,3);savePH();keepRoute()})});
+
+/* ===== เช็กลิสต์สัตว์เลี้ยง (ชิวาว่า 2 ตัว) ===== */
+function petS(){if(!S.pet)S.pet={days:3,kg:[7,7],g:65,c:{},ct:{},mode:'car',hide:{}};return S.pet}
+const PET_CATS=['อาหารและน้ำ','ขับถ่ายและความสะอาด','กรง ที่นอน และการเดินทาง','เอกสารและประวัติ','ยาและปฐมพยาบาล','ลดความเครียด','รถและอากาศร้อน'];
+function petItems(d,g,n){
+  const f=Math.ceil(g*n*(d+1)/100)*100,pad=n*3*d,w=Math.ceil(n*.35*(d+1)*10)/10;
+  return [
+['f1',0,'อาหารเม็ดเดิมที่กินประจำ',f+' ก. (≈'+g+' ก./ตัว/วัน × '+n+' ตัว × '+(d+1)+' วัน เผื่อ 1 วัน)','ห้ามเปลี่ยนยี่ห้อกะทันหัน ท้องเสียง่าย ตวงด้วยช้อนตวงใส่ถุงซิปแยกรายวัน',f/1000],
+['f2',0,'อาหารเปียก/ซองสำรอง',Math.min(d+1,8)+' ซอง','ใช้ผสมให้กินง่ายเมื่อเครียดไม่ยอมกิน ควรเป็นสูตรเดียวกับยี่ห้ออาหารเม็ด',Math.min(d+1,8)*.08],
+['f3',0,'ขนมคุมแคลอรี่ (ผัก/ขนมแคลต่ำ)',(d>3?'1 ถุงเล็ก':'1 ซอง'),'ตัวอ้วน จำกัดขนมไม่เกิน 10% ของอาหารต่อวัน ใช้เป็นรางวัลตอนเข้ากรงและตอนขึ้นรถ',.1],
+['f4',0,'น้ำดื่มสำหรับสุนัข',Math.ceil(n*.4*(d+1)*10)/10+' ลิตร (≈0.4 ลิตร/ตัว/วัน)','เผื่อวันร้อนหรือท้องเสียเพิ่มอีกครึ่งหนึ่ง ใช้น้ำสะอาดต้มเย็นหรือน้ำบรรจุขวด',Math.ceil(n*.4*(d+1)*10)/10],
+['f5',0,'ชามอาหารและชามน้ำพับได้',n+' ชุด','แยกชามคนละตัว กันแย่งกัน',.2],
+['f6',0,'ช้อนตวง ถุงซิป ที่เปิดกระป๋อง','1 ชุด','',.1],
+['f7',0,'ซองห่อยา/พิลล์พ็อกเก็ต (ถ้ากินยา)','1 ห่อ','ใช้เมื่อต้องซ่อนยาในขนม',.05],
+['h1',1,'แผ่นรองซับ/แผ่นรองฉี่',pad+' แผ่น (3 แผ่น/ตัว/วัน)','ใช้รองกรงและพื้นรถ ในที่พักอพยพที่ต้องอยู่ในกรงนานจะใช้มากขึ้น',pad*.03],
+['h2',1,'ถุงเก็บมูล + ถุงขยะ',(d*4)+' ใบ','เก็บมูลทุกครั้ง มีน้ำหนักและสุขอนามัยในศูนย์พักพิง',.1],
+['h3',1,'ทิชชูเปียกสำหรับสัตว์/ผ้าขนหนูเล็ก','2 แพ็ก/2 ผืน','เช็ดเท้าและตัวเมื่อเปียกน้ำหรือโคลน',.4],
+['h4',1,'สเปรย์/น้ำยาฆ่าเชื้อที่ปลอดภัยกับสัตว์เลี้ยง','1 ขวดเล็ก','ใช้ทำความสะอาดกรงและพื้น ไม่ใช้ผลิตภัณฑ์กลิ่นฉุนที่เป็นอันตรายต่อสุนัข',.2],
+['h5',1,'แชมพูแห้ง/โฟมอาบแห้ง','1 ขวด','อาบน้ำไม่ได้หลายวัน',.2],
+['h6',1,'แปรงหวีขน กรรไกรตัดเล็บ','1 ชุด','',.1],
+['k1',2,'กรง/กระเป๋าพกสำหรับสุนัข','1 ใบต่อตัว (รวม '+n+' ใบ)','ตัว 7 กก. ต้องเลือกขนาดที่ยืนหมุนตัวและนอนได้ ไม่ใช่ใบเล็กแบบสายการบิน ฝึกให้เข้ากรงสม่ำเสมอก่อนวันจริง',2.5*n],
+['k2',2,'รถเข็นสัตว์เลี้ยง 2 ช่อง หรือรถเข็นพับได้','1 คัน (ถ้าอพยพเดินเท้า)','น้ำหนักสุนัขรวมประมาณ 14 กก. บวกกรง คนเดียวแบกไม่ไหว ใช้รถเข็นช่วย',6],
+['k3',2,'กรงพับ/คอกพับ (play pen)','1 ชุด','ใช้ในที่พักชั่วคราว ให้สุนัขอยู่ในพื้นที่จำกัดและปลอดภัย',3],
+['k4',2,'สายรัดอก (harness) พร้อมสายจูง',n+' ชุด + สำรอง 1','ชิวาว่าควรใช้สายรัดอก ไม่ใช้ปลอกคอดึง เสี่ยงหลอดลม ตัวอ้วนยิ่งต้องระวัง ตรวจขนาดที่พอดีตั้งแต่ตอนนี้',.3*(n+1)],
+['k5',2,'ปลอกคอ + ป้ายชื่อ เบอร์โทรเจ้าของ',n+' ชุด','ใส่ป้ายตลอด ป้ายต้องมีเบอร์โทรที่ติดต่อได้ แม้ไมโครชิปจะมีก็ตาม',.05*n],
+['k6',2,'เบาะ/ผ้าห่มที่คุ้นเคย',n+' ผืน','กลิ่นบ้านช่วยให้สงบ',.5*n],
+['k7',2,'สายรัดนิรภัยในรถ หรือ กรงยึดกับเบาะ','1 ชุดต่อตัว','ไม่ปล่อยสุนัขวิ่งในรถ',.3],
+['k8',2,'เสื้อกันฝน/เสื้อกันหนาว','1 ตัวต่อตัว','ตัวเล็กเสียความร้อนง่าย',.2],
+['k9',2,'ที่ปิดตา/ผ้าคลุมกรง','1 ผืน','ช่วยลดความตื่นกลัวเสียงและแสง',.1],
+['d1',3,'สมุดวัคซีน/ใบรับรองวัคซีนพิษสุนัขบ้า (ตัวจริงและสำเนา)','2 เล่ม + ถ่ายรูปไว้','ศูนย์พักพิงสัตว์และคลินิกมักขอดู เก็บในซองกันน้ำ',.05],
+['d2',3,'หมายเลขไมโครชิป/ทะเบียนสัตว์เลี้ยง','จดลงช่องด้านล่าง','',0],
+['d3',3,'ประวัติการรักษาและโรคประจำตัวสรุปหนึ่งหน้า','1 แผ่น','ชื่อสัตวแพทย์ ยาที่กิน ประวัติแพ้ยา เขียนด้วยตัวใหญ่ชัด',.02],
+['d4',3,'รูปถ่ายล่าสุดของสุนัขแต่ละตัวกับเจ้าของ','พิมพ์ 2 ใบ + ในมือถือ','ใช้ตามหาเมื่อพลัดหลง',.02],
+['d5',3,'น้ำหนัก อายุ สี เพศ ของแต่ละตัว บนการ์ดติดกรง','การ์ด 1 ใบต่อตัว','',.02],
+['m1',4,'ยาประจำตัวสุนัข (ถ้ามี) ตามจำนวนวัน + 7 วัน',(d+7)+' วัน','ถามสัตวแพทย์เรื่องการเก็บและขนาดยา ไม่ปรับยาเอง',.1],
+['m2',4,'ยากันเห็บหมัด/ยาป้องกันพยาธิหนอนหัวใจ','ตามรอบ','ในศูนย์อพยพรวมสัตว์ ควรป้องกันให้เรียบร้อยก่อน',.05],
+['m3',4,'ชุดปฐมพยาบาลสัตว์: ผ้าก๊อซ ผ้าพันแผลยืดหยุ่น น้ำเกลือล้างแผล ผ้าพันแผล เทปเวชภัณฑ์ คีมคีบเห็บ','1 ชุด','น้ำเกลือล้างแผลดีกว่าน้ำยาฆ่าเชื้อแรงๆ ไม่ใช้ยาคนกับสุนัขโดยไม่ถามสัตวแพทย์',.4],
+['m4',4,'เทอร์โมมิเตอร์ + เจลหล่อลื่น','1 อัน','สุนัขปกติวัดทางทวารประมาณ 38.3-39.2 °C ไข้สูงกว่านี้ควรพบสัตวแพทย์',.05],
+['m5',4,'น้ำผึ้ง/เจลน้ำตาลสำหรับสัตว์เลี้ยง','1 หลอด','ชิวาว่ามีโอกาสน้ำตาลต่ำจากความเครียดและอดอาหาร ซึ่งเสี่ยงชัก ซึม ตัวสั่น ถ้าเกิดให้ป้ายเหงือกและรีบพบสัตวแพทย์',.05],
+['m6',4,'ผงเกลือแร่สำหรับสัตว์/น้ำเกลือกิน','2 ซอง','ใช้เมื่อท้องเสีย สั่งเฉพาะที่สัตวแพทย์แนะนำ',.05],
+['m7',4,'ปลอกกันเลีย (Elizabethan collar)','1 อัน','เมื่อเลียแผล',.1],
+['m8',4,'ผ้าอ้อมสุนัข/belly band สำรอง','เผื่อ 1 แพ็ก','เมื่อพักในที่คับแคบ',.2],
+['c1',5,'ของเล่นที่ชอบ 1-2 ชิ้นต่อตัว',n*2+' ชิ้น','',.1*n],
+['c2',5,'ที่ให้เลียอาหาร (lick mat) หรือของเล่นยัดขนม','1 ชิ้น','ช่วยให้สงบในกรง',.1],
+['c3',5,'กลิ่นคุ้นเคย (เสื้อที่เจ้าของใส่แล้ว)','1 ตัว','',.2],
+['c4',5,'สเปรย์/ปลอกคอฟีโรโมนผ่อนคลาย (ถ้าใช้)','1 อัน','',.1],
+['r1',6,'ม่านบังแดดรถ + พัดลมพกพา','1 ชุด','',.3],
+['r2',6,'เบาะเย็น/ผ้าเปียกคลุมกรง (ฤดูร้อน)','1 ผืน','ชิวาว่าที่อ้วนเสี่ยงฮีทสโตรกง่าย ปากอ้า หอบแรง เหงือกแดงเข้ม ให้พาเข้าที่เย็นและพบสัตวแพทย์ทันที',.3],
+['r3',6,'น้ำเย็นสำหรับกินระหว่างทาง','1 ขวด/ตัว','ไม่ทิ้งสุนัขในรถที่จอดเด็ดขาด แม้ไม่กี่นาที',.5],
+['r4',6,'จุดแวะพักทุก 2 ชั่วโมง','จดจุดไว้','พาปัสสาวะและให้น้ำ ห้ามให้อาหารเยอะก่อนออกเดินทางหนึ่งชั่วโมง',0]]}
+function vPet(){
+  const P=petS(),n=2,items=petItems(P.days,P.g,n),sel=(P.mode==='walk');
+  const vis=items.filter(i=>!(sel&&i[0]==='r1')&&!(!sel&&i[0]==='k2'));
+  const done=vis.filter(i=>P.c[i[0]]).length,kg=vis.reduce((a,i)=>a+(+i[5]||0),0),dog=P.kg[0]+P.kg[1];
+  const ct=[['vet','สัตวแพทย์/คลินิกประจำ'],['emr','คลินิกสัตว์ฉุกเฉิน 24 ชม.'],['kin','ญาติ/เพื่อนที่ฝากสุนัขได้'],['shel','ที่พักหรือโรงแรมที่รับสัตว์เลี้ยง'],['chip','เลขไมโครชิป ตัวที่ 1'],['chip2','เลขไมโครชิป ตัวที่ 2'],['gov','ปศุสัตว์จังหวัด/อำเภอ']];
+  return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">🐶 เช็กลิสต์สัตว์เลี้ยง (ชิวาว่า 2 ตัว)</h2>
+  <p class="sub">เตรียมสำหรับสุนัขตัวเล็กสองตัว ตัวละประมาณ ${P.kg[0]} กก. ปรับจำนวนวันได้ ปริมาณอาหาร น้ำ และแผ่นรองคำนวณให้ทั้งหมด</p>
+  <div class="card"><b>เลือกจำนวนวัน</b><div class="row" style="margin-top:6px;flex-wrap:wrap">${[1,3,7,14].map(d=>`<button class="btn sm ${P.days===d?'p':''}" data-act="petday" data-d="${d}">${d} วัน</button>`).join('')}</div>
+   <div class="row" style="margin-top:8px"><button class="btn sm ${!sel?'p':''}" data-act="petmode" data-m="car">เดินทางด้วยรถ</button><button class="btn sm ${sel?'p':''}" data-act="petmode" data-m="walk">เดินเท้า/ขนส่ง</button></div>
+   <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap"><label class="note">น้ำหนักตัวละ (กก.)</label><input type="number" min="1" step=".1" data-petkg="0" value="${P.kg[0]}" style="max-width:80px"><input type="number" min="1" step=".1" data-petkg="1" value="${P.kg[1]}" style="max-width:80px"><label class="note">อาหารเม็ด ก./ตัว/วัน</label><input type="number" min="20" step="5" data-petg value="${P.g}" style="max-width:80px"></div>
+   <p class="note" style="margin-top:6px">ตัวที่น้ำหนักเกินควรคุมอาหาร ค่าเริ่มต้นประมาณ 65 ก./ตัว/วัน เป็นค่าเริ่มต้นเท่านั้น ตรวจกับฉลากอาหารและสัตวแพทย์ ห้ามงดอาหารตอนเครียด</p></div>
+  <div class="card"><b>ติ๊กแล้ว ${done}/${vis.length} รายการ</b>${pkBar(done,vis.length||1)}<p class="note" style="margin-top:6px">น้ำหนักของใช้โดยประมาณ ${fmt(kg)} กก. + สุนัข ${fmt(dog)} กก. = <b>${fmt(kg+dog)} กก.</b>${sel?' <b class="bad">เดินเท้าต้องใช้รถเข็นหรือหลายคนช่วยแบ่ง</b>':' (ใส่ท้ายรถ)'}</p></div>
+  ${PET_CATS.map((c,ci)=>{const L=vis.filter(i=>i[1]===ci);if(!L.length)return'';return `<div class="card"><h3 style="margin:0 0 4px;color:var(--accent)">${esc(c)}</h3>${L.map(i=>`<button data-act="petck" data-k="${i[0]}" style="all:unset;cursor:pointer;display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line);width:100%"><b style="min-width:24px;height:24px;border:2px solid currentColor;border-radius:4px;text-align:center;line-height:20px;flex:none">${P.c[i[0]]?'✓':''}</b><span style="${P.c[i[0]]?'opacity:.55':''}"><b>${esc(i[2])}</b> <small>· ${esc(i[3])}</small>${i[4]?`<br><small class="note">${esc(i[4])}</small>`:''}</span></button>`).join('')}</div>`}).join('')}
+  <div class="card"><h3 style="margin:0 0 6px;color:var(--accent)">เบอร์ติดต่อและข้อมูลสำคัญ (กรอกเอง)</h3>${ct.map(([k,l])=>`<label class="note" style="display:block;margin-top:6px">${l}</label><input type="text" data-petct="${k}" value="${esc(P.ct[k]||'')}" style="width:100%">`).join('')}<p class="note" style="margin-top:8px">เบอร์ที่กรอกเก็บในเครื่องนี้ ไม่ส่งออกไปที่ใด</p></div>
+  <div class="row"><button class="btn sm" data-act="petclr">ล้างติ๊กทั้งหมด</button><button class="btn sm" data-act="petprint">พิมพ์ / PDF</button></div></div>`}
+document.addEventListener('input',e=>{const d=e.target.dataset||{};if(d.petct!==undefined){petS().ct[d.petct]=e.target.value;save()}});
+document.addEventListener('change',e=>{const d=e.target.dataset||{};if(d.petkg!==undefined){petS().kg[+d.petkg]=Math.max(1,+e.target.value||7);save();keepRoute()}else if(d.petg!==undefined){petS().g=Math.max(20,+e.target.value||65);save();keepRoute()}});
 function pdfDoc(title,sub,body){return `<style>.pd{font:11pt/1.45 Sarabun,sans-serif;color:#000;background:#fff}.pd h1{font:700 19pt Prompt,sans-serif;margin:0 0 2pt;color:#8a0f0f}.pd .s{color:#444;margin:0 0 10pt;font-size:10pt}.pd h2{font:600 13pt Prompt,sans-serif;margin:12pt 0 4pt;border-bottom:1.5pt solid #8a0f0f}.pd table{border-collapse:collapse;width:100%}.pd td,.pd th{border:.6pt solid #666;padding:3pt 5pt;text-align:left;vertical-align:top;font-size:10pt}.pd th{background:#eee}.pd tr{break-inside:avoid}.pd .bx{display:inline-block;width:11pt;height:11pt;border:1.2pt solid #000;vertical-align:-2pt}.pd .ck{background:#000}.pd ol,.pd ul{padding:0;list-style:none}.pd li{margin:5pt 0;break-inside:avoid}.pd .f{margin-top:12pt;font-size:9pt;color:#555}.pd img{max-width:55%;height:auto}</style><div class="pd"><h1>${esc(title)}</h1><p class="s">${esc(sub)} · พิมพ์เมื่อ ${new Date().toLocaleDateString('th-TH',{dateStyle:'long'})}</p>${body}<p class="f">คู่มืออุปกรณ์สู้ภัยประจำบ้าน · แนวทางทั่วไป เหตุรุนแรงโทร 1669 · ปภ. 1784</p></div>`}
 function pdfOut(h){toast('เลือก "บันทึกเป็น PDF" ที่ปลายทางในหน้าต่างพิมพ์');printHTML(h)}
 function pdfGo(w,i,id){
@@ -3530,6 +3600,11 @@ document.addEventListener('click',e=>{
   else if(a==='ckclr'){const K=ckS(),i=b.dataset.i;CK_STAY.forEach((x,j)=>delete K.c['s'+i+'_'+j]);save();keepRoute()}
   else if(a==='ckdayclr'){const K=ckS(),i=b.dataset.i;CK_DAY.forEach((x,j)=>delete K.c['d'+i+'_'+j]);save();keepRoute()}
   else if(a==='layrm'){const k=b.dataset.k;(PH[k]||[]).splice(+b.dataset.i,1);savePH();keepRoute()}
+  else if(a==='petday'){petS().days=+b.dataset.d;save();keepRoute()}
+  else if(a==='petmode'){petS().mode=b.dataset.m;save();keepRoute()}
+  else if(a==='petck'){const P=petS(),k=b.dataset.k;if(P.c[k])delete P.c[k];else P.c[k]=1;save();keepRoute()}
+  else if(a==='petclr'){petS().c={};save();keepRoute()}
+  else if(a==='petprint'){const c=document.createElement('div');c.innerHTML=$('#view').innerHTML;c.querySelectorAll('.row,a.btn,input').forEach(e=>{if(e.tagName==='INPUT'){const s=document.createElement('b');s.textContent=e.value||'__________';e.replaceWith(s)}else e.remove()});printHTML(c.innerHTML)}
   else if(a==='pkfit'){const P=packS();const k=b.dataset.k;if(P.fit[k])delete P.fit[k];else P.fit[k]=1;save();keepRoute()}
   else if(a==='pkgo'){const e=document.getElementById('pkc_'+b.dataset.id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}
   else if(a==='pkprint')pkPrint(b.dataset.id);
