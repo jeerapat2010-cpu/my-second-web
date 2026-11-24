@@ -3258,8 +3258,8 @@ function pkZone(a){
   if(a.cat===11)return 1;
   if(a.cat===5&&a.kg<1.5)return 1;
   return 2}
-function pkPlan(){
-  const g=goS(),P=packS(),p=goPlan(),walk=g.mode==='walk';
+function pkPlan(fm){
+  const g=goS(),P=packS(),p=goPlan(),walk=(fm||g.mode)==='walk';
   const ok=b=>!walk||(b.who>=0&&P.carriers[b.who]);
   const bags=P.bags.filter(b=>b.rig?(P.carriers[b.who]):ok(b)).map(b=>({b,id:b.id,kg:0,L:0,rows:{},who:(walk||b.rig)?b.who:-1}));
   const carry=P.carriers.map(()=>0);
@@ -3343,6 +3343,7 @@ function vPack(){
   ${unHtml}
   <div class="grid3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${R.bags.map(tile).join('')}</div>
   ${spare.length?`<p class="note">ไม่ได้ใช้ตอนเดินเท้า: ${spare.map(b=>esc(b.n+' '+b.l+' ล.')).join(', ')} (ใช้เมื่อขับรถ หรือเปลี่ยนผู้แบกในตั้งค่า)</p>`:''}
+  ${(()=>{if(!walk)return '';const RC=pkPlan('car'),cb=RC.bags.filter(x=>x.b.c);if(!cb.length)return '';return `<h3 style="margin:16px 0 4px">🚗 กองกลาง (ใช้เมื่อเดินทางด้วยรถ)</h3><p class="note">ตอนนี้เลือกโหมดเดินเท้า จึงยังไม่มีใครแบกกองกลาง ด้านล่างคือของที่แอปจัดไว้ให้เมื่อเปลี่ยนเป็นโหมดเดินทางด้วยรถ</p>`+cb.map(x=>{const rows=Object.keys(x.rows).map(k=>RC.p.act.find(a=>a.id===k)).filter(Boolean).sort((m,n)=>n.kg-m.kg);return `<div class="card"><div style="display:flex;gap:10px;align-items:center"><img src="${PK_IMG[x.b.img]||PK_IMG.camo}" alt="" style="width:54px;height:54px;object-fit:cover;border-radius:8px;border:2px solid var(--line)"><div style="flex:1"><b>${esc(x.b.n)}</b> <span class="badge">กองกลาง</span><div class="note">${x.b.l} ลิตร · ${rows.length} รายการ · ${fmt(x.kg)} กก.</div></div></div><ul style="margin:8px 0 0;padding-left:18px">${rows.map(a=>`<li>${esc(a.name)} <small class="note">× ${fmt(x.rows[a.id])} ${esc(a.unit)}</small></li>`).join('')}</ul></div>`}).join('')})()}
   <div class="row"><button class="btn p" data-act="pkprint" data-id="all">📄 ส่งออก PDF ทุกใบ</button><button class="btn" data-act="pktag" data-id="all">🏷 ป้ายติดทุกใบ</button><button class="btn sm" data-act="pkq">${P.q?'ซ่อน':'โหมดหยิบด่วน 5 นาที'}</button></div>
   ${P.q?`<div class="card" style="border-color:var(--danger)"><h3>โหมดหยิบด่วน (มีเวลาน้อย)</h3><p class="note">หยิบของสำคัญเหล่านี้ก่อน เริ่มจากใบหยิบเร็ว แล้วคว้ากระเป๋าที่เหลือ</p><ul style="padding-left:18px;margin:6px 0">${grabList}</ul></div>`:''}
   ${R.bags.map(card).join('')}
