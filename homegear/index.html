@@ -2917,7 +2917,7 @@ function goPlan(){
   GO_ITEMS.forEach(r=>{const fl=(r[9]||'').split(/\s+/);if(!goCond(r[8],g))return;const q=goQty(r,g);if(!q)return;
     const isOpt=fl.includes('opt');const on=isOpt?!!g.on[r[0]]:!g.off[r[0]];
     if(!on){(isOpt?optList:offList).push(r);return}
-    act.push({id:r[0],cat:r[1],name:r[2],q,unit:r[5],kg:r[6],L:r[7],fl,note:r[10]})});
+    act.push({id:r[0],cat:r[1],name:r[2],q,unit:r[5],kg:r[6],L:r[7],fl,note:r[10],per:r[3]})});
   g.x.forEach((x,i)=>act.push({id:'x_'+i,cat:(x.c==null?10:+x.c),name:x.n,q:Math.max(1,+x.q||1),unit:x.u||'ชิ้น',kg:+x.kg||0,L:+x.L||0,fl:[],note:'',custom:i,pinBag:+x.b||0}));
   const bags=[{kg:0,L:0,rows:{}},{kg:0,L:0,rows:{}}];
   const put=(a,b,u)=>{bags[b].rows[a.id]=(bags[b].rows[a.id]||0)+u;if(!a.fl.includes('wear'))bags[b].kg+=a.kg*u;if(!a.fl.includes('ext'))bags[b].L+=a.L*u};
@@ -3228,18 +3228,23 @@ function pkDefBags(){return [
  {id:'r1',n:'ใบติดตัว (ลูก)',l:8,img:'rig',who:0,rig:1},
  {id:'r2',n:'ใบติดตัว (พ่อ)',l:8,img:'rig',who:1,rig:1},
  {id:'r3',n:'ใบติดตัว (แม่)',l:8,img:'rig',who:2,rig:1},
- {id:'b1',n:'เป้พรางดิจิทัล #1',l:80,img:'camo',who:0},
- {id:'b2',n:'เป้พรางดิจิทัล #2',l:80,img:'camo',who:-1},
- {id:'b3',n:'เป้เขียว',l:60,img:'olive',who:2},
- {id:'b4',n:'กระเป๋าแดง (ปฐมพยาบาล)',l:30,img:'red',who:2,grab:1},
- {id:'b5',n:'เป้สีส้ม ใบหนึ่ง',l:80,img:'org',who:1},
- {id:'b6',n:'เป้สีส้ม ใบที่สอง',l:80,img:'org',who:-1}]}
+ {id:'b7',n:'เป้พรางลายงูเหลือม (ลูก)',l:80,img:'camo',who:0},
+ {id:'b1',n:'เป้พรางดิจิทัล #1 (พ่อ)',l:80,img:'camo',who:1},
+ {id:'b5',n:'เป้สีส้ม ใบหนึ่ง (แม่)',l:80,img:'org',who:2},
+ {id:'b2',n:'เป้พรางดิจิทัล #2',l:80,img:'camo',who:-1,c:1},
+ {id:'b6',n:'เป้สีส้ม ใบที่สอง',l:80,img:'org',who:-1,c:1},
+ {id:'b8',n:'เป้สีส้ม ใบที่สาม',l:80,img:'org',who:-1,c:1},
+ {id:'b3',n:'เป้เขียว',l:60,img:'olive',who:-1,c:1},
+ {id:'b4',n:'กระเป๋าแดง (ปฐมพยาบาล)',l:30,img:'red',who:-1,c:1,grab:1}]}
 function packS(){
   if(!S.pack)S.pack={};const P=S.pack;
   if(!P.carriers)P.carriers=[{n:'ลูก',kg:100,pct:25},{n:'พ่อ',kg:88,pct:20},{n:'แม่',kg:46,pct:25}];
   if(!P.bags)P.bags=pkDefBags();
   if(!P.rigAdded){P.rigAdded=1;if(!P.bags.some(b=>b.rig))P.bags=pkDefBags().filter(b=>b.rig).concat(P.bags)}
   P.fit=P.fit||{};
+  if(!P.v4){P.v4=1;const D=Object.fromEntries(pkDefBags().map(b=>[b.id,b]));
+    P.bags.forEach(b=>{const d=D[b.id];if(d&&!b.rig){b.who=d.who;if(d.c)b.c=1;else delete b.c;b.n=d.n;b.l=d.l;if(d.grab)b.grab=1}});
+    ['b7','b8'].forEach(id=>{if(!P.bags.some(b=>b.id===id))P.bags.push(Object.assign({},D[id]))})}
   P.bags.forEach(b=>{if(b.id==='b5'&&/EVEVEME/.test(b.n))b.n='เป้สีส้ม ใบหนึ่ง';if(b.id==='b6'&&/EVEVEME/.test(b.n))b.n='เป้สีส้ม ใบที่สอง'});
   P.mv=P.mv||{};P.c=P.c||{};P.w=P.w||{};P.date=P.date||'';P.q=P.q||0;return P}
 const pkGrab=a=>a.fl.includes('pin1')||a.cat===0||a.cat===3||/^x\d/.test(a.id)||['c3','c6','c1'].includes(a.id);
@@ -3273,7 +3278,7 @@ function pkPlan(){
   genU.sort((m,n)=>m.t-n.t||n.a.kg-m.a.kg);
   genU.forEach(u=>{const a=u.a;let x=null;const mv=P.mv[a.id];if(mv)x=bags.find(y=>y.id===mv)||null;
     if(!x&&u.t===0){const gb=bags.find(y=>y.b.grab);if(gb&&fits(a,gb))x=gb}
-    if(!x){const c=bags.filter(y=>!y.b.rig&&fits(a,y));if(c.length){c.sort((m,n)=>score(m)-score(n)||(n.b.l-n.L)-(m.b.l-m.L));x=c[0]}}
+    if(!x){let c=bags.filter(y=>!y.b.rig&&fits(a,y));const sh=!!a.per&&a.per!=='p';const pf=c.filter(y=>!!y.b.c===sh);if(pf.length)c=pf;if(c.length){c.sort((m,n)=>score(m)-score(n)||(n.b.l-n.L)-(m.b.l-m.L));x=c[0]}}
     if(x)put(a,x);else un[a.id]=(un[a.id]||0)+1});
   const byId=Object.fromEntries(p.act.map(a=>[a.id,a]));
   const unList=Object.keys(un).map(id=>({a:byId[id],n:un[id]}));
@@ -3306,7 +3311,7 @@ function vPack(){
     return `<div class="card" id="pkc_${x.id}"><div style="display:flex;gap:10px;align-items:flex-start">
       ${PK_IMG[x.b.img]?`<img src="${PK_IMG[x.b.img]}" alt="${esc(x.b.n)}" style="width:76px;height:100px;object-fit:cover;border:2px solid var(--line);flex:none">`:''}
       ${pkSvg(v,'c'+x.id,52)}
-      <div style="min-width:0;flex:1"><h3 style="margin:0">${esc(x.b.n)}</h3><p class="note" style="margin:2px 0">${x.b.l} ลิตร · ${x.b.rig?'<span class="badge ready">สะพายอก ติดตัวตลอด</span> ':''}${x.who>=0?(x.b.rig?'ของ: ':'ผู้แบก: ')+'<b>'+esc(P.carriers[x.who].n)+'</b>':'ใส่ท้ายรถ/ยกเข้าที่พัก'}${x.b.grab?' · <span class="badge repair">ใบหยิบเร็ว</span>':''}</p>
+      <div style="min-width:0;flex:1"><h3 style="margin:0">${esc(x.b.n)}</h3><p class="note" style="margin:2px 0">${x.b.l} ลิตร · ${x.b.rig?'<span class="badge ready">สะพายอก ติดตัวตลอด</span> ':x.b.c?'<span class="badge">กองกลาง (ใช้เมื่อเดินทางด้วยรถ)</span> ':'<span class="badge ready">เป้ส่วนตัว</span> '}${x.who>=0?(x.b.rig?'ของ: ':'ผู้แบก: ')+'<b>'+esc(P.carriers[x.who].n)+'</b>':'ใส่ท้ายรถ/ยกเข้าที่พัก'}${x.b.grab?' · <span class="badge repair">ใบหยิบเร็ว</span>':''}</p>
       <p class="note" style="margin:2px 0">ปริมาตร ${fmt(x.L)}/${x.b.l} ล. (${Math.round(v)}%)</p>${pkBar(x.L,x.b.l)}
       <p class="note" style="margin:6px 0 2px">น้ำหนักแผน ${fmt(x.kg)} กก.${x.who>=0?' · ผู้แบกรวมไม่เกิน '+fmt(wl)+' กก.':' · ไม่เกิน '+fmt(wl)+' กก./ใบ'}</p></div></div>
       <div style="display:flex;gap:8px;align-items:center;margin-top:8px"><label class="note" style="flex:none">ชั่งจริง (กก.)</label><input type="number" min="0" step=".1" data-pkw="${x.id}" value="${wa||''}" style="max-width:100px">${wa?`<span class="${wa>wl?'bad':'note'}">${wa>wl?'เกินเกณฑ์ '+fmt(wa-wl)+' กก.':'อยู่ในเกณฑ์'}${x.kg?' · ต่างจากแผน '+(wa-x.kg>=0?'+':'')+fmt(wa-x.kg):''}</span>`:''}</div>
@@ -3345,7 +3350,7 @@ function vPack(){
    <h4>ผู้แบก (กก. และ % ของน้ำหนักตัวที่แบกได้)</h4>${P.carriers.map((c,i)=>`<div class="grid3" style="display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:6px;margin:4px 0"><input type="text" data-pkc="${i}" data-k="n" value="${esc(c.n)}" aria-label="ชื่อ"><input type="number" min="0" data-pkc="${i}" data-k="kg" value="${esc(c.kg)}" aria-label="น้ำหนักตัว กก."><input type="number" min="5" max="30" data-pkc="${i}" data-k="pct" value="${esc(c.pct)}" aria-label="เปอร์เซ็นต์"></div>`).join('')}
    <p class="note">ปกติไม่เกิน 25% ผู้สูงอายุหรือมีโรคประจำตัวควรลดเป็น 10-20%</p>
    <h4>กระเป๋า</h4>${P.bags.map(b=>`<div class="card" style="padding:8px;margin:6px 0"><div class="grid3" style="display:grid;grid-template-columns:2fr 1fr;gap:6px"><input type="text" data-pkb="${b.id}" data-k="n" value="${esc(b.n)}" aria-label="ชื่อ"><input type="number" min="5" data-pkb="${b.id}" data-k="l" value="${esc(b.l)}" aria-label="ลิตร"></div>
-    <div class="row" style="margin-top:6px"><select data-pkwho="${b.id}" aria-label="ผู้แบก"><option value="-1" ${b.who<0?'selected':''}>ไม่ใช้ตอนเดินเท้า (สำรอง/รถ)</option>${P.carriers.map((c,i)=>`<option value="${i}" ${b.who===i?'selected':''}>${esc(c.n)} แบก</option>`).join('')}</select><button class="chip ${b.grab?'on':''}" data-act="pkgrab" data-id="${b.id}">${b.grab?'✓ ':''}ใบหยิบเร็ว</button><button class="btn sm" data-act="pkrm" data-id="${b.id}">ลบ</button></div></div>`).join('')}
+    <div class="row" style="margin-top:6px"><select data-pkwho="${b.id}" aria-label="ผู้แบก"><option value="-1" ${b.who<0?'selected':''}>ไม่ใช้ตอนเดินเท้า (สำรอง/รถ)</option>${P.carriers.map((c,i)=>`<option value="${i}" ${b.who===i?'selected':''}>${esc(c.n)} แบก</option>`).join('')}</select><button class="chip ${b.grab?'on':''}" data-act="pkgrab" data-id="${b.id}">${b.grab?'✓ ':''}ใบหยิบเร็ว</button><button class="chip ${b.c?'on':''}" data-act="pkcen" data-id="${b.id}">${b.c?'✓ ':''}กองกลาง</button><button class="btn sm" data-act="pkrm" data-id="${b.id}">ลบ</button></div></div>`).join('')}
    <div class="row"><button class="btn sm" data-act="pkadd">＋ เพิ่มกระเป๋า</button><button class="btn sm" data-act="pkdef">คืนค่าเริ่มต้น</button><button class="btn sm" data-act="pkmvclr">ล้างการย้ายของ</button></div></details>
   ${pkGallery(R)}
   <p class="note">น้ำหนักและปริมาตรเป็นค่าประมาณ ปริมาตรคิดเผื่อช่องว่าง 15% ของหนักไว้ใกล้หลัง ของเบาไว้ก้นกระเป๋า ของที่ต้องใช้ก่อนไว้ช่องบนและช่องหน้า ห่อของที่กลัวเปียกด้วยถุงกันน้ำ</p></div>`;
@@ -3618,6 +3623,7 @@ document.addEventListener('click',e=>{
   else if(a==='petck'){const P=petS(),k=b.dataset.k;if(P.c[k])delete P.c[k];else P.c[k]=1;save();keepRoute()}
   else if(a==='petclr'){petS().c={};save();keepRoute()}
   else if(a==='petprint'){const c=document.createElement('div');c.innerHTML=$('#view').innerHTML;c.querySelectorAll('.row,a.btn,input').forEach(e=>{if(e.tagName==='INPUT'){const s=document.createElement('b');s.textContent=e.value||'__________';e.replaceWith(s)}else e.remove()});printHTML(c.innerHTML)}
+  else if(a==='pkcen'){const P=packS(),x=P.bags.find(y=>y.id===b.dataset.id);if(x){if(x.c)delete x.c;else x.c=1;save();keepRoute()}}
   else if(a==='pkfit'){const P=packS();const k=b.dataset.k;if(P.fit[k])delete P.fit[k];else P.fit[k]=1;save();keepRoute()}
   else if(a==='pkgo'){const e=document.getElementById('pkc_'+b.dataset.id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}
   else if(a==='pkprint')pkPrint(b.dataset.id);
