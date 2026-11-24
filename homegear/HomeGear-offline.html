@@ -2604,24 +2604,27 @@ function vHome(){
   const dues=D.items.map(i=>({i,d:dueInfo(i.id)})).filter(x=>x.d&&x.d.days<=7).sort((a,b)=>a.d.days-b.d.days).slice(0,4);
   return `<div class="stack">
   <a class="sosbig" href="#sos"><i>!</i><span>เกิดเหตุตอนนี้<small>เลือกสถานการณ์ แล้วทำตามขั้นตอนทีละข้อ</small></span></a>
-  ${(matchMedia('(display-mode: standalone)').matches||navigator.standalone)?'':`<div class="card" style="border-color:var(--danger)"><h3>📲 ติดตั้งแอป · ใช้งานออฟไลน์</h3><p class="sub">ติดตั้งแล้วเปิดได้แม้ไม่มีเน็ตหรือไฟดับ</p><div class="row" style="margin-top:8px"><button class="btn p" id="btnInstall" hidden>ติดตั้งแอปลงหน้าจอ</button><button class="btn" data-act="saveoff">⬇ ดาวน์โหลดไฟล์ออฟไลน์ (HTML)</button></div><p class="note" style="margin:8px 0 0">${/iphone|ipad|ipod/i.test(navigator.userAgent)?'iPhone: แตะปุ่มแชร์ แล้วเลือก "เพิ่มไปยังหน้าจอโฮม"':'ไม่เห็นปุ่มติดตั้ง? ใช้เมนูเบราว์เซอร์ → "ติดตั้งแอป" หรือ "เพิ่มไปยังหน้าจอหลัก"'}</p></div>`}
-  <div class="list"><a class="big" href="https://jeerapat2010-cpu.github.io/my-html-app/DiasterPlan.html" target="_blank" rel="noopener"><i>🌐</i><span>เปิดดูภัยรอบตัว<small>เปิดแอปประเมินภัยและเตรียมความพร้อม (Area Ready) ในหน้าต่างใหม่ ต้องมีเน็ต</small></span></a></div>
-  <div class="grp">เตรียมพร้อมก่อนเกิดเหตุ</div>
+  ${dues.length?`<a class="btn" href="#inv" style="display:block;text-align:center;border-color:var(--danger)">⏰ ถึงกำหนดตรวจ ${dues.length} รายการ · แตะเพื่อดู</a>`:''}
+  <div class="grp">ใช้บ่อย</div>
   <div class="tiles">
-    <a class="big blink" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของก่อนใส่กระเป๋า<small>ถ่ายรูปของที่วางไว้ ติ๊กให้ครบ แล้วค่อยใส่</small></span></a>
-    <a class="big" href="#pack"><i>🎒</i><span>จัดกระเป๋าจริงของฉัน<small>6 ใบ แบ่งของตามความจุ 3/7 วัน เดินเท้า/รถ ติ๊กเช็ก PDF</small></span></a>
-    <a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ของเบา เติมก่อนออกจากบ้าน</small></span></a>
-    <a class="big" href="#pet"><i>🐶</i><span>เช็กลิสต์สัตว์เลี้ยง (ชิวาว่า 2 ตัว)<small>อาหาร น้ำ แผ่นรอง กรง ประวัติ ยา เบอร์ติดต่อ เลือกจำนวนวันได้</small></span></a>
+    <a class="big" href="#pack"><i>🎒</i><span>จัดกระเป๋า<small>แบ่งของลงกระเป๋าแต่ละใบ</small></span></a>
+    <a class="big blink" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของ<small>ก่อนใส่กระเป๋า</small></span></a>
+    <a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถ<small>รถ 2 คัน เดินทางประจำวัน</small></span></a>
+    <a class="big" href="#pet"><i>🐶</i><span>สัตว์เลี้ยง<small>ชิวาว่า 2 ตัว</small></span></a>
     <a class="big" href="#stock"><i>🥫</i><span>อาหารและยา<small>คำนวณตามจำนวนคน</small></span></a>
+    <a class="big" href="#inv"><i>✓</i><span>ตรวจอุปกรณ์<small>ทะเบียน วันตรวจ เตือน</small></span></a>
     <a class="big" href="#family"><i>♥</i><span>บัตรครอบครัว<small>ยา จุดนัดพบ เส้นทาง</small></span></a>
-    <a class="big" href="#inv"><i>✓</i><span>ตรวจอุปกรณ์<small>ทะเบียน วันตรวจ ปฏิทินเตือน</small></span></a>
-    <a class="big" href="#shop"><i>🛒</i><span>จัดหาเพิ่ม<small>ของที่ควรซื้อ พร้อมงบประมาณ</small></span></a>
-    <a class="big" href="#recv"><i>📥</i><span>รับเข้าของ<small>ถ่ายรูป บันทึกรายละเอียด</small></span></a>
+    <a class="big" href="https://jeerapat2010-cpu.github.io/my-html-app/DiasterPlan.html" target="_blank" rel="noopener"><i>🌐</i><span>ดูภัยรอบตัว<small>เปิดแอป Area Ready</small></span></a>
   </div>
-  <div class="stat"><div><b>${st.n}</b><span>รายการอุปกรณ์</span></div><div><b>${fmt(st.val)}</b><span>มูลค่ารวม (บาท)</span></div><div><b style="color:${st.due?'var(--danger)':'var(--ok)'}">${st.due}</b><span>ถึงกำหนดตรวจ</span></div><div><b style="color:${st.bad?'var(--danger)':'var(--ok)'}">${st.bad}</b><span>ต้องซ่อม/ขาด</span></div></div>
-  ${dues.length?`<div class="card"><h3>ถึงกำหนดตรวจ</h3><div class="list" style="margin-top:8px">${dues.map(x=>`<a class="item" href="#item/${x.i.id}" style="grid-template-columns:1fr"><div><h4>${esc(x.i.name)}</h4><p>${dueText(x.d)}</p></div></a>`).join('')}</div><div class="row" style="margin-top:10px"><a class="btn sm" href="#inv">ไปที่ทะเบียน</a></div></div>`:''}
+  <details class="card"><summary><b>➕ จัดหาและรับเข้าของ</b></summary><div class="list" style="margin-top:8px">
+    <a class="big" href="#shop"><i>🛒</i><span>จัดหาเพิ่ม<small>ของที่ควรซื้อ พร้อมงบประมาณ</small></span></a>
+    <a class="big" href="#recv"><i>📥</i><span>รับเข้าของ<small>ถ่ายรูป บันทึกรายละเอียด</small></span></a></div></details>
   <div class="grp">เครื่องมือด่วน</div>
   <div class="grid3"><button class="big tl" data-act="tool" data-n="light"><i>☀</i><span>ไฟฉายจอ</span></button><button class="big tl" data-act="tool" data-n="cpr"><i>♥</i><span>จังหวะ CPR</span></button><button class="big tl" data-act="tool" data-n="siren"><i>♪</i><span>นกหวีด</span></button></div>
+  <div class="grp">สถานะอุปกรณ์</div>
+  <div class="stat"><div><b>${st.n}</b><span>รายการอุปกรณ์</span></div><div><b>${fmt(st.val)}</b><span>มูลค่ารวม (บาท)</span></div><div><b style="color:${st.due?'var(--danger)':'var(--ok)'}">${st.due}</b><span>ถึงกำหนดตรวจ</span></div><div><b style="color:${st.bad?'var(--danger)':'var(--ok)'}">${st.bad}</b><span>ต้องซ่อม/ขาด</span></div></div>
+  ${dues.length?`<div class="card"><h3>ถึงกำหนดตรวจ</h3><div class="list" style="margin-top:8px">${dues.map(x=>`<a class="item" href="#item/${x.i.id}" style="grid-template-columns:1fr"><div><h4>${esc(x.i.name)}</h4><p>${dueText(x.d)}</p></div></a>`).join('')}</div><div class="row" style="margin-top:10px"><a class="btn sm" href="#inv">ไปที่ทะเบียน</a></div></div>`:''}
+  ${(matchMedia('(display-mode: standalone)').matches||navigator.standalone)?'':`<details class="card"><summary><b>📲 ติดตั้งแอป · ใช้งานออฟไลน์</b></summary><p class="sub">ติดตั้งแล้วเปิดได้แม้ไม่มีเน็ตหรือไฟดับ</p><div class="row" style="margin-top:8px"><button class="btn p" id="btnInstall" hidden>ติดตั้งแอปลงหน้าจอ</button><button class="btn" data-act="saveoff">⬇ ดาวน์โหลดไฟล์ออฟไลน์ (HTML)</button></div><p class="note" style="margin:8px 0 0">${/iphone|ipad|ipod/i.test(navigator.userAgent)?'iPhone: แตะปุ่มแชร์ แล้วเลือก "เพิ่มไปยังหน้าจอโฮม"':'ไม่เห็นปุ่มติดตั้ง? ใช้เมนูเบราว์เซอร์ → "ติดตั้งแอป" หรือ "เพิ่มไปยังหน้าจอหลัก"'}</p></details>`}
   </div>`;
 }
 vHome.after=function(){const b=$('#btnInstall');if(b&&window.__dp)b.hidden=false};
@@ -2701,25 +2704,27 @@ function vSos(){
 }
 function vPrep(){
   const st=stats();
-  return `<div class="stack"><h2 class="h2">เตรียมพร้อม</h2><p class="sub">จัดของ วางแผน และตรวจอุปกรณ์ล่วงหน้า</p>
-  <div class="grp">1 · จัดกระเป๋าอพยพ</div>
-  <div class="list">
-    <a class="big blink" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของก่อนใส่กระเป๋า<small>ถ่ายรูปของที่วางไว้ ติ๊กให้ครบ แล้วค่อยใส่</small></span></a>
-    <a class="big" href="#pack"><i>🎒</i><span>จัดกระเป๋าจริงของฉัน<small>แบ่งของลงกระเป๋าแต่ละใบ ติ๊กเช็ก พิมพ์ PDF ป้ายติดกระเป๋า</small></span></a>
-    <a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ของเบา เติมก่อนออกจากบ้าน</small></span></a>
-    <a class="big" href="#pet"><i>🐶</i><span>เช็กลิสต์สัตว์เลี้ยง (ชิวาว่า 2 ตัว)<small>อาหาร น้ำ แผ่นรอง กรง ประวัติ ยา เบอร์ติดต่อ เลือกจำนวนวันได้</small></span></a>
+  return `<div class="stack"><h2 class="h2">เตรียมพร้อม</h2>
+  <div class="grp">🎒 กระเป๋าและการอพยพ</div>
+  <div class="tiles">
+    <a class="big" href="#pack"><i>🎒</i><span>จัดกระเป๋า<small>แบ่งของ ติ๊กเช็ก พิมพ์ PDF ป้ายติดกระเป๋า</small></span></a>
+    <a class="big blink" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของ<small>ก่อนใส่กระเป๋า</small></span></a>
+    <a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถ<small>รถ 2 คัน เดินทางประจำวัน</small></span></a>
+    <a class="big" href="#pet"><i>🐶</i><span>สัตว์เลี้ยง<small>ชิวาว่า 2 ตัว เลือกวันได้</small></span></a>
   </div>
-  <div class="grp">2 · อาหารและยา</div>
-  <div class="list"><a class="big" href="#stock"><i>🥫</i><span>เช็กลิสต์อาหารและยา<small>คำนวณตามคน/วัน ใส่วันหมดอายุ</small></span></a></div>
-  <div class="grp">3 · วางแผนครอบครัว</div>
-  <div class="list"><a class="big" href="#family"><i>♥</i><span>บัตรครอบครัวและแผนอพยพ<small>สมาชิก ยา จุดนัดพบ ศูนย์พักพิง พิมพ์บัตร</small></span></a></div>
-  <div class="grp">4 · จัดหาเพิ่มและรับเข้า</div>
-  <div class="list"><a class="big" href="#shop"><i>🛒</i><span>รายการที่ควรจัดหาเพิ่ม<small>เรียงตามความสำคัญ มีงบโดยประมาณ</small></span></a><a class="big" href="#recv"><i>📥</i><span>รับเข้าอุปกรณ์<small>บันทึกรูป ร้านที่ซื้อ วันหมดอายุ ที่เก็บ</small></span></a></div>
-  <div class="grp">5 · ตรวจและดูแลอุปกรณ์</div>
-  <div class="list"><a class="big" href="#inv"><i>✓</i><span>ทะเบียนและการตรวจ<small>${st.due?`ถึงกำหนดตรวจ ${st.due} รายการ`:'ยังไม่มีรายการถึงกำหนด'} · ส่งออก Excel · ปฏิทินเตือน</small></span></a></div>
+  <div class="grp">🥫 ของกินของใช้</div>
+  <div class="tiles">
+    <a class="big" href="#stock"><i>🥫</i><span>อาหารและยา<small>คำนวณตามคนและวัน</small></span></a>
+    <a class="big" href="#shop"><i>🛒</i><span>จัดหาเพิ่ม<small>เรียงตามความสำคัญ มีงบ</small></span></a>
+    <a class="big" href="#recv"><i>📥</i><span>รับเข้าของ<small>รูป ร้านที่ซื้อ วันหมดอายุ</small></span></a>
+  </div>
+  <div class="grp">👪 คนและการตรวจ</div>
+  <div class="tiles">
+    <a class="big" href="#family"><i>♥</i><span>บัตรครอบครัว<small>ยา จุดนัดพบ ศูนย์พักพิง</small></span></a>
+    <a class="big" href="#inv"><i>✓</i><span>ตรวจอุปกรณ์<small>${st.due?`ถึงกำหนด ${st.due} รายการ`:'ทะเบียน ส่งออก Excel ปฏิทินเตือน'}</small></span></a>
+  </div>
   </div>`;
 }
-
 function vTech(p){const s=SECS[p[2]];if(!s)return '<p>ไม่พบ</p>';return `<div class="stack" style="--sec:var(--c-${s.color})"><a class="btn sm" href="#more">← กลับ</a><div><span class="badge">${esc(s.tag)}</span><h2 class="h2" style="margin-top:8px">${esc(s.tech_title)}</h2><p class="sub">${esc(s.intro)}</p></div>${s.tech.map(t=>`<div class="card"><h3>${esc(t[0])}</h3><p style="margin:6px 0 0">${esc(t[1])}</p></div>`).join('')}<a class="btn" href="#gear/sec/${s.id}">ดูอุปกรณ์ในหมวดนี้</a></div>`}
 function vMore(p){
   if(p[1]==='tech')return vTech(p);
@@ -3327,11 +3332,14 @@ function vPack(){
   const dsince=P.date?Math.round((todayD()-new Date(P.date+'T00:00:00'))/864e5):null;
   const old=dsince!=null&&dsince>180;
   const unHtml=R.un.length?`<div class="warn"><b>⚠ ยังไม่มีที่ใส่ ${R.un.reduce((s,u)=>s+u.n,0)} ชิ้น (ประมาณ ${fmt(R.unKg)} กก.)</b><ul style="margin:6px 0 0;padding-left:18px">${R.un.map(u=>`<li>${esc(u.a.name)} × ${u.n} ${esc(u.a.unit)}</li>`).join('')}</ul><p style="margin:8px 0 4px">ทางแก้:</p><div class="row">${walk?`<button class="btn sm p" data-act="pkpre" data-d="${days}" data-m="car">ขับรถแทน</button><button class="btn sm" data-act="pkwl" data-v=".5">น้ำพกน้อย 0.5 ล./คน/วัน (กรองหรือต้มเติม)</button>`:''}<a class="btn sm" href="#go">ถอดของที่ไม่จำเป็น</a></div>${walk?'<p class="note" style="margin:6px 0 0">เดินเท้าควรพกน้ำน้อยลงแล้วใช้เครื่องกรองหรือต้มน้ำเติมระหว่างทาง ผู้มีโรคที่ต้องจำกัดน้ำให้ถามแพทย์</p>':''}</div>`:'';
+  const tab=P.tab||'ov';
+  const tabs=[['ov','📊 ภาพรวม'],['bags','🎒 กระเป๋า'],['pic','🖼 ภาพ'],['set','⚙ ตั้งค่า']];
+  const tabBar=`<div class="row" style="position:sticky;top:0;z-index:5;background:var(--bg,#fff);padding:6px 0;gap:6px;flex-wrap:nowrap">${tabs.map(x=>`<button class="chip ${tab===x[0]?'on':''}" data-act="pktab" data-t="${x[0]}" style="flex:1;justify-content:center;min-height:44px">${x[1]}</button>`).join('')}</div>`;
+  const quick=`<div class="row" style="gap:6px;flex-wrap:nowrap"><a class="btn p blink" href="#lay" style="flex:1;text-align:center">📷 ถ่ายรูปตรวจ</a><a class="btn" href="#carkit" style="flex:1;text-align:center">🚗 ชุดติดรถ</a><a class="btn" href="#pet" style="flex:1;text-align:center">🐶 สัตว์เลี้ยง</a></div>`;
   return `<div class="stack"><a class="btn sm" href="#prep">← กลับ</a><h2 class="h2">จัดกระเป๋าจริงของฉัน</h2>
-  <div class="list"><a class="big blink" href="#lay"><i>📷</i><span>ถ่ายรูปตรวจของก่อนใส่กระเป๋า<small>วางของ ถ่ายรูป เทียบรายการ ติ๊กให้ครบ แล้วค่อยใส่</small></span></a><a class="big" href="#carkit"><i>🚗</i><span>ชุดติดรถประจำวัน (รถ 2 คัน)<small>เดินทางไปที่ต่างๆ ทุกวัน ไม่ต้องเตรียมเต็มที่ มีข้อควรระวังรถร้อน</small></span></a>
-    <a class="big" href="#pet"><i>🐶</i><span>เช็กลิสต์สัตว์เลี้ยง (ชิวาว่า 2 ตัว)<small>อาหาร น้ำ แผ่นรอง กรง ประวัติ ยา เบอร์ติดต่อ เลือกจำนวนวันได้</small></span></a></div>
-  <p class="sub">แอปแบ่งของลงกระเป๋าแต่ละใบตามความจุจริงและแรงแบกของแต่ละคน ติ๊กเมื่อใส่แล้ว ย้ายของข้ามใบได้ พิมพ์ PDF และป้ายติดกระเป๋าได้</p>
-  <div class="card"><label class="f">เลือกแผน</label><div class="row">${pre.map(x=>chip(days===x[0]&&g.mode===x[1],'pkpre',`data-d="${x[0]}" data-m="${x[1]}"`,x[2])).join('')}</div>
+  ${quick}
+  ${tabBar}
+  ${tab==='ov'?`  <div class="card"><label class="f">เลือกแผน</label><div class="row">${pre.map(x=>chip(days===x[0]&&g.mode===x[1],'pkpre',`data-d="${x[0]}" data-m="${x[1]}"`,x[2])).join('')}</div>
   <p class="note" style="margin:8px 0 0">${esc(g.n)} คน · ${esc(g.days)} วัน · ${walk?'แบกเอง':'ขับรถ'} · น้ำ ${esc(g.wl)} ล./คน/วัน · สมาชิกพิเศษและสัตว์เลี้ยงตามที่ตั้งไว้ </p><div class="row"><a class="btn sm" href="#go">⚙ ตั้งค่าสถานการณ์ จำนวนคน และเพิ่มของเอง</a></div>
   <label class="f">น้ำดื่มที่พก (ลิตร/คน/วัน)</label><div class="row">${[.5,1,1.5,2,3].map(v=>chip(+g.wl===v,'pkwl',`data-v="${v}"`,String(v))).join('')}</div>
   <label class="f">ภัยที่เตรียมรับ</label><div class="row">${Object.keys(GO_HZ).map(k=>chip(g.hz[k],'gohz',`data-k="${k}"`,GO_HZ[k])).join('')}</div></div>
@@ -3342,20 +3350,24 @@ function vPack(){
   <div class="row"><button class="btn sm p" data-act="pkdate">✓ จัดเสร็จวันนี้</button><button class="btn sm" data-act="pkics">⏰ เตือนสลับของทุก 6 เดือน</button></div></div>
   ${unHtml}
   <div class="grid3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">${R.bags.map(tile).join('')}</div>
-  ${spare.length?`<p class="note">ไม่ได้ใช้ตอนเดินเท้า: ${spare.map(b=>esc(b.n+' '+b.l+' ล.')).join(', ')} (ใช้เมื่อขับรถ หรือเปลี่ยนผู้แบกในตั้งค่า)</p>`:''}
-  ${(()=>{if(!walk)return '';const RC=pkPlan('car'),cb=RC.bags.filter(x=>x.b.c);if(!cb.length)return '';return `<h3 style="margin:16px 0 4px">🚗 กองกลาง (ใช้เมื่อเดินทางด้วยรถ)</h3><p class="note">ตอนนี้เลือกโหมดเดินเท้า จึงยังไม่มีใครแบกกองกลาง ด้านล่างคือของที่แอปจัดไว้ให้เมื่อเปลี่ยนเป็นโหมดเดินทางด้วยรถ</p>`+cb.map(x=>{const rows=Object.keys(x.rows).map(k=>RC.p.act.find(a=>a.id===k)).filter(Boolean).sort((m,n)=>n.kg-m.kg);return `<div class="card"><div style="display:flex;gap:10px;align-items:center"><img src="${PK_IMG[x.b.img]||PK_IMG.camo}" alt="" style="width:54px;height:54px;object-fit:cover;border-radius:8px;border:2px solid var(--line)"><div style="flex:1"><b>${esc(x.b.n)}</b> <span class="badge">กองกลาง</span><div class="note">${x.b.l} ลิตร · ${rows.length} รายการ · ${fmt(x.kg)} กก.</div></div></div><ul style="margin:8px 0 0;padding-left:18px">${rows.map(a=>`<li>${esc(a.name)} <small class="note">× ${fmt(x.rows[a.id])} ${esc(a.unit)}</small></li>`).join('')}</ul></div>`}).join('')})()}
   <div class="row"><button class="btn p" data-act="pkprint" data-id="all">📄 ส่งออก PDF ทุกใบ</button><button class="btn" data-act="pktag" data-id="all">🏷 ป้ายติดทุกใบ</button><button class="btn sm" data-act="pkq">${P.q?'ซ่อน':'โหมดหยิบด่วน 5 นาที'}</button></div>
   ${P.q?`<div class="card" style="border-color:var(--danger)"><h3>โหมดหยิบด่วน (มีเวลาน้อย)</h3><p class="note">หยิบของสำคัญเหล่านี้ก่อน เริ่มจากใบหยิบเร็ว แล้วคว้ากระเป๋าที่เหลือ</p><ul style="padding-left:18px;margin:6px 0">${grabList}</ul></div>`:''}
-  ${R.bags.map(card).join('')}
+  `:''}
+  ${tab==='bags'?`  ${R.bags.map(card).join('')}
+  ${spare.length?`<p class="note">ไม่ได้ใช้ตอนเดินเท้า: ${spare.map(b=>esc(b.n+' '+b.l+' ล.')).join(', ')} (ใช้เมื่อขับรถ หรือเปลี่ยนผู้แบกในตั้งค่า)</p>`:''}
+  ${(()=>{if(!walk)return '';const RC=pkPlan('car'),cb=RC.bags.filter(x=>x.b.c);if(!cb.length)return '';return `<h3 style="margin:16px 0 4px">🚗 กองกลาง (ใช้เมื่อเดินทางด้วยรถ)</h3><p class="note">ตอนนี้เลือกโหมดเดินเท้า จึงยังไม่มีใครแบกกองกลาง ด้านล่างคือของที่แอปจัดไว้ให้เมื่อเปลี่ยนเป็นโหมดเดินทางด้วยรถ</p>`+cb.map(x=>{const rows=Object.keys(x.rows).map(k=>RC.p.act.find(a=>a.id===k)).filter(Boolean).sort((m,n)=>n.kg-m.kg);return `<div class="card"><div style="display:flex;gap:10px;align-items:center"><img src="${PK_IMG[x.b.img]||PK_IMG.camo}" alt="" style="width:54px;height:54px;object-fit:cover;border-radius:8px;border:2px solid var(--line)"><div style="flex:1"><b>${esc(x.b.n)}</b> <span class="badge">กองกลาง</span><div class="note">${x.b.l} ลิตร · ${rows.length} รายการ · ${fmt(x.kg)} กก.</div></div></div><ul style="margin:8px 0 0;padding-left:18px">${rows.map(a=>`<li>${esc(a.name)} <small class="note">× ${fmt(x.rows[a.id])} ${esc(a.unit)}</small></li>`).join('')}</ul></div>`}).join('')})()}
   ${R.p.optList.length+R.p.offList.length?`<details class="card"><summary><b>ของเสริมและที่ถอดออก</b> <small class="note">(แตะเพื่อเพิ่มเข้ากระเป๋า)</small></summary><div class="row" style="margin-top:6px">${R.p.optList.concat(R.p.offList).map(r=>`<button class="chip" data-act="goon" data-id="${r[0]}">＋ ${esc(r[2].slice(0,34))}</button>`).join('')}</div></details>`:''}
-  <details class="card"><summary><b>ตั้งค่ากระเป๋าและผู้แบก</b></summary>
+  `:''}
+  ${tab==='pic'?`  ${pkGallery(R)}
+  `:''}
+  ${tab==='set'?`  <details class="card" open><summary><b>ตั้งค่ากระเป๋าและผู้แบก</b></summary>
    <p class="note">ปรับชื่อ ความจุ และคนแบกของกระเป๋าแต่ละใบ ค่าเริ่มต้นตั้งจากกระเป๋าที่มี</p>
    <h4>ผู้แบก (กก. และ % ของน้ำหนักตัวที่แบกได้)</h4>${P.carriers.map((c,i)=>`<div class="grid3" style="display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:6px;margin:4px 0"><input type="text" data-pkc="${i}" data-k="n" value="${esc(c.n)}" aria-label="ชื่อ"><input type="number" min="0" data-pkc="${i}" data-k="kg" value="${esc(c.kg)}" aria-label="น้ำหนักตัว กก."><input type="number" min="5" max="30" data-pkc="${i}" data-k="pct" value="${esc(c.pct)}" aria-label="เปอร์เซ็นต์"></div>`).join('')}
    <p class="note">ปกติไม่เกิน 25% ผู้สูงอายุหรือมีโรคประจำตัวควรลดเป็น 10-20%</p>
    <h4>กระเป๋า</h4>${P.bags.map(b=>`<div class="card" style="padding:8px;margin:6px 0"><div class="grid3" style="display:grid;grid-template-columns:2fr 1fr;gap:6px"><input type="text" data-pkb="${b.id}" data-k="n" value="${esc(b.n)}" aria-label="ชื่อ"><input type="number" min="5" data-pkb="${b.id}" data-k="l" value="${esc(b.l)}" aria-label="ลิตร"></div>
     <div class="row" style="margin-top:6px"><select data-pkwho="${b.id}" aria-label="ผู้แบก"><option value="-1" ${b.who<0?'selected':''}>ไม่ใช้ตอนเดินเท้า (สำรอง/รถ)</option>${P.carriers.map((c,i)=>`<option value="${i}" ${b.who===i?'selected':''}>${esc(c.n)} แบก</option>`).join('')}</select><button class="chip ${b.grab?'on':''}" data-act="pkgrab" data-id="${b.id}">${b.grab?'✓ ':''}ใบหยิบเร็ว</button><button class="chip ${b.c?'on':''}" data-act="pkcen" data-id="${b.id}">${b.c?'✓ ':''}กองกลาง</button><button class="btn sm" data-act="pkrm" data-id="${b.id}">ลบ</button></div></div>`).join('')}
    <div class="row"><button class="btn sm" data-act="pkadd">＋ เพิ่มกระเป๋า</button><button class="btn sm" data-act="pkdef">คืนค่าเริ่มต้น</button><button class="btn sm" data-act="pkmvclr">ล้างการย้ายของ</button></div></details>
-  ${pkGallery(R)}
+  `:''}
   <p class="note">น้ำหนักและปริมาตรเป็นค่าประมาณ ปริมาตรคิดเผื่อช่องว่าง 15% ของหนักไว้ใกล้หลัง ของเบาไว้ก้นกระเป๋า ของที่ต้องใช้ก่อนไว้ช่องบนและช่องหน้า ห่อของที่กลัวเปียกด้วยถุงกันน้ำ</p></div>`;
 }
 function pkSum(R){return `${R.g.n} คน · ${R.g.days} วัน · ${R.walk?'แบกเอง':'ขับรถ'} · น้ำ ${R.g.wl} ล./คน/วัน`}
@@ -3628,7 +3640,8 @@ document.addEventListener('click',e=>{
   else if(a==='petprint'){const c=document.createElement('div');c.innerHTML=$('#view').innerHTML;c.querySelectorAll('.row,a.btn,input').forEach(e=>{if(e.tagName==='INPUT'){const s=document.createElement('b');s.textContent=e.value||'__________';e.replaceWith(s)}else e.remove()});printHTML(c.innerHTML)}
   else if(a==='pkcen'){const P=packS(),x=P.bags.find(y=>y.id===b.dataset.id);if(x){if(x.c)delete x.c;else x.c=1;save();keepRoute()}}
   else if(a==='pkfit'){const P=packS();const k=b.dataset.k;if(P.fit[k])delete P.fit[k];else P.fit[k]=1;save();keepRoute()}
-  else if(a==='pkgo'){const e=document.getElementById('pkc_'+b.dataset.id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}
+  else if(a==='pktab'){packS().tab=b.dataset.t;save();keepRoute();const sc=document.getElementById('scroller');if(sc)sc.scrollTop=0}
+  else if(a==='pkgo'){packS().tab='bags';save();keepRoute();setTimeout(()=>{const e=document.getElementById('pkc_'+b.dataset.id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'})},60)}
   else if(a==='pkprint')pkPrint(b.dataset.id);
   else if(a==='pktag')pkTag(b.dataset.id);
   else if(a==='pkdate'){packS().date=iso(new Date());save();toast('บันทึกวันที่จัดเสร็จแล้ว');keepRoute()}
